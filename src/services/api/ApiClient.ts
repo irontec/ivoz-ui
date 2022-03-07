@@ -4,10 +4,6 @@ import { KeyValList } from './ParsedApiSpecInterface';
 type AsyncFunction = (data: any, headers: any) => Promise<void>
 export type ApiError = AxiosResponse | null;
 
-interface ApiClientConfig {
-
-}
-
 class ApiClient {
 
     static API_URL = `//${window.location.host}/api`;

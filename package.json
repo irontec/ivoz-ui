@@ -8,6 +8,13 @@
     "type": "git",
     "url": "git+https://github.com/irontec/ivoz-ui.git"
   },
+  "scripts": {
+    "build": "bin/tsc"
+  },
+  "files": [
+    "dist/*.js",
+    "dist/**/&.js"
+  ],
   "dependencies": {
     "@date-io/date-fns": "^2.10.8",
     "@emotion/react": "^11.4.1",

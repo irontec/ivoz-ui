@@ -10,7 +10,7 @@ import EntityService from 'services/entity/EntityService';
 import FilterIconFactory, { SearchFilterType } from './icons/FilterIconFactory';
 import { CriteriaFilterValue } from './ContentFilter';
 
-interface ContentFilterRowProps {
+export interface ContentFilterRowProps {
     entityService: EntityService,
     fkChoices: { [fldName: string]: NullablePropertyFkChoices },
     addCriteria: (data: CriteriaFilterValue) => void,

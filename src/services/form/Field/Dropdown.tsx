@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import { JSXElementConstructor, ReactElement } from 'react';
 
-interface SelectProps {
+export interface SelectProps {
   className?: string,
   name: string,
   label: string | ReactElement<any, string | JSXElementConstructor<any>>,

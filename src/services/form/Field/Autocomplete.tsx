@@ -3,7 +3,7 @@ import { TextField, } from '@mui/material';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
 
-interface AutocompleteProps {
+export interface AutocompleteProps {
   className: string,
   name: string,
   label: string | ReactElement<any, string | JSXElementConstructor<any>>,

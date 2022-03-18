@@ -1,21 +1,25 @@
 {
   "name": "@irontec/ivoz-ui",
-  "version": "0.2.3",
+  "version": "0.2.20",
   "description": "UI library used in ivozprovider",
   "license": "GPL-3.0",
   "main": "dist/index.js",
+  "files": [
+    "dist/*.js",
+    "dist/*.js.map",
+    "dist/*.js.d.ts",
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.js.d.ts"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/irontec/ivoz-ui.git"
   },
   "scripts": {
-    "build": "bin/tsc"
+    "build": "bin/tsc",
+    "pre-publish": "sed 's/dist\\\///' package.json > dist/package.json"
   },
-  "files": [
-    "dist/*.js",
-    "dist/**/*.js",
-    "dist/**/*.js.map"
-  ],
   "dependencies": {
     "@date-io/date-fns": "^2.10.8",
     "@emotion/react": "^11.4.1",

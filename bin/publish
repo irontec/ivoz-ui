@@ -3,7 +3,7 @@
 # Stop on first non-zero exit code
 set -e
 
-./tsc
+yarn build
 yarn pre-publish
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )

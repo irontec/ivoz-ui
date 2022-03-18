@@ -15,7 +15,7 @@ class ApiClient {
     static async get(endpoint: string, params: KeyValList, callback: AsyncFunction, cancelToken?: CancelToken): Promise<unknown> {
         try {
             const response = await axios.get(
-                endpoint,
+                ApiClient.API_URL + endpoint,
                 {
                     params,
                     headers: {

@@ -4,21 +4,21 @@ import spec, { SpecStore } from './apiSpec';
 import api, { ApiStore } from './api';
 import route, { RouteStore } from './route';
 
-export interface AppStore {
+export interface IvozStore {
   auth: AuthStore,
   spec: SpecStore,
   api: ApiStore,
   route: RouteStore
 }
 
-export const storeModel: AppStore = {
+export const storeModel: IvozStore = {
   auth,
   spec,
   api,
   route
 }
 
-const store = createStore<AppStore>(storeModel);
+const store = createStore<IvozStore>(storeModel);
 
 export default store;
 
@@ -27,7 +27,7 @@ const {
   useStoreState,
   useStoreDispatch,
   useStore
-} = createTypedHooks<AppStore>();
+} = createTypedHooks<IvozStore>();
 
 export {
   useStoreActions,

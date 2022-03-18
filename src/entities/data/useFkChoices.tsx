@@ -1,9 +1,10 @@
-import { FkChoices } from 'entities/DefaultEntityBehavior';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { ForeignKeyGetterType } from 'entities/EntityInterface';
-import EntityService, { EntityValues } from 'services/entity/EntityService';
 import { match } from 'react-router-dom';
+import axios from 'axios';
+import { FkChoices } from '../DefaultEntityBehavior';
+import { ForeignKeyGetterType } from '../EntityInterface';
+import EntityService, { EntityValues } from '../../services/entity/EntityService';
+
 
 interface useFkChoicesArgs {
     foreignKeyGetter: ForeignKeyGetterType,

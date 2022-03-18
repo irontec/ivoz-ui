@@ -1,5 +1,5 @@
 import { Action, action, computed, Computed, Thunk, thunk } from 'easy-peasy';
-import { CriteriaFilterValue, CriteriaFilterValues } from 'components/List/Filter/ContentFilter';
+import { CriteriaFilterValue, CriteriaFilterValues } from '../components/List/Filter/ContentFilter';
 
 type DirectionType = 'asc' | 'desc';
 

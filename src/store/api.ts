@@ -1,8 +1,8 @@
 import axios, { CancelToken, CancelTokenSource } from 'axios';
 import { action, Action, Actions, Computed, computed, Thunk, thunk } from 'easy-peasy';
-import ApiClient, { ApiError } from 'services/api/ApiClient';
-import { KeyValList } from 'services/api/ParsedApiSpecInterface';
-import { EntityValues } from 'services/entity/EntityService';
+import ApiClient, { ApiError } from '../services/api/ApiClient';
+import { KeyValList } from '../services/api/ParsedApiSpecInterface';
+import { EntityValues } from '../services/entity/EntityService';
 
 const handleApiErrors = (
   error: ApiError | null, getStoreActions: () => Actions<any>

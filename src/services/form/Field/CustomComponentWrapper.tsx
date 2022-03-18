@@ -1,6 +1,6 @@
 import { FormikComputedProps, FormikHandlers, FormikHelpers, FormikState } from 'formik';
-import { FormOnChangeEvent } from 'entities/DefaultEntityBehavior';
-import { PropertySpec } from 'services/api/ParsedApiSpecInterface';
+import { FormOnChangeEvent } from '../../../entities/DefaultEntityBehavior';
+import { PropertySpec } from '../../api/ParsedApiSpecInterface';
 import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
 import { StyledFieldsetRoot, StyledFieldset } from './CustomComponentWrapper.styles';
 

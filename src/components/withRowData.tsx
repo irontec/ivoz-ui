@@ -1,8 +1,8 @@
 import { useState, useEffect, FunctionComponent, ComponentClass } from 'react';
-import EntityService from 'services/entity/EntityService';
 import hoistStatics from "hoist-non-react-statics";
-import { useStoreActions, useStoreState } from 'store';
+import { useStoreActions, useStoreState } from '../store';
 import { CancelTokenSource } from 'axios';
+import EntityService from '../services/entity/EntityService';
 
 const withRowData = (Component: FunctionComponent | ComponentClass): FunctionComponent => {
 

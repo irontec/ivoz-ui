@@ -1,20 +1,20 @@
 import * as React from 'react';
-import EntityService, { EntityValues, VisualToggleStates } from 'services/entity/EntityService';
-import FormFieldFactory from 'services/form/FormFieldFactory';
-import { useFormikType } from 'services/form/types';
-import store from "store";
+import EntityService, { EntityValues, VisualToggleStates } from '../services/entity/EntityService';
+import FormFieldFactory from '../services/form/FormFieldFactory';
+import { useFormikType } from '../services/form/types';
+import store from "../store";
 import { Alert, AlertTitle, Grid } from '@mui/material';
-import { isPropertyScalar, PartialPropertyList, PropertySpec, ScalarProperty } from 'services/api/ParsedApiSpecInterface';
+import { isPropertyScalar, PartialPropertyList, PropertySpec, ScalarProperty } from '../services/api/ParsedApiSpecInterface';
 import EntityInterface, {
     EntityValidator, EntityValidatorValues, EntityValidatorResponse, ViewProps, ListDecoratorPropsType,
     OrderDirection, foreignKeyResolverProps, foreignKeyResolverType, EntityAclType, FetchFksCallback
 } from './EntityInterface';
-import ViewFieldValue from 'services/form/Field/ViewFieldValue';
+import ViewFieldValue from '../services/form/Field/ViewFieldValue';
 import { StyledGroupLegend, StyledGroupGrid } from './DefaultEntityBehavior.styles';
-import _ from 'services/translations/translate';
+import _ from '../services/translations/translate';
 import { CancelToken } from 'axios';
-import { CustomFunctionComponentContext } from 'services/form/Field/CustomComponentWrapper';
-import genericForeignKeyResolver from 'services/api/genericForeigKeyResolver';
+import { CustomFunctionComponentContext } from '../services/form/Field/CustomComponentWrapper';
+import genericForeignKeyResolver from '../services/api/genericForeigKeyResolver';
 import { EntityList } from 'router/parseRoutes';
 import { match } from 'react-router-dom';
 

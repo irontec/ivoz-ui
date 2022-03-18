@@ -1,8 +1,8 @@
 import { Tooltip } from "@mui/material";
-import { StyledTableRowCta } from "../Table/ContentTable.styles";
-import _ from 'services/translations/translate';
 import PanoramaIcon from '@mui/icons-material/Panorama';
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import { StyledTableRowCta } from "../Table/ContentTable.styles";
+import _ from '../../../../services/translations/translate';
 import buildLink from "../Shared/BuildLink";
 
 type EditRowButtonProps = RouteComponentProps & {

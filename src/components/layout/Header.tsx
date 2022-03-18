@@ -1,4 +1,4 @@
-import { RouteMap } from 'router/routeMapParser';
+import { RouteMap } from '../../router/routeMapParser';
 import Breadcrumbs from './Breadcrumbs';
 import { StyledAppBar, StyledHeaderContainer, StyledToolbar } from './Header.styles';
 

@@ -1,16 +1,16 @@
+import React from 'react';
 import {
     FormControlLabel, Switch, FormHelperText, LinearProgress, InputAdornment
 } from '@mui/material';
-import { ScalarProperty, FkProperty, PropertySpec, isPropertyScalar, isPropertyFk } from 'services/api/ParsedApiSpecInterface';
-import { CustomFunctionComponentContext, PropertyCustomFunctionComponent } from 'services/form/Field/CustomComponentWrapper';
-import EntityService from 'services/entity/EntityService';
+import { ScalarProperty, FkProperty, PropertySpec, isPropertyScalar, isPropertyFk } from '../api/ParsedApiSpecInterface';
+import { CustomFunctionComponentContext, PropertyCustomFunctionComponent } from '../form/Field/CustomComponentWrapper';
+import EntityService from '../entity/EntityService';
 import { useFormikType } from './types';
-import StyledDropdown from 'services/form/Field/Dropdown.styles';
-import React from 'react';
+import StyledDropdown from '../form/Field/Dropdown.styles';
 import StyledAutocomplete from './Field/Autocomplete.styles';
 import FileUploader from './Field/FileUploader';
 import { StyledSwitchFormControl, StyledTextField, StyledLinearProgressContainer } from './FormFieldFactory.styles';
-import { FormOnChangeEvent, PropertyFkChoices } from 'entities/DefaultEntityBehavior';
+import { FormOnChangeEvent, PropertyFkChoices } from '../../entities/DefaultEntityBehavior';
 
 export type FormFieldFactoryChoices = { [key: string | number]: any };
 export type NullableFormFieldFactoryChoices = null | FormFieldFactoryChoices;

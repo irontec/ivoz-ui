@@ -1,7 +1,7 @@
-import { List, Create, Edit, View } from 'components';
-import ParsedApiSpecInterface from 'services/api/ParsedApiSpecInterface';
-import EntityService from 'services/entity/EntityService';
-import EntityInterface from 'entities/EntityInterface';
+import { List, Create, Edit, View } from '../components';
+import ParsedApiSpecInterface from '../services/api/ParsedApiSpecInterface';
+import EntityService from '../services/entity/EntityService';
+import EntityInterface from '../entities/EntityInterface';
 import { RouteMap, RouteMapItem } from './routeMapParser';
 
 export interface EntityList {

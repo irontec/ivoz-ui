@@ -1,7 +1,7 @@
 import { CancelToken } from "axios";
-import { EntityList } from "router/parseRoutes";
-import { PartialPropertyList, PropertySpec } from "services/api/ParsedApiSpecInterface";
-import EntityService, { EntityValues, VisualToggleStates } from "services/entity/EntityService";
+import { EntityList } from "../router/parseRoutes";
+import { PartialPropertyList, PropertySpec } from "../services/api/ParsedApiSpecInterface";
+import EntityService, { EntityValues, VisualToggleStates } from "../services/entity/EntityService";
 import React from "react";
 import { match } from "react-router-dom";
 import { EntityFormProps } from "./DefaultEntityBehavior";

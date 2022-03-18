@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
+import { match, useLocation } from 'react-router-dom';
+import { CancelToken } from 'axios';
+import { Box } from '@mui/system';
 import { Tooltip, Fab } from '@mui/material';
 import QueueIcon from '@mui/icons-material/Queue';
 import SearchIcon from '@mui/icons-material/Search';
-import { ContentFilter } from 'components/List/Filter/ContentFilter';
-import EntityService from 'services/entity/EntityService';
-import _ from 'services/translations/translate';
+import { ContentFilter } from '../../../components/List/Filter/ContentFilter';
+import EntityService from '../../../services/entity/EntityService';
+import _ from '../../../services/translations/translate';
 import { StyledActionButtonContainer, StyledLink, StyledFab } from './ListContent.styles';
-import { Box } from '@mui/system';
 import ContentTable from './Table/ContentTable';
 import ContentCard from './Card/ContentCard';
-import { RouteMapItem } from 'router/routeMapParser';
-import { match, useLocation } from 'react-router-dom';
-import { CancelToken } from 'axios';
+import { RouteMapItem } from '../../../router/routeMapParser';
 
 interface ListContentProps {
   childEntities: Array<RouteMapItem>,

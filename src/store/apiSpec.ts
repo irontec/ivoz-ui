@@ -1,6 +1,6 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy';
-import ApiClient from 'services/api/ApiClient';
-import ApiSpecParser from 'services/api/ApiSpecParser';
+import ApiClient from '../services/api/ApiClient';
+import ApiSpecParser from '../services/api/ApiSpecParser';
 
 interface SpecState {
   spec: any,

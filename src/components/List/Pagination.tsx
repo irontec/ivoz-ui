@@ -2,8 +2,8 @@
 import { TablePagination } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as locales from '@mui/material/locale';
-import { useStoreState, useStoreActions } from 'store';
-import { ROUTE_ITEMS_PER_PAGE_KEY, ROUTE_PAGE_KEY } from 'store/route';
+import { useStoreState, useStoreActions } from '../../store';
+import { ROUTE_ITEMS_PER_PAGE_KEY, ROUTE_PAGE_KEY } from '../../store/route';
 import { CriteriaFilterValue } from './Filter/ContentFilter';
 
 interface ContentTablePaginationProps {

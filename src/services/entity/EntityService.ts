@@ -1,12 +1,12 @@
-import { SearchFilterType } from 'components/List/Filter/icons/FilterIconFactory';
+import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import
 EntityInterface, { EntityAclType,
 ForeignKeyGetterType, ListDecoratorPropsType, OrderDirection }
-    from 'entities/EntityInterface';
+    from '../../entities/EntityInterface';
 import {
     ActionsSpec, PropertyList, ActionModelList, ScalarProperty,
     ActionModelSpec, visualToggleList, isPropertyFk, FkProperty, fkPropertyList
-} from "services/api/ParsedApiSpecInterface";
+} from "../../services/api/ParsedApiSpecInterface";
 
 export type VisualToggleStates = { [key: string]: boolean };
 export type EntityValue = string | number | File | Array<string | number>;

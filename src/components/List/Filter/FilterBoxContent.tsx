@@ -4,7 +4,7 @@ import {
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { TransitionProps } from '@mui/material/transitions/transition';
-import _ from 'services/translations/translate';
+import _ from '../../../services/translations/translate';
 import { StyledToolbar } from './FilterBoxContent.styles';
 
 const Transition = React.forwardRef<unknown, TransitionProps>((props: any, ref) => {

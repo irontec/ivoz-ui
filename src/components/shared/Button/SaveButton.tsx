@@ -1,6 +1,6 @@
 import Button from '@mui/material/Button';
 import { styled } from '@mui/styles';
-import _ from 'services/translations/translate';
+import _ from '../../../services/translations/translate';
 
 interface SaveButtonProps {
   className: string,

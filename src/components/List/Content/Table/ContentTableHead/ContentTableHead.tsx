@@ -1,10 +1,10 @@
 import {
     TableCell, TableHead, TableRow, TableSortLabel
 } from '@mui/material';
-import { isPropertyFk } from 'services/api/ParsedApiSpecInterface';
-import EntityService from 'services/entity/EntityService';
-import { useStoreActions, useStoreState } from 'store';
-import { ROUTE_ORDER_KEY } from 'store/route';
+import { isPropertyFk } from '../../../../../services/api/ParsedApiSpecInterface';
+import EntityService from '../../../../../services/entity/EntityService';
+import { useStoreActions, useStoreState } from '../../../../../store';
+import { ROUTE_ORDER_KEY } from '../../../../../store/route';
 import { CriteriaFilterValue } from '../../../Filter/ContentFilter';
 import { StyledTableSortLabelVisuallyHidden } from './ContentTableHead.styles';
 

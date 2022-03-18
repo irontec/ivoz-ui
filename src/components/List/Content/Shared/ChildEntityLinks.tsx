@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material';
-import { RouteMapItem } from 'router/routeMapParser';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { RouteMapItem } from '../../../../router/routeMapParser';
 import { StyledTableRowEntityCta } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
 

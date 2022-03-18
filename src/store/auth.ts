@@ -1,6 +1,6 @@
 import { action, Action, Thunk, thunk } from 'easy-peasy';
 import ApiClient from 'services/api/ApiClient';
-import { AppStore } from 'store';
+import { AppStore } from '../index';
 
 interface AuthState {
   token: string | null,

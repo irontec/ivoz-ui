@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Grid, Button } from '@mui/material';
-import { FkProperty, KeyValList, isPropertyFk, PropertySpec, ScalarProperty } from 'services/api/ParsedApiSpecInterface';
-import FormFieldFactory, { FormFieldFactoryChoices } from 'services/form/FormFieldFactory';
-import { FormOnChangeEvent, NullablePropertyFkChoices } from 'entities/DefaultEntityBehavior';
-import _ from 'services/translations/translate';
+import { FkProperty, KeyValList, isPropertyFk, PropertySpec, ScalarProperty } from '../../../services/api/ParsedApiSpecInterface';
+import FormFieldFactory, { FormFieldFactoryChoices } from '../../../services/form/FormFieldFactory';
+import { FormOnChangeEvent, NullablePropertyFkChoices } from '../../../entities/DefaultEntityBehavior';
+import _ from '../../../services/translations/translate';
 import { FormikHelpers, useFormik } from 'formik';
-import { useFormikType } from 'services/form/types';
-import EntityService from 'services/entity/EntityService';
+import { useFormikType } from '../../../services/form/types';
+import EntityService from '../../../services/entity/EntityService';
 import FilterIconFactory, { SearchFilterType } from './icons/FilterIconFactory';
 import { CriteriaFilterValue } from './ContentFilter';
 

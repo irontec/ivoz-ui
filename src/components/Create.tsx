@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
+import { useStoreActions, useStoreState } from '../store';
 import { useFormik } from 'formik';
 import ErrorMessage from './shared/ErrorMessage';
-import EntityService, { EntityValues } from 'services/entity/EntityService';
-import EntityInterface from 'entities/EntityInterface';
-import { useFormikType } from 'services/form/types';
-import { useStoreActions, useStoreState } from 'store';
-import { KeyValList, ScalarProperty } from "services/api/ParsedApiSpecInterface";
-import useCancelToken from "hooks/useCancelToken";
+import EntityService, { EntityValues } from '../services/entity/EntityService';
+import EntityInterface from '../entities/EntityInterface';
+import { useFormikType } from '../services/form/types';
+import { KeyValList, ScalarProperty } from "../services/api/ParsedApiSpecInterface";
+import useCancelToken from "../hooks/useCancelToken";
 import SaveButton from "./shared/Button/SaveButton";
-import findRoute from "router/findRoute";
-import { RouteMap } from 'router/routeMapParser';
-import { EntityFormType } from "entities/DefaultEntityBehavior";
+import findRoute from "../router/findRoute";
+import { RouteMap } from '../router/routeMapParser';
+import { EntityFormType } from "../entities/DefaultEntityBehavior";
 
 type CreateProps = RouteComponentProps<Record<string, string>> & EntityInterface & {
   entityService: EntityService,

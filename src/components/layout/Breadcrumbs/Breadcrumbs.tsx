@@ -1,15 +1,15 @@
 import { CircularProgress, styled, Tooltip } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
-import { useStoreState } from 'store';
-import _ from 'services/translations/translate';
+import { useStoreState } from '../../../store';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import _ from '../../../services/translations/translate';
 import {
   StyledCollapsedBreadcrumbsLink, StyledCollapsedBreadcrumbsNavigateNextIcon,
   StyledCollapsedBreadcrumbsTypography,
   StyledHomeIcon
 } from './Breadcrumbs.styles';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { filterRouteMapPath } from 'router/findRoute';
-import { RouteMap, RouteMapItem } from 'router/routeMapParser';
+import { filterRouteMapPath } from '../../../router/findRoute';
+import { RouteMap, RouteMapItem } from '../../../router/routeMapParser';
 
 type RouterProps = RouteComponentProps<any>;
 type BreadcrumbsProps = RouterProps & {

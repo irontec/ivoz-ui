@@ -1,6 +1,6 @@
 import { Fade, LinearProgress } from "@mui/material";
-import { FkProperty, PropertySpec, ScalarProperty } from "services/api/ParsedApiSpecInterface";
-import EntityService from "services/entity/EntityService";
+import { FkProperty, PropertySpec, ScalarProperty } from "../../../services/api/ParsedApiSpecInterface";
+import EntityService from "../../../services/entity/EntityService";
 import { StyledCheckBoxIcon, StyledCheckBoxOutlineBlankIcon, StyledTableRowFkLink } from "./Table/ContentTable.styles";
 
 interface ListContentValueProps {

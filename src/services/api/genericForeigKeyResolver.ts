@@ -1,7 +1,7 @@
-import { EntityValues } from '../entity/EntityService';
-import store from 'store';
-import EntityInterface from 'entities/EntityInterface';
 import { CancelToken } from 'axios';
+import store from '../../store';
+import { EntityValues } from '../entity/EntityService';
+import EntityInterface from '../../entities/EntityInterface';
 
 interface GenericForeignKeyResolverProps {
     data: Array<EntityValues> | EntityValues,

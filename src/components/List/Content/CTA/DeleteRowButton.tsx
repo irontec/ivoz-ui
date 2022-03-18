@@ -1,11 +1,11 @@
-import { Tooltip } from "@mui/material";
-import ConfirmDialog from "components/shared/ConfirmDialog";
-import EntityService from "services/entity/EntityService";
 import { useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
-import { useStoreActions } from "store";
+import { useStoreActions } from "../../../../store";
+import { Tooltip } from "@mui/material";
+import ConfirmDialog from "../../../../components/shared/ConfirmDialog";
+import EntityService from "../../../../services/entity/EntityService";
 import { StyledDeleteIcon } from "../Table/ContentTable.styles";
-import _ from 'services/translations/translate';
+import _ from '../../../../services/translations/translate';
 
 interface DeleteRowButtonProps {
     row: any,

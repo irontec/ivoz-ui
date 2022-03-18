@@ -1,5 +1,5 @@
-import { isPropertyFk, PropertySpec, ScalarProperty } from "services/api/ParsedApiSpecInterface";
-import EntityService from "services/entity/EntityService";
+import { isPropertyFk, PropertySpec, ScalarProperty } from "../../api/ParsedApiSpecInterface";
+import EntityService from "../..//entity/EntityService";
 import { CustomComponentWrapper, PropertyCustomFunctionComponent } from "./CustomComponentWrapper";
 import FileUploader from "./FileUploader";
 

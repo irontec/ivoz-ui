@@ -1,6 +1,6 @@
 import { CardContent, Typography } from '@mui/material';
-import { RouteMapItem } from 'router/routeMapParser';
-import EntityService from 'services/entity/EntityService';
+import { RouteMapItem } from '../../../../router/routeMapParser';
+import EntityService from '../../../../services/entity/EntityService';
 import DeleteRowButton from '../CTA/DeleteRowButton';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';

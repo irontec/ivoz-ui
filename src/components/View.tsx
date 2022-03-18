@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import EntityService from 'services/entity/EntityService';
-import EntityInterface from 'entities/EntityInterface';
+import EntityService from '../services/entity/EntityService';
+import EntityInterface from '../entities/EntityInterface';
 import withRowData from './withRowData';
 
 interface ViewProps extends EntityInterface {

@@ -1,11 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import FilterDrawer from './FilterDrawer';
-import EntityService from 'services/entity/EntityService';
+import EntityService from '../../../services/entity/EntityService';
 import { StyledDivider } from './ContentFilter.styles';
 import StyledContentFilterSelector from './ContentFilterSelector.styles';
 import { SearchFilterType } from './icons/FilterIconFactory';
 import { FilterCriteria } from './FilterCriteria';
-import { useStoreState, useStoreActions } from 'store';
+import { useStoreState, useStoreActions } from '../../../store';
 import { CancelToken } from 'axios';
 import { match } from 'react-router-dom';
 

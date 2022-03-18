@@ -6,7 +6,7 @@ import ListContentValue from '../ListContentValue';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import DeleteRowButton from '../CTA/DeleteRowButton';
-import { RouteMapItem } from 'router/routeMapParser';
+import { RouteMapItem } from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
 
 interface ContentTableProps {

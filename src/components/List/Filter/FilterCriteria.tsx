@@ -1,9 +1,9 @@
-import EntityService from 'services/entity/EntityService';
-import { NullablePropertyFkChoices } from 'entities/DefaultEntityBehavior';
+import { Tooltip } from '@mui/material';
+import EntityService from '../../../services/entity/EntityService';
+import { NullablePropertyFkChoices } from '../../../entities/DefaultEntityBehavior';
 import { CriteriaFilterValue, CriteriaFilterValues } from './ContentFilter';
 import FilterIconFactory, { getFilterLabel } from './icons/FilterIconFactory';
-import { Tooltip } from '@mui/material';
-import { isPropertyFk } from 'services/api/ParsedApiSpecInterface';
+import { isPropertyFk } from '../../../services/api/ParsedApiSpecInterface';
 import { StyledChip, StyledChipIcon } from './FilterCriteria.styles';
 
 interface FilterCriteriaProps {

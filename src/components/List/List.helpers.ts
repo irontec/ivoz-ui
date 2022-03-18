@@ -2,7 +2,7 @@
 
 import queryString from 'query-string';
 import { CriteriaFilterValues } from './Filter/ContentFilter';
-import { KeyValList } from 'services/api/ParsedApiSpecInterface';
+import { KeyValList } from '../../services/api/ParsedApiSpecInterface';
 import { SearchFilterType } from './Filter/icons/FilterIconFactory';
 
 export const criteriaToArray = (where: CriteriaFilterValues): Array<string> => {

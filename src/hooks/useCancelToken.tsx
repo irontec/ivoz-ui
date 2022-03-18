@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url */
 
 import { useState, useEffect } from 'react';
-import { useStoreState } from 'store';
+import { useStoreState } from '../store';
 import { CancelTokenSource, CancelToken } from 'axios';
 
 const useCancelToken = function (): [boolean, CancelToken] {

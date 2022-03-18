@@ -1,8 +1,8 @@
+import { createStore, createTypedHooks } from 'easy-peasy';
 import auth, { AuthStore } from './auth';
 import spec, { SpecStore } from './apiSpec';
 import api, { ApiStore } from './api';
 import route, { RouteStore } from './route';
-import { createStore, createTypedHooks } from 'easy-peasy';
 
 export interface AppStore {
   auth: AuthStore,

@@ -1,9 +1,9 @@
 import { Button } from '@mui/material';
 import BackupIcon from '@mui/icons-material/Backup';
 import { ChangeEvent, DragEvent, MouseEvent, useCallback, useState } from 'react';
-import { StyledFileUploaderContainer, StyledFileNameContainer, StyledUploadButtonContainer, StyledUploadButtonLabel, StyledDownloadingIcon } from './FileUploader.styles';
-import { useStoreActions } from 'store';
 import { saveAs } from 'file-saver';
+import { StyledFileUploaderContainer, StyledFileNameContainer, StyledUploadButtonContainer, StyledUploadButtonLabel, StyledDownloadingIcon } from './FileUploader.styles';
+import { useStoreActions } from '../../../../store';
 import withCustomComponentWrapper, { PropertyCustomFunctionComponentProps } from '../CustomComponentWrapper';
 
 interface fileProps {

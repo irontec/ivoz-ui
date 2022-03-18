@@ -1,18 +1,18 @@
 /* eslint-disable no-script-url */
 
 import { useState, useEffect } from 'react';
-import { useStoreActions, useStoreState } from 'store';
+import { useStoreActions, useStoreState } from '../../store';
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import EntityService from 'services/entity/EntityService';
+import EntityService from '../../services/entity/EntityService';
 import { CriteriaFilterValues } from './Filter/ContentFilter';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import ListContent from './Content/ListContent';
 import Pagination from './Pagination';
 import useQueryStringParams from './useQueryStringParams';
-import useCancelToken from 'hooks/useCancelToken';
-import { RouteMap } from 'router/routeMapParser';
-import { foreignKeyResolverType } from 'entities/EntityInterface';
-import findRoute from 'router/findRoute';
+import useCancelToken from '../../hooks/useCancelToken';
+import { RouteMap } from '../../router/routeMapParser';
+import { foreignKeyResolverType } from '../../entities/EntityInterface';
+import findRoute from '../../router/findRoute';
 
 type ListProps = RouteComponentProps & {
     path: string,

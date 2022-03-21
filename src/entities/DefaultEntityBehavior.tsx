@@ -2,7 +2,7 @@ import * as React from 'react';
 import EntityService, { EntityValues, VisualToggleStates } from '../services/entity/EntityService';
 import FormFieldFactory from '../services/form/FormFieldFactory';
 import { useFormikType } from '../services/form/types';
-import store from "../store";
+import { StoreContainer } from "../store";
 import { Alert, AlertTitle, Grid } from '@mui/material';
 import { isPropertyScalar, PartialPropertyList, PropertySpec, ScalarProperty } from '../services/api/ParsedApiSpecInterface';
 import EntityInterface, {
@@ -569,7 +569,7 @@ const View = (props: ViewProps): JSX.Element | null => {
 
 const fetchFks = (endpoint: string, properties: Array<string>, setter: FetchFksCallback, cancelToken?: CancelToken): Promise<unknown> => {
 
-    const getAction = store.getActions().api.get;
+    const getAction = StoreContainer.store.getActions().api.get;
     return getAction({
         path: endpoint,
         params: {

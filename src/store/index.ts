@@ -1,4 +1,5 @@
 import { createStore, createTypedHooks } from 'easy-peasy';
+import StoreContainer from './StoreContainer';
 import auth, { AuthStore } from './auth';
 import spec, { SpecStore } from './apiSpec';
 import api, { ApiStore } from './api';
@@ -18,9 +19,7 @@ export const storeModel: IvozStore = {
   route
 }
 
-const store = createStore<IvozStore>(storeModel);
-
-export default store;
+StoreContainer.store = createStore<IvozStore>(storeModel);
 
 const {
   useStoreActions,
@@ -30,6 +29,7 @@ const {
 } = createTypedHooks<IvozStore>();
 
 export {
+  StoreContainer,
   useStoreActions,
   useStoreState,
   useStoreDispatch,

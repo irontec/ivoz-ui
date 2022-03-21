@@ -1,5 +1,5 @@
 import { CancelToken } from 'axios';
-import store from '../../store';
+import { StoreContainer } from '../../store';
 import { EntityValues } from '../entity/EntityService';
 import EntityInterface from '../../entities/EntityInterface';
 
@@ -67,7 +67,7 @@ export default async function genericForeignKeyResolver(props: GenericForeignKey
 
     if (ids.length) {
 
-        const getAction = store.getActions().api.get;
+        const getAction = StoreContainer.store.getActions().api.get;
 
         await getAction({
             path,

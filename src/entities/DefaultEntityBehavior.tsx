@@ -6,7 +6,7 @@ import store from "../store";
 import { Alert, AlertTitle, Grid } from '@mui/material';
 import { isPropertyScalar, PartialPropertyList, PropertySpec, ScalarProperty } from '../services/api/ParsedApiSpecInterface';
 import EntityInterface, {
-    EntityValidator, EntityValidatorValues, EntityValidatorResponse, ViewProps, ListDecoratorPropsType,
+    EntityValidator, EntityValidatorValues, EntityValidatorResponse, ViewProps, ListDecoratorPropsType, ChildDecoratorType,
     OrderDirection, foreignKeyResolverProps, foreignKeyResolverType, EntityAclType, FetchFksCallback
 } from './EntityInterface';
 import ViewFieldValue from '../services/form/Field/ViewFieldValue';
@@ -340,6 +340,16 @@ export const ListDecorator = (props: ListDecoratorPropsType): JSX.Element | stri
     return (value !== null && value !== undefined)
         ? value
         : '';
+}
+
+export const ChildDecorator: ChildDecoratorType = (props) => {
+
+    const Children = props.children;
+    if (!Children) {
+        return null;
+    }
+
+    return Children as React.ReactElement;
 }
 
 export type FieldsetGroups = {

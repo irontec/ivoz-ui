@@ -1,8 +1,13 @@
 import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import
-EntityInterface, { EntityAclType,
-ForeignKeyGetterType, ListDecoratorPropsType, OrderDirection }
-    from '../../entities/EntityInterface';
+    EntityInterface,
+    {
+        EntityAclType,
+        ForeignKeyGetterType,
+        ListDecoratorPropsType,
+        OrderDirection
+    }
+from '../../entities/EntityInterface';
 import {
     ActionsSpec, PropertyList, ActionModelList, ScalarProperty,
     ActionModelSpec, visualToggleList, isPropertyFk, FkProperty, fkPropertyList
@@ -20,6 +25,10 @@ export default class EntityService {
         private properties: PropertyList,
         private entityConfig: EntityInterface
     ) {
+    }
+
+    public getEntity(): EntityInterface {
+        return this.entityConfig;
     }
 
     public getProperties(): PropertyList {

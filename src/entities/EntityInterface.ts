@@ -32,8 +32,9 @@ export type foreignKeyResolverType = (props: foreignKeyResolverProps) => Promise
 export type ForeignKeyGetterTypeArgs = {
     cancelToken?: CancelToken,
     entityService: EntityService,
-    row?: EntityValues,
     match: match,
+    row?: EntityValues,
+    filterContext?: boolean,
 }
 export type ForeignKeyGetterType = (props: ForeignKeyGetterTypeArgs) => Promise<any>;
 export type FetchFksCallback = (data: { [key: string]: any }) => void;

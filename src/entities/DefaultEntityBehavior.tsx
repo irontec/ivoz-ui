@@ -595,6 +595,7 @@ const DefaultEntityBehavior = {
     properties,
     acl,
     ListDecorator,
+    ChildDecorator,
     toStr: (row: EntityValues): string => {
         return (row.id as string || '[*]');
     },

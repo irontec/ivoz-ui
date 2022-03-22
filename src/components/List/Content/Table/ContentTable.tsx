@@ -8,7 +8,6 @@ import ViewRowButton from '../CTA/ViewRowButton';
 import DeleteRowButton from '../CTA/DeleteRowButton';
 import { RouteMapItem } from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import { ChildDecorator } from '../../../../entities/DefaultEntityBehavior';
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>,
@@ -22,6 +21,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const { childEntities, entityService, rows, path, ignoreColumn } = props;
   const entity = entityService.getEntity();
+  const ChildDecorator = entity.ChildDecorator;
 
   const updateRouteMapItem: RouteMapItem = {
     entity,
@@ -72,18 +72,18 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                 );
               })}
               <StyledActionsTableCell key="actions">
-              {acl.update && (
-                  <ChildDecorator key={`${key}-edit`} routeMapItem={updateRouteMapItem} row={row}>
+                {acl.update && (
+                  <ChildDecorator routeMapItem={updateRouteMapItem} row={row}>
                     <EditRowButton row={row} path={path} />
                   </ChildDecorator>
                 )}
                 {acl.detail && !acl.update && (
-                  <ChildDecorator key={`${key}-view`} routeMapItem={detailMapItem} row={row}>
+                  <ChildDecorator routeMapItem={detailMapItem} row={row}>
                     <ViewRowButton row={row} path={path} />
                   </ChildDecorator>
                 )}
                 {acl.delete && (
-                  <ChildDecorator key={`${key}-delete`} routeMapItem={deleteMapItem} row={row}>
+                  <ChildDecorator routeMapItem={deleteMapItem} row={row}>
                     <DeleteRowButton row={row} entityService={entityService} />
                   </ChildDecorator>
                 )}

@@ -1,5 +1,5 @@
 import { styled } from '@mui/styles';
-import { Theme, Typography, FormControl, TextField } from '@mui/material';
+import { Theme, Typography, FormControl, TextField, TextareaAutosize } from '@mui/material';
 
 export const StyledSwitchFormControl = styled(
     (props) => {
@@ -40,7 +40,7 @@ export const StyledTextField = styled(
     (props) => {
 
         const {
-            name, type, value, disabled, label,
+            name, type, value, disabled, label, multiline,
             required, onChange, onBlur, error, helperText,
             inputProps, InputProps, hasChanged
         } = props;
@@ -50,10 +50,16 @@ export const StyledTextField = styled(
             className += ' changed';
         }
 
+        const maxRows = multiline
+            ? 6
+            : undefined;
+
         return (
             <TextField
                 name={name}
                 type={type}
+                multiline={multiline}
+                maxRows={maxRows}
                 value={value}
                 disabled={disabled}
                 label={label}

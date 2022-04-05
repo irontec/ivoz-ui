@@ -314,10 +314,32 @@ export default class FormFieldFactory {
                 inputProps.maxLength = property.maxLength;
             }
 
+            if (property.format === 'textarea') {
+                return (
+                    <StyledTextField
+                        name={fld}
+                        type="text"
+                        multiline={true}
+                        value={this.formik.values[fld]}
+                        disabled={disabled}
+                        label={property.label}
+                        required={property.required}
+                        onChange={this.changeHandler}
+                        onBlur={this.handleBlur}
+                        error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
+                        helperText={this.formik.touched[fld] && this.formik.errors[fld]}
+                        InputProps={InputProps}
+                        inputProps={inputProps}
+                        hasChanged={hasChanged}
+                    />
+                );
+            }
+
             return (
                 <StyledTextField
                     name={fld}
                     type="text"
+                    multiline={false}
                     value={this.formik.values[fld]}
                     disabled={disabled}
                     label={property.label}

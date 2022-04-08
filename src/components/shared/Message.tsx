@@ -33,6 +33,7 @@ export default function Message(props: MessageProps): JSX.Element {
                 message={
                     <StyledSnackbarContentMessageContainer>
                         <Icon />
+                        &nbsp;
                         {message}
                     </StyledSnackbarContentMessageContainer>
                 }

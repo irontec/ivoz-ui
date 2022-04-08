@@ -45,6 +45,7 @@ export type SelectOptionsArgs = {
 export type SelectOptionsType<T = any> = (props: SelectOptionsArgs, customProps?: T) => Promise<unknown>;
 
 export type EntityAclType = {
+    iden?: string,
     create: boolean,
     read: boolean,
     detail: boolean,

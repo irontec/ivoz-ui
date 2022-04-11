@@ -10,12 +10,13 @@ interface useFkChoicesArgs {
     foreignKeyGetter: ForeignKeyGetterType,
     entityService: EntityService,
     row?: EntityValues,
-    match: match
+    match: match,
+    skip?: Array<string>,
 }
 
 const useFkChoices = (props: useFkChoicesArgs): FkChoices => {
 
-    const { foreignKeyGetter, entityService, row, match } = props;
+    const { foreignKeyGetter, entityService, row, match, skip } = props;
     const [fkChoices, setFkChoices] = useState<FkChoices>({});
 
     useEffect(
@@ -31,6 +32,7 @@ const useFkChoices = (props: useFkChoicesArgs): FkChoices => {
                 entityService,
                 row,
                 match,
+                skip,
             }).then((options) => {
 
                 if (!mounted) {

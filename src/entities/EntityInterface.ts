@@ -37,6 +37,7 @@ export type ForeignKeyGetterTypeArgs = {
     match: match,
     row?: EntityValues,
     filterContext?: boolean,
+    skip?: Array<string>,
 }
 export type ForeignKeyGetterType = (props: ForeignKeyGetterTypeArgs) => Promise<any>;
 export type FetchFksCallback = (data: { [key: string]: any }) => void;

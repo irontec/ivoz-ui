@@ -357,29 +357,6 @@ export type FieldsetGroups = {
     fields: Array<string | false | undefined>
 }
 
-export type PropertyFkChoices = {
-    [key: string]: string | React.ReactElement<any>
-};
-
-export type NullablePropertyFkChoices = null | PropertyFkChoices;
-
-export type FkChoices = {
-    [key: string]: NullablePropertyFkChoices
-};
-
-export type EntityFormProps = EntityInterface & {
-    create?: boolean,
-    edit?: boolean,
-    entityService: EntityService,
-    formik: useFormikType,
-    groups?: Array<FieldsetGroups | false>,
-    fkChoices?: FkChoices,
-    readOnlyProperties?: { [attribute: string]: boolean },
-    validationErrors: Record<string, JSX.Element>,
-    row?: EntityValues,
-    match: match,
-};
-
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string, value: any }>;
 
 const filterFieldsetGroups = (groups: Array<FieldsetGroups | false>): Array<FieldsetGroups> => {
@@ -408,6 +385,31 @@ const filterFieldsetGroups = (groups: Array<FieldsetGroups | false>): Array<Fiel
 
     return resp;
 }
+
+export type PropertyFkChoices = {
+    [key: string]: string | React.ReactElement<any>
+};
+
+export type NullablePropertyFkChoices = null | PropertyFkChoices;
+
+export type FkChoices = {
+    [key: string]: NullablePropertyFkChoices
+};
+
+type ReadOnlyProperties = { [attribute: string]: boolean };
+
+export type EntityFormProps = EntityInterface & {
+    create?: boolean,
+    edit?: boolean,
+    entityService: EntityService,
+    formik: useFormikType,
+    groups?: Array<FieldsetGroups | false>,
+    fkChoices?: FkChoices,
+    readOnlyProperties?: ReadOnlyProperties,
+    validationErrors: Record<string, JSX.Element>,
+    row?: EntityValues,
+    match: match,
+};
 
 export type EntityFormType = (props: EntityFormProps) => JSX.Element;
 const Form: EntityFormType = (props) => {
@@ -470,26 +472,15 @@ const Form: EntityFormType = (props) => {
                         <StyledGroupGrid>
                             {fields.map((columnName: string, idx: number) => {
 
-                                const choices: NullablePropertyFkChoices = fkChoices
-                                    ? fkChoices[columnName]
-                                    : null;
-
-                                if (!visualToggles[columnName]) {
-                                    return null;
-                                }
-
-                                const visibilityStyles = visualToggles[columnName]
-                                    ? { display: 'block' }
-                                    : { display: 'none' };
-
-                                const readOnly = readOnlyProperties && readOnlyProperties[columnName]
-                                    ? true
-                                    : false;
-
                                 return (
-                                    <Grid item xs={12} md={6} lg={4} xl={3} key={idx} style={visibilityStyles}>
-                                        {formFieldFactory.getFormField(columnName, choices, readOnly)}
-                                    </Grid>
+                                    <FormField
+                                        key={idx}
+                                        columnName={columnName}
+                                        fkChoices={fkChoices}
+                                        visualToggles={visualToggles}
+                                        readOnlyProperties={readOnlyProperties}
+                                        formFieldFactory={formFieldFactory}
+                                    />
                                 );
                             })}
                         </StyledGroupGrid>
@@ -512,6 +503,43 @@ const Form: EntityFormType = (props) => {
         </React.Fragment>
     );
 };
+
+export type EntityFormFieldProps = {
+    columnName: string,
+    fkChoices?: FkChoices,
+    visualToggles: VisualToggleStates,
+    readOnlyProperties?: ReadOnlyProperties,
+    formFieldFactory: FormFieldFactory,
+};
+
+export type EntityFormFieldType = (props: EntityFormFieldProps) => JSX.Element | null;
+export const FormField: EntityFormFieldType = (props) => {
+
+    const { columnName, fkChoices, visualToggles, readOnlyProperties, formFieldFactory } = props;
+
+    const choices: NullablePropertyFkChoices = fkChoices
+        ? fkChoices[columnName]
+        : null;
+
+    if (!visualToggles[columnName]) {
+        return null;
+    }
+
+    const visibilityStyles = visualToggles[columnName]
+        ? { display: 'block' }
+        : { display: 'none' };
+
+    const readOnly = readOnlyProperties && readOnlyProperties[columnName]
+        ? true
+        : false;
+
+    return (
+        <Grid item xs={12} md={6} lg={4} xl={3} style={visibilityStyles}>
+            {formFieldFactory.getFormField(columnName, choices, readOnly)}
+        </Grid>
+    );
+
+}
 
 const View = (props: ViewProps): JSX.Element | null => {
 

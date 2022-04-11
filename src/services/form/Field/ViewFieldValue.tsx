@@ -29,6 +29,7 @@ const ViewFieldValue = (props: ViewValueProps): JSX.Element => {
             <FileUploader
                 property={property}
                 _columnName={columnName}
+                readOnly={true}
                 disabled={true}
                 values={values}
                 changeHandler={() => { return; }}

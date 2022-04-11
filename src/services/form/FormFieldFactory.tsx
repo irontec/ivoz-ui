@@ -64,8 +64,12 @@ export default class FormFieldFactory {
         return (properties[fld] as PropertySpec);
     }
 
-    private getInputField(fld: string, property: PropertySpec, choices: NullableFormFieldFactoryChoices, readOnly: boolean) {
-
+    public getInputField(
+        fld: string,
+        property: PropertySpec,
+        choices: NullableFormFieldFactoryChoices,
+        readOnly: boolean
+    ) {
         const disabled = property.readOnly || readOnly;
         const multiSelect = (property as ScalarProperty).type === 'array';
         const fileUpload = (property as ScalarProperty).type === 'file';
@@ -79,6 +83,7 @@ export default class FormFieldFactory {
                 <PropertyComponent
                     _context={CustomFunctionComponentContext.write}
                     _columnName={fld}
+                    readOnly={readOnly}
                     formik={this.formik}
                     values={this.formik.values}
                     choices={choices}
@@ -86,6 +91,7 @@ export default class FormFieldFactory {
                     disabled={disabled}
                     changeHandler={this.changeHandler}
                     onBlur={this.handleBlur}
+                    formFieldFactory={this}
                 />
             );
         }
@@ -206,6 +212,7 @@ export default class FormFieldFactory {
                 <FileUploader
                     property={property as FkProperty}
                     _columnName={fld}
+                    readOnly={readOnly}
                     disabled={disabled}
                     formik={this.formik}
                     values={this.formik.values}

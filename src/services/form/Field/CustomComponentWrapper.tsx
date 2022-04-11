@@ -1,7 +1,7 @@
 import { FormikComputedProps, FormikHandlers, FormikHelpers, FormikState } from 'formik';
 import { FormOnChangeEvent } from '../../../entities/DefaultEntityBehavior';
 import { PropertySpec } from '../../api/ParsedApiSpecInterface';
-import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
+import FormFieldFactory, { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
 import { StyledFieldsetRoot, StyledFieldset } from './CustomComponentWrapper.styles';
 
 export enum CustomFunctionComponentContext {
@@ -13,6 +13,7 @@ export interface PropertyCustomFunctionComponentProps<FormikValues> {
     className?: string,
     _context?: CustomFunctionComponentContext,
     _columnName: string,
+    readOnly: boolean,
     formik?: FormikState<FormikValues> & FormikComputedProps<FormikValues> & FormikHelpers<FormikValues> & FormikHandlers,
     values: Record<string, boolean | string | number | Record<string, unknown> | Array<string>>,
     choices: NullableFormFieldFactoryChoices,
@@ -21,6 +22,7 @@ export interface PropertyCustomFunctionComponentProps<FormikValues> {
     property: PropertySpec,
     disabled: boolean,
     hasChanged: boolean,
+    formFieldFactory?: FormFieldFactory
 }
 
 export type PropertyCustomFunctionComponent<T extends PropertyCustomFunctionComponentProps<any>> = React.FunctionComponent<T>;

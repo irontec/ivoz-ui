@@ -8,18 +8,18 @@ export interface RouteMapItem {
     children?: Array<RouteMapItem>,
 }
 
-export type RouteMapBlock = {
+export type RouteMapBlock<T extends RouteMapItem = RouteMapItem>= {
     label: string | JSX.Element | null,
-    children: Array<RouteMapItem>,
+    children: Array<T>,
 }
 
-export type RouteMap = Array<RouteMapBlock>;
+export type RouteMap<T extends RouteMapItem = RouteMapItem> = Array<RouteMapBlock<T>>;
 
-const RouteMapItemParser = (item: RouteMapItem, routPrefix = '', depth = 1): RouteMapItem => {
+const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(item: T, routPrefix = '', depth = 1): T => {
 
     if (item.children && item.children.length) {
 
-        const children = item.children?.map((subitem: RouteMapItem) => {
+        const children = item.children?.map((subitem) => {
             return RouteMapItemParser(
                 subitem,
                 `${routPrefix}${item.entity?.path}/:parent_id_${depth}`,
@@ -39,11 +39,11 @@ const RouteMapItemParser = (item: RouteMapItem, routPrefix = '', depth = 1): Rou
     };
 }
 
-const routeMapParser = (map: RouteMap): RouteMap => {
+const routeMapParser = <T extends RouteMapItem = RouteMapItem>(map: RouteMap<T>): RouteMap<T> => {
 
-    const resp = map.map((block: RouteMapBlock) => {
-        const children = block.children?.map((item: RouteMapItem) => {
-            return RouteMapItemParser(item);
+    const resp = map.map((block) => {
+        const children = block.children?.map((item: T) => {
+            return RouteMapItemParser<T>(item);
         });
 
         return {

@@ -10,9 +10,11 @@ import { RouteMapItem } from '../router/routeMapParser';
 export type ListDecoratorPropsType = {
     field: string,
     row: any,
-    property: PropertySpec
+    property: PropertySpec,
+    ignoreCustomComponent?: true,
 };
-export type ListDecoratorType = (props: ListDecoratorPropsType) => any;
+
+export type ListDecoratorType = React.FunctionComponent<ListDecoratorPropsType>;
 
 export type ChildDecoratorType = React.FunctionComponent<{
     routeMapItem: RouteMapItem,

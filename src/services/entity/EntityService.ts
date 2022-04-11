@@ -383,7 +383,7 @@ export default class EntityService {
         return this.entityConfig.foreignKeyGetter;
     }
 
-    public getListDecorator(): React.FunctionComponent<ListDecoratorPropsType> {
+    public getListDecorator() {
         return this.entityConfig.ListDecorator;
     }
 

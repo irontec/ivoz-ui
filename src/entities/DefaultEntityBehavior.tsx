@@ -6,8 +6,8 @@ import { StoreContainer } from "../store";
 import { Alert, AlertTitle, Grid } from '@mui/material';
 import { isPropertyScalar, PartialPropertyList, PropertySpec, ScalarProperty } from '../services/api/ParsedApiSpecInterface';
 import EntityInterface, {
-    EntityValidator, EntityValidatorValues, EntityValidatorResponse, ViewProps, ListDecoratorPropsType, ChildDecoratorType,
-    OrderDirection, foreignKeyResolverProps, foreignKeyResolverType, EntityAclType, FetchFksCallback
+    EntityValidator, EntityValidatorValues, EntityValidatorResponse, ViewProps, ListDecoratorType, ChildDecoratorType,
+    OrderDirection, foreignKeyResolverProps, foreignKeyResolverType, EntityAclType, FetchFksCallback,
 } from './EntityInterface';
 import ViewFieldValue from '../services/form/Field/ViewFieldValue';
 import { StyledGroupLegend, StyledGroupGrid } from './DefaultEntityBehavior.styles';
@@ -296,12 +296,12 @@ export const acl: EntityAclType = {
     delete: true,
 };
 
-export const ListDecorator = (props: ListDecoratorPropsType): JSX.Element | string => {
+export const ListDecorator: ListDecoratorType = (props) => {
 
-    const { field, row, property } = props;
+    const { field, row, property, ignoreCustomComponent } = props;
     let value = row[field];
 
-    if (property.component) {
+    if (property.component && !ignoreCustomComponent) {
         return (
             <property.component
                 _columnName={field}

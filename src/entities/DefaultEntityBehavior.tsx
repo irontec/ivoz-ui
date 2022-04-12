@@ -409,13 +409,14 @@ export type EntityFormProps = EntityInterface & {
     validationErrors: Record<string, JSX.Element>,
     row?: EntityValues,
     match: match,
+    filterBy?: string | undefined,
 };
 
 export type EntityFormType = (props: EntityFormProps) => JSX.Element;
 const Form: EntityFormType = (props) => {
 
     const {
-        entityService, formik, readOnlyProperties, validationErrors, fkChoices
+        entityService, formik, readOnlyProperties, validationErrors, fkChoices, filterBy
     } = props;
 
     const columns = entityService.getProperties();
@@ -471,6 +472,10 @@ const Form: EntityFormType = (props) => {
                         </StyledGroupLegend>
                         <StyledGroupGrid>
                             {fields.map((columnName: string, idx: number) => {
+
+                                if (columnName === filterBy) {
+                                    return null;
+                                }
 
                                 return (
                                     <FormField
@@ -592,8 +597,6 @@ const View = (props: ViewProps): JSX.Element | null => {
         </React.Fragment>
     );
 };
-
-
 
 const fetchFks = (endpoint: string, properties: Array<string>, setter: FetchFksCallback, cancelToken?: CancelToken): Promise<unknown> => {
 

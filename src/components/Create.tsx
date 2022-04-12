@@ -26,6 +26,8 @@ const Create = (props: CreateProps & RouteComponentProps) => {
   } = props;
 
   const parentRoute = findRoute(routeMap, match);
+  const filterBy = parentRoute?.filterBy;
+
   let returnPath = parentRoute?.route || '';
   for (const idx in match.params) {
     returnPath = returnPath.replace(`:${idx}`, match.params[idx]);
@@ -96,7 +98,7 @@ const Create = (props: CreateProps & RouteComponentProps) => {
           history.push(returnPath);
         }
 
-      } catch {}
+      } catch { }
     },
   });
 
@@ -122,6 +124,7 @@ const Create = (props: CreateProps & RouteComponentProps) => {
           create={true}
           validationErrors={errorList}
           match={match}
+          filterBy={filterBy}
         />
 
         <SaveButton />

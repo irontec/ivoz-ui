@@ -30,6 +30,8 @@ const Edit: any = (props: EditProps & RouteComponentProps) => {
   const { Form: EntityForm } = props;
 
   const parentRoute = findRoute(routeMap, match);
+  const filterBy = parentRoute?.filterBy;
+
   let returnPath = parentRoute?.route || '';
   for (const idx in match.params) {
     returnPath = returnPath.replace(`:${idx}`, match.params[idx]);
@@ -108,6 +110,7 @@ const Edit: any = (props: EditProps & RouteComponentProps) => {
           edit={true}
           validationErrors={errorList}
           match={match}
+          filterBy={filterBy}
         />
 
         <SaveButton />

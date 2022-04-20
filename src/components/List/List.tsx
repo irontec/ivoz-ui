@@ -13,6 +13,7 @@ import useCancelToken from '../../hooks/useCancelToken';
 import { RouteMap } from '../../router/routeMapParser';
 import { foreignKeyResolverType } from '../../entities/EntityInterface';
 import findRoute from '../../router/findRoute';
+import ErrorMessage from '../shared/ErrorMessage';
 
 type ListProps = RouteComponentProps & {
     path: string,
@@ -31,6 +32,7 @@ const List = function (props: ListProps) {
     const [rows, setRows] = useState<Array<any>>([]);
     const [headers, setHeaders] = useState<{ [id: string]: string }>({});
 
+    const reqError = useStoreState((store) => store.api.errorMsg);
     const apiGet = useStoreActions((actions: any) => {
         return actions.api.get
     });
@@ -200,6 +202,7 @@ const List = function (props: ListProps) {
             <Pagination
                 recordCount={recordCount}
             />
+            {reqError && <ErrorMessage message={reqError} />}
         </>
 
     );

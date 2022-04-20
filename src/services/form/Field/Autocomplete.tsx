@@ -50,11 +50,19 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   );
 
   const onChangeWrapper = useCallback(
-    (e: any, option: any) => {
+    (e: any, option: any, reason: string) => {
 
-      const selectedValue = multiple
-        ? option.map((item: any) => typeof item === 'object' ? item.value : item)
-        : option?.value;
+      let selectedValue = undefined;
+
+      if (reason !== 'clear') {
+        selectedValue = multiple
+          ? option.map((item: any) => typeof item === 'object' ? item.value : item)
+          : option?.value;
+      } else {
+        selectedValue = choices?.__null__
+          ? '__null__'
+          : undefined;
+      }
 
       onChange({
         target: {
@@ -129,12 +137,17 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     [name, label, required, error, helperText]
   );
 
+  const disableClearable = choices?.__null__
+    ? false
+    : true;
+
   return (
     <MuiAutocomplete
       className={className}
       value={value}
       multiple={multiple}
       disabled={disabled}
+      disableClearable={disableClearable}
       onChange={onChangeWrapper}
       onBlur={onBlur}
       options={arrayChoices}

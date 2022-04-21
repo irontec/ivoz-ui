@@ -9,13 +9,15 @@ export enum CustomFunctionComponentContext {
     read = "read",
 }
 
-export interface PropertyCustomFunctionComponentProps<FormikValues> {
+export type CustomFunctionDefaultValues = Record<string, boolean | string | number | Record<string, unknown> | Array<string>>;
+
+export interface PropertyCustomFunctionComponentProps<FormikValues, CustomComponentValues = CustomFunctionDefaultValues> {
     className?: string,
     _context?: CustomFunctionComponentContext,
     _columnName: string,
     readOnly: boolean,
     formik?: FormikState<FormikValues> & FormikComputedProps<FormikValues> & FormikHelpers<FormikValues> & FormikHandlers,
-    values: Record<string, boolean | string | number | Record<string, unknown> | Array<string>>,
+    values: CustomComponentValues,
     choices: NullableFormFieldFactoryChoices,
     changeHandler: (event: FormOnChangeEvent) => void,
     onBlur: (event: React.FocusEvent) => void,

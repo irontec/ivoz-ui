@@ -1,8 +1,8 @@
 import { useState, useEffect, FunctionComponent, ComponentClass } from 'react';
 import hoistStatics from "hoist-non-react-statics";
-import { useStoreActions, useStoreState } from '../store';
-import { CancelTokenSource } from 'axios';
+import { useStoreActions } from '../store';
 import EntityService from '../services/entity/EntityService';
+import useCancelToken from '../hooks/useCancelToken';
 
 const withRowData = (Component: FunctionComponent | ComponentClass): FunctionComponent => {
 
@@ -20,10 +20,7 @@ const withRowData = (Component: FunctionComponent | ComponentClass): FunctionCom
     const apiGet = useStoreActions((actions) => {
       return actions.api.get;
     });
-    const cancelTokenSourceFactory = useStoreState(
-      (store) => store.api.reqCancelTokenSourceFactory
-    );
-    const [cancelTokenSource,] = useState<CancelTokenSource>(cancelTokenSourceFactory());
+    const [, cancelToken] = useCancelToken();
 
     useEffect(
       () => {
@@ -48,16 +45,11 @@ const withRowData = (Component: FunctionComponent | ComponentClass): FunctionCom
               setRow(data);
               setLoading(false);
             },
-            cancelToken: cancelTokenSource.token
+            cancelToken,
           });
         }
-
-        return function umount() {
-          mounted = false;
-          cancelTokenSource.cancel();
-        };
       },
-      [loading, entityId, entityService, apiGet, cancelTokenSource]
+      [loading, entityId, entityService, apiGet]
     );
 
     if (loading) {

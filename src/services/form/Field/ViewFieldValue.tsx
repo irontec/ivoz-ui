@@ -1,7 +1,9 @@
-import { isPropertyFk, PropertySpec, ScalarProperty } from "../../api/ParsedApiSpecInterface";
+import { isPropertyFk, isPropertyScalar, PropertySpec, ScalarProperty } from "../../api/ParsedApiSpecInterface";
 import EntityService from "../..//entity/EntityService";
 import { CustomComponentWrapper, PropertyCustomFunctionComponent } from "./CustomComponentWrapper";
 import FileUploader from "./FileUploader";
+import { StyledSwitchFormControl } from "../FormFieldFactory.styles";
+import { FormControlLabel, Switch } from "@mui/material";
 
 interface ViewValueProps {
     columnName: string,
@@ -47,13 +49,35 @@ const ViewFieldValue = (props: ViewValueProps): JSX.Element => {
             const { values, property } = props;
             let val = values[columnName];
             if (val === null) {
+
                 val = '';
             } else if (typeof val === 'object') {
+
                 val = JSON.stringify(val);
-            } else if ((property as ScalarProperty).enum) {
+            } else if (isPropertyScalar(property) && property.enum) {
+
                 const enumValues: any = (property as ScalarProperty).enum;
                 val = enumValues[val];
-            }
+            } else if (isPropertyScalar(property) && property.type === 'boolean') {
+
+                    const checked = Array.isArray(val)
+                        ? val.includes('1')
+                        : Boolean(val);
+
+                    return (
+                        <StyledSwitchFormControl hasChanged={false}>
+                            <FormControlLabel
+                                disabled={true}
+                                control={<Switch
+                                    name={columnName}
+                                    checked={checked}
+                                    value={true}
+                                />}
+                                label={property.label}
+                            />
+                        </StyledSwitchFormControl>
+                    );
+                }
 
             const prefix = property?.prefix || '';
 

@@ -66,7 +66,7 @@ const parseRouteMapItems = (
                 component: Edit
             });
 
-        } else if (acls.read) {
+        } else if (acls.detail) {
             routes.push({
                 key: `${iden}-detailed`,
                 path: `${route}/:id/detailed`,

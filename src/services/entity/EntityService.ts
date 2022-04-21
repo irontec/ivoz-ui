@@ -356,7 +356,7 @@ export default class EntityService {
             ? true
             : false;
 
-        const detail: boolean = this.entityConfig.acl.detail && this.actions.get
+        const detail: boolean = this.entityConfig.acl.detail && this.actions.get?.item
             ? true
             : false;
 

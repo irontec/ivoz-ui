@@ -31,6 +31,7 @@ const Edit: any = (props: EditProps & RouteComponentProps) => {
 
   const parentRoute = findRoute(routeMap, match);
   const filterBy = parentRoute?.filterBy;
+  const fixedValues = parentRoute?.fixedValues;
 
   let returnPath = parentRoute?.route || '';
   for (const idx in match.params) {
@@ -52,6 +53,12 @@ const Edit: any = (props: EditProps & RouteComponentProps) => {
   const formik: useFormikType = useFormik({
     initialValues,
     validate: (values: any) => {
+
+      if (fixedValues) {
+        for (const idx in fixedValues) {
+          values[idx] = fixedValues[idx];
+        }
+      }
 
       const visualToggles = entityService.getVisualToggles(values);
 

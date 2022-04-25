@@ -27,6 +27,7 @@ const Create = (props: CreateProps & RouteComponentProps) => {
 
   const parentRoute = findRoute(routeMap, match);
   const filterBy = parentRoute?.filterBy;
+  const fixedValues = parentRoute?.fixedValues;
 
   let returnPath = parentRoute?.route || '';
   for (const idx in match.params) {
@@ -66,8 +67,14 @@ const Create = (props: CreateProps & RouteComponentProps) => {
     initialValues,
     validate: (values: any) => {
 
-      if (parentRoute?.filterBy) {
-        values[parentRoute.filterBy] = Object.values(match.params).pop();
+      if (filterBy) {
+        values[filterBy] = Object.values(match.params).pop();
+      }
+
+      if (fixedValues) {
+        for (const idx in fixedValues) {
+          values[idx] = fixedValues[idx];
+        }
       }
 
       const visualToggles = entityService.getVisualToggles(values);

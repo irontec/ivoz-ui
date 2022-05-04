@@ -9,6 +9,7 @@ interface AuthState {
 }
 
 interface AuthActions {
+  setSessionStoragePrefix: Action<AuthState, string>,
   setToken: Action<AuthState, string | null>,
   setRefreshToken: Action<AuthState, string | null>,
   init: Thunk<AuthState>,
@@ -23,6 +24,10 @@ const auth: AuthStore = {
   refreshToken: null,
 
   // actions
+  setSessionStoragePrefix: action<AuthState, string>((state, prefix) => {
+    state.sessionStoragePrefix = prefix;
+  }),
+
   setToken: action<AuthState, string | null>((state, token) => {
 
     if (token) {

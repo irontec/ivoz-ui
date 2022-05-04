@@ -9,6 +9,7 @@ interface SpecState {
 }
 
 interface SpecActions {
+  setSessionStoragePrefix: Action<SpecState, string>,
   setSpec: Action<SpecState, null>,
   setLoading: Action<SpecState>,
   unsetLoading: Action<SpecState>,
@@ -23,13 +24,19 @@ const specStore = {
   loading: false,
 
   // Actions
+  setSessionStoragePrefix: action<SpecState, string>((state, prefix) => {
+    state.sessionStoragePrefix = prefix;
+  }),
+
   setSpec: action<SpecState, any>((state: any, spec: any) => {
     sessionStorage.setItem(`${state.sessionStoragePrefix}apiSpec`, JSON.stringify(spec));
     state.spec = new ApiSpecParser().parse(spec);
   }),
+
   setLoading: action<SpecState>((state: any) => {
     state.loading = true;
   }),
+
   unsetLoading: action<SpecState>((state: any) => {
     state.loading = false;
   }),

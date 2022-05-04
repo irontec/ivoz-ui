@@ -3,6 +3,7 @@ import ApiClient from '../services/api/ApiClient';
 import ApiSpecParser from '../services/api/ApiSpecParser';
 
 interface SpecState {
+  sessionStoragePrefix: string,
   spec: any,
   loading: boolean,
 }
@@ -17,12 +18,13 @@ interface SpecActions {
 export type SpecStore = SpecState & SpecActions;
 
 const specStore = {
+  sessionStoragePrefix: 'app-',
   spec: {},
   loading: false,
 
   // Actions
   setSpec: action<SpecState, any>((state: any, spec: any) => {
-    sessionStorage.setItem('apiSpec', JSON.stringify(spec));
+    sessionStorage.setItem(`${state.sessionStoragePrefix}apiSpec`, JSON.stringify(spec));
     state.spec = new ApiSpecParser().parse(spec);
   }),
   setLoading: action<SpecState>((state: any) => {
@@ -45,7 +47,7 @@ const specStore = {
 
       return new Promise((resolve, reject) => {
 
-        const storedSpec = sessionStorage.getItem('apiSpec');
+        const storedSpec = sessionStorage.getItem(`${state.sessionStoragePrefix}apiSpec`);
         if (storedSpec) {
           actions.setSpec(
             JSON.parse(storedSpec)

@@ -3,6 +3,7 @@ import ApiClient from '../services/api/ApiClient';
 import { IvozStore } from '../index';
 
 interface AuthState {
+  sessionStoragePrefix: string,
   token: string | null,
   refreshToken: string | null,
 }
@@ -17,6 +18,7 @@ interface AuthActions {
 export type AuthStore = AuthActions & AuthState;
 
 const auth: AuthStore = {
+  sessionStoragePrefix: 'app-',
   token: null,
   refreshToken: null,
 
@@ -24,10 +26,10 @@ const auth: AuthStore = {
   setToken: action<AuthState, string | null>((state, token) => {
 
     if (token) {
-      sessionStorage.setItem('token', token);
+      sessionStorage.setItem(`${state.sessionStoragePrefix}token`, token);
       ApiClient.setToken(token);
     } else {
-      sessionStorage.removeItem('token');
+      sessionStorage.removeItem(`${state.sessionStoragePrefix}token`);
     }
 
     state.token = token;
@@ -36,23 +38,25 @@ const auth: AuthStore = {
   setRefreshToken: action<AuthState, string | null>((state, refreshToken) => {
 
     if (refreshToken) {
-      sessionStorage.setItem('refreshToken', refreshToken);
+      sessionStorage.setItem(`${state.sessionStoragePrefix}refreshToken`, refreshToken);
     } else {
-      sessionStorage.removeItem('refreshToken');
+      sessionStorage.removeItem(`${state.sessionStoragePrefix}refreshToken`);
     }
 
     state.refreshToken = refreshToken;
   }),
 
   // thunks
-  init: thunk<AuthStore>(async (actions) => {
+  init: thunk<AuthStore>(async (actions, undefinned, { getState }) => {
+    const sessionStoragePrefix = getState().sessionStoragePrefix;
     actions.setToken(
-      sessionStorage.getItem('token') as string
+      sessionStorage.getItem(`${sessionStoragePrefix}token`) as string
     );
   }),
 
-  resetToken: thunk<AuthStore, undefined, unknown, IvozStore>(async (actions) => {
-    sessionStorage.removeItem('token');
+  resetToken: thunk<AuthStore, undefined, unknown, IvozStore>(async (actions, undefinned, { getState }) => {
+    const sessionStoragePrefix = getState().sessionStoragePrefix;
+    sessionStorage.removeItem(`${sessionStoragePrefix}token`);
     actions.setToken(null);
   }),
 };

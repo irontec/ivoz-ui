@@ -70,7 +70,7 @@ export interface ScalarProperty {
     visualToggle?: visualToggleValue
     label: string | React.ReactElement<any>,
     prefix?: string | React.ReactElement<any>,
-    component?: PropertyCustomFunctionComponent<any>,
+    component?: PropertyCustomFunctionComponent<any> | React.ComponentClass<any>,
     required: boolean,
     pattern?: RegExp,
     helpText?: string | React.ReactElement<any>,

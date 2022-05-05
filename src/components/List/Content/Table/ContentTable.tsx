@@ -82,13 +82,13 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     <ViewRowButton row={row} path={path} />
                   </ChildDecorator>
                 )}
+                <ChildEntityLinks childEntities={childEntities} entityService={entityService} row={row} />
+                &nbsp;
                 {acl.delete && (
                   <ChildDecorator routeMapItem={deleteMapItem} row={row}>
                     <DeleteRowButton row={row} entityService={entityService} />
                   </ChildDecorator>
                 )}
-                &nbsp;
-                <ChildEntityLinks childEntities={childEntities} entityService={entityService} row={row} />
               </StyledActionsTableCell>
             </TableRow>
           );

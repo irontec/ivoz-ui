@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import { useStoreActions, useStoreState } from '../store';
 import { useFormik } from 'formik';
@@ -12,6 +12,7 @@ import SaveButton from "./shared/Button/SaveButton";
 import findRoute from "../router/findRoute";
 import { RouteMap } from '../router/routeMapParser';
 import { EntityFormType } from "../entities/DefaultEntityBehavior";
+import useRememberedValues from "./shared/useRememberedValues";
 
 type CreateProps = RouteComponentProps<Record<string, string>> & EntityInterface & {
   entityService: EntityService,
@@ -108,6 +109,19 @@ const Create = (props: CreateProps & RouteComponentProps) => {
       } catch { }
     },
   });
+
+  const rememberedValues = useRememberedValues(
+    formik
+  );
+
+  useEffect(
+    () => {
+      for (const idx in rememberedValues) {
+        formik.setFieldValue(idx, rememberedValues[idx]);
+      }
+    },
+    [rememberedValues]
+  );
 
   const errorList: { [k: string]: JSX.Element } = {};
   for (const idx in validationError) {

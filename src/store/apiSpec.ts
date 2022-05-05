@@ -29,7 +29,7 @@ const specStore = {
   }),
 
   setSpec: action<SpecState, any>((state: any, spec: any) => {
-    sessionStorage.setItem(`${state.sessionStoragePrefix}apiSpec`, JSON.stringify(spec));
+    localStorage.setItem(`${state.sessionStoragePrefix}apiSpec`, JSON.stringify(spec));
     state.spec = new ApiSpecParser().parse(spec);
   }),
 
@@ -54,7 +54,7 @@ const specStore = {
 
       return new Promise((resolve, reject) => {
 
-        const storedSpec = sessionStorage.getItem(`${state.sessionStoragePrefix}apiSpec`);
+        const storedSpec = localStorage.getItem(`${state.sessionStoragePrefix}apiSpec`);
         if (storedSpec) {
           actions.setSpec(
             JSON.parse(storedSpec)

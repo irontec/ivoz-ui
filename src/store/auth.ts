@@ -31,10 +31,10 @@ const auth: AuthStore = {
   setToken: action<AuthState, string | null>((state, token) => {
 
     if (token) {
-      sessionStorage.setItem(`${state.sessionStoragePrefix}token`, token);
+      localStorage.setItem(`${state.sessionStoragePrefix}token`, token);
       ApiClient.setToken(token);
     } else {
-      sessionStorage.removeItem(`${state.sessionStoragePrefix}token`);
+      localStorage.removeItem(`${state.sessionStoragePrefix}token`);
     }
 
     state.token = token;
@@ -43,9 +43,9 @@ const auth: AuthStore = {
   setRefreshToken: action<AuthState, string | null>((state, refreshToken) => {
 
     if (refreshToken) {
-      sessionStorage.setItem(`${state.sessionStoragePrefix}refreshToken`, refreshToken);
+      localStorage.setItem(`${state.sessionStoragePrefix}refreshToken`, refreshToken);
     } else {
-      sessionStorage.removeItem(`${state.sessionStoragePrefix}refreshToken`);
+      localStorage.removeItem(`${state.sessionStoragePrefix}refreshToken`);
     }
 
     state.refreshToken = refreshToken;
@@ -55,13 +55,13 @@ const auth: AuthStore = {
   init: thunk<AuthStore>(async (actions, undefinned, { getState }) => {
     const sessionStoragePrefix = getState().sessionStoragePrefix;
     actions.setToken(
-      sessionStorage.getItem(`${sessionStoragePrefix}token`) as string
+      localStorage.getItem(`${sessionStoragePrefix}token`) as string
     );
   }),
 
   resetToken: thunk<AuthStore, undefined, unknown, IvozStore>(async (actions, undefinned, { getState }) => {
     const sessionStoragePrefix = getState().sessionStoragePrefix;
-    sessionStorage.removeItem(`${sessionStoragePrefix}token`);
+    localStorage.removeItem(`${sessionStoragePrefix}token`);
     actions.setToken(null);
   }),
 };

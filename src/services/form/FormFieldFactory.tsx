@@ -19,7 +19,7 @@ export default class FormFieldFactory {
 
     constructor(
         private entityService: EntityService,
-        private formik: useFormikType,
+        public formik: useFormikType,
         private changeHandler: (event: FormOnChangeEvent) => void,
         private handleBlur: (event: React.FocusEvent) => void,
     ) {

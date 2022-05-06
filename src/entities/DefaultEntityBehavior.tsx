@@ -478,7 +478,7 @@ const Form: EntityFormType = (props) => {
                                 }
 
                                 return (
-                                    <FormField
+                                    <FormFieldMemo
                                         key={idx}
                                         columnName={columnName}
                                         fkChoices={fkChoices}
@@ -543,8 +543,41 @@ export const FormField: EntityFormFieldType = (props) => {
             {formFieldFactory.getFormField(columnName, choices, readOnly)}
         </Grid>
     );
-
 }
+
+export const FormFieldMemo = React.memo(
+    FormField,
+    (prev: EntityFormFieldProps, next: EntityFormFieldProps): boolean => {
+
+        const columnName = prev.columnName;
+
+        const prevFkChoices = prev.fkChoices
+            ? prev.fkChoices[columnName]
+            : null;
+
+        const nextFkChoices = next.fkChoices
+            ? next.fkChoices[columnName]
+            : null;
+
+        const prevReadOnlyProperties = prev.readOnlyProperties
+            ? prev.readOnlyProperties[columnName]
+            : null;
+
+        const nextReadOnlyProperties = next.readOnlyProperties
+            ? next.readOnlyProperties[columnName]
+            : null;
+
+        const prevFormik = prev.formFieldFactory.formik;
+        const nextFormik = next.formFieldFactory.formik;
+
+        return prev.columnName === next.columnName
+            && prevFkChoices === nextFkChoices
+            && prevReadOnlyProperties === nextReadOnlyProperties
+            && prevFormik.values[columnName] === nextFormik.values[columnName]
+            && prevFormik.touched[columnName] === nextFormik.touched[columnName]
+            && prevFormik.errors[columnName] === nextFormik.errors[columnName];
+    }
+);
 
 const View = (props: ViewProps): JSX.Element | null => {
 

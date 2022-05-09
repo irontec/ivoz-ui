@@ -83,6 +83,11 @@ export default function ContentFilterSelector(props: ContentFilterRowProps): JSX
         (valueBoxSpec as FkProperty).$ref = column.$ref;
     } else if (column.enum) {
         (valueBoxSpec as ScalarProperty).enum = column.enum;
+    } else if (column.type === 'boolean') {
+        (valueBoxSpec as ScalarProperty).enum = {
+            'true': _('True'),
+            'false': _('False'),
+        };
     }
 
     const initialValues: CriteriaFilterValue = {
@@ -97,7 +102,7 @@ export default function ContentFilterSelector(props: ContentFilterRowProps): JSX
 
             const response: any = {};
             const emptyValue = values.value === '' || values.value === undefined;
-            if (emptyValue && values.type !== 'exact') {
+            if (emptyValue && values.type !== 'exact' && values.type !== 'exists') {
                 response.value = _('required value');
             }
 

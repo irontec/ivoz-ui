@@ -14,7 +14,7 @@ import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material';
 
 export type OrderFilterType = string;
-export type SearchFilterType = OrderFilterType | '' | 'exists' | 'partial' | 'start' | 'end' | 'in' | 'exact' | 'eq' | 'neq' | 'lt' | 'lte' | 'gt' | 'gte';
+export type SearchFilterType = OrderFilterType | '' | 'exists' | 'partial' | 'start' | 'end' | 'in' | 'exact' | 'eq' | 'neq' | 'lt' | 'lte' | 'gt' | 'gte' | 'between';
 
 interface FilterIconFactoryProps {
     name: SearchFilterType,
@@ -80,6 +80,8 @@ export const getFilterIcon = (name: string): OverridableComponent<SvgIconTypeMap
         case 'after':
         case 'gte':
             return GreaterThanEqual;
+        case 'between':
+            return Contains;
         default:
             const error = { error: `Icon ${name} was not found` };
             throw error;
@@ -98,6 +100,7 @@ export const getFilterLabel = (value: string): JSX.Element => {
         "partial": _("Contains"),
         "end": _("Ends with"),
         "gt": _("Is greater than"),
+        "between": _("Between"),
         "gte": _("Is greater than equal"),
         'after': _("Is greater than equal"),
         'strictly_after': _("Is greater than"),

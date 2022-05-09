@@ -425,6 +425,8 @@ export default class EntityService {
 
                 if (name.indexOf('[]') >= 0) {
                     modifier = 'in';
+                } else if (parameters[idx].type === 'boolean') {
+                    modifier = '';
                 } else {
                     modifier = parameters[idx].type === 'string'
                         ? 'exact'

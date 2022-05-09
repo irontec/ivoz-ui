@@ -28,16 +28,9 @@ export const criteriaToArray = (where: CriteriaFilterValues): Array<string> => {
                 `${name}[${type}]=${value}`
             );
         } else {
-
-            if (name.indexOf('_') === 0) {
-                searchArguments.push(
-                    `${name}=${value}`
-                );
-            } else {
-                searchArguments.push(
-                    `${name}[]=${value}`
-                );
-            }
+            searchArguments.push(
+                `${name}=${value}`
+            );
         }
     }
 

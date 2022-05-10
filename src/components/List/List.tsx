@@ -130,7 +130,7 @@ const List = function (props: ListProps) {
             let orderBy = currentQueryParams.find(
                 (str: string) => str.indexOf('_order[') === 0
             );
-            if (!orderBy) {
+            if (!orderBy && entityService.getOrderBy() !== '') {
                 orderBy = encodeURI(
                     `_order[${entityService.getOrderBy()}]=${entityService.getOrderDirection()}`
                 );

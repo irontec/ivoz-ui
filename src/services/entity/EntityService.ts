@@ -340,7 +340,7 @@ export default class EntityService {
     }
 
     public getOrderBy(): string {
-        return this.entityConfig?.defaultOrderBy || 'id';
+        return this.entityConfig?.defaultOrderBy || '';
     }
 
     public getOrderDirection(): OrderDirection {

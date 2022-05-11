@@ -71,6 +71,7 @@ export interface ScalarProperty {
     label: string | React.ReactElement<any>,
     prefix?: string | React.ReactElement<any>,
     component?: PropertyCustomFunctionComponent<any> | React.ComponentClass<any>,
+    memoize?: boolean,
     required: boolean,
     pattern?: RegExp,
     helpText?: string | React.ReactElement<any>,
@@ -85,6 +86,7 @@ export interface FkProperty {
     null?: string | React.ReactElement<any>,
     required: boolean,
     component?: PropertyCustomFunctionComponent<any>,
+    memoize?: boolean,
     helpText?: string,
 }
 

@@ -550,6 +550,11 @@ export const FormFieldMemo = React.memo(
     (prev: EntityFormFieldProps, next: EntityFormFieldProps): boolean => {
 
         const columnName = prev.columnName;
+        const column = prev.formFieldFactory.getProperty(columnName);
+
+        if (column.memoize === false) {
+            return false;
+        }
 
         const prevFkChoices = prev.fkChoices
             ? prev.fkChoices[columnName]

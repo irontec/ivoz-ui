@@ -46,7 +46,7 @@ const api: ApiStore = {
 
     actions.sumRequest();
     actions.setErrorMsg(null);
-    const { path, params, successCallback, cancelToken } = payload;
+    const { path, params, successCallback, cancelToken, silenceErrors } = payload;
 
     try {
       const resp = await ApiClient.get(
@@ -59,7 +59,10 @@ const api: ApiStore = {
       return resp;
 
     } catch (error: any) {
-      actions.setErrorMsg(error?.statusText);
+
+      if (!silenceErrors) {
+        actions.setErrorMsg(error?.statusText);
+      }
       handleApiErrors(error as ApiError, getStoreActions);
 
     } finally {
@@ -68,7 +71,7 @@ const api: ApiStore = {
   }),
   download: thunk(async (actions: any, payload: apiGetRequestParams, { getStoreActions }) => {
 
-    const { path, params, successCallback, cancelToken } = payload;
+    const { path, params, successCallback, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
@@ -80,7 +83,9 @@ const api: ApiStore = {
         cancelToken
       );
     } catch (error: any) {
-      actions.setErrorMsg(error?.statusText);
+      if (!silenceErrors) {
+        actions.setErrorMsg(error?.statusText);
+      }
       handleApiErrors(error as ApiError, getStoreActions);
 
     } finally {
@@ -93,7 +98,7 @@ const api: ApiStore = {
   ////////////////////////////////////////
   post: thunk(async (actions: any, payload: apiPostRequestParams, { getStoreActions }) => {
 
-    const { path, values, contentType, cancelToken } = payload;
+    const { path, values, contentType, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
@@ -105,8 +110,10 @@ const api: ApiStore = {
         cancelToken
       );
     } catch (error: any) {
-      const msg = error?.data?.detail || error?.statusText;
-      actions.setErrorMsg(msg);
+      if (!silenceErrors) {
+        const msg = error?.data?.detail || error?.statusText;
+        actions.setErrorMsg(msg);
+      }
       handleApiErrors(error as ApiError, getStoreActions);
 
     } finally {
@@ -118,7 +125,7 @@ const api: ApiStore = {
   ////////////////////////////////////////
   put: thunk(async (actions: any, payload: apiPutRequestParams, { getStoreActions }) => {
 
-    const { path, values, cancelToken } = payload;
+    const { path, values, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
@@ -129,8 +136,10 @@ const api: ApiStore = {
         cancelToken
       );
     } catch (error: any) {
-      const msg = error?.data?.detail || error?.statusText;
-      actions.setErrorMsg(msg);
+      if (!silenceErrors) {
+        const msg = error?.data?.detail || error?.statusText;
+        actions.setErrorMsg(msg);
+      }
       handleApiErrors(error as ApiError, getStoreActions);
 
     } finally {
@@ -142,7 +151,7 @@ const api: ApiStore = {
   ////////////////////////////////////////
   delete: thunk(async (actions: any, payload: apiDeleteRequestParams, { getStoreActions }) => {
 
-    const { path, cancelToken } = payload;
+    const { path, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
@@ -152,8 +161,10 @@ const api: ApiStore = {
         cancelToken
       );
     } catch (error: any) {
-      const msg = error?.data?.detail || error?.statusText;
-      actions.setErrorMsg(msg);
+      if (!silenceErrors) {
+        const msg = error?.data?.detail || error?.statusText;
+        actions.setErrorMsg(msg);
+      }
       handleApiErrors(error as ApiError, getStoreActions);
 
     } finally {
@@ -164,30 +175,28 @@ const api: ApiStore = {
 
 export default api;
 
-interface apiGetRequestParams {
+interface requestParms {
   path: string,
+  cancelToken?: CancelToken,
+  silenceErrors?: boolean
+}
+
+interface apiGetRequestParams extends requestParms {
   params: KeyValList,
   successCallback: (data: Record<string, any>, headers: Record<string, any>) => Promise<any>,
-  cancelToken?: CancelToken,
 }
 
-interface apiPostRequestParams {
-  path: string,
+interface apiPostRequestParams extends requestParms {
   values: FormData | EntityValues,
   contentType: string,
-  cancelToken?: CancelToken,
 }
 
-interface apiPutRequestParams {
-  path: string,
+interface apiPutRequestParams extends requestParms {
   values: FormData | EntityValues,
-  cancelToken?: CancelToken,
 }
 
-interface apiDeleteRequestParams {
-  path: string,
+interface apiDeleteRequestParams extends requestParms {
   successCallback: () => Promise<any>,
-  cancelToken?: CancelToken,
 }
 
 interface ApiState {

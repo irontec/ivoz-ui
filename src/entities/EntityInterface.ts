@@ -40,7 +40,10 @@ export type ForeignKeyGetterTypeArgs = {
     skip?: Array<string>,
 }
 export type ForeignKeyGetterType = (props: ForeignKeyGetterTypeArgs) => Promise<any>;
-export type FetchFksCallback = (data: { [key: string]: any }) => void;
+export declare type FetchFksCallback = (
+    choices: Record<string|number, unknown>,
+    fullResponse?: undefined | Record<string|number, unknown>
+) => void;
 export type SelectOptionsArgs = {
     callback: FetchFksCallback,
     cancelToken?: CancelToken,

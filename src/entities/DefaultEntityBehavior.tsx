@@ -572,6 +572,14 @@ export const FormFieldMemo = React.memo(
             ? next.readOnlyProperties[columnName]
             : null;
 
+        const prevVisualToggle = prev.visualToggles
+            ? prev.visualToggles[columnName]
+            : null;
+
+        const nextVisualToggle = next.visualToggles
+            ? next.visualToggles[columnName]
+            : null;
+
         const prevFormik = prev.formFieldFactory.formik;
         const nextFormik = next.formFieldFactory.formik;
 
@@ -580,7 +588,8 @@ export const FormFieldMemo = React.memo(
             && prevReadOnlyProperties === nextReadOnlyProperties
             && prevFormik.values[columnName] === nextFormik.values[columnName]
             && prevFormik.touched[columnName] === nextFormik.touched[columnName]
-            && prevFormik.errors[columnName] === nextFormik.errors[columnName];
+            && prevFormik.errors[columnName] === nextFormik.errors[columnName]
+            && prevVisualToggle === nextVisualToggle;
     }
 );
 

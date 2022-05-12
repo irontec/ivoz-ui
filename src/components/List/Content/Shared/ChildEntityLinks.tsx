@@ -2,7 +2,7 @@ import { Tooltip } from '@mui/material';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { isActionItem, RouteMapItem } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
-import { StyledTableRowEntityCta } from '../Table/ContentTable.styles';
+import { StyledTableRowCustomCta, StyledTableRowEntityCta } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
 
 type ChildEntityLinksProps = RouteComponentProps & {
@@ -23,7 +23,14 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
 
             if (isActionItem(routeMapItem)) {
               return (
-                <routeMapItem.action />
+                <StyledTableRowCustomCta key={key}>
+                  <routeMapItem.action
+                    match={match}
+                    row={row}
+                    entityService={entityService}
+                  />
+                </StyledTableRowCustomCta>
+
               );
             }
 

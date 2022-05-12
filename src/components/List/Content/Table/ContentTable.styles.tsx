@@ -29,6 +29,18 @@ export const StyledTableRowCta = styled(TableRowLink)(
   }
 );
 
+export const StyledTableRowCustomCta = styled('a')(
+  () => {
+    return {
+      ...linkSharedStyles,
+      textDecoration: 'none',
+      '& > *': {
+        marginRight: '5px',
+      }
+    };
+  }
+);
+
 export const StyledTableRowEntityCta = styled(TableRowLink)(
   ({ theme }: { theme: Theme }) => {
     return {

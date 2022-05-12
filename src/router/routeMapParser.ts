@@ -1,5 +1,7 @@
 import React from "react";
+import EntityService from "../services/entity/EntityService";
 import EntityInterface from "../entities/EntityInterface";
+import { match } from "react-router-dom";
 
 export interface EntityItem {
     entity: EntityInterface,
@@ -9,8 +11,16 @@ export interface EntityItem {
     children?: Array<RouteMapItem>,
 }
 
+export interface ActionItemProps {
+    row: Record<string, any>,
+    entityService: EntityService,
+    match: match<{}>
+}
+
+export type ActionFunctionComponent = React.FunctionComponent<ActionItemProps>;
+
 export interface ActionItem {
-    action: React.FunctionComponent<unknown>,
+    action: ActionFunctionComponent,
 }
 
 export type RouteMapItem = EntityItem | ActionItem;

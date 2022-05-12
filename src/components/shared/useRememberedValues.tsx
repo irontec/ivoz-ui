@@ -6,10 +6,10 @@ type Values = Record<string, string | number>;
 
 interface StoredValuesInterface {
   url: string,
-  values: Record<string, string | number>
+  values: Values
 }
 
-const useRememberedValues = function (formik: useFormikType): Record<string, string | number> {
+const useRememberedValues = function (formik: useFormikType): Values {
 
   const SESSION_STORAGE_KEY = 'form-values';
 
@@ -20,8 +20,16 @@ const useRememberedValues = function (formik: useFormikType): Record<string, str
     sessionStorage.getItem(SESSION_STORAGE_KEY) as string
   );
 
+  const reloadedPage = window
+    ?.performance
+    ?.getEntriesByType('navigation')
+    .filter((nav) => nav.name === window?.location.href)
+    .map((nav) => (nav as PerformanceNavigationTiming).type)
+    .includes('reload');
+
   const applyStoresValues =
-    storedValues
+    reloadedPage
+    && storedValues
     && storedValues.url === match.url
     && JSON.stringify(storedValues.values) !== JSON.stringify(response);
 
@@ -33,17 +41,6 @@ const useRememberedValues = function (formik: useFormikType): Record<string, str
     () => {
 
       const onUnload = () => {
-
-        const reloadingPage = window
-          ?.performance
-          ?.getEntriesByType('navigation')
-          .filter((nav) => nav.name === window?.location.href)
-          .map((nav) => (nav as PerformanceNavigationTiming).type)
-          .includes('reload')
-
-        if (!reloadingPage) {
-          return;
-        }
 
         const changedValues: Record<string, string | number> = {};
         for (const idx in formik.values) {

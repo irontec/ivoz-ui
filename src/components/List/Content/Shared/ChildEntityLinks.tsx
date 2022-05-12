@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { RouteMapItem } from '../../../../router/routeMapParser';
+import { isActionItem, RouteMapItem } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
 import { StyledTableRowEntityCta } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
@@ -20,6 +20,13 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
   return (
     <>
         {childEntities.map((routeMapItem, key: number) => {
+
+            if (isActionItem(routeMapItem)) {
+              return (
+                <routeMapItem.action />
+              );
+            }
+
             const Icon = routeMapItem.entity?.icon as React.FunctionComponent;
             const title = routeMapItem.entity?.title as JSX.Element;
             const link = buildLink(routeMapItem.route || '', match, row.id);

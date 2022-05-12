@@ -1,7 +1,7 @@
-import { RouteMap, RouteMapItem } from './routeMapParser';
+import { isActionItem, RouteMap, RouteMapItem, EntityItem } from './routeMapParser';
 import { match } from 'react-router-dom';
 
-const matchRoute = (route: RouteMapItem, match: match, includeChildren = false): RouteMapItem | undefined => {
+const matchRoute = (route: EntityItem, match: match, includeChildren = false): EntityItem | undefined => {
 
     const routePaths = [
         route.route,
@@ -21,10 +21,15 @@ const matchRoute = (route: RouteMapItem, match: match, includeChildren = false):
     }
 };
 
-const _filterRoutePathItems = (route: RouteMapItem, match: match): RouteMapItem | undefined => {
+const _filterRoutePathItems = (route: RouteMapItem, match: match): EntityItem | undefined => {
+
+    if(isActionItem(route)) {
+        return undefined;
+    }
 
     if (route.children) {
         for (const child of route.children) {
+
             const resp = _filterRoutePathItems(child, match);
             if (resp) {
                 return {
@@ -40,7 +45,7 @@ const _filterRoutePathItems = (route: RouteMapItem, match: match): RouteMapItem 
     return matchRoute(route, match);
 }
 
-export const filterRouteMapPath = (routeMap: RouteMap, match: match): RouteMapItem | undefined => {
+export const filterRouteMapPath = (routeMap: RouteMap, match: match): EntityItem | undefined => {
 
     for (const item of routeMap) {
         for (const child of item.children) {
@@ -52,7 +57,11 @@ export const filterRouteMapPath = (routeMap: RouteMap, match: match): RouteMapIt
     }
 }
 
-const _findRoute = (route: RouteMapItem, match: match): RouteMapItem | undefined => {
+const _findRoute = (route: RouteMapItem, match: match): EntityItem | undefined => {
+
+    if(isActionItem(route)) {
+        return undefined;
+    }
 
     if (route.children) {
         for (const child of route.children) {
@@ -66,7 +75,7 @@ const _findRoute = (route: RouteMapItem, match: match): RouteMapItem | undefined
     return matchRoute(route, match, true);
 }
 
-const findRoute = (routeMap: RouteMap, match: match): RouteMapItem | undefined => {
+const findRoute = (routeMap: RouteMap, match: match): EntityItem | undefined => {
     for (const item of routeMap) {
         for (const child of item.children) {
             const resp = _findRoute(child, match);

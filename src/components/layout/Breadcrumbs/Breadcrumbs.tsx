@@ -9,7 +9,7 @@ import {
   StyledHomeIcon
 } from './Breadcrumbs.styles';
 import { filterRouteMapPath } from '../../../router/findRoute';
-import { RouteMap, RouteMapItem } from '../../../router/routeMapParser';
+import { RouteMap, RouteMapItem, EntityItem, isActionItem } from '../../../router/routeMapParser';
 
 type RouterProps = RouteComponentProps<any>;
 type BreadcrumbsProps = RouterProps & {
@@ -21,13 +21,18 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
   const { match, routeMap } = props;
   const filteredRouteMapPath = filterRouteMapPath(routeMap, match);
 
-  const routeItems: Array<RouteMapItem> = filteredRouteMapPath?.entity
+  const routeItems: Array<EntityItem> = filteredRouteMapPath?.entity
     ? [{entity: filteredRouteMapPath.entity, route: filteredRouteMapPath.route}]
     : [];
 
   let child = filteredRouteMapPath?.children?.[0];
 
   while(child) {
+
+    if (isActionItem(child)) {
+      break;
+    }
+
     routeItems.push({entity: child.entity, route: child.route});
     child = child.children?.[0];
   }
@@ -61,7 +66,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
           {homeIcon}
         </Tooltip>
       </StyledCollapsedBreadcrumbsLink>
-      {routeItems.map((routeItem: RouteMapItem, key: number) => {
+      {routeItems.map((routeItem, key: number) => {
 
         let to = routeItem.route || '/';
         for (const idx in match.params) {

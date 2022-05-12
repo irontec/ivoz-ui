@@ -2,7 +2,7 @@ import { List, Create, Edit, View } from '../components';
 import ParsedApiSpecInterface from '../services/api/ParsedApiSpecInterface';
 import EntityService from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
-import { RouteMap, RouteMapItem } from './routeMapParser';
+import { isActionItem, RouteMap, RouteMapItem } from './routeMapParser';
 
 export interface EntityList {
     [name: string]: Readonly<EntityInterface>
@@ -24,6 +24,10 @@ const parseRouteMapItems = (
     const routes: Array<RouteSpec> = [];
 
     for (const routeMapItem of items) {
+
+        if (isActionItem(routeMapItem)) {
+            continue;
+        }
 
         const { entity, route, children } = routeMapItem;
         if (!entity || !route) {

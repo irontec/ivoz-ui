@@ -10,7 +10,7 @@ interface ContentTablePaginationProps {
   recordCount: number
 }
 
-export default function Pagination(props: ContentTablePaginationProps): JSX.Element {
+export default function Pagination(props: ContentTablePaginationProps): JSX.Element | null {
   const {
     recordCount
   } = props;
@@ -42,6 +42,10 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
       value
     };
     replaceInQueryStringCriteria(criteria);
+  }
+
+  if (recordCount === 0) {
+    return null;
   }
 
   return (

@@ -38,6 +38,7 @@ const List = function (props: ListProps) {
     });
     const [mounted, cancelToken] = useCancelToken();
 
+    const [ongoingRequest, setOngoingRequest] = useState<boolean>(false);
     const [criteriaIsReady, setCriteriaIsReady] = useState<boolean>(false);
     const queryStringCriteria: CriteriaFilterValues = useStoreState(
         (state) => state.route.queryStringCriteria
@@ -141,10 +142,14 @@ const List = function (props: ListProps) {
                 reqPath += `${glue}${orderBy}`;
             }
 
+            setOngoingRequest(true);
+
             apiGet({
                 path: reqPath,
                 cancelToken,
                 successCallback: async (data: any, headers: any) => {
+
+                    setOngoingRequest(false);
 
                     if (!mounted) {
                         return;
@@ -177,7 +182,7 @@ const List = function (props: ListProps) {
         [
             foreignKeyResolver, entityService, criteriaIsReady,
             path, currentQueryParams, apiGet, reqQuerystring,
-            filterByStr, cancelToken, mounted
+            filterByStr, cancelToken, mounted, setOngoingRequest
         ]
     );
 
@@ -201,6 +206,7 @@ const List = function (props: ListProps) {
             />
             <Pagination
                 recordCount={recordCount}
+                ongoingRequest={ongoingRequest}
             />
             {reqError && <ErrorMessage message={reqError} />}
         </>

@@ -8,11 +8,13 @@ import { CriteriaFilterValue } from './Filter/ContentFilter';
 
 interface ContentTablePaginationProps {
   recordCount: number
+  ongoingRequest: boolean
 }
 
 export default function Pagination(props: ContentTablePaginationProps): JSX.Element | null {
   const {
-    recordCount
+    recordCount,
+    ongoingRequest
   } = props;
 
   const itemsPerPage = useStoreState(
@@ -27,15 +29,32 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
   });
 
   const setItemsPerPage = (value: number) => {
+
+    if (ongoingRequest) {
+      return;
+    }
+
     const criteria: CriteriaFilterValue = {
       name: ROUTE_ITEMS_PER_PAGE_KEY,
       type: '',
       value
     };
     replaceInQueryStringCriteria(criteria);
+
+    const pageCriteria: CriteriaFilterValue = {
+      name: ROUTE_PAGE_KEY,
+      type: '',
+      value: 1
+    };
+    replaceInQueryStringCriteria(pageCriteria);
   };
 
   const setPage = (value: number) => {
+
+    if (ongoingRequest) {
+      return;
+    }
+
     const criteria: CriteriaFilterValue = {
       name: ROUTE_PAGE_KEY,
       type: '',

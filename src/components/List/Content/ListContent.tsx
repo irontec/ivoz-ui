@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { match, useLocation } from 'react-router-dom';
 import { CancelToken } from 'axios';
 import { Box } from '@mui/system';
-import { Tooltip, Fab } from '@mui/material';
+import { Tooltip, Fab, useTheme } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import QueueIcon from '@mui/icons-material/Queue';
 import SearchIcon from '@mui/icons-material/Search';
 import { ContentFilter } from '../../../components/List/Filter/ContentFilter';
@@ -47,6 +48,9 @@ export default function ListContent(props: ListContentProps): JSX.Element {
     setShowFilters(!showFilters);
   };
 
+  const theme = useTheme();
+  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+
   return (
     <React.Fragment>
       <StyledActionButtonContainer>
@@ -78,7 +82,7 @@ export default function ListContent(props: ListContentProps): JSX.Element {
         match={match}
       />
 
-      <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+      {bigScreen && <Box sx={{ display: { xs: 'none', md: 'block' } }}>
         <ContentTable
           entityService={entityService}
           rows={rows}
@@ -86,8 +90,8 @@ export default function ListContent(props: ListContentProps): JSX.Element {
           path={path}
           childEntities={childEntities}
         />
-      </Box>
-      <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+      </Box>}
+      {!bigScreen && <Box sx={{ display: { xs: 'block', md: 'none' } }}>
         <ContentCard
           entityService={entityService}
           rows={rows}
@@ -95,7 +99,7 @@ export default function ListContent(props: ListContentProps): JSX.Element {
           path={path}
           childEntities={childEntities}
         />
-      </Box>
+      </Box>}
     </React.Fragment >
   );
 }

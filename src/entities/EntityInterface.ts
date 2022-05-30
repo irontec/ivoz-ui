@@ -16,10 +16,12 @@ export type ListDecoratorPropsType = {
 
 export type ListDecoratorType = React.FunctionComponent<ListDecoratorPropsType>;
 
-export type ChildDecoratorType = React.FunctionComponent<{
+export interface ChildDecoratorProps {
     routeMapItem: RouteMapItem,
     row: Record<string, any>
-}>;
+}
+
+export type ChildDecoratorType = React.FunctionComponent<ChildDecoratorProps>;
 
 export interface foreignKeyResolverProps {
     data: any,

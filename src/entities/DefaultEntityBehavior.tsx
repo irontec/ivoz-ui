@@ -2,7 +2,7 @@ import * as React from 'react';
 import { EntityValues } from '../services/entity/EntityService';
 import { StoreContainer } from "../store";
 import {
-    ChildDecoratorType, OrderDirection, EntityAclType, FetchFksCallback,
+    ChildDecoratorType, OrderDirection, EntityAclType, FetchFksCallback, ChildDecoratorProps,
 } from './EntityInterface';
 import _ from '../services/translations/translate';
 import { CancelToken } from 'axios';
@@ -48,6 +48,13 @@ export const ChildDecorator: ChildDecoratorType = (props) => {
     return Children as React.ReactElement;
 }
 
+export const ChildDecoratorMemo = React.memo(
+    ChildDecorator,
+    (prev: ChildDecoratorProps, next: ChildDecoratorProps): boolean => {
+        return true;
+    }
+  );
+
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string, value: any }>;
 
 const fetchFks = (endpoint: string, properties: Array<string>, setter: FetchFksCallback, cancelToken?: CancelToken): Promise<unknown> => {
@@ -78,7 +85,7 @@ const DefaultEntityBehavior = {
     properties,
     acl,
     ListDecorator,
-    ChildDecorator,
+    ChildDecorator: ChildDecoratorMemo,
     toStr: (row: EntityValues): string => {
         return (row.id as string || '[*]');
     },

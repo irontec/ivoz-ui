@@ -1,4 +1,6 @@
+import React from 'react';
 import { Table, TableBody, TableRow } from '@mui/material';
+import { PropertySpec, isPropertyFk } from "../../../../services/api/ParsedApiSpecInterface";
 import ContentTableHead from './ContentTableHead';
 import EntityService from 'services/entity/EntityService';
 import { StyledActionsTableCell, StyledTableCell } from './ContentTable.styles';
@@ -8,6 +10,49 @@ import ViewRowButton from '../CTA/ViewRowButton';
 import DeleteRowButton from '../CTA/DeleteRowButton';
 import { RouteMapItem } from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
+
+
+interface TableRowColumnProps {
+  columnName: string,
+  entityService: EntityService,
+  row: Record<string, any>,
+  column: PropertySpec,
+}
+
+const TableRowColumn = (props: TableRowColumnProps) => {
+
+  const {columnName, column, row, entityService} = props;
+
+  return (
+    <StyledTableCell>
+      <ListContentValue
+        columnName={columnName}
+        column={column}
+        row={row}
+        entityService={entityService}
+      />
+    </StyledTableCell>
+  );
+}
+
+const TableRowColumnMemo = React.memo(
+  TableRowColumn,
+  (prev: TableRowColumnProps, next: TableRowColumnProps): boolean => {
+
+      const column = prev.column;
+      const columnName = prev.columnName;
+
+      if (column.memoize === false) {
+          return false;
+      }
+
+      if (isPropertyFk(column)) {
+        return false;
+      }
+
+      return prev.row[columnName] === next.row[columnName];
+  }
+);
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>,
@@ -61,14 +106,13 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                 const column = columns[columnKey];
 
                 return (
-                  <StyledTableCell key={columnKey}>
-                    <ListContentValue
-                      columnName={columnKey}
-                      column={column}
-                      row={row}
-                      entityService={entityService}
-                    />
-                  </StyledTableCell>
+                  <TableRowColumnMemo
+                    key={columnKey}
+                    columnName={columnKey}
+                    column={column}
+                    row={row}
+                    entityService={entityService}
+                  />
                 );
               })}
               <StyledActionsTableCell key="actions">

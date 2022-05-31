@@ -1,63 +1,22 @@
-import React from 'react';
-import { Table, TableBody, TableRow } from '@mui/material';
-import { PropertySpec, isPropertyFk } from "../../../../services/api/ParsedApiSpecInterface";
+import { Button, Table, TableBody, TableRow } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
 import ContentTableHead from './ContentTableHead';
 import EntityService from 'services/entity/EntityService';
 import { StyledActionsTableCell, StyledTableCell } from './ContentTable.styles';
-import ListContentValue from '../ListContentValue';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import DeleteRowButton from '../CTA/DeleteRowButton';
 import { RouteMapItem } from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-
-
-interface TableRowColumnProps {
-  columnName: string,
-  entityService: EntityService,
-  row: Record<string, any>,
-  column: PropertySpec,
-}
-
-const TableRowColumn = (props: TableRowColumnProps) => {
-
-  const {columnName, column, row, entityService} = props;
-
-  return (
-    <StyledTableCell>
-      <ListContentValue
-        columnName={columnName}
-        column={column}
-        row={row}
-        entityService={entityService}
-      />
-    </StyledTableCell>
-  );
-}
-
-const TableRowColumnMemo = React.memo(
-  TableRowColumn,
-  (prev: TableRowColumnProps, next: TableRowColumnProps): boolean => {
-
-      const column = prev.column;
-      const columnName = prev.columnName;
-
-      if (column.memoize === false) {
-          return false;
-      }
-
-      if (isPropertyFk(column)) {
-        return false;
-      }
-
-      return prev.row[columnName] === next.row[columnName];
-  }
-);
+import useMultiselectState from './hook/useMultiselectState';
+import { TableTableColumnMemo } from './ContentTableColumn';
+import { useState } from 'react';
+import { match } from 'react-router-dom';
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>,
   entityService: EntityService,
-  rows: Record<string, any>,
+  rows: Array<Record<string, any>>,
   ignoreColumn: string | undefined,
   path: string,
 }
@@ -65,6 +24,14 @@ interface ContentTableProps {
 const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const { childEntities, entityService, rows, path, ignoreColumn } = props;
+  const [selectedValues, handleChange, setSelectedValues] = useMultiselectState();
+  const [currentQueryString, setCurrentQueryString] = useState(window.location.search);
+
+  if (currentQueryString !== window.location.search) {
+    setCurrentQueryString(window.location.search);
+    setSelectedValues([]);
+  }
+
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
 
@@ -83,21 +50,40 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     route: `${entity.path}/:id`,
   };
 
+  const multiselectActions = Object.values(entity.customActions)
+    .filter(
+      action => action.multiselect
+    )
+    .map(item => item.action);
+
+  const columns = entityService.getCollectionColumns();
+
+  const multiselect = /*entityService.getAcls().delete === true ||*/ multiselectActions.length > 0;
+
   return (
     <Table size="medium" sx={{ "tableLayout": 'fixed' }}>
       <ContentTableHead
         entityService={entityService}
         ignoreColumn={ignoreColumn}
+        multiselect={multiselect}
+        selectAll={(event) => {
+          const target = event.target;
+          const value = target.type === 'checkbox' ? target.checked : target.value;
+          const rowIds = value
+            ? rows.map(row => row.id.toString())
+            : [];
+
+          setSelectedValues(rowIds);
+        }}
       />
       <TableBody>
         {rows.map((row: any, key: any) => {
 
-          const columns = entityService.getCollectionColumns();
           const acl = entityService.getAcls();
 
           return (
             <TableRow hover key={key}>
-              {Object.keys(columns).map((columnKey: string) => {
+              {Object.keys(columns).map((columnKey: string, idx: number) => {
 
                 if (columnKey === ignoreColumn) {
                   return null;
@@ -106,12 +92,15 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                 const column = columns[columnKey];
 
                 return (
-                  <TableRowColumnMemo
+                  <TableTableColumnMemo
                     key={columnKey}
                     columnName={columnKey}
                     column={column}
                     row={row}
                     entityService={entityService}
+                    selectable={multiselect && idx === 0}
+                    selectedValues={selectedValues}
+                    handleChange={handleChange}
                   />
                 );
               })}
@@ -137,7 +126,23 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
             </TableRow>
           );
         })}
-      </TableBody>
+        {multiselect && (
+          <TableRow hover key={'multiselect'}>
+            <StyledTableCell variant='footer' colSpan={Object.values(columns).length}>
+              {false && <Button variant="contained" disabled={selectedValues.length < 1}>
+                <DeleteIcon sx={{color: 'white'}} />
+              </Button>}
+              {multiselectActions.map((Action, key) => {
+                  return (
+                    <Button key={key} variant="contained" disabled={selectedValues.length < 1} sx={{verticalAlign: 'inherit', marginLeft: '10px'}}>
+                      <Action rows={rows} selectedValues={selectedValues} entityService={entityService} match={{} as match<{}>} />
+                    </Button>
+                  );
+              })}
+            </StyledTableCell>
+          </TableRow>
+        )}
+        </TableBody>
     </Table>
   );
 }

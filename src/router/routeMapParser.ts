@@ -12,9 +12,11 @@ export interface EntityItem {
 }
 
 export interface ActionItemProps {
-    row: Record<string, any>,
-    entityService: EntityService,
-    match: match<{}>
+    row?: Record<string, any>;
+    rows?: Array<Record<string, any>>;
+    selectedValues?: Array<string>,
+    entityService: EntityService;
+    match: match<{}>;
 }
 
 export type ActionFunctionComponent = React.FunctionComponent<ActionItemProps>;

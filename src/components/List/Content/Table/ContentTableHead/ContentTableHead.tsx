@@ -6,18 +6,23 @@ import EntityService from '../../../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../../../store';
 import { ROUTE_ORDER_KEY } from '../../../../../store/route';
 import { CriteriaFilterValue } from '../../../Filter/ContentFilter';
+import { handleMultiselectChangeType } from '../hook/useMultiselectState';
 import { StyledTableSortLabelVisuallyHidden } from './ContentTableHead.styles';
 
 interface ContentTableHead {
     entityService: EntityService,
     ignoreColumn: string | undefined,
+    multiselect: boolean,
+    selectAll: handleMultiselectChangeType,
 }
 
 const ContentTableHead = function (props: ContentTableHead): JSX.Element {
 
   const {
     entityService,
-    ignoreColumn
+    ignoreColumn,
+    multiselect,
+    selectAll,
   } = props;
 
   const columns = entityService.getCollectionColumns();
@@ -51,7 +56,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
   return (
     <TableHead>
       <TableRow>
-        {Object.keys(columns).map((key: string) => {
+        {Object.keys(columns).map((key: string, idx: number) => {
 
           if (key === ignoreColumn) {
               return null;
@@ -64,6 +69,13 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
               padding='normal'
               sortDirection={order?.name === key ? direction : false}
             >
+              {idx === 0 && multiselect && (
+                  <input
+                    type="checkbox"
+                    style={{marginRight: '10px'}}
+                    onChange={selectAll}
+                  />
+              )}
               {!isPropertyFk(columns[key]) && <TableSortLabel
                 active={order?.name === key}
                 direction={order?.direction}

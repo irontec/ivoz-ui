@@ -89,7 +89,8 @@ export const StyledDeleteIcon = styled(_DeleteIcon)(
 export const StyledCheckBoxIcon = styled(CheckBoxIcon)(
   () => {
     return {
-      color: '#aaa'
+      color: '#aaa',
+      verticalAlign: 'bottom',
     };
   }
 );
@@ -104,8 +105,8 @@ export const StyledCheckBoxOutlineBlankIcon = styled(CheckBoxOutlineBlankIcon)(
 
 export const StyledTableCell = styled(
   (props) => {
-    const { children, className, key } = props;
-    return (<TableCell key={key} className={className}>{children}</TableCell>);
+    const { children, className, key, ...rest } = props;
+    return (<TableCell key={key} className={className} {...rest}>{children}</TableCell>);
   }
 )(
   () => {

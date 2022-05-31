@@ -5,7 +5,7 @@ import EntityService, { EntityValues, VisualToggleStates } from "../services/ent
 import React from "react";
 import { match } from "react-router-dom";
 import { EntityFormProps } from "./DefaultEntityBehavior";
-import { RouteMapItem } from '../router/routeMapParser';
+import { ActionItem, RouteMapItem } from '../router/routeMapParser';
 
 export type ListDecoratorPropsType = {
     field: string,
@@ -81,6 +81,7 @@ export enum OrderDirection {
     desc = 'desc',
 }
 
+export type CustomActionsType = Record<string, ActionItem>;
 
 export default interface EntityInterface {
     initialValues: any,
@@ -94,6 +95,7 @@ export default interface EntityInterface {
     View: ViewType,
     ListDecorator: ListDecoratorType,
     ChildDecorator: ChildDecoratorType,
+    customActions: CustomActionsType,
     acl: EntityAclType,
     iden: string,
     title: string | JSX.Element,

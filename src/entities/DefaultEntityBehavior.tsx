@@ -86,6 +86,7 @@ const DefaultEntityBehavior = {
     acl,
     ListDecorator,
     ChildDecorator: ChildDecoratorMemo,
+    customActions: {},
     toStr: (row: EntityValues): string => {
         return (row.id as string || '[*]');
     },

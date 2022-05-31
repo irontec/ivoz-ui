@@ -21,10 +21,10 @@ export type ActionFunctionComponent = React.FunctionComponent<ActionItemProps>;
 
 export interface ActionItem {
     action: ActionFunctionComponent,
+    multiselect?: boolean,
 }
 
 export type RouteMapItem = EntityItem | ActionItem;
-
 
 export type RouteMapBlock<T extends RouteMapItem = RouteMapItem>= {
     label: string | JSX.Element | null,

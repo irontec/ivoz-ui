@@ -7,11 +7,8 @@ const useMultiselectState = () => {
 
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
-  const resetValues = () => {
-    setSelectedValues([]);
-  };
-
   const handleChange: handleMultiselectChangeType = (event) => {
+
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;

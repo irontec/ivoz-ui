@@ -91,6 +91,7 @@ export const StyledCheckBoxIcon = styled(CheckBoxIcon)(
     return {
       color: '#aaa',
       verticalAlign: 'bottom',
+      fontSize: '1.3em',
     };
   }
 );
@@ -98,7 +99,8 @@ export const StyledCheckBoxIcon = styled(CheckBoxIcon)(
 export const StyledCheckBoxOutlineBlankIcon = styled(CheckBoxOutlineBlankIcon)(
   () => {
     return {
-      color: '#aaa'
+      color: '#aaa',
+      fontSize: '1.3em',
     };
   }
 );

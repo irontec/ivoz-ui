@@ -1,6 +1,6 @@
 import { Tooltip } from '@mui/material';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { isActionItem, RouteMapItem } from '../../../../router/routeMapParser';
+import { isActionItem, isSingleRowActionItem, isEntityItem, RouteMapItem } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
 import { StyledTableRowCustomCta, StyledTableRowEntityCta } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
@@ -21,7 +21,7 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
     <>
         {childEntities.map((routeMapItem, key: number) => {
 
-            if (isActionItem(routeMapItem)) {
+            if (isActionItem(routeMapItem) && isSingleRowActionItem(routeMapItem, routeMapItem.action)) {
               return (
                 <StyledTableRowCustomCta key={key}>
                   <routeMapItem.action
@@ -34,8 +34,12 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
               );
             }
 
-            const Icon = routeMapItem.entity?.icon as React.FunctionComponent;
-            const title = routeMapItem.entity?.title as JSX.Element;
+            if (!isEntityItem(routeMapItem)) {
+              return null;
+            }
+
+            const Icon = routeMapItem.entity.icon as React.FunctionComponent;
+            const title = routeMapItem.entity.title as JSX.Element;
             const link = buildLink(routeMapItem.route || '', match, row.id);
 
             return (

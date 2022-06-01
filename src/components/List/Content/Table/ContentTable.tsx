@@ -6,12 +6,11 @@ import { StyledActionsTableCell, StyledTableCell } from './ContentTable.styles';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import DeleteRowButton from '../CTA/DeleteRowButton';
-import { RouteMapItem } from '../../../../router/routeMapParser';
+import { RouteMapItem, MultiSelectFunctionComponent } from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
 import useMultiselectState from './hook/useMultiselectState';
 import { TableTableColumnMemo } from './ContentTableColumn';
 import { useState } from 'react';
-import { match } from 'react-router-dom';
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>,
@@ -54,7 +53,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     .filter(
       action => action.multiselect
     )
-    .map(item => item.action);
+    .map(item => item.action as MultiSelectFunctionComponent );
 
   const columns = entityService.getCollectionColumns();
 
@@ -80,12 +79,14 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
         {rows.map((row: any, key: any) => {
 
           const acl = entityService.getAcls();
+          let selectableIdx = 0;
 
           return (
             <TableRow hover key={key}>
               {Object.keys(columns).map((columnKey: string, idx: number) => {
 
                 if (columnKey === ignoreColumn) {
+                  selectableIdx++;
                   return null;
                 }
 
@@ -98,7 +99,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     column={column}
                     row={row}
                     entityService={entityService}
-                    selectable={multiselect && idx === 0}
+                    selectable={multiselect && idx === selectableIdx}
                     selectedValues={selectedValues}
                     handleChange={handleChange}
                   />
@@ -134,8 +135,18 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
               </Button>}
               {multiselectActions.map((Action, key) => {
                   return (
-                    <Button key={key} variant="contained" disabled={selectedValues.length < 1} sx={{verticalAlign: 'inherit', marginLeft: '10px'}}>
-                      <Action rows={rows} selectedValues={selectedValues} entityService={entityService} match={{} as match<{}>} />
+                    <Button
+                      key={key}
+                      variant="contained"
+                      disabled={selectedValues.length < 1}
+                      sx={{verticalAlign: 'inherit', marginLeft: '10px', padding: 0}}
+                    >
+                      <Action
+                        style={{padding: '6px 18px 0'}}
+                        rows={rows}
+                        selectedValues={selectedValues}
+                        entityService={entityService}
+                      />
                     </Button>
                   );
               })}

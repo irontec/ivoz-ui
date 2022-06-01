@@ -12,17 +12,35 @@ export interface EntityItem {
 }
 
 export interface ActionItemProps {
-    row?: Record<string, any>;
-    rows?: Array<Record<string, any>>;
-    selectedValues?: Array<string>,
+    row: Record<string, any>;
     entityService: EntityService;
     match: match<{}>;
 }
 
-export type ActionFunctionComponent = React.FunctionComponent<ActionItemProps>;
+export interface MultiSelectActionItemProps {
+    rows: Array<Record<string, any>>;
+    selectedValues: Array<string>,
+    entityService: EntityService;
+    style: Record<string, string|number>,
+}
+
+export type CustomActionProps = ActionItemProps | MultiSelectActionItemProps;
+
+export const isSingleRowAction = (props: CustomActionProps): props is ActionItemProps => {
+    return (props as ActionItemProps).row !== undefined;
+}
+
+export const isMultiSelectAction = (props: CustomActionProps): props is MultiSelectActionItemProps => {
+    return (props as MultiSelectActionItemProps).rows !== undefined;
+}
+
+export type SingleRowFunctionComponent = React.FunctionComponent<ActionItemProps>;
+export type MultiSelectFunctionComponent = React.FunctionComponent<MultiSelectActionItemProps>;
+export type ActionFunctionComponent = SingleRowFunctionComponent | MultiSelectFunctionComponent;
 
 export interface ActionItem {
     action: ActionFunctionComponent,
+    rowAction?: boolean,
     multiselect?: boolean,
 }
 
@@ -39,6 +57,15 @@ export const isEntityItem = (property: RouteMapItem): property is EntityItem => 
 
 export const isActionItem = (property: RouteMapItem): property is ActionItem => {
     return (property as ActionItem).action !== undefined;
+}
+
+export const isSingleRowActionItem = (property: RouteMapItem, action: ActionFunctionComponent ): action is SingleRowFunctionComponent => {
+
+    if (!isActionItem(property)) {
+        return false;
+    }
+
+    return property.rowAction === true || property.rowAction === undefined;
 }
 
 export type RouteMap<T extends RouteMapItem = RouteMapItem> = Array<RouteMapBlock<T>>;

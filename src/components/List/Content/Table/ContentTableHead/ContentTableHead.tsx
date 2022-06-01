@@ -53,12 +53,15 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     );
   };
 
+  let selectableIdx = 0;
+
   return (
     <TableHead>
       <TableRow>
         {Object.keys(columns).map((key: string, idx: number) => {
 
           if (key === ignoreColumn) {
+              selectableIdx++;
               return null;
           }
 
@@ -69,10 +72,10 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
               padding='normal'
               sortDirection={order?.name === key ? direction : false}
             >
-              {idx === 0 && multiselect && (
+              {idx === selectableIdx && multiselect && (
                   <input
                     type="checkbox"
-                    style={{marginRight: '10px'}}
+                    style={{marginRight: '10px', verticalAlign: 'middle'}}
                     onChange={selectAll}
                   />
               )}

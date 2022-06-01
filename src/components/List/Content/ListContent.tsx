@@ -39,6 +39,7 @@ export default function ListContent(props: ListContentProps): JSX.Element {
 
   const location = useLocation();
   const acl = entityService.getAcls();
+  const entity = entityService.getEntity();
   const [showFilters, setShowFilters] = useState(false);
   const handleFiltersClose = () => {
     setShowFilters(false);
@@ -54,7 +55,15 @@ export default function ListContent(props: ListContentProps): JSX.Element {
   return (
     <React.Fragment>
       <StyledActionButtonContainer>
-        <div />
+        <div>
+          <h3 style={{
+            margin: 0,
+            fontSize: '1.6em',
+            fontWeight: 400,
+          }}>
+            List of {entity.title}
+          </h3>
+        </div>
         <div>
           <Tooltip title={_('Search')} arrow>
             <StyledFab onClick={filterButtonHandler}>

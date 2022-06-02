@@ -1,4 +1,5 @@
 /* eslint-disable no-script-url */
+import { RefObject } from 'react';
 import { TablePagination } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import * as locales from '@mui/material/locale';
@@ -8,13 +9,15 @@ import { CriteriaFilterValue } from './Filter/ContentFilter';
 
 interface ContentTablePaginationProps {
   recordCount: number
-  ongoingRequest: boolean
+  ongoingRequest: boolean,
+  listRef: RefObject<any>,
 }
 
 export default function Pagination(props: ContentTablePaginationProps): JSX.Element | null {
   const {
     recordCount,
-    ongoingRequest
+    ongoingRequest,
+    listRef
   } = props;
 
   const itemsPerPage = useStoreState(
@@ -27,6 +30,13 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
   const replaceInQueryStringCriteria = useStoreActions((actions) => {
       return actions.route.replaceInQueryStringCriteria;
   });
+
+  const scrollToTop = () => {
+    listRef.current && listRef.current.scrollIntoView({
+      behavior: 'smooth',
+      block: 'end',
+    });
+  };
 
   const setItemsPerPage = (value: number) => {
 
@@ -47,6 +57,8 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
       value: 1
     };
     replaceInQueryStringCriteria(pageCriteria);
+
+    scrollToTop();
   };
 
   const setPage = (value: number) => {
@@ -61,6 +73,8 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
       value
     };
     replaceInQueryStringCriteria(criteria);
+
+    scrollToTop();
   }
 
   if (recordCount === 0) {

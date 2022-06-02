@@ -1,6 +1,6 @@
 /* eslint-disable no-script-url */
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, createRef } from 'react';
 import { useStoreActions, useStoreState } from '../../store';
 import { withRouter, RouteComponentProps } from "react-router-dom";
 import EntityService from '../../services/entity/EntityService';
@@ -27,6 +27,8 @@ const List = function (props: ListProps) {
     const {
         path, history, foreignKeyResolver, entityService, routeMap, match, location
     } = props;
+
+    const listRef = createRef();
 
     const currentRoute = findRoute(routeMap, match);
     const [rows, setRows] = useState<Array<any>>([]);
@@ -195,6 +197,7 @@ const List = function (props: ListProps) {
     return (
         <>
             <ListContent
+                ref={listRef}
                 childEntities={currentRoute?.children || []}
                 path={path}
                 rows={rows}
@@ -207,6 +210,7 @@ const List = function (props: ListProps) {
             <Pagination
                 recordCount={recordCount}
                 ongoingRequest={ongoingRequest}
+                listRef={listRef}
             />
             {reqError && <ErrorMessage message={reqError} />}
         </>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef, ForwardedRef } from 'react';
 import { match, useLocation } from 'react-router-dom';
 import { CancelToken } from 'axios';
 import { Box } from '@mui/system';
@@ -25,7 +25,7 @@ interface ListContentProps {
   match: match,
 }
 
-export default function ListContent(props: ListContentProps): JSX.Element {
+const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
   const {
     childEntities,
     path,
@@ -55,10 +55,10 @@ export default function ListContent(props: ListContentProps): JSX.Element {
   return (
     <React.Fragment>
       <StyledActionButtonContainer>
-        <div>
+        <div ref={ref}>
           <h3 style={{
             margin: 0,
-            fontSize: '1.6em',
+            fontSize: '1.5em',
             fontWeight: 400,
           }}>
             List of {entity.title}
@@ -111,4 +111,6 @@ export default function ListContent(props: ListContentProps): JSX.Element {
       </Box>}
     </React.Fragment >
   );
-}
+});
+
+export default ListContent;

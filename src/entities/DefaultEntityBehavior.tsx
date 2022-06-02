@@ -51,7 +51,7 @@ export const ChildDecorator: ChildDecoratorType = (props) => {
 export const ChildDecoratorMemo = React.memo(
     ChildDecorator,
     (prev: ChildDecoratorProps, next: ChildDecoratorProps): boolean => {
-        return true;
+        return prev.row.id === next.row.id;
     }
   );
 

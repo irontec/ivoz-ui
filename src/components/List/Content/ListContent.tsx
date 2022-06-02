@@ -1,5 +1,6 @@
 import React, { useState, forwardRef, ForwardedRef } from 'react';
-import { match, useLocation } from 'react-router-dom';
+import { match } from 'react-router-dom';
+import { Location } from 'history';
 import { CancelToken } from 'axios';
 import { Box } from '@mui/system';
 import { Tooltip, Fab, useTheme } from '@mui/material';
@@ -23,6 +24,7 @@ interface ListContentProps {
   preloadData: boolean,
   cancelToken: CancelToken,
   match: match,
+  location: Location<Record<string, string> | undefined>,
 }
 
 const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
@@ -35,9 +37,9 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
     preloadData,
     cancelToken,
     match,
+    location,
   } = props;
 
-  const location = useLocation();
   const acl = entityService.getAcls();
   const entity = entityService.getEntity();
   const [showFilters, setShowFilters] = useState(false);
@@ -45,12 +47,14 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
     setShowFilters(false);
   };
 
-  const filterButtonHandler = (/*event: MouseEvent<HTMLButtonElement>*/) => {
+  const filterButtonHandler = () => {
     setShowFilters(!showFilters);
   };
 
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+
+  const iden = location.state?.referrerIden;
 
   return (
     <React.Fragment>
@@ -61,7 +65,7 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
             fontSize: '1.5em',
             fontWeight: 400,
           }}>
-            List of {entity.title}
+            List of {entity.title} {iden && (<span>({iden})</span>)}
           </h3>
         </div>
         <div>

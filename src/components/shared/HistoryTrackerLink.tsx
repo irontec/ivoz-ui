@@ -1,16 +1,28 @@
+import EntityInterface from "../../entities/EntityInterface";
 import { forwardRef } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { EntityValues } from "../../services";
 
 interface HistoryTrackerLinkProps {
     to: string,
     children: JSX.Element | string  | number,
-    className?: string
+    className?: string,
+    parentEntity?: EntityInterface,
+    parentRow?: EntityValues,
 }
 
 const HistoryTrackerLink = forwardRef<any, any>((props: HistoryTrackerLinkProps, ref) => {
-    const { className, children, to, ...rest } = props;
+    const { className, children, to, parentEntity, parentRow, ...rest } = props;
     const history = useHistory();
     const location = history.location;
+
+    const state: Record<string, string> = {
+        referrer: location.pathname + location.search,
+    };
+
+    if (parentEntity && parentRow) {
+        state.referrerIden = parentEntity.toStr(parentRow);
+    }
 
     return (
         <Link 
@@ -18,9 +30,7 @@ const HistoryTrackerLink = forwardRef<any, any>((props: HistoryTrackerLinkProps,
             className={className} 
             to={{
                 pathname: to, 
-                state: {
-                    referrer: location.pathname + location.search
-                }
+                state,
             }} 
             {...rest}
         >

@@ -30,7 +30,6 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
                     entityService={entityService}
                   />
                 </StyledTableRowCustomCta>
-
               );
             }
 
@@ -49,7 +48,7 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
                   placement="bottom-start"
                   enterTouchDelay={0}
                 >
-                  <StyledTableRowEntityCta to={link}>
+                  <StyledTableRowEntityCta to={link} parentEntity={entity} parentRow={row}>
                     <Icon />
                   </StyledTableRowEntityCta>
                 </Tooltip>

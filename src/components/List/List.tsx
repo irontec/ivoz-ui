@@ -15,7 +15,7 @@ import { foreignKeyResolverType } from '../../entities/EntityInterface';
 import findRoute from '../../router/findRoute';
 import ErrorMessage from '../shared/ErrorMessage';
 
-type ListProps = RouteComponentProps & {
+type ListProps = RouteComponentProps<any, any, Record<string, string>> & {
     path: string,
     routeMap: RouteMap,
     entityService: EntityService,
@@ -211,6 +211,7 @@ const List = function (props: ListProps) {
                 entityService={entityService}
                 cancelToken={cancelToken}
                 match={match}
+                location={location}
             />
             <Pagination
                 recordCount={recordCount}

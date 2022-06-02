@@ -61,7 +61,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
       separator={<StyledCollapsedBreadcrumbsNavigateNextIcon />}
       aria-label="breadcrumb"
     >
-      <StyledCollapsedBreadcrumbsLink to={''}>
+      <StyledCollapsedBreadcrumbsLink to={'/'}>
         <Tooltip title={_('Dashboard')} enterTouchDelay={0}>
           {homeIcon}
         </Tooltip>

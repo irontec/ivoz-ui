@@ -54,6 +54,9 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
   };
 
   let selectableIdx = 0;
+  const styles = {
+    borderBottom: '1px solid rgba(0, 0, 0, 0.5)',
+  };
 
   return (
     <TableHead>
@@ -71,6 +74,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
               align='left'
               padding='normal'
               sortDirection={order?.name === key ? direction : false}
+              sx={styles}
             >
               {idx === selectableIdx && multiselect && (
                   <input
@@ -106,6 +110,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
           key={'empty slot'}
           align='left'
           padding='normal'
+          sx={styles}
         ></TableCell>
       </TableRow>
     </TableHead>

@@ -12,7 +12,7 @@ const DashboardBlock = (props: LinkBlockProps): JSX.Element => {
 
     if (label) {
         return (
-            <Grid item lg={4} md={6} xs={12}>
+            <Grid item lg={4} md={6} xs={12} style={{marginTop: '15px'}}>
                 <ul>
                     <li className="submenu">
                         <h3>

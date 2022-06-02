@@ -14,13 +14,13 @@ import { RouteMap } from '../router/routeMapParser';
 import { EntityFormType } from "../entities/DefaultEntityBehavior";
 import useRememberedValues from "./shared/useRememberedValues";
 
-type CreateProps = RouteComponentProps<Record<string, string>> & EntityInterface & {
+type CreateProps = RouteComponentProps<any, any, Record<string, string>> & EntityInterface & {
   entityService: EntityService,
   routeMap: RouteMap,
   Form: EntityFormType,
 }
 
-const Create = (props: CreateProps & RouteComponentProps) => {
+const Create = (props: CreateProps) => {
 
   const {
     marshaller, unmarshaller, path, history, properties, routeMap, match, entityService
@@ -30,9 +30,9 @@ const Create = (props: CreateProps & RouteComponentProps) => {
   const filterBy = parentRoute?.filterBy;
   const fixedValues = parentRoute?.fixedValues;
 
-  let returnPath = parentRoute?.route || '';
+  let parentPath = parentRoute?.route || '';
   for (const idx in match.params) {
-    returnPath = returnPath.replace(`:${idx}`, match.params[idx]);
+    parentPath = parentPath.replace(`:${idx}`, match.params[idx]);
   }
 
   const { Form: EntityForm } = props;
@@ -103,7 +103,16 @@ const Create = (props: CreateProps & RouteComponentProps) => {
         });
 
         if (resp !== undefined) {
-          history.push(returnPath);
+
+          const referrer = history.location.state.referrer;
+          const targetPath = referrer.search(parentPath) === 0
+            ? referrer
+            : parentPath;
+
+          history.push(
+            targetPath,
+            {referrer: history.location.pathname}
+          );
         }
 
       } catch { }

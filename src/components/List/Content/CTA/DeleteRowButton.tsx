@@ -41,7 +41,7 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
         if (resp !== undefined) {
           history.replace(`${location.pathname}/__reloading`);
           setTimeout(() => {
-            history.replace(location.pathname);
+            history.replace(location.pathname, {from: history.location.pathname});
           });
         }
       } catch (error: unknown) {

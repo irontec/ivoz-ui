@@ -1,8 +1,8 @@
-import { Link } from "react-router-dom";
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
 import { Theme, Typography } from '@mui/material';
 import { CreateCSSProperties, styled } from '@mui/styles';
+import HistoryTrackerLink from "../../../components/shared/HistoryTrackerLink";
 
 const linkStyles: CreateCSSProperties = {
   textDecoration: 'none',
@@ -19,7 +19,7 @@ interface StyledCollapsedBreadcrumbsLinkProps {
 export const StyledCollapsedBreadcrumbsLink = styled(
   (props: StyledCollapsedBreadcrumbsLinkProps) => {
     const { className, children, to, ...rest } = props;
-    return (<Link className={className} to={to} {...rest}>{children}</Link>);
+    return (<HistoryTrackerLink className={className} to={to} {...rest}>{children}</HistoryTrackerLink>);
   }
 )(
   () => {

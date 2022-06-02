@@ -1,11 +1,11 @@
 import { Theme } from '@mui/material';
 import { styled } from '@mui/styles';
-import { Link } from "react-router-dom";
+import HistoryTrackerLink from '../../components/shared/HistoryTrackerLink';
 
 const StyledDashboardLink = styled(
     (props) => {
         const { children, className, to } = props;
-        return (<Link to={to} className={className}>{children}</Link>)
+        return (<HistoryTrackerLink to={to} className={className}>{children}</HistoryTrackerLink>)
     }
 )(
     ({ theme }: { theme: Theme }) => {

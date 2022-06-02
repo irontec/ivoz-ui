@@ -35,7 +35,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
 
         return (
           <ListItem key={key} disablePadding sx={styles}>
-            <ListItemButton onClick={() => { history.push(route || ''); }}>
+            <ListItemButton onClick={() => { history.push(route || '', {referrer: history.location.pathname }); }}>
               <ListItemIcon sx={{minWidth: 0, marginRight: '10px',}}>
                 <entity.icon />
               </ListItemIcon>

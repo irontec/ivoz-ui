@@ -1,10 +1,10 @@
 import { TableCell, Theme } from '@mui/material';
 import { styled } from '@mui/styles';
-import { Link } from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import { forwardRef } from 'react';
+import HistoryTrackerLink from '../../../../components/shared/HistoryTrackerLink';
 
 const linkSharedStyles = {
   cursor: 'pointer',
@@ -13,7 +13,7 @@ const linkSharedStyles = {
 
 const TableRowLink = forwardRef<any, any>((props, ref) => {
   const { children, className, to, ...rest } = props;
-  return (<Link {...rest} to={to} className={className} ref={ref}>{children}</Link>);
+  return (<HistoryTrackerLink {...rest} to={to} className={className} ref={ref}>{children}</HistoryTrackerLink>);
 });
 TableRowLink.displayName = 'TableRowLink';
 
@@ -57,7 +57,7 @@ export const StyledTableRowEntityCta = styled(TableRowLink)(
 export const StyledTableRowFkLink = styled(
   (props) => {
     const { children, className, to } = props;
-    return (<Link to={to} className={className}>{children}</Link>);
+    return (<HistoryTrackerLink to={to} className={className}>{children}</HistoryTrackerLink>);
   }
 )(
   () => {

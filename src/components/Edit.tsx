@@ -15,14 +15,14 @@ import findRoute from "../router/findRoute";
 import { EntityFormType } from "../entities/DefaultEntityBehavior";
 import useRememberedValues from "./shared/useRememberedValues";
 
-type EditProps = RouteComponentProps<Record<string, string>> & EntityInterface & {
+type EditProps = RouteComponentProps<any, any, Record<string, string>> & EntityInterface & {
   entityService: EntityService,
   routeMap: RouteMap,
   row: Record<string, any>,
   Form: EntityFormType,
 }
 
-const Edit: any = (props: EditProps & RouteComponentProps) => {
+const Edit: any = (props: EditProps) => {
 
   const {
     marshaller, unmarshaller, history, match, row, properties, routeMap, entityService
@@ -34,9 +34,9 @@ const Edit: any = (props: EditProps & RouteComponentProps) => {
   const filterBy = parentRoute?.filterBy;
   const fixedValues = parentRoute?.fixedValues;
 
-  let returnPath = parentRoute?.route || '';
+  let parentPath = parentRoute?.route || '';
   for (const idx in match.params) {
-    returnPath = returnPath.replace(`:${idx}`, match.params[idx]);
+    parentPath = parentPath.replace(`:${idx}`, match.params[idx]);
   }
 
   const entityId = match.params.id;
@@ -90,7 +90,16 @@ const Edit: any = (props: EditProps & RouteComponentProps) => {
         });
 
         if (resp !== undefined) {
-          history.push(returnPath);
+
+          const referrer = history.location.state.referrer;
+          const targetPath = referrer.search(parentPath) === 0
+            ? referrer
+            : parentPath;
+
+          history.push(
+            targetPath,
+            {referrer: history.location.pathname}
+          );
         }
 
       } catch { }

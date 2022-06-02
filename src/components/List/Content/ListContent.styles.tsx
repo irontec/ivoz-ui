@@ -1,7 +1,7 @@
 import { Fab } from '@mui/material';
 import { styled } from '@mui/styles';
+import HistoryTrackerLink from '../../../components/shared/HistoryTrackerLink';
 import { forwardRef } from 'react';
-import { Link } from "react-router-dom";
 
 export const StyledActionButtonContainer = styled('div')(
   () => {
@@ -18,7 +18,7 @@ export const StyledActionButtonContainer = styled('div')(
 export const StyledLink = styled(
   (props) => {
     const { children, className, to } = props;
-    return (<Link to={to} className={className}>{children}</Link>);
+    return (<HistoryTrackerLink to={to} className={className}>{children}</HistoryTrackerLink>);
   }
 )(
   () => {

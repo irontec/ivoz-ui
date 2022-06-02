@@ -100,10 +100,15 @@ const List = function (props: ListProps) {
                 return;
             }
 
-            history.push({
-                pathname: location.pathname,
-                search: newReqQuerystring
-            });
+            history.push(
+                {
+                    pathname: location.pathname,
+                    search: newReqQuerystring,
+                },
+                {
+                    referrer: history.location.pathname + newReqQuerystring,
+                }
+            );
         },
         [
             reqQuerystring, prevReqQuerystring, location.pathname, queryStringCriteria,

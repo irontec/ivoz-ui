@@ -14,6 +14,8 @@ import { StyledActionButtonContainer, StyledLink, StyledFab } from './ListConten
 import ContentTable from './Table/ContentTable';
 import ContentCard from './Card/ContentCard';
 import { RouteMapItem } from '../../../router/routeMapParser';
+import EntityInterface from '../../../entities/EntityInterface';
+import useParentIden from './hook/useParentIden';
 
 interface ListContentProps {
   childEntities: Array<RouteMapItem>,
@@ -25,6 +27,7 @@ interface ListContentProps {
   cancelToken: CancelToken,
   match: match,
   location: Location<Record<string, string> | undefined>,
+  parentEntity: EntityInterface | undefined,
 }
 
 const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
@@ -38,6 +41,7 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
     cancelToken,
     match,
     location,
+    parentEntity,
   } = props;
 
   const acl = entityService.getAcls();
@@ -54,7 +58,12 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-  const iden = location.state?.referrerIden;
+  let iden = useParentIden({
+    match,
+    location,
+    parentEntity,
+    cancelToken,
+  });
 
   return (
     <React.Fragment>

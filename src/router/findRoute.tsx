@@ -1,5 +1,6 @@
 import { isActionItem, RouteMap, RouteMapItem, EntityItem } from './routeMapParser';
 import { match } from 'react-router-dom';
+import EntityInterface from '../entities/EntityInterface';
 
 const matchRoute = (route: EntityItem, match: match, includeChildren = false): EntityItem | undefined => {
 
@@ -81,6 +82,20 @@ const findRoute = (routeMap: RouteMap, match: match): EntityItem | undefined => 
             const resp = _findRoute(child, match);
             if (resp) {
                 return resp;
+            }
+        }
+    }
+}
+
+export const findParentEntity = (routeMap: RouteMap, match: match): EntityInterface | undefined => {
+
+    const parentPath = match.path.split('/').slice(0, -2).join('/');
+
+    for (const item of routeMap) {
+        for (const child of item.children) {
+            const resp = _findRoute(child, {...match, path: parentPath});
+            if (resp) {
+                return resp.entity;
             }
         }
     }

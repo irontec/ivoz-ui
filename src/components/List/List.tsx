@@ -12,7 +12,7 @@ import useQueryStringParams from './useQueryStringParams';
 import useCancelToken from '../../hooks/useCancelToken';
 import { RouteMap } from '../../router/routeMapParser';
 import { foreignKeyResolverType } from '../../entities/EntityInterface';
-import findRoute from '../../router/findRoute';
+import findRoute, { findParentEntity } from '../../router/findRoute';
 import ErrorMessage from '../shared/ErrorMessage';
 
 type ListProps = RouteComponentProps<any, any, Record<string, string>> & {
@@ -31,6 +31,8 @@ const List = function (props: ListProps) {
     const listRef = createRef();
 
     const currentRoute = findRoute(routeMap, match);
+    const parentEntity = findParentEntity(routeMap, match);
+
     const [rows, setRows] = useState<Array<any>>([]);
     const [headers, setHeaders] = useState<{ [id: string]: string }>({});
 
@@ -212,6 +214,7 @@ const List = function (props: ListProps) {
                 cancelToken={cancelToken}
                 match={match}
                 location={location}
+                parentEntity={parentEntity}
             />
             <Pagination
                 recordCount={recordCount}

@@ -40,6 +40,9 @@ const List = function (props: ListProps) {
     const apiGet = useStoreActions((actions: any) => {
         return actions.api.get
     });
+    const defaultItemsPerPage = useStoreState(
+        (state) => state.route.defaultItemsPerPage
+      );
     const [mounted, cancelToken] = useCancelToken();
 
     const [ongoingRequest, setOngoingRequest] = useState<boolean>(false);
@@ -135,6 +138,20 @@ const List = function (props: ListProps) {
                 reqPath = path + '?' + encodeURI([...currentQueryParams, filterByStr].join('&'));
             } else if (filterByStr) {
                 reqPath = path + '?' + encodeURI(filterByStr);
+            }
+
+            let itemsPerPage = currentQueryParams.find(
+                (str: string) => str.indexOf('_itemsPerPage[') === 0
+            );
+            if (!itemsPerPage) {
+                itemsPerPage = encodeURI(
+                    `_itemsPerPage=${defaultItemsPerPage}`
+                );
+                const glue = filterByStr || currentQueryParams.length > 0
+                    ? '&'
+                    : '?';
+
+                reqPath += `${glue}${itemsPerPage}`;
             }
 
             let orderBy = currentQueryParams.find(

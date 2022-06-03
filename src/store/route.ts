@@ -11,6 +11,7 @@ export interface RouteOrderState {
 interface RouteState {
   queryStringCriteria: CriteriaFilterValues,
   order: Computed<RouteState, RouteOrderState | null>,
+  defaultItemsPerPage: number,
   itemsPerPage: Computed<RouteState, number>,
   page: Computed<RouteState, number>,
 }
@@ -29,6 +30,7 @@ export const ROUTE_PAGE_KEY = '_page';
 
 const route: RouteStore = {
   queryStringCriteria: [],
+  defaultItemsPerPage: 10,
   order: computed<RouteState, RouteOrderState | null>((state) => {
     for (const criteria of state.queryStringCriteria) {
       if (criteria.name === ROUTE_ORDER_KEY) {
@@ -50,7 +52,7 @@ const route: RouteStore = {
       }
     }
 
-    return 25;
+    return state.defaultItemsPerPage;
   }),
   page: computed<RouteState, number>((state) => {
     for (const criteria of state.queryStringCriteria) {

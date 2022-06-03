@@ -86,8 +86,8 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
       <TablePagination
         component="div"
         page={(page || 1) - 1}
-        rowsPerPage={itemsPerPage || 25}
-        rowsPerPageOptions={[1, 10, 25, 50, 100]}
+        rowsPerPage={itemsPerPage}
+        rowsPerPageOptions={[10, 25, 50, 100]}
         count={recordCount}
         backIconButtonProps={{
           'aria-label': 'previous page',

@@ -6,6 +6,7 @@ interface SpecState {
   sessionStoragePrefix: string,
   spec: any,
   loading: boolean,
+  appVersion: string,
 }
 
 interface SpecActions {
@@ -13,6 +14,7 @@ interface SpecActions {
   setSpec: Action<SpecState, null>,
   setLoading: Action<SpecState>,
   unsetLoading: Action<SpecState>,
+  setAppVersion: Action<SpecState, string>,
   init: Thunk<() => Promise<void>>
 }
 
@@ -22,6 +24,7 @@ const specStore = {
   sessionStoragePrefix: 'app-',
   spec: {},
   loading: false,
+  appVersion: '',
 
   // Actions
   setSessionStoragePrefix: action<SpecState, string>((state, prefix) => {
@@ -41,6 +44,11 @@ const specStore = {
     state.loading = false;
   }),
 
+  setAppVersion: action<SpecState, string>((state: any, appVersion) => {
+    localStorage.setItem(`${state.sessionStoragePrefix}appVersion`, appVersion);
+    state.appVersion = appVersion;
+  }),
+
   init: thunk(
     // callback thunk
     (actions: any, payload, helpers) => {
@@ -54,11 +62,18 @@ const specStore = {
 
       return new Promise((resolve, reject) => {
 
+        const appVersion = document
+          ?.querySelector('meta[name="version-info"]')
+          ?.getAttribute('content');
+
+        const storedAppVersion = localStorage.getItem(`${state.sessionStoragePrefix}appVersion`);
+
         const storedSpec = localStorage.getItem(`${state.sessionStoragePrefix}apiSpec`);
-        if (storedSpec) {
+        if (storedSpec && appVersion === storedAppVersion) {
           actions.setSpec(
             JSON.parse(storedSpec)
           );
+          actions.setAppVersion(appVersion);
           resolve(true);
           return;
         }
@@ -66,8 +81,9 @@ const specStore = {
         ApiClient.get(
           '/docs.json',
           {},
-          async (data: any/*, headers: any*/) => {
+          async (data: any) => {
             actions.setSpec(data);
+            actions.setAppVersion(appVersion);
             actions.unsetLoading();
             resolve(true);
           }

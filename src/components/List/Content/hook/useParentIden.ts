@@ -15,24 +15,28 @@ type useParentIden = {
 const useParentIden = (props: useParentIden): string | undefined => {
 
     const { location, parentEntity, match, cancelToken } = props;
+    const { state: locationState } = location;
     const parentId = Object.values(match.params).pop();
 
     const [iden, setIden] = useState<string | undefined>(location.state?.referrerIden);
     const apiGet = useStoreActions((actions) => {
         return actions.api.get;
-      });
+    });
 
     useEffect(
         () => {
-            if (iden) {
+
+            if (iden && iden === locationState?.referrerIden) {
                 return;
             }
 
             if (!parentEntity) {
+                setIden(undefined);
                 return;
             }
 
             if (!parentId) {
+                setIden(undefined);
                 return;
             }
 
@@ -47,7 +51,7 @@ const useParentIden = (props: useParentIden): string | undefined => {
                 cancelToken,
             });
         },
-        [parentId, iden, parentEntity, apiGet, cancelToken]
+        [locationState, parentId, iden, parentEntity, apiGet, cancelToken]
     );
 
     return iden;

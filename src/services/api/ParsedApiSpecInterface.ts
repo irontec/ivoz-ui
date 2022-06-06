@@ -1,4 +1,5 @@
 import React from 'react';
+import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import { PropertyCustomFunctionComponent } from '../form/Field/CustomComponentWrapper';
 
 export interface KeyValList {
@@ -59,6 +60,7 @@ type PropertyFormat = 'date-time' | 'date' | 'time' | 'textarea';
 export interface ScalarProperty {
     type?: PropertyType,
     format?: PropertyFormat,
+    preferredFilter?: SearchFilterType,
     readOnly?: boolean,
     description?: string,
     maxLength?: number,
@@ -80,6 +82,7 @@ export interface ScalarProperty {
 export interface FkProperty {
     type?: PropertyType,
     $ref: string,
+    preferredFilter?: SearchFilterType,
     readOnly?: boolean,
     label: string | React.ReactElement<any>,
     prefix?: string | React.ReactElement<any>,

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Grid, Button } from '@mui/material';
-import { FkProperty, KeyValList, isPropertyFk, PropertySpec, ScalarProperty } from '../../../services/api/ParsedApiSpecInterface';
+import { FkProperty, KeyValList, isPropertyFk, PropertySpec, ScalarProperty, isPropertyScalar } from '../../../services/api/ParsedApiSpecInterface';
 import FormFieldFactory, { FormFieldFactoryChoices } from '../../../services/form/FormFieldFactory';
 import { FormOnChangeEvent, NullablePropertyFkChoices } from '../../../entities/DefaultEntityBehavior';
 import _ from '../../../services/translations/translate';
@@ -48,7 +48,23 @@ export default function ContentFilterSelector(props: ContentFilterRowProps): JSX
     }
 
     const [name, setName] = useState<string>(Object.keys(filters)[0]);
-    const [type, setType] = useState<SearchFilterType>(filters[name][0] || '');
+
+    const currentColumn = columns[name];
+    const propertyFilters = filters[name] || [];
+
+    let preferredFilter  = currentColumn.preferredFilter || 'partial';
+    if (!currentColumn.preferredFilter) {
+        switch(true) {
+            case isPropertyScalar(currentColumn) && currentColumn.format ==='date-time':
+                preferredFilter = 'start';
+                break;
+        }
+    }
+
+    const defaultFilter = propertyFilters.includes(preferredFilter)
+        ? preferredFilter
+        : propertyFilters[0] || '';
+    const [type, setType] = useState<SearchFilterType>(defaultFilter);
 
     const filterLabels: KeyValList = {};
     for (const filter of (filters[name] || {})) {
@@ -128,7 +144,7 @@ export default function ContentFilterSelector(props: ContentFilterRowProps): JSX
     if (!filters[name].includes(searchFormik.values.type)) {
         searchFormik.setValues({
             ...searchFormik.values,
-            type: filters[name][0]
+            type: defaultFilter
         });
     }
 

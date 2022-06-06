@@ -86,10 +86,10 @@ export function ContentFilter(props: ContentFilterMenuProps): JSX.Element | null
                     match,
                     filterContext: true,
                 })
-                    .then((foreignEntities: any) => {
-                        setForeignEntities(foreignEntities);
-                        setLoading(false);
-                    });
+                .then((foreignEntities: any) => {
+                    setForeignEntities(foreignEntities);
+                    setLoading(false);
+                });
             }
         },
         [preloadData, open, loading, foreignKeyGetter, entityService, cancelToken, match]

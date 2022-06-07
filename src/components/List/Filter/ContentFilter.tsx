@@ -106,6 +106,14 @@ export function ContentFilter(props: ContentFilterMenuProps): JSX.Element | null
 
     const addCriteria = (data: CriteriaFilterValue) => {
         const newCriteria: CriteriaFilterValues = [...criteria, data];
+        for (const idx in newCriteria) {
+            if (newCriteria[idx].name === '_page') {
+                // reset pagination
+                newCriteria[idx].value = 1;
+                break;
+            }
+        }
+
         setCriteria(newCriteria);
     }
 

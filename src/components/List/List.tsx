@@ -87,7 +87,7 @@ const List = function (props: ListProps) {
         },
         [
             reqQuerystring, prevReqQuerystring, setPrevReqQuerystring,
-            setQueryStringCriteria, criteriaIsReady, setCriteriaIsReady
+            setQueryStringCriteria, setCriteriaIsReady
         ]
     );
 
@@ -105,6 +105,7 @@ const List = function (props: ListProps) {
                 return;
             }
 
+            // Change path
             history.push(
                 {
                     pathname: location.pathname,

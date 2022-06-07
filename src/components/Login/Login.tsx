@@ -40,12 +40,12 @@ export default function Login(props: LoginProps): JSX.Element {
 
     try {
 
+      setError(null);
       const response = await onSubmit(values);
 
       if (response.data && response.data.token) {
         setToken(response.data.token);
         setRefreshToken(response.data.refreshToken);
-        setError(null);
         return;
       }
 
@@ -57,8 +57,12 @@ export default function Login(props: LoginProps): JSX.Element {
       throw error;
 
     } catch (error: any) {
-      console.error(error);
-      setError(error?.data?.message);
+
+      const erroMsg = typeof error === 'string'
+        ? error
+        : error?.data?.message;
+
+      setError(erroMsg);
     }
   };
 

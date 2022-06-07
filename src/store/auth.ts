@@ -63,6 +63,9 @@ const auth: AuthStore = {
     const sessionStoragePrefix = getState().sessionStoragePrefix;
     localStorage.removeItem(`${sessionStoragePrefix}token`);
     actions.setToken(null);
+
+    localStorage.removeItem(`${sessionStoragePrefix}refreshToken`);
+    actions.setRefreshToken(null);
   }),
 };
 

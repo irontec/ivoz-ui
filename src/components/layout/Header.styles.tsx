@@ -27,6 +27,15 @@ export const StyledAppBar = styled(
 
 export const StyledToolbar = styled(Toolbar)(
   ({ theme }: { theme: Theme }) => {
-    return theme.mixins.toolbar as CreateCSSProperties;
+
+    const minHeight = '64px';
+
+    return {
+      ...theme.mixins.toolbar,
+      minHeight,
+      '@media (min-width:600px)': {
+        minHeight,
+      },
+    } as CreateCSSProperties;
   }
 );

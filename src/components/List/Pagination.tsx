@@ -8,13 +8,11 @@ import { ROUTE_ITEMS_PER_PAGE_KEY, ROUTE_PAGE_KEY } from '../../store/route';
 import { CriteriaFilterValue } from './Filter/ContentFilter';
 
 interface ContentTablePaginationProps {
-  recordCount: number
   listRef: RefObject<any>,
 }
 
 export default function Pagination(props: ContentTablePaginationProps): JSX.Element | null {
   const {
-    recordCount,
     listRef
   } = props;
 
@@ -24,6 +22,16 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
   const itemsPerPage = useStoreState(
     (state) => state.route.itemsPerPage
   );
+
+  const headers = useStoreState(
+    (state) => state.list.headers
+  );
+
+  const recordCount = parseInt(
+      headers['x-total-items'] ?? 0,
+      10
+  );
+
   const page = useStoreState(
       (state) => state.route.page
   );

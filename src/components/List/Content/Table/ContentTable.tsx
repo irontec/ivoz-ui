@@ -1,3 +1,4 @@
+import { useState, useCallback } from 'react';
 import { Button, Table, TableBody, TableRow } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentTableHead from './ContentTableHead';
@@ -8,23 +9,26 @@ import ViewRowButton from '../CTA/ViewRowButton';
 import DeleteRowButton from '../CTA/DeleteRowButton';
 import { RouteMapItem, MultiSelectFunctionComponent } from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import useMultiselectState from './hook/useMultiselectState';
+import useMultiselectState, { handleMultiselectChangeType } from './hook/useMultiselectState';
 import { TableTableColumnMemo } from './ContentTableColumn';
-import { useState } from 'react';
+import { useStoreState } from 'store';
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>,
   entityService: EntityService,
-  rows: Array<Record<string, any>>,
   ignoreColumn: string | undefined,
   path: string,
 }
 
 const ContentTable = (props: ContentTableProps): JSX.Element => {
 
-  const { childEntities, entityService, rows, path, ignoreColumn } = props;
+  const { childEntities, entityService, path, ignoreColumn } = props;
   const [selectedValues, handleChange, setSelectedValues] = useMultiselectState();
   const [currentQueryString, setCurrentQueryString] = useState(window.location.search);
+
+  const rows = useStoreState(
+    (state) => state.list.rows
+  );
 
   if (currentQueryString !== window.location.search) {
     setCurrentQueryString(window.location.search);
@@ -58,6 +62,18 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
   const columns = entityService.getCollectionColumns();
 
   const multiselect = /*entityService.getAcls().delete === true ||*/ multiselectActions.length > 0;
+  const selectAllHandlers: handleMultiselectChangeType = useCallback(
+    (event) => {
+      const target = event.target;
+      const value = target.type === 'checkbox' ? target.checked : target.value;
+      const rowIds = value
+        ? rows.map(row => row.id.toString())
+        : [];
+
+      setSelectedValues(rowIds);
+    },
+    []
+  );
 
   return (
     <Table size="medium" sx={{ "tableLayout": 'fixed' }}>
@@ -65,15 +81,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
         entityService={entityService}
         ignoreColumn={ignoreColumn}
         multiselect={multiselect}
-        selectAll={(event) => {
-          const target = event.target;
-          const value = target.type === 'checkbox' ? target.checked : target.value;
-          const rowIds = value
-            ? rows.map(row => row.id.toString())
-            : [];
-
-          setSelectedValues(rowIds);
-        }}
+        selectAll={selectAllHandlers}
       />
       <TableBody>
         {rows.map((row: any, key: any) => {

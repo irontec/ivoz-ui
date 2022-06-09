@@ -1,4 +1,5 @@
 import { CardContent, Typography } from '@mui/material';
+import { useStoreState } from 'store';
 import { RouteMapItem } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
 import DeleteRowButton from '../CTA/DeleteRowButton';
@@ -11,14 +12,18 @@ import { StyledCardActions, StyledCard, StyledCardContainer } from './ContentCar
 interface ContentCardProps {
   childEntities: Array<RouteMapItem>,
   entityService: EntityService,
-  rows: Record<string, any>,
   ignoreColumn: string | undefined,
   path: string,
 }
 
 const ContentCard = (props: ContentCardProps): JSX.Element => {
 
-  const { childEntities, entityService, rows, path, ignoreColumn } = props;
+  const { childEntities, entityService, path, ignoreColumn } = props;
+
+  const rows = useStoreState(
+    (state) => state.list.rows
+  );
+
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
 

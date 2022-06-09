@@ -33,12 +33,15 @@ const List = function (props: ListProps) {
     const currentRoute = findRoute(routeMap, match);
     const parentEntity = findParentEntity(routeMap, match);
 
-    //const [rows, setRows] = useState<Array<any>>([]);
-    //const [headers, setHeaders] = useState<{ [id: string]: string }>({});
-
     const resetList = useStoreActions((actions: any) => {
         return actions.list.reset
     });
+    useEffect(
+        () => {
+            resetList();
+        },
+        []
+    );
 
     const setRows = useStoreActions((actions: any) => {
         return actions.list.setRows
@@ -144,8 +147,6 @@ const List = function (props: ListProps) {
             if (!criteriaIsReady) {
                 return;
             }
-
-            resetList();
 
             let reqPath = path;
             if (currentQueryParams.length) {

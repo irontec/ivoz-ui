@@ -54,6 +54,10 @@ export const TableTableColumnMemo = React.memo(
           return false;
       }
 
+      if (column.component) {
+        return false;
+      }
+
       if (prev.selectable && prev.selectedValues !== next.selectedValues) {
         return false;
       }

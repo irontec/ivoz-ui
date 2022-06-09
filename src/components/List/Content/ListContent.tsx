@@ -1,21 +1,16 @@
-import React, { useState, forwardRef, ForwardedRef } from 'react';
-import { match } from 'react-router-dom';
-import { Location } from 'history';
-import { CancelToken } from 'axios';
-import { Box } from '@mui/system';
-import { Tooltip, Fab, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import QueueIcon from '@mui/icons-material/Queue';
-import SearchIcon from '@mui/icons-material/Search';
-import { ContentFilter } from '../../../components/List/Filter/ContentFilter';
-import EntityService from '../../../services/entity/EntityService';
-import _ from '../../../services/translations/translate';
-import { StyledActionButtonContainer, StyledLink, StyledFab } from './ListContent.styles';
-import ContentTable from './Table/ContentTable';
-import ContentCard from './Card/ContentCard';
-import { RouteMapItem } from '../../../router/routeMapParser';
+import { Box } from '@mui/system';
+import { CancelToken } from 'axios';
+import { Location } from 'history';
+import React, { ForwardedRef, forwardRef } from 'react';
+import { match } from 'react-router-dom';
 import EntityInterface from '../../../entities/EntityInterface';
-import useParentIden from './hook/useParentIden';
+import { RouteMapItem } from '../../../router/routeMapParser';
+import EntityService from '../../../services/entity/EntityService';
+import ContentCard from './Card/ContentCard';
+import ListContentHeader from './ListContentHeader';
+import ContentTable from './Table/ContentTable';
 
 interface ListContentProps {
   childEntities: Array<RouteMapItem>,
@@ -44,67 +39,23 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
     parentEntity,
   } = props;
 
-  const acl = entityService.getAcls();
-  const entity = entityService.getEntity();
-  const [showFilters, setShowFilters] = useState(false);
-  const handleFiltersClose = () => {
-    setShowFilters(false);
-  };
-
-  const filterButtonHandler = () => {
-    setShowFilters(!showFilters);
-  };
-
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
 
-  let iden = useParentIden({
-    match,
-    location,
-    parentEntity,
-    cancelToken,
-  });
-
   return (
     <React.Fragment>
-      <StyledActionButtonContainer>
-        <div ref={ref}>
-          <h3 style={{
-            margin: 0,
-            fontSize: '1.5em',
-            fontWeight: 400,
-          }}>
-            List of {entity.title} {iden && (<span>({iden})</span>)}
-          </h3>
-        </div>
-        <div>
-          <Tooltip title={_('Search')} arrow>
-            <StyledFab onClick={filterButtonHandler}>
-              <SearchIcon />
-            </StyledFab>
-          </Tooltip>
-          {acl.create && <StyledLink to={`${location.pathname}/create`}>
-            <Tooltip title="Add" enterTouchDelay={0} arrow>
-              <Fab color="secondary" size="small" variant="extended">
-                <QueueIcon />
-              </Fab>
-            </Tooltip>
-          </StyledLink>}
-        </div>
-      </StyledActionButtonContainer>
-
-      <ContentFilter
-        entityService={entityService}
-        open={showFilters}
-        handleClose={handleFiltersClose}
+      <ListContentHeader
         path={path}
-        preloadData={preloadData}
+        entityService={entityService}
         ignoreColumn={ignoreColumn}
+        preloadData={preloadData}
         cancelToken={cancelToken}
         match={match}
+        location={location}
+        parentEntity={parentEntity}
       />
 
-      {bigScreen && <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+      {bigScreen && <Box>
         <ContentTable
           entityService={entityService}
           rows={rows}
@@ -113,7 +64,7 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
           childEntities={childEntities}
         />
       </Box>}
-      {!bigScreen && <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+      {!bigScreen && <Box>
         <ContentCard
           entityService={entityService}
           rows={rows}

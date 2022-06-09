@@ -33,30 +33,30 @@ const List = function (props: ListProps) {
     const currentRoute = findRoute(routeMap, match);
     const parentEntity = findParentEntity(routeMap, match);
 
-    const [rows, setRows] = useState<Array<any>>([]); //1
-    const [headers, setHeaders] = useState<{ [id: string]: string }>({}); //2
+    const [rows, setRows] = useState<Array<any>>([]);
+    const [headers, setHeaders] = useState<{ [id: string]: string }>({});
 
-    const reqError = useStoreState((store) => store.api.errorMsg); //3?
-    const apiGet = useStoreActions((actions: any) => { //4?
+    const reqError = useStoreState((store) => store.api.errorMsg);
+    const apiGet = useStoreActions((actions: any) => {
         return actions.api.get
     });
-    const defaultItemsPerPage = useStoreState( //5?
+    const defaultItemsPerPage = useStoreState(
         (state) => state.route.defaultItemsPerPage
       );
-    const [mounted, cancelToken] = useCancelToken(); //6?
+    const [mounted, cancelToken] = useCancelToken();
 
-    const [criteriaIsReady, setCriteriaIsReady] = useState<boolean>(false); //28
-    const queryStringCriteria: CriteriaFilterValues = useStoreState( //29?
+    const [criteriaIsReady, setCriteriaIsReady] = useState<boolean>(false);
+    const queryStringCriteria: CriteriaFilterValues = useStoreState(
         (state) => state.route.queryStringCriteria
     );
-    const setQueryStringCriteria = useStoreActions((actions) => { //30?
+    const setQueryStringCriteria = useStoreActions((actions) => {
         return actions.route.setQueryStringCriteria;
     });
 
     ////////////////////////////
     // Filters
     ////////////////////////////
-    const currentQueryParams = useQueryStringParams(); //31?
+    const currentQueryParams = useQueryStringParams();
     const filterBy: Array<string> = [];
 
     if (currentRoute?.filterBy) {
@@ -71,7 +71,7 @@ const List = function (props: ListProps) {
     const reqQuerystring = currentQueryParams.join('&');
     const [prevReqQuerystring, setPrevReqQuerystring] = useState<string | null>(null); //38
 
-    useEffect( //39
+    useEffect(
         () => {
 
             // Path change listener
@@ -90,7 +90,7 @@ const List = function (props: ListProps) {
         ]
     );
 
-    useEffect( //40
+    useEffect(
         () => {
 
             // Criteria change listener
@@ -121,7 +121,7 @@ const List = function (props: ListProps) {
         ]
     );
 
-    useEffect( //41
+    useEffect(
         () => {
 
             if (!mounted) {

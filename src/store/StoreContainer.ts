@@ -5,5 +5,4 @@ class StoreContainer {
     static store: Store<IvozStore>;
 }
 
-
 export default StoreContainer;

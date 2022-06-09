@@ -33,8 +33,20 @@ const List = function (props: ListProps) {
     const currentRoute = findRoute(routeMap, match);
     const parentEntity = findParentEntity(routeMap, match);
 
-    const [rows, setRows] = useState<Array<any>>([]);
-    const [headers, setHeaders] = useState<{ [id: string]: string }>({});
+    //const [rows, setRows] = useState<Array<any>>([]);
+    //const [headers, setHeaders] = useState<{ [id: string]: string }>({});
+
+    const resetList = useStoreActions((actions: any) => {
+        return actions.list.reset
+    });
+
+    const setRows = useStoreActions((actions: any) => {
+        return actions.list.setRows
+    });
+
+    const setHeaders = useStoreActions((actions: any) => {
+        return actions.list.setHeaders
+    });
 
     const reqError = useStoreState((store) => store.api.errorMsg);
     const apiGet = useStoreActions((actions: any) => {
@@ -133,6 +145,8 @@ const List = function (props: ListProps) {
                 return;
             }
 
+            resetList();
+
             let reqPath = path;
             if (currentQueryParams.length) {
                 reqPath = path + '?' + encodeURI([...currentQueryParams, filterByStr].join('&'));
@@ -208,12 +222,6 @@ const List = function (props: ListProps) {
         ]
     );
 
-    // @TODO move into store/api
-    const recordCount = parseInt(
-        headers['x-total-items'] ?? 0,
-        10
-    );
-
     if (!criteriaIsReady || !mounted) {
         return null;
     }
@@ -224,7 +232,6 @@ const List = function (props: ListProps) {
                 ref={listRef}
                 childEntities={currentRoute?.children || []}
                 path={path}
-                rows={rows}
                 ignoreColumn={filterBy[0]}
                 preloadData={currentQueryParams.length > 0}
                 entityService={entityService}
@@ -234,7 +241,6 @@ const List = function (props: ListProps) {
                 parentEntity={parentEntity}
             />
             <Pagination
-                recordCount={recordCount}
                 listRef={listRef}
             />
             {reqError && <ErrorMessage message={reqError} />}

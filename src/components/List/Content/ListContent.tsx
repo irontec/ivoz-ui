@@ -16,7 +16,6 @@ interface ListContentProps {
   childEntities: Array<RouteMapItem>,
   path: string,
   entityService: EntityService,
-  rows: any,
   ignoreColumn: string | undefined,
   preloadData: boolean,
   cancelToken: CancelToken,
@@ -25,12 +24,11 @@ interface ListContentProps {
   parentEntity: EntityInterface | undefined,
 }
 
-const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
+const ListContent = (props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
   const {
     childEntities,
     path,
     entityService,
-    rows,
     ignoreColumn,
     preloadData,
     cancelToken,
@@ -58,7 +56,6 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
       {bigScreen && <Box>
         <ContentTable
           entityService={entityService}
-          rows={rows}
           ignoreColumn={ignoreColumn}
           path={path}
           childEntities={childEntities}
@@ -67,7 +64,6 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
       {!bigScreen && <Box>
         <ContentCard
           entityService={entityService}
-          rows={rows}
           ignoreColumn={ignoreColumn}
           path={path}
           childEntities={childEntities}
@@ -75,6 +71,6 @@ const ListContent = forwardRef((props: ListContentProps, ref: ForwardedRef<any>)
       </Box>}
     </React.Fragment >
   );
-});
+};
 
-export default ListContent;
+export default forwardRef(ListContent);

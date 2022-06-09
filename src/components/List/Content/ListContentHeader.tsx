@@ -23,7 +23,7 @@ interface ListContentProps {
   parentEntity: EntityInterface | undefined,
 }
 
-const ListContentHeader = forwardRef((props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
+const ListContentHeader = (props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
   const {
     path,
     entityService,
@@ -93,6 +93,6 @@ const ListContentHeader = forwardRef((props: ListContentProps, ref: ForwardedRef
       />
     </React.Fragment >
   );
-});
+};
 
-export default ListContentHeader;
+export default forwardRef(ListContentHeader);

@@ -33,6 +33,7 @@ export const StyledToolbar = styled(Toolbar)(
     return {
       ...theme.mixins.toolbar,
       minHeight,
+      padding: '0 23px',
       '@media (min-width:600px)': {
         minHeight,
       },

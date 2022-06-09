@@ -65,15 +65,24 @@ const ListContentHeader = (props: ListContentProps, ref: ForwardedRef<any>): JSX
             List of {entity.title} {iden && (<span>({iden})</span>)}
           </h3>
         </div>
-        <div>
+        <div className="buttons">
           <Tooltip title={_('Search')} arrow>
-            <StyledFab onClick={filterButtonHandler}>
+            <Fab
+              color="secondary"
+              size="small"
+              variant="extended"
+              onClick={filterButtonHandler}
+            >
               <SearchIcon />
-            </StyledFab>
+            </Fab>
           </Tooltip>
           {acl.create && <StyledLink to={`${location.pathname}/create`}>
             <Tooltip title="Add" enterTouchDelay={0} arrow>
-              <Fab color="secondary" size="small" variant="extended">
+              <Fab
+                color="secondary"
+                size="small"
+                variant="extended"
+              >
                 <QueueIcon />
               </Fab>
             </Tooltip>

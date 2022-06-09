@@ -128,7 +128,8 @@ export const StyledActionsTableCell = styled(
 )(
   () => {
     return {
-      textAlign: 'right'
+      textAlign: 'right',
+      paddingRight: '8px',
     };
   }
 );

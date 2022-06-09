@@ -17,7 +17,7 @@ export default function Menu(props: menuProps): JSX.Element | null {
     return null;
   }
 
-  const width = 200;
+  const width = 225;
 
   return (
     <Drawer

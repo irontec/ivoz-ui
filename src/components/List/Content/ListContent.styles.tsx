@@ -8,6 +8,12 @@ export const StyledActionButtonContainer = styled('div')(
     return {
       display: 'flex',
       justifyContent: 'space-between',
+      '& > .buttons': {
+        textAlign: 'end',
+        '& button': {
+          margin: '0 0 5px 5px',
+        }
+      },
       '& > div:nth-child(n+1)': {
         alignContent: 'flex-end'
       }

@@ -9,17 +9,18 @@ import { CriteriaFilterValue } from './Filter/ContentFilter';
 
 interface ContentTablePaginationProps {
   recordCount: number
-  ongoingRequest: boolean,
   listRef: RefObject<any>,
 }
 
 export default function Pagination(props: ContentTablePaginationProps): JSX.Element | null {
   const {
     recordCount,
-    ongoingRequest,
     listRef
   } = props;
 
+  const loading = useStoreState(
+    (state) => state.api.loading
+  );
   const itemsPerPage = useStoreState(
     (state) => state.route.itemsPerPage
   );
@@ -40,7 +41,7 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
 
   const setItemsPerPage = (value: number) => {
 
-    if (ongoingRequest) {
+    if (loading) {
       return;
     }
 
@@ -63,7 +64,7 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
 
   const setPage = (value: number) => {
 
-    if (ongoingRequest) {
+    if (loading) {
       return;
     }
 

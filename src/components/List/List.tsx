@@ -33,31 +33,30 @@ const List = function (props: ListProps) {
     const currentRoute = findRoute(routeMap, match);
     const parentEntity = findParentEntity(routeMap, match);
 
-    const [rows, setRows] = useState<Array<any>>([]);
-    const [headers, setHeaders] = useState<{ [id: string]: string }>({});
+    const [rows, setRows] = useState<Array<any>>([]); //1
+    const [headers, setHeaders] = useState<{ [id: string]: string }>({}); //2
 
-    const reqError = useStoreState((store) => store.api.errorMsg);
-    const apiGet = useStoreActions((actions: any) => {
+    const reqError = useStoreState((store) => store.api.errorMsg); //3?
+    const apiGet = useStoreActions((actions: any) => { //4?
         return actions.api.get
     });
-    const defaultItemsPerPage = useStoreState(
+    const defaultItemsPerPage = useStoreState( //5?
         (state) => state.route.defaultItemsPerPage
       );
-    const [mounted, cancelToken] = useCancelToken();
+    const [mounted, cancelToken] = useCancelToken(); //6?
 
-    const [ongoingRequest, setOngoingRequest] = useState<boolean>(false);
-    const [criteriaIsReady, setCriteriaIsReady] = useState<boolean>(false);
-    const queryStringCriteria: CriteriaFilterValues = useStoreState(
+    const [criteriaIsReady, setCriteriaIsReady] = useState<boolean>(false); //28
+    const queryStringCriteria: CriteriaFilterValues = useStoreState( //29?
         (state) => state.route.queryStringCriteria
     );
-    const setQueryStringCriteria = useStoreActions((actions) => {
+    const setQueryStringCriteria = useStoreActions((actions) => { //30?
         return actions.route.setQueryStringCriteria;
     });
 
     ////////////////////////////
     // Filters
     ////////////////////////////
-    const currentQueryParams = useQueryStringParams();
+    const currentQueryParams = useQueryStringParams(); //31?
     const filterBy: Array<string> = [];
 
     if (currentRoute?.filterBy) {
@@ -70,9 +69,9 @@ const List = function (props: ListProps) {
     }
     const filterByStr = filterBy.join('[]=');
     const reqQuerystring = currentQueryParams.join('&');
-    const [prevReqQuerystring, setPrevReqQuerystring] = useState<string | null>(null);
+    const [prevReqQuerystring, setPrevReqQuerystring] = useState<string | null>(null); //38
 
-    useEffect(
+    useEffect( //39
         () => {
 
             // Path change listener
@@ -91,7 +90,7 @@ const List = function (props: ListProps) {
         ]
     );
 
-    useEffect(
+    useEffect( //40
         () => {
 
             // Criteria change listener
@@ -122,7 +121,7 @@ const List = function (props: ListProps) {
         ]
     );
 
-    useEffect(
+    useEffect( //41
         () => {
 
             if (!mounted) {
@@ -169,14 +168,10 @@ const List = function (props: ListProps) {
                 reqPath += `${glue}${orderBy}`;
             }
 
-            setOngoingRequest(true);
-
             apiGet({
                 path: reqPath,
                 cancelToken,
                 successCallback: async (data: any, headers: any) => {
-
-                    setOngoingRequest(false);
 
                     if (!mounted) {
                         return;
@@ -209,7 +204,7 @@ const List = function (props: ListProps) {
         [
             foreignKeyResolver, entityService, criteriaIsReady,
             path, currentQueryParams, apiGet, reqQuerystring,
-            filterByStr, cancelToken, mounted, setOngoingRequest
+            filterByStr, cancelToken, mounted
         ]
     );
 
@@ -218,6 +213,10 @@ const List = function (props: ListProps) {
         headers['x-total-items'] ?? 0,
         10
     );
+
+    if (!criteriaIsReady || !mounted) {
+        return null;
+    }
 
     return (
         <>
@@ -236,7 +235,6 @@ const List = function (props: ListProps) {
             />
             <Pagination
                 recordCount={recordCount}
-                ongoingRequest={ongoingRequest}
                 listRef={listRef}
             />
             {reqError && <ErrorMessage message={reqError} />}

@@ -3,11 +3,11 @@ import { Grid } from '@mui/material';
 import { VisualToggleStates } from '../../services/entity/EntityService';
 import FormFieldFactory from '../../services/form/FormFieldFactory';
 import _ from '../../services/translations/translate';
-
 import { FkChoices, ReadOnlyProperties, NullablePropertyFkChoices} from './Form';
+import { FieldsetGroupsField, isDetailedFormFieldSpec } from './FilterFieldsetGroups';
 
 export type EntityFormFieldProps = {
-    columnName: string,
+    column: FieldsetGroupsField,
     fkChoices?: FkChoices,
     visualToggles: VisualToggleStates,
     readOnlyProperties?: ReadOnlyProperties,
@@ -17,7 +17,11 @@ export type EntityFormFieldProps = {
 export type EntityFormFieldType = (props: EntityFormFieldProps) => JSX.Element | null;
 export const FormField: EntityFormFieldType = (props) => {
 
-    const { columnName, fkChoices, visualToggles, readOnlyProperties, formFieldFactory } = props;
+    const { column, fkChoices, visualToggles, readOnlyProperties, formFieldFactory } = props;
+
+    const columnName = typeof column === 'string'
+            ? column
+            : column.name;
 
     const choices: NullablePropertyFkChoices = fkChoices
         ? fkChoices[columnName]
@@ -35,8 +39,19 @@ export const FormField: EntityFormFieldType = (props) => {
         ? true
         : false;
 
+    const defaultSizes = {
+        xs: 12,
+        md: 6,
+        lg: 4,
+        xl: 3,
+    };
+
+    const sizes = isDetailedFormFieldSpec(column)
+        ?  {...defaultSizes, ...column.size}
+        : defaultSizes;
+
     return (
-        <Grid item xs={12} md={6} lg={4} xl={3} style={visibilityStyles}>
+        <Grid item {...sizes} style={visibilityStyles}>
             {formFieldFactory.getFormField(columnName, choices, readOnly)}
         </Grid>
     );
@@ -46,7 +61,16 @@ const FormFieldMemo = React.memo(
     FormField,
     (prev: EntityFormFieldProps, next: EntityFormFieldProps): boolean => {
 
-        const columnName = prev.columnName;
+        const columnSpec = prev.column;
+        const columnName = isDetailedFormFieldSpec(columnSpec)
+            ? columnSpec.name
+            : columnSpec;
+
+        const nextColumnSpec = next.column;
+        const nextColumnName = isDetailedFormFieldSpec(nextColumnSpec)
+            ? nextColumnSpec.name
+            : nextColumnSpec;
+
         const column = prev.formFieldFactory.getProperty(columnName);
 
         if (column.memoize === false) {
@@ -80,7 +104,7 @@ const FormFieldMemo = React.memo(
         const prevFormik = prev.formFieldFactory.formik;
         const nextFormik = next.formFieldFactory.formik;
 
-        return prev.columnName === next.columnName
+        return columnName === nextColumnName
             && prevFkChoices === nextFkChoices
             && prevReadOnlyProperties === nextReadOnlyProperties
             && prevFormik.values[columnName] === nextFormik.values[columnName]

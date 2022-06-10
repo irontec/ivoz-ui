@@ -1,6 +1,6 @@
-import { isPropertyScalar, PropertySpec } from '../../services/api/ParsedApiSpecInterface';
-import { ListDecoratorType } from '../EntityInterface';
+import { isPropertyScalar } from '../../services/api/ParsedApiSpecInterface';
 import { CustomFunctionComponentContext } from '../../services/form/Field/CustomComponentWrapper';
+import { ListDecoratorType } from '../EntityInterface';
 
 const ListDecorator: ListDecoratorType = (props) => {
 

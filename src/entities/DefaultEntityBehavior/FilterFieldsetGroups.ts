@@ -1,9 +1,25 @@
+import { GridSize } from '@mui/material';
 import * as React from 'react';
 import _ from '../../services/translations/translate';
 
+type DetailedFormFieldSpec = {
+    name: string,
+    size: {
+        md?: boolean | GridSize,
+        lg?: boolean | GridSize,
+        xl?: boolean | GridSize,
+    }
+};
+
+export const isDetailedFormFieldSpec = (property: FieldsetGroupsField): property is DetailedFormFieldSpec => {
+    return typeof property !== 'string';
+}
+
+export type FieldsetGroupsField = string | DetailedFormFieldSpec;
+
 export type FieldsetGroups = {
     legend: string | React.ReactElement,
-    fields: Array<string | false | undefined>
+    fields: Array<FieldsetGroupsField | false | undefined>
 }
 
 const filterFieldsetGroups = (groups: Array<FieldsetGroups | false>): Array<FieldsetGroups> => {
@@ -17,7 +33,7 @@ const filterFieldsetGroups = (groups: Array<FieldsetGroups | false>): Array<Fiel
         }
 
         const fields = group.fields.filter(
-            (item) => typeof item === 'string'
+            (item) => ['string', 'object'].includes(typeof item)
         ) as Array<string>;
 
         if (!fields.length) {

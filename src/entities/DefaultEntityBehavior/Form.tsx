@@ -7,7 +7,7 @@ import { StyledGroupLegend, StyledGroupGrid } from '../DefaultEntityBehavior.sty
 import _ from '../../services/translations/translate';
 import { match } from 'react-router-dom';
 import EntityInterface from '../EntityInterface';
-import filterFieldsetGroups, { FieldsetGroups } from './FilterFieldsetGroups';
+import filterFieldsetGroups, { FieldsetGroups, FieldsetGroupsField } from './FilterFieldsetGroups';
 import FormFieldMemo from './FormField';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string, value: any }>;
@@ -75,10 +75,14 @@ const Form: EntityFormType = (props) => {
         <React.Fragment>
             {groups.map((group, idx: number) => {
 
-                const fields = group.fields as Array<string>;
+                const fields = group.fields as Array<FieldsetGroupsField>;
                 const visible = fields.reduce(
-                    (acc: boolean, fld: string) => {
-                        return acc || visualToggles[fld];
+                    (acc: boolean, fld: FieldsetGroupsField) => {
+                        const fldName = typeof fld === 'string'
+                            ? fld
+                            : fld.name;
+
+                        return acc || visualToggles[fldName];
                     },
                     false
                 );
@@ -97,16 +101,20 @@ const Form: EntityFormType = (props) => {
                             {group.legend}
                         </StyledGroupLegend>
                         <StyledGroupGrid>
-                            {fields.map((columnName: string, idx: number) => {
+                            {fields.map((column: FieldsetGroupsField, idx: number) => {
 
-                                if (columnName === filterBy) {
+                                const fldName = typeof column === 'string'
+                                    ? column
+                                    : column.name;
+
+                                if (fldName === filterBy) {
                                     return null;
                                 }
 
                                 return (
                                     <FormFieldMemo
                                         key={idx}
-                                        columnName={columnName}
+                                        column={column}
                                         fkChoices={fkChoices}
                                         visualToggles={visualToggles}
                                         readOnlyProperties={readOnlyProperties}

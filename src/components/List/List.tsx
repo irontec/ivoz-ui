@@ -176,7 +176,8 @@ const List = function (props: ListProps) {
                 orderBy = encodeURI(
                     `_order[${entityService.getOrderBy()}]=${entityService.getOrderDirection()}`
                 );
-                const glue = filterByStr || currentQueryParams.length > 0
+                
+                const glue = reqPath.indexOf('?') !== -1
                     ? '&'
                     : '?';
 

@@ -18,7 +18,7 @@ const useParentIden = (props: useParentIden): string | undefined => {
     const { state: locationState } = location;
     const parentId = Object.values(match.params).pop();
 
-    const [iden, setIden] = useState<string | undefined>(location.state?.referrerIden);
+    const [iden, setIden] = useState<string | undefined>(locationState?.referrerIden);
     const apiGet = useStoreActions((actions) => {
         return actions.api.get;
     });

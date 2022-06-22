@@ -23,7 +23,7 @@ type CreateProps = RouteComponentProps<any, any, Record<string, string>> & Entit
 const Create = (props: CreateProps) => {
 
   const {
-    marshaller, unmarshaller, path, history, properties, routeMap, match, entityService
+    marshaller, unmarshaller, path, history, routeMap, match, entityService
   } = props;
 
   const parentRoute = findRoute(routeMap, match);
@@ -41,7 +41,7 @@ const Create = (props: CreateProps) => {
   const apiPost = useStoreActions((actions) => actions.api.post);
   const [, cancelToken] = useCancelToken();
 
-  const columns = entityService.getProperties();
+  const properties = entityService.getProperties();
 
   let initialValues: EntityValues = {
     ...entityService.getDefultValues(),
@@ -53,7 +53,7 @@ const Create = (props: CreateProps) => {
       continue;
     }
 
-    const isBoolean = (columns[idx] as ScalarProperty)?.type === 'boolean';
+    const isBoolean = (properties[idx] as ScalarProperty)?.type === 'boolean';
     initialValues[idx] = isBoolean
       ? 0
       : '';
@@ -82,7 +82,7 @@ const Create = (props: CreateProps) => {
 
       const validationErrors = props.validator(
         values,
-        columns,
+        properties,
         visualToggles
       );
       setValidationError(validationErrors);
@@ -91,7 +91,7 @@ const Create = (props: CreateProps) => {
     },
     onSubmit: async (values: any) => {
 
-      const payload = marshaller(values, columns);
+      const payload = marshaller(values, properties);
       const formData = entityService.prepareFormData(payload);
 
       try {
@@ -140,7 +140,7 @@ const Create = (props: CreateProps) => {
     }
 
     errorList[idx] = (
-      <li key={idx}>{columns[idx].label}: {validationError[idx]}</li>
+      <li key={idx}>{properties[idx].label}: {validationError[idx]}</li>
     );
   }
 

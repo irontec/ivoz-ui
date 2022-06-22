@@ -25,7 +25,7 @@ type EditProps = RouteComponentProps<any, any, Record<string, string>> & EntityI
 const Edit: any = (props: EditProps) => {
 
   const {
-    marshaller, unmarshaller, history, match, row, properties, routeMap, entityService
+    marshaller, unmarshaller, history, match, row, routeMap, entityService
   } = props;
 
   const { Form: EntityForm } = props;
@@ -45,6 +45,8 @@ const Edit: any = (props: EditProps) => {
   const apiPut = useStoreActions((actions) => actions.api.put);
   const [, cancelToken] = useCancelToken();
   const [validationError, setValidationError] = useState<KeyValList>({});
+
+  const properties = entityService.getProperties();
 
   const initialValues = unmarshaller(
     row,

@@ -4,7 +4,7 @@ import { styled } from '@mui/styles';
 export const StyledCardActions = styled(CardActions)(
   () => {
     return {
-      'padding': '0 16px',
+      'padding': '0 7px 0 16px',
       'display': 'flex',
       'justifyContent': 'space-between',
     };

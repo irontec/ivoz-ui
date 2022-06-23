@@ -16,7 +16,7 @@ export default function Header(props: headerProps): JSX.Element {
   const { loggedIn, routeMap } = props;
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
-  const resetToken = useStoreActions((actions) => actions.auth.resetToken );
+  const resetAuth = useStoreActions((actions) => actions.auth.resetAll );
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -27,7 +27,7 @@ export default function Header(props: headerProps): JSX.Element {
   };
 
   const handleLogout = () => {
-    resetToken();
+    resetAuth();
   };
 
   return (

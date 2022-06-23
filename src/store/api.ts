@@ -1,24 +1,80 @@
 import axios, { CancelToken, CancelTokenSource } from 'axios';
 import { action, Action, Actions, Computed, computed, Thunk, thunk } from 'easy-peasy';
+import { IvozStore } from '../index';
 import ApiClient, { ApiError } from '../services/api/ApiClient';
 import { KeyValList } from '../services/api/ParsedApiSpecInterface';
 import { EntityValues } from '../services/entity/EntityService';
 
-const handleApiErrors = (
-  error: ApiError | null, getStoreActions: () => Actions<any>
-): string | null => {
-
-  if (!error) {
-    throw error;
-  }
+const isReqUnauthorized = (error: ApiError | null): boolean => {
 
   if ([401].includes(error?.status || -1)) {
-    const actions: any = getStoreActions();
-    actions.auth.resetToken();
+    return true;
   }
 
-  throw error.statusText;
+  return false;
 };
+
+const handleApiErrors = async (
+  error: ApiError | null,
+  getStoreActions: () => Actions<any>,
+): Promise<string | null> => {
+
+  if (!error) {
+    return null;
+  }
+
+  if (isReqUnauthorized(error)) {
+    const actions: any = getStoreActions();
+    await actions.auth.resetToken();
+    await actions.auth.useRefreshToken();
+  }
+
+  return error.data?.detail || error.statusText;
+};
+
+interface requestParms {
+  path: string,
+  cancelToken?: CancelToken,
+  silenceErrors?: boolean
+}
+
+interface apiGetRequestParams extends requestParms {
+  params: KeyValList,
+  successCallback: (data: Record<string, any>, headers: Record<string, any>) => Promise<any>,
+}
+
+interface apiPostRequestParams extends requestParms {
+  values: FormData | EntityValues | Record<string, string | number | boolean | null>,
+  contentType: string,
+}
+
+interface apiPutRequestParams extends requestParms {
+  values: FormData | EntityValues,
+}
+
+interface apiDeleteRequestParams extends requestParms {
+  successCallback: () => Promise<any>,
+}
+
+interface ApiState {
+  errorMsg: string | null,
+  ongoingRequests: number,
+  loading: Computed<ApiState, boolean>,
+  reqCancelTokenSourceFactory: () => CancelTokenSource
+}
+
+interface ApiActions {
+  setErrorMsg: Action<ApiState, string>
+  sumRequest: Action<ApiState>,
+  restRequest: Action<ApiState>,
+  get: Thunk<() => Promise<void>, apiGetRequestParams, any, IvozStore>
+  download: Thunk<() => Promise<void>, apiGetRequestParams, any, IvozStore>
+  post: Thunk<() => Promise<void>, apiPostRequestParams, any, IvozStore>
+  put: Thunk<() => Promise<void>, apiPutRequestParams, any, IvozStore>
+  delete: Thunk<() => Promise<void>, apiDeleteRequestParams, any, IvozStore>
+}
+
+export type ApiStore = ApiState & ApiActions;
 
 const api: ApiStore = {
   errorMsg: null,
@@ -42,13 +98,13 @@ const api: ApiStore = {
   ////////////////////////////////////////
   // GET
   ////////////////////////////////////////
-  get: thunk(async (actions: any, payload: apiGetRequestParams, { getStoreActions }) => {
+  get: thunk(async (actions: any, payload: apiGetRequestParams, { getStoreActions, getStoreState }) => {
 
     actions.sumRequest();
     actions.setErrorMsg(null);
     const { path, params, successCallback, cancelToken, silenceErrors } = payload;
 
-    try {
+    const request = async () => {
       const resp = await ApiClient.get(
         path,
         params,
@@ -57,36 +113,86 @@ const api: ApiStore = {
       );
 
       return resp;
+    };
+
+    try {
+
+      return await request();
 
     } catch (error: any) {
 
-      if (!silenceErrors) {
-        actions.setErrorMsg(error?.statusText);
+      const errorMsg = await handleApiErrors(error as ApiError, getStoreActions);
+
+      const token = getStoreState().auth.token;
+      const retry = isReqUnauthorized(error) && token;
+
+      if (retry) {
+        try {
+
+          return await request();
+
+        } catch (retryError) {
+
+          if (!silenceErrors) {
+            actions.setErrorMsg(errorMsg);
+          }
+
+          throw error;
+        }
       }
-      handleApiErrors(error as ApiError, getStoreActions);
+
+      if (!silenceErrors) {
+        actions.setErrorMsg(errorMsg);
+      }
 
     } finally {
       actions.restRequest();
     }
   }),
-  download: thunk(async (actions: any, payload: apiGetRequestParams, { getStoreActions }) => {
+  download: thunk(async (actions: any, payload: apiGetRequestParams, { getStoreActions, getStoreState }) => {
 
     const { path, params, successCallback, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
-    try {
+    const request = async () => {
       return await ApiClient.download(
         path,
         params,
         successCallback,
         cancelToken
       );
+    };
+
+    try {
+
+      return await request();
+
     } catch (error: any) {
-      if (!silenceErrors) {
-        actions.setErrorMsg(error?.statusText);
+
+      const errorMsg = await handleApiErrors(error as ApiError, getStoreActions);
+
+      const token = getStoreState().auth.token;
+      const retry = isReqUnauthorized(error) && token;
+
+      if (retry) {
+        try {
+
+          return await request();
+
+        } catch (retryError) {
+
+          if (!silenceErrors) {
+            actions.setErrorMsg(errorMsg);
+          }
+
+          throw error;
+        }
       }
-      handleApiErrors(error as ApiError, getStoreActions);
+
+      if (!silenceErrors) {
+        actions.setErrorMsg(errorMsg);
+      }
 
     } finally {
       actions.restRequest();
@@ -96,51 +202,102 @@ const api: ApiStore = {
   ////////////////////////////////////////
   // POST
   ////////////////////////////////////////
-  post: thunk(async (actions: any, payload: apiPostRequestParams, { getStoreActions }) => {
+  post: thunk(async (actions: any, payload: apiPostRequestParams, { getStoreActions, getStoreState }) => {
 
     const { path, values, contentType, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
-    try {
+    const request = async () => {
       return await ApiClient.post(
         path,
         values,
         contentType,
         cancelToken
       );
+    };
+
+    try {
+
+      return await request();
+
     } catch (error: any) {
-      if (!silenceErrors) {
-        const msg = error?.data?.detail || error?.statusText;
-        actions.setErrorMsg(msg);
+
+      const errorMsg = await handleApiErrors(error as ApiError, getStoreActions);
+
+      const token = getStoreState().auth.token;
+      const retry = isReqUnauthorized(error) && token;
+
+      if (retry) {
+        try {
+
+          return await request();
+
+        } catch (retryError) {
+
+          if (!silenceErrors) {
+            actions.setErrorMsg(errorMsg);
+          }
+
+          throw error;
+        }
       }
-      handleApiErrors(error as ApiError, getStoreActions);
+
+      if (!silenceErrors) {
+        actions.setErrorMsg(errorMsg);
+      }
 
     } finally {
       actions.restRequest();
     }
+
   }),
   ////////////////////////////////////////
   // PUT
   ////////////////////////////////////////
-  put: thunk(async (actions: any, payload: apiPutRequestParams, { getStoreActions }) => {
+  put: thunk(async (actions: any, payload: apiPutRequestParams, { getStoreActions, getStoreState }) => {
 
     const { path, values, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
-    try {
+    const request = async () => {
       return await ApiClient.put(
         path,
         values,
         cancelToken
       );
+    };
+
+    try {
+
+      return await request();
+
     } catch (error: any) {
-      if (!silenceErrors) {
-        const msg = error?.data?.detail || error?.statusText;
-        actions.setErrorMsg(msg);
+
+      const errorMsg = await handleApiErrors(error as ApiError, getStoreActions);
+
+      const token = getStoreState().auth.token;
+      const retry = isReqUnauthorized(error) && token;
+
+      if (retry) {
+        try {
+
+          return await request();
+
+        } catch (retryError) {
+
+          if (!silenceErrors) {
+            actions.setErrorMsg(errorMsg);
+          }
+
+          throw error;
+        }
       }
-      handleApiErrors(error as ApiError, getStoreActions);
+
+      if (!silenceErrors) {
+        actions.setErrorMsg(errorMsg);
+      }
 
     } finally {
       actions.restRequest();
@@ -149,23 +306,48 @@ const api: ApiStore = {
   ////////////////////////////////////////
   // DELETE
   ////////////////////////////////////////
-  delete: thunk(async (actions: any, payload: apiDeleteRequestParams, { getStoreActions }) => {
+  delete: thunk(async (actions: any, payload: apiDeleteRequestParams, { getStoreActions, getStoreState }) => {
 
     const { path, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
 
-    try {
+    const request = async () => {
       return await ApiClient.delete(
         path,
         cancelToken
       );
+    };
+
+    try {
+
+      return await request();
+
     } catch (error: any) {
-      if (!silenceErrors) {
-        const msg = error?.data?.detail || error?.statusText;
-        actions.setErrorMsg(msg);
+
+      const errorMsg = await handleApiErrors(error as ApiError, getStoreActions);
+
+      const token = getStoreState().auth.token;
+      const retry = isReqUnauthorized(error) && token;
+
+      if (retry) {
+        try {
+
+          return await request();
+
+        } catch (retryError) {
+
+          if (!silenceErrors) {
+            actions.setErrorMsg(errorMsg);
+          }
+
+          throw error;
+        }
       }
-      handleApiErrors(error as ApiError, getStoreActions);
+
+      if (!silenceErrors) {
+        actions.setErrorMsg(errorMsg);
+      }
 
     } finally {
       actions.restRequest();
@@ -174,47 +356,3 @@ const api: ApiStore = {
 };
 
 export default api;
-
-interface requestParms {
-  path: string,
-  cancelToken?: CancelToken,
-  silenceErrors?: boolean
-}
-
-interface apiGetRequestParams extends requestParms {
-  params: KeyValList,
-  successCallback: (data: Record<string, any>, headers: Record<string, any>) => Promise<any>,
-}
-
-interface apiPostRequestParams extends requestParms {
-  values: FormData | EntityValues,
-  contentType: string,
-}
-
-interface apiPutRequestParams extends requestParms {
-  values: FormData | EntityValues,
-}
-
-interface apiDeleteRequestParams extends requestParms {
-  successCallback: () => Promise<any>,
-}
-
-interface ApiState {
-  errorMsg: string | null,
-  ongoingRequests: number,
-  loading: Computed<ApiState, boolean>,
-  reqCancelTokenSourceFactory: () => CancelTokenSource
-}
-
-interface ApiActions {
-  setErrorMsg: Action<ApiState, string>
-  sumRequest: Action<ApiState>,
-  restRequest: Action<ApiState>,
-  get: Thunk<() => Promise<void>, apiGetRequestParams>
-  download: Thunk<() => Promise<void>, apiGetRequestParams>
-  post: Thunk<() => Promise<void>, apiPostRequestParams>
-  put: Thunk<() => Promise<void>, apiPutRequestParams>
-  delete: Thunk<() => Promise<void>, apiDeleteRequestParams>
-}
-
-export type ApiStore = ApiState & ApiActions;

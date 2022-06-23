@@ -1,69 +1,47 @@
-import { useState } from 'react';
 import { useFormik } from 'formik';
 import { Container } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useStoreActions } from 'store';
+import { useStoreActions, useStoreState } from 'store';
 import Title from '../../components/Title';
 import ErrorMessage from '../..//components/shared/ErrorMessage';
 import { useFormikType } from '../../services/form/types';
 import { StyledLoginContainer, StyledAvatar, StyledForm, StyledSubmitButton } from './Login.styles';
 import { EntityValidator } from '../../entities/EntityInterface';
 
-type onSubmitValueType = {
+type marshallerValueType = {
   username: string,
-  password:string,
-};
-
-type onSubmitResponseType = {
-  data?: {
-    token: string,
-    refreshToken: string,
-  }
+  password: string,
 };
 
 interface LoginProps {
   validator?: EntityValidator
-  onSubmit: (values: onSubmitValueType) => Promise<onSubmitResponseType>,
+  marshaller?: (values: marshallerValueType) => Record<string, string>,
 }
 
-export default function Login(props: LoginProps): JSX.Element {
+export default function Login(props: LoginProps): JSX.Element | null {
 
-  const [error, setError] = useState<string | null>(null);
+  const { validator, marshaller } = props;
 
-  const setToken = useStoreActions((actions) => actions.auth.setToken);
-  const setRefreshToken = useStoreActions((actions) => actions.auth.setRefreshToken);
+  const useRefreshToken = useStoreActions((actions) => actions.auth.useRefreshToken);
+  const onSubmit = useStoreActions((actions) => actions.auth.submit);
+  const refreshToken = useStoreState((state) => state.auth.refreshToken);
+  const errorMsg = useStoreState((state) => state.api.errorMsg);
 
-  const { onSubmit } = props;
+  if (refreshToken) {
+    useRefreshToken();
+    return null;
+  }
 
   const submit = async (values: any) => {
 
-    try {
-
-      setError(null);
-      const response = await onSubmit(values);
-
-      if (response.data && response.data.token) {
-        setToken(response.data.token);
-        setRefreshToken(response.data.refreshToken);
-        return;
-      }
-
-      const error = {
-        error: 'Token not found',
-        toString: function () { return this.error }
-      };
-
-      throw error;
-
-    } catch (error: any) {
-
-      const erroMsg = typeof error === 'string'
-        ? error
-        : error?.data?.message;
-
-      setError(erroMsg);
+    if (marshaller) {
+      values = marshaller(values);
     }
+
+    await onSubmit(
+      values
+    );
   };
 
   const formik: useFormikType = useFormik({
@@ -71,7 +49,7 @@ export default function Login(props: LoginProps): JSX.Element {
       'username': '',
       'password': ''
     },
-    validationSchema: props.validator,
+    validationSchema: validator,
     onSubmit: submit,
   });
 
@@ -112,7 +90,7 @@ export default function Login(props: LoginProps): JSX.Element {
           <StyledSubmitButton variant="contained">
             Sign In
           </StyledSubmitButton>
-          {error && <ErrorMessage message={error} />}
+          {errorMsg && <ErrorMessage message={errorMsg} />}
         </StyledForm>
       </StyledLoginContainer>
     </Container>

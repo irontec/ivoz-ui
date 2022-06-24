@@ -1,5 +1,5 @@
 import { Card, CardActions } from '@mui/material';
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 
 export const StyledCardActions = styled(CardActions)(
   () => {

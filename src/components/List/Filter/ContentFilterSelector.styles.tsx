@@ -1,4 +1,4 @@
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import ContentFilterSelector from './ContentFilterSelector';
 
 const StyledContentFilterSelector = styled(ContentFilterSelector)(

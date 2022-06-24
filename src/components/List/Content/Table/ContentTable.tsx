@@ -10,7 +10,7 @@ import DeleteRowButton from '../CTA/DeleteRowButton';
 import { RouteMapItem, MultiSelectFunctionComponent } from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
 import useMultiselectState, { handleMultiselectChangeType } from './hook/useMultiselectState';
-import { TableTableColumnMemo } from './ContentTableColumn';
+import { TableColumnMemo } from './ContentTableColumn';
 import { useStoreState } from 'store';
 
 interface ContentTableProps {
@@ -101,7 +101,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                 const column = columns[columnKey];
 
                 return (
-                  <TableTableColumnMemo
+                  <TableColumnMemo
                     key={columnKey}
                     columnName={columnKey}
                     column={column}
@@ -137,7 +137,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
         })}
         {multiselect && (
           <TableRow hover key={'multiselect'}>
-            <StyledTableCell variant='footer' colSpan={Object.values(columns).length}>
+            <StyledTableCell key={'multiselect'} variant='footer' colSpan={Object.values(columns).length}>
               {false && <Button variant="contained" disabled={selectedValues.length < 1}>
                 <DeleteIcon sx={{color: 'white'}} />
               </Button>}

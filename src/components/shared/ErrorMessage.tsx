@@ -1,5 +1,5 @@
 
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import ErrorIcon from '@mui/icons-material/Error';
 import Message from './Message';
@@ -22,7 +22,7 @@ const StyledErrorMessage = styled(
         );
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             backgroundColor: theme.palette.error.dark,
             color: 'white'

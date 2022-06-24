@@ -1,5 +1,5 @@
 
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -11,8 +11,12 @@ export const StyledCloseIcon = styled(CloseIcon)(
     }
 );
 
+interface StyledSnackbarContentMessageContainerProps {
+    children: React.ReactNode, 
+    className?: string,
+}
 export const StyledSnackbarContentMessageContainer = styled(
-    (props) => {
+    (props: StyledSnackbarContentMessageContainerProps) => {
         const { children, className } = props;
         return (<span className={className}>{children}</span>);
     }

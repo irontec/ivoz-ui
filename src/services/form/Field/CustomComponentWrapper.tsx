@@ -32,12 +32,11 @@ export type PropertyCustomFunctionComponent<T extends PropertyCustomFunctionComp
 interface CustomComponentWrapperProps {
     property: PropertySpec,
     hasChanged: boolean,
-    children: JSX.Element,
-    disabled?: boolean
+    children: React.ReactNode,
+    disabled: boolean
 }
-
 export const CustomComponentWrapper: React.FunctionComponent<CustomComponentWrapperProps> =
-    (props): JSX.Element => {
+    (props: CustomComponentWrapperProps): JSX.Element => {
         const { property, hasChanged, disabled } = props;
 
         return (

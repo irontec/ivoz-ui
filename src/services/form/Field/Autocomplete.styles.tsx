@@ -1,12 +1,12 @@
 
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { Theme } from '@mui/material';
 import Autocomplete from './Autocomplete';
 
 const StyledAutocomplete = styled(
   Autocomplete
 )(
-  ({ theme }: { theme: Theme }) => {
+  ({ theme }) => {
     return {
       '&.changed label': {
         color: theme.palette.info.main

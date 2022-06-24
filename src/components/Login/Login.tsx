@@ -62,7 +62,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
   return (
     <Container component="main" maxWidth="xs">
       <StyledLoginContainer>
-        <StyledForm onSubmit={formik.handleSubmit}>
+        <StyledForm onSubmit={formik.handleSubmit as React.FormEventHandler}>
           <StyledAvatar>
             <LockOutlinedIcon />
           </StyledAvatar>

@@ -1,6 +1,6 @@
 import { Fab } from '@mui/material';
-import { styled } from '@mui/styles';
-import HistoryTrackerLink from '../../../components/shared/HistoryTrackerLink';
+import { styled } from '@mui/material';
+import HistoryTrackerLink, { HistoryTrackerLinkProps } from '../../../components/shared/HistoryTrackerLink';
 import { forwardRef } from 'react';
 
 export const StyledActionButtonContainer = styled('div')(
@@ -14,15 +14,12 @@ export const StyledActionButtonContainer = styled('div')(
           margin: '0 0 5px 5px',
         }
       },
-      '& > div:nth-child(n+1)': {
-        alignContent: 'flex-end'
-      }
     }
   }
 );
 
 export const StyledLink = styled(
-  (props) => {
+  (props: HistoryTrackerLinkProps) => {
     const { children, className, to } = props;
     return (<HistoryTrackerLink to={to} className={className}>{children}</HistoryTrackerLink>);
   }

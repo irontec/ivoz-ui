@@ -4,7 +4,7 @@ import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
 
 export interface AutocompleteProps {
-  className: string,
+  className?: string,
   name: string,
   label: string | ReactElement<any, string | JSXElementConstructor<any>>,
   value: any,

@@ -1,17 +1,17 @@
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
 import { Theme, Typography } from '@mui/material';
-import { CreateCSSProperties, styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import HistoryTrackerLink from "../../../components/shared/HistoryTrackerLink";
 
-const linkStyles: CreateCSSProperties = {
+const linkStyles = {
   textDecoration: 'none',
   display: 'flex',
   color: 'white',
 };
 
 interface StyledCollapsedBreadcrumbsLinkProps {
-  className: string,
+  className?: string,
   children: string | JSX.Element,
   to: string
 }
@@ -30,7 +30,7 @@ export const StyledCollapsedBreadcrumbsLink = styled(
 );
 
 interface StyledCollapsedBreadcrumbsTypographyProps {
-  className: string,
+  className?: string,
   children: string | JSX.Element
 }
 
@@ -48,7 +48,7 @@ export const StyledCollapsedBreadcrumbsTypography = styled(
 );
 
 interface StyledCollapsedBreadcrumbsNavigateNextIconProps {
-  className: string
+  className?: string
 }
 export const StyledCollapsedBreadcrumbsNavigateNextIcon = styled(
   (props: StyledCollapsedBreadcrumbsNavigateNextIconProps) => {
@@ -64,7 +64,7 @@ export const StyledCollapsedBreadcrumbsNavigateNextIcon = styled(
 );
 
 export const StyledHomeIcon = styled(HomeIcon)(
-  ({ theme }: { theme: Theme }) => {
+  ({ theme }) => {
     return {
       marginRight: theme.spacing(0.5),
       width: 25,

@@ -1,17 +1,17 @@
 import { Theme } from '@mui/material';
-import { styled } from '@mui/styles';
-import HistoryTrackerLink from '../../components/shared/HistoryTrackerLink';
+import { styled } from '@mui/material';
+import HistoryTrackerLink, {HistoryTrackerLinkProps} from '../../components/shared/HistoryTrackerLink';
 
 const StyledDashboardLink = styled(
-    (props) => {
+    (props: HistoryTrackerLinkProps) => {
         const { children, className, to } = props;
         return (<HistoryTrackerLink to={to} className={className}>{children}</HistoryTrackerLink>)
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             'color': theme.palette.primary.dark,
-            'text-decoration': 'none',
+            'textDecoration': 'none',
         }
     }
 );

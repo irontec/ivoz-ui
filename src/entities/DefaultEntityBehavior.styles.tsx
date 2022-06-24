@@ -1,9 +1,13 @@
 
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { Typography, Grid, Theme } from '@mui/material';
 
+interface StyledGroupLegendProps {
+    children: React.ReactNode,
+    className?: string,
+}
 export const StyledGroupLegend = styled(
-    (props) => {
+    (props: StyledGroupLegendProps) => {
         const { children, className } = props;
         return (<Typography variant='h6' color='inherit' gutterBottom className={className}>{children}</Typography>);
     }
@@ -17,13 +21,17 @@ export const StyledGroupLegend = styled(
     }
 );
 
+interface StyledGroupGridProps {
+    children: React.ReactNode,
+    className?: string,
+}
 export const StyledGroupGrid = styled(
-    (props) => {
+    (props: StyledGroupGridProps) => {
         const { children, className } = props;
         return (<Grid container spacing={3} className={className}>{children}</Grid>);
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             [theme.breakpoints.up('md')]: {
                 paddingLeft: '15px',

@@ -1,12 +1,12 @@
 
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { Theme } from '@mui/material';
 import Dropdown from './Dropdown';
 
 const StyledDropdown = styled(
   Dropdown
 )(
-  ({ theme }: { theme: Theme }) => {
+  ({ theme }) => {
     return {
       '& > label.changed': {
         color: theme.palette.info.main

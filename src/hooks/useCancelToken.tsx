@@ -15,6 +15,9 @@ const useCancelToken = function (): [boolean, CancelToken] {
 
     useEffect(
         () => {
+            // Make this compatible with react strict mode
+            setMounted(true);
+
             return () => {
                 setMounted(false);
                 cancelTokenSource.cancel();

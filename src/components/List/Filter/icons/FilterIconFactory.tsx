@@ -9,7 +9,7 @@ import GreaterThan from './greaterThan';
 import GreaterThanEqual from './greaterThanEqual';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import _ from '../../../../services/translations/translate';
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { OverridableComponent } from '@mui/material/OverridableComponent';
 import { SvgIconTypeMap } from '@mui/material';
 

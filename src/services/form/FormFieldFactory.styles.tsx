@@ -1,8 +1,14 @@
-import { styled } from '@mui/styles';
+import { styled, TextFieldProps } from '@mui/material';
 import { Theme, Typography, FormControl, TextField, TextareaAutosize } from '@mui/material';
 
+
+interface StyledSwitchFormControlProps {
+    children: React.ReactNode,
+    className?: string,
+    hasChanged: boolean,
+}
 export const StyledSwitchFormControl = styled(
-    (props) => {
+    (props: StyledSwitchFormControlProps) => {
         const { children, hasChanged } = props;
         let className = props.className;
         if (hasChanged) {
@@ -12,7 +18,7 @@ export const StyledSwitchFormControl = styled(
         return (<FormControl className={className} fullWidth={true}>{children}</FormControl>);
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             marginTop: '10px',
             '&.changed label': {
@@ -22,13 +28,17 @@ export const StyledSwitchFormControl = styled(
     }
 );
 
+interface StyledFilterDialogTypographyProps {
+    children: React.ReactNode,
+    className?: string,
+}
 export const StyledFilterDialogTypography = styled(
-    (props) => {
+    (props: StyledFilterDialogTypographyProps) => {
         const { children, className } = props;
         return (<Typography variant="h6" className={className}>{children}</Typography>);
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             marginLeft: theme.spacing(2),
             flex: 1,
@@ -36,8 +46,11 @@ export const StyledFilterDialogTypography = styled(
     }
 );
 
+type StyledTextFieldProps = TextFieldProps & {
+    hasChanged: boolean,
+};
 export const StyledTextField = styled(
-    (props) => {
+    (props: StyledTextFieldProps) => {
 
         const {
             name, type, value, disabled, label, multiline,
@@ -77,7 +90,7 @@ export const StyledTextField = styled(
         );
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             marginTop: '0px',
             '&.changed > label': {

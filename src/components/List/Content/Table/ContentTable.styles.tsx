@@ -1,10 +1,10 @@
-import { TableCell, Theme } from '@mui/material';
-import { styled } from '@mui/styles';
+import { TableCell, TableCellProps, Theme } from '@mui/material';
+import { styled } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import { forwardRef } from 'react';
-import HistoryTrackerLink from '../../../../components/shared/HistoryTrackerLink';
+import HistoryTrackerLink, { HistoryTrackerLinkProps } from '../../../../components/shared/HistoryTrackerLink';
 
 const linkSharedStyles = {
   cursor: 'pointer',
@@ -42,7 +42,7 @@ export const StyledTableRowCustomCta = styled('a')(
 );
 
 export const StyledTableRowEntityCta = styled(TableRowLink)(
-  ({ theme }: { theme: Theme }) => {
+  ({ theme }) => {
     return {
       ...linkSharedStyles,
       textDecoration: 'none',
@@ -55,7 +55,7 @@ export const StyledTableRowEntityCta = styled(TableRowLink)(
 );
 
 export const StyledTableRowFkLink = styled(
-  (props) => {
+  (props: HistoryTrackerLinkProps) => {
     const { children, className, to } = props;
     return (<HistoryTrackerLink to={to} className={className}>{children}</HistoryTrackerLink>);
   }
@@ -105,8 +105,12 @@ export const StyledCheckBoxOutlineBlankIcon = styled(CheckBoxOutlineBlankIcon)(
   }
 );
 
+interface TableCellPropsWithKey extends TableCellProps {
+  key: string | number;
+}
+
 export const StyledTableCell = styled(
-  (props) => {
+  (props: TableCellPropsWithKey) => {
     const { children, className, key, ...rest } = props;
     return (<TableCell key={key} className={className} {...rest}>{children}</TableCell>);
   }
@@ -121,7 +125,7 @@ export const StyledTableCell = styled(
 
 
 export const StyledActionsTableCell = styled(
-  (props) => {
+  (props: TableCellPropsWithKey) => {
     const { children, className, key } = props;
     return (<TableCell key={key} className={className}>{children}</TableCell>);
   }

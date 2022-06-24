@@ -25,7 +25,7 @@ const Dashboard = (props: DashboardProps) => {
 
 export default withRouter<any, any>(
     styled(Dashboard)(
-        ({ theme }: { theme: Theme }) => {
+        ({ theme }) => {
             return {
                 [theme.breakpoints.down('md')]: {
                     '& ul': {

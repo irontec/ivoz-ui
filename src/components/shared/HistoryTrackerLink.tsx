@@ -3,7 +3,7 @@ import { forwardRef } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { EntityValues } from "../../services";
 
-interface HistoryTrackerLinkProps {
+export interface HistoryTrackerLinkProps {
     to: string,
     children: JSX.Element | string  | number,
     className?: string,
@@ -25,13 +25,13 @@ const HistoryTrackerLink = forwardRef<any, any>((props: HistoryTrackerLinkProps,
     }
 
     return (
-        <Link 
+        <Link
             ref={ref}
-            className={className} 
+            className={className}
             to={{
-                pathname: to, 
+                pathname: to,
                 state,
-            }} 
+            }}
             {...rest}
         >
             {children}

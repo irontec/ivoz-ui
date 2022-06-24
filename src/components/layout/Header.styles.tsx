@@ -1,18 +1,18 @@
-import { AppBar, Theme, Toolbar } from '@mui/material';
-import { styled } from '@mui/styles';
-import { CreateCSSProperties } from '@mui/styles/withStyles';
+import { AppBar, AppBarProps, Theme, Toolbar } from '@mui/material';
+import { styled } from '@mui/material';
 
 export const StyledHeaderContainer = styled('div')({
   display: 'flex',
 });
 
+
 export const StyledAppBar = styled(
-  (props) => {
+  (props: AppBarProps) => {
     const { position, className, children } = props;
     return (<AppBar position={position} className={className}>{children}</AppBar>);
   }
 )(
-  ({ theme }: { theme: Theme }) => {
+  ({ theme }) => {
     return {
       zIndex: theme.zIndex.drawer + 1,
       transition: theme.transitions.create(['width', 'margin'], {
@@ -26,7 +26,7 @@ export const StyledAppBar = styled(
 );
 
 export const StyledToolbar = styled(Toolbar)(
-  ({ theme }: { theme: Theme }) => {
+  ({ theme }) => {
 
     const minHeight = '64px';
 
@@ -37,6 +37,6 @@ export const StyledToolbar = styled(Toolbar)(
       '@media (min-width:600px)': {
         minHeight,
       },
-    } as CreateCSSProperties;
+    };
   }
 );

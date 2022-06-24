@@ -21,9 +21,11 @@ const DashboardItemList = (props: { items: RouteMapItem[] }): JSX.Element => {
 
                 return (
                     <li key={key}>
-                        <StyledDashboardLink to={route}>
-                            <entity.icon />
-                            {entity.title}
+                        <StyledDashboardLink to={route || ''}>
+                            <>
+                                <entity.icon />
+                                {entity.title}
+                            </>
                         </StyledDashboardLink>
                     </li>
                 );

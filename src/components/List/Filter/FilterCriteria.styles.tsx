@@ -1,5 +1,4 @@
-import { Chip } from '@mui/material';
-import { styled } from '@mui/styles';
+import { Chip, styled } from '@mui/material';
 import { forwardRef } from 'react';
 
 

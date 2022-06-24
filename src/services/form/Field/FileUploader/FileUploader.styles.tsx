@@ -1,9 +1,18 @@
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { useRef } from "react";
 import DownloadingIcon from '@mui/icons-material/Downloading';
 
+interface StyledFileUploaderContainer {
+    children: React.ReactNode,
+    className?: string,
+    onDrop: React.DragEventHandler,
+    onDragEnter: React.DragEventHandler
+    onDragLeave: React.DragEventHandler
+    onDragOver: React.DragEventHandler
+}
+
 export const StyledFileUploaderContainer = styled(
-    (props) => {
+    (props: StyledFileUploaderContainer) => {
 
         const { children, className } = props;
         const { onDrop, onDragEnter, onDragLeave, onDragOver } = props;
@@ -47,8 +56,13 @@ export const StyledUploadButtonContainer = styled('div')({
     alignItems: 'flex-end',
 });
 
+interface StyledUploadButtonLabelProps {
+    children: React.ReactNode,
+    className?: string
+    htmlFor: string,
+}
 export const StyledUploadButtonLabel = styled(
-    (props) => {
+    (props: StyledUploadButtonLabelProps) => {
         const { children, className, htmlFor } = props;
         return (
             <label

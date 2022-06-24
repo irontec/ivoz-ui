@@ -5,7 +5,7 @@ import { StyledTableCell } from './ContentTable.styles';
 import ListContentValue from '../ListContentValue';
 import { handleMultiselectChangeType } from './hook/useMultiselectState';
 
-interface TableTableColumnProps {
+interface TableColumnProps {
   columnName: string,
   entityService: EntityService,
   row: Record<string, any>,
@@ -15,7 +15,7 @@ interface TableTableColumnProps {
   handleChange: handleMultiselectChangeType,
 }
 
-export const TableTableColumn = (props: TableTableColumnProps) => {
+export const TableColumn = (props: TableColumnProps) => {
 
   const {columnName, column, row, entityService, selectable} = props;
   const {selectedValues, handleChange} = props;
@@ -23,7 +23,7 @@ export const TableTableColumn = (props: TableTableColumnProps) => {
   const checked = selectedValues.indexOf(row.id.toString()) > -1;
 
   return (
-    <StyledTableCell>
+    <StyledTableCell key={row.id}>
       {selectable && (
         <input
           type="checkbox"
@@ -43,9 +43,9 @@ export const TableTableColumn = (props: TableTableColumnProps) => {
   );
 }
 
-export const TableTableColumnMemo = React.memo(
-  TableTableColumn,
-  (prev: TableTableColumnProps, next: TableTableColumnProps): boolean => {
+export const TableColumnMemo = React.memo(
+  TableColumn,
+  (prev: TableColumnProps, next: TableColumnProps): boolean => {
 
       const column = prev.column;
       const columnName = prev.columnName;

@@ -1,4 +1,4 @@
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { Theme, AppBar, Typography, Toolbar } from '@mui/material';
 import FilterBoxContent from './FilterBoxContent';
 
@@ -10,13 +10,17 @@ export const StyledAppBar = styled(AppBar)(
   }
 );
 
+interface StyledFilterDialogTypographyProps {
+  children: React.ReactNode,
+  className: string,
+}
 export const StyledFilterDialogTypography = styled(
-  (props) => {
+  (props: StyledFilterDialogTypographyProps) => {
     const { children, className } = props;
     return (<Typography variant="h6" className={className}>{children}</Typography>);
   }
 )(
-  ({ theme }: { theme: Theme }) => {
+  ({ theme }) => {
     return {
       marginLeft: theme.spacing(2),
       flex: 1,

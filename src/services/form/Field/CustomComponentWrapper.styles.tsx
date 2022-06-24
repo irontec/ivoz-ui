@@ -1,7 +1,6 @@
 
-import { styled } from '@mui/styles';
-import { Theme } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { styled } from '@mui/material';
 
 export const StyledCloseIcon = styled(CloseIcon)(
     () => {
@@ -11,8 +10,15 @@ export const StyledCloseIcon = styled(CloseIcon)(
     }
 );
 
+interface StyledFieldsetRootProps {
+    children: React.ReactNode,
+    label: string | React.ReactElement<any>,
+    hasChanged: boolean,
+    disabled: boolean,
+    className?: string,
+}
 export const StyledFieldsetRoot = styled(
-    (props) => {
+    (props: StyledFieldsetRootProps) => {
         const { children, label, hasChanged, disabled } = props;
 
         let className = props.className;
@@ -33,7 +39,7 @@ export const StyledFieldsetRoot = styled(
         );
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             display: 'inline-flex',
             flexDirection: 'column',
@@ -71,8 +77,13 @@ export const StyledFieldsetRoot = styled(
     }
 );
 
+interface StyledFieldsetProps {
+    children: React.ReactNode
+    className?: string, 
+    label: string | React.ReactElement<any>,
+}
 export const StyledFieldset = styled(
-    (props) => {
+    (props: StyledFieldsetProps) => {
         const { children, className, label } = props;
         return (
             <fieldset className={className}>
@@ -86,7 +97,7 @@ export const StyledFieldset = styled(
         );
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
 
         const borderColor = theme.palette.mode === 'light'
             ? 'rgba(0, 0, 0, 0.23)'

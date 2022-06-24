@@ -1,9 +1,9 @@
 import Button from '@mui/material/Button';
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import _ from '../../../services/translations/translate';
 
 interface SaveButtonProps {
-  className: string,
+  className?: string,
 }
 
 const SaveButton = function(props: SaveButtonProps): JSX.Element {

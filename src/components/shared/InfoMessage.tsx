@@ -1,4 +1,4 @@
-import { styled } from '@mui/styles';
+import { styled } from '@mui/material';
 import { Theme } from '@mui/material/styles';
 import InfoIcon from '@mui/icons-material/Info';
 import Message from './Message';
@@ -22,7 +22,7 @@ const StyledInfoMessage = styled(
         );
     }
 )(
-    ({ theme }: { theme: Theme }) => {
+    ({ theme }) => {
         return {
             backgroundColor: '#616161',
             color: 'white'

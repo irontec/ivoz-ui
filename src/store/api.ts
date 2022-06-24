@@ -58,6 +58,7 @@ interface apiDeleteRequestParams extends requestParms {
 
 interface ApiState {
   errorMsg: string | null,
+  errorCode: number | null,
   ongoingRequests: number,
   loading: Computed<ApiState, boolean>,
   reqCancelTokenSourceFactory: () => CancelTokenSource
@@ -65,6 +66,7 @@ interface ApiState {
 
 interface ApiActions {
   setErrorMsg: Action<ApiState, string>
+  setErrorCode: Action<ApiState, number>
   sumRequest: Action<ApiState>,
   restRequest: Action<ApiState>,
   get: Thunk<() => Promise<void>, apiGetRequestParams, any, IvozStore>
@@ -78,6 +80,7 @@ export type ApiStore = ApiState & ApiActions;
 
 const api: ApiStore = {
   errorMsg: null,
+  errorCode: null,
   ongoingRequests: 0,
   reqCancelTokenSourceFactory: () => {
     return axios.CancelToken.source();
@@ -85,6 +88,9 @@ const api: ApiStore = {
   loading: computed<ApiState, boolean>((state) => { return state.ongoingRequests > 0 }),
   setErrorMsg: action<ApiState, string>((state, errorMsg) => {
     state.errorMsg = errorMsg;
+  }),
+  setErrorCode: action<ApiState, number>((state, errorCode) => {
+    state.errorCode = errorCode;
   }),
   sumRequest: action((state) => {
     state.ongoingRequests += 1;
@@ -102,6 +108,7 @@ const api: ApiStore = {
 
     actions.sumRequest();
     actions.setErrorMsg(null);
+    actions.setErrorCode(null);
     const { path, params, successCallback, cancelToken, silenceErrors } = payload;
 
     const request = async () => {
@@ -135,6 +142,7 @@ const api: ApiStore = {
 
           if (!silenceErrors) {
             actions.setErrorMsg(errorMsg);
+            actions.setErrorCode(error?.status);
           }
 
           throw error;
@@ -143,6 +151,7 @@ const api: ApiStore = {
 
       if (!silenceErrors) {
         actions.setErrorMsg(errorMsg);
+        actions.setErrorCode(error?.status);
       }
 
     } finally {
@@ -154,6 +163,7 @@ const api: ApiStore = {
     const { path, params, successCallback, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
+    actions.setErrorCode(null);
 
     const request = async () => {
       return await ApiClient.download(
@@ -184,6 +194,7 @@ const api: ApiStore = {
 
           if (!silenceErrors) {
             actions.setErrorMsg(errorMsg);
+            actions.setErrorCode(error?.status);
           }
 
           throw error;
@@ -192,6 +203,7 @@ const api: ApiStore = {
 
       if (!silenceErrors) {
         actions.setErrorMsg(errorMsg);
+        actions.setErrorCode(error?.status);
       }
 
     } finally {
@@ -207,6 +219,7 @@ const api: ApiStore = {
     const { path, values, contentType, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
+    actions.setErrorCode(null);
 
     const request = async () => {
       return await ApiClient.post(
@@ -237,6 +250,7 @@ const api: ApiStore = {
 
           if (!silenceErrors) {
             actions.setErrorMsg(errorMsg);
+            actions.setErrorCode(error?.status);
           }
 
           throw error;
@@ -245,6 +259,7 @@ const api: ApiStore = {
 
       if (!silenceErrors) {
         actions.setErrorMsg(errorMsg);
+        actions.setErrorCode(error?.status);
       }
 
     } finally {
@@ -260,6 +275,7 @@ const api: ApiStore = {
     const { path, values, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
+    actions.setErrorCode(null);
 
     const request = async () => {
       return await ApiClient.put(
@@ -289,6 +305,7 @@ const api: ApiStore = {
 
           if (!silenceErrors) {
             actions.setErrorMsg(errorMsg);
+            actions.setErrorCode(error?.status);
           }
 
           throw error;
@@ -297,6 +314,7 @@ const api: ApiStore = {
 
       if (!silenceErrors) {
         actions.setErrorMsg(errorMsg);
+        actions.setErrorCode(error?.status);
       }
 
     } finally {
@@ -311,6 +329,7 @@ const api: ApiStore = {
     const { path, cancelToken, silenceErrors } = payload;
     actions.sumRequest();
     actions.setErrorMsg(null);
+    actions.setErrorCode(null);
 
     const request = async () => {
       return await ApiClient.delete(
@@ -339,6 +358,7 @@ const api: ApiStore = {
 
           if (!silenceErrors) {
             actions.setErrorMsg(errorMsg);
+            actions.setErrorCode(error?.status);
           }
 
           throw error;
@@ -347,6 +367,7 @@ const api: ApiStore = {
 
       if (!silenceErrors) {
         actions.setErrorMsg(errorMsg);
+        actions.setErrorCode(error?.status);
       }
 
     } finally {

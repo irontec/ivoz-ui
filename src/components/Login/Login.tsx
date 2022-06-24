@@ -15,18 +15,20 @@ type marshallerValueType = {
 };
 
 interface LoginProps {
+  unauthorizedCustomErrorMsg?: string;
   validator?: EntityValidator
   marshaller?: (values: marshallerValueType) => Record<string, string>,
 }
 
 export default function Login(props: LoginProps): JSX.Element | null {
 
-  const { validator, marshaller } = props;
+  const { validator, marshaller, unauthorizedCustomErrorMsg } = props;
 
   const useRefreshToken = useStoreActions((actions) => actions.auth.useRefreshToken);
   const onSubmit = useStoreActions((actions) => actions.auth.submit);
   const refreshToken = useStoreState((state) => state.auth.refreshToken);
-  const errorMsg = useStoreState((state) => state.api.errorMsg);
+  const apiErrorMsg = useStoreState((state) => state.api.errorMsg);
+  const apiErrorCode = useStoreState((state) => state.api.errorCode);
 
   if (refreshToken) {
     useRefreshToken();
@@ -52,6 +54,10 @@ export default function Login(props: LoginProps): JSX.Element | null {
     validationSchema: validator,
     onSubmit: submit,
   });
+
+  const errorMsg = apiErrorCode === 401 && unauthorizedCustomErrorMsg
+    ? unauthorizedCustomErrorMsg
+    : apiErrorMsg;
 
   return (
     <Container component="main" maxWidth="xs">
@@ -90,7 +96,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
           <StyledSubmitButton variant="contained">
             Sign In
           </StyledSubmitButton>
-          {errorMsg && <ErrorMessage message={errorMsg} />}
+          {apiErrorMsg && <ErrorMessage message={errorMsg || ''} />}
         </StyledForm>
       </StyledLoginContainer>
     </Container>

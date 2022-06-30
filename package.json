@@ -20,15 +20,15 @@
     "pre-publish": "sed 's/dist\\///' package.json > dist/package.json"
   },
   "peerDependencies": {
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^5.2.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
+    "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.1",
-    "@mui/icons-material": "^5.0.1",
-    "easy-peasy": "^5.0.3"
+    "easy-peasy": "^5.0.3",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "react-router-dom": "^5.2.0"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.10.8",
@@ -49,24 +49,25 @@
     "i18next": "^20.3.0",
     "i18next-browser-languagedetector": "^6.1.1",
     "i18next-sprintf-postprocessor": "^0.2.2",
-    "react-i18next": "^11.8.15",
     "query-string": "^7.0.0",
+    "react-i18next": "^11.8.15",
+    "sync-client": "^1.0.0-beta.11",
     "typescript": "^4.6.2"
   },
   "devDependencies": {
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-router-dom": "^5.2.0",
     "@emotion/react": "^11.4.1",
     "@emotion/styled": "^11.3.0",
-    "@mui/styles": "^5.0.1",
+    "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.1",
-    "@mui/icons-material": "^5.0.1",
-    "easy-peasy": "^5.0.3",
+    "@mui/styles": "^5.0.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "easy-peasy": "^5.0.3",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^5.2.0",
     "tslint": "^6.1.3"
   }
 }

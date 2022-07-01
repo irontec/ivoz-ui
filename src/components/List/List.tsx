@@ -82,6 +82,19 @@ const List = function (props: ListProps) {
             Object.values(match.params).pop() as string
         );
     }
+
+    const filterValues: Array<string> = [];
+    const entityFilterValues = currentRoute?.filterValues || {};
+    for (const idx in entityFilterValues) {
+
+        const value = entityFilterValues[idx];
+        const param = value !== null
+            ? `${idx}=${entityFilterValues[idx]}`
+            : `${idx}`;
+
+        filterValues.push(param);
+    }
+
     const filterByStr = filterBy.join('[]=');
     const reqQuerystring = currentQueryParams.join('&');
     const [prevReqQuerystring, setPrevReqQuerystring] = useState<string | null>(null); //38
@@ -150,9 +163,9 @@ const List = function (props: ListProps) {
 
             let reqPath = path;
             if (currentQueryParams.length) {
-                reqPath = path + '?' + encodeURI([...currentQueryParams, filterByStr].join('&'));
-            } else if (filterByStr) {
-                reqPath = path + '?' + encodeURI(filterByStr);
+                reqPath = path + '?' + encodeURI([...currentQueryParams, ...filterValues, filterByStr].join('&'));
+            } else if (filterByStr || filterValues) {
+                reqPath = path + '?' + encodeURI([...filterValues, filterByStr].join('&'));
             }
 
             let itemsPerPage = currentQueryParams.find(
@@ -176,7 +189,7 @@ const List = function (props: ListProps) {
                 orderBy = encodeURI(
                     `_order[${entityService.getOrderBy()}]=${entityService.getOrderDirection()}`
                 );
-                
+
                 const glue = reqPath.indexOf('?') !== -1
                     ? '&'
                     : '?';

@@ -100,6 +100,7 @@ export default interface EntityInterface {
     iden: string,
     title: string | JSX.Element,
     path: string,
+    localPath?: string,
     columns: Array<string>,
     properties: PartialPropertyList,
     toStr: (row: EntityValues) => string,

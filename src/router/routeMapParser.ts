@@ -7,6 +7,7 @@ export interface EntityItem {
     entity: EntityInterface,
     route?: string,
     filterBy?: string,
+    filterValues?: Record<string, string | number | boolean | null>,
     fixedValues?: Record<string, string | number | boolean>,
     children?: Array<RouteMapItem>,
 }
@@ -88,9 +89,11 @@ const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(item: T, rout
 
             const entity = (item as EntityItem).entity;
 
+            const path = entity.localPath || entity.path;
+
             return RouteMapItemParser(
                 subitem,
-                `${routPrefix}${entity.path}/:parent_id_${depth}`,
+                `${routPrefix}${path}/:parent_id_${depth}`,
                 depth + 1
             );
         });
@@ -101,9 +104,11 @@ const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(item: T, rout
         }
     }
 
+    const path = item.entity?.localPath || item.entity?.path;
+
     return {
         ...item,
-        route: routPrefix + item.entity?.path
+        route: routPrefix + path
     };
 }
 

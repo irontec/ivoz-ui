@@ -18,6 +18,7 @@ interface AuthState {
 
 interface AuthActions {
   setSessionStoragePrefix: Action<AuthState, string>,
+  setLoginProps: Action<AuthState, LoginProps>,
   setToken: Action<AuthState, string | null>,
   setRefreshToken: Action<AuthState, string | null>,
   init: Thunk<AuthState>,
@@ -38,6 +39,7 @@ const auth: AuthStore = {
     refreshPath: '/token/refresh',
     contentType: 'application/x-www-form-urlencoded',
   },
+
   token: null,
   refreshToken: null,
 
@@ -46,6 +48,13 @@ const auth: AuthStore = {
     state.sessionStoragePrefix = prefix;
   }),
 
+  setLoginProps: action<AuthState, LoginProps>((state, loginProps) => {
+    state.login = {
+      ...state.login, 
+      ...loginProps
+    };
+  }),
+  
   setToken: action<AuthState, string | null>((state, token) => {
 
     if (token) {

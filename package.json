@@ -1,6 +1,6 @@
 {
   "name": "@irontec/ivoz-ui",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "UI library used in ivozprovider",
   "license": "GPL-3.0",
   "main": "dist/index.js",

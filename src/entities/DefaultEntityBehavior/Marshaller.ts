@@ -8,7 +8,7 @@ const marshaller = (values: MarshallerValues, properties: PartialPropertyList): 
 
         const property: any = properties[idx];
 
-        if (!property) {
+        if (!property || property.readOnly) {
             delete values[idx];
             continue;
         }

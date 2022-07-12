@@ -29,7 +29,7 @@ const handleApiErrors = async (
     await actions.auth.useRefreshToken();
   }
 
-  return error.data?.detail || error.statusText;
+  return error.data?.detail || error.data?.message || error.statusText;
 };
 
 interface requestParms {

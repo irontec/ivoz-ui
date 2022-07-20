@@ -1,22 +1,37 @@
 import { useState } from 'react';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import { Avatar, Box, IconButton, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+  Typography,
+} from '@mui/material';
 import { useStoreActions } from '../../store';
 import { RouteMap } from '../../router/routeMapParser';
 import Breadcrumbs from './Breadcrumbs';
-import { StyledAppBar, StyledHeaderContainer, StyledToolbar } from './Header.styles';
+import {
+  StyledAppBar,
+  StyledHeaderContainer,
+  StyledToolbar,
+} from './Header.styles';
 
 interface headerProps {
-  loggedIn: boolean,
-  routeMap: RouteMap
+  loggedIn: boolean;
+  routeMap: RouteMap;
+  menuItems?: JSX.Element;
 }
 
 export default function Header(props: headerProps): JSX.Element {
+  const { loggedIn, routeMap, menuItems } = props;
+  const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
+  const handleLogout = () => {
+    resetAuth();
+  };
 
-  const { loggedIn, routeMap } = props;
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
-
-  const resetAuth = useStoreActions((actions) => actions.auth.resetAll );
 
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
@@ -26,13 +41,9 @@ export default function Header(props: headerProps): JSX.Element {
     setAnchorElUser(null);
   };
 
-  const handleLogout = () => {
-    resetAuth();
-  };
-
   return (
     <StyledHeaderContainer>
-      <StyledAppBar position="fixed">
+      <StyledAppBar position='fixed'>
         <StyledToolbar>
           {loggedIn && (
             <Box sx={{ flexGrow: 1 }}>
@@ -41,7 +52,7 @@ export default function Header(props: headerProps): JSX.Element {
           )}
           {loggedIn && (
             <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
+              <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar sx={{ bgcolor: 'white', color: 'primary.main' }}>
                     <ManageAccountsIcon />
@@ -50,7 +61,7 @@ export default function Header(props: headerProps): JSX.Element {
               </Tooltip>
               <Menu
                 sx={{ mt: '45px' }}
-                id="menu-appbar"
+                id='menu-appbar'
                 anchorEl={anchorElUser}
                 anchorOrigin={{
                   vertical: 'top',
@@ -64,9 +75,11 @@ export default function Header(props: headerProps): JSX.Element {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                <MenuItem key='logout' onClick={handleLogout}>
-                  <Typography textAlign="center">Logout</Typography>
-                </MenuItem>
+                {menuItems || (
+                  <MenuItem key='logout' onClick={handleLogout}>
+                    <Typography textAlign='center'>Logout</Typography>
+                  </MenuItem>
+                )}
               </Menu>
             </Box>
           )}

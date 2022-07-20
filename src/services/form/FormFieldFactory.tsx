@@ -342,6 +342,26 @@ export default class FormFieldFactory {
                 );
             }
 
+            if(property.format === 'password'){
+                return (
+                    <StyledTextField
+                        name={fld}
+                        type={"password"}
+                        value={this.formik.values[fld]}
+                        disabled={disabled}
+                        label={property.label}
+                        required={property.required}
+                        onChange={this.changeHandler}
+                        onBlur={this.handleBlur}
+                        error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
+                        helperText={this.formik.touched[fld] && this.formik.errors[fld]}
+                        InputProps={InputProps}
+                        inputProps={inputProps}
+                        hasChanged={hasChanged}
+                    />
+                );
+            }
+
             return (
                 <StyledTextField
                     name={fld}

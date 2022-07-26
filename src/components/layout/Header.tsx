@@ -21,11 +21,12 @@ import {
 interface headerProps {
   loggedIn: boolean;
   routeMap: RouteMap;
-  menuItems?: JSX.Element;
+  children?: React.ReactNode;
+  customAvatar?: JSX.Element;
 }
 
 export default function Header(props: headerProps): JSX.Element {
-  const { loggedIn, routeMap, menuItems } = props;
+  const { loggedIn, routeMap, children, customAvatar } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const handleLogout = () => {
     resetAuth();
@@ -54,11 +55,14 @@ export default function Header(props: headerProps): JSX.Element {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar sx={{ bgcolor: 'white', color: 'primary.main' }}>
-                    <ManageAccountsIcon />
-                  </Avatar>
+                  {customAvatar || (
+                    <Avatar sx={{ bgcolor: 'white', color: 'primary.main' }}>
+                      <ManageAccountsIcon />
+                    </Avatar>
+                  )}
                 </IconButton>
               </Tooltip>
+
               <Menu
                 sx={{ mt: '45px' }}
                 id='menu-appbar'
@@ -75,7 +79,7 @@ export default function Header(props: headerProps): JSX.Element {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {menuItems || (
+                {children || (
                   <MenuItem key='logout' onClick={handleLogout}>
                     <Typography textAlign='center'>Logout</Typography>
                   </MenuItem>

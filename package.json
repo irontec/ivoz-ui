@@ -17,7 +17,15 @@
   "scripts": {
     "build": "bin/tsc",
     "watch": "bin/tsc --watch",
+    "lint": "eslint --fix src --ext .js,.ts,.tsx",
+    "lint:check": "prettier --check src/**/*.tsx src/**/*.ts src/**/*.js",
     "pre-publish": "sed 's/dist\\///' package.json > dist/package.json"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "peerDependencies": {
     "@emotion/react": "^11.4.1",
@@ -36,6 +44,7 @@
     "date-fns": "^2.21.1",
     "file-saver": "^2.0.5",
     "formik": "^2.2.6",
+    "eslint": "^7.11.0",
     "hoist-non-react-statics": "^3.3.2",
     "i18next": "^20.3.0",
     "i18next-browser-languagedetector": "^6.1.1",
@@ -51,6 +60,14 @@
     "@mui/icons-material": "^5.0.1",
     "@mui/lab": "^5.0.0-alpha.48",
     "@mui/material": "^5.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.27.1",
+    "@typescript-eslint/parser": "^5.27.1",
+    "eslint": "^7.11.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "prettier": "^2.6.2",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

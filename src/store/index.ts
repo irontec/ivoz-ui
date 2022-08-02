@@ -5,6 +5,7 @@ import spec, { SpecStore } from './apiSpec';
 import api, { ApiStore } from './api';
 import route, { RouteStore } from './route';
 import list, { ListStore } from './list';
+import entities, { EntitiesStore } from './entities';
 
 export interface IvozStore {
   auth: AuthStore,
@@ -12,6 +13,7 @@ export interface IvozStore {
   api: ApiStore,
   route: RouteStore,
   list: ListStore,
+  entities: EntitiesStore,
 }
 
 export const storeModel: IvozStore = {
@@ -20,6 +22,7 @@ export const storeModel: IvozStore = {
   api,
   route,
   list,
+  entities,
 }
 
 StoreContainer.store = createStore<IvozStore>(storeModel);

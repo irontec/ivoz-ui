@@ -96,7 +96,7 @@ export default class FormFieldFactory {
             );
         }
 
-        if (!fileUpload && ((property as FkProperty).$ref || multiSelect)) {
+        if (!fileUpload && (isPropertyFk(property) || multiSelect)) {
 
             if (!choices) {
                 return (

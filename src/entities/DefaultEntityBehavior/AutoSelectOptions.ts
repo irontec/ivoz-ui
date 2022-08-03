@@ -1,10 +1,11 @@
 import EntityService from '../../services/entity/EntityService';
 import { CancelToken } from 'axios';
 import { EntityList } from 'router/parseRoutes';
+import { StoreContainer } from '../../store';
 
 type AutoSelectOptionsArgs = {
     cancelToken?: CancelToken,
-    entities: EntityList,
+    entities?: EntityList, // Deprecated
     entityService: EntityService,
     skip?: string[],
     response: Record<string, Array<unknown>> | any,
@@ -14,12 +15,18 @@ export const autoSelectOptions = (
     props: AutoSelectOptionsArgs
 ): Array<Promise<unknown>> => {
 
-    const { cancelToken, response, entityService, entities } = props;
-    const skip = props.skip || [];
+    const { cancelToken, response, entityService } = props;
+    let { entities } = props;
+
+    if (!entities) {
+        entities = StoreContainer.store.getState().entities.entities;
+    }
 
     if (!entities) {
         return [];
     }
+
+    const skip = props.skip || [];
 
     const promises = [];
     const fkProperties = entityService?.getFkProperties();

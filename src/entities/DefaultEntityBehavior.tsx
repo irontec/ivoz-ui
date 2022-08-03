@@ -14,6 +14,7 @@ import autoForeignKeyResolver from './DefaultEntityBehavior/AutoForeignKeyResolv
 import autoSelectOptions from './DefaultEntityBehavior/AutoSelectOptions';
 import ListDecorator from './DefaultEntityBehavior/ListDecorator';
 import foreignKeyResolver from './DefaultEntityBehavior/ForeignKeyResolver';
+import foreignKeyGetter from './DefaultEntityBehavior/ForeignKeyGetter';
 import filterFieldsetGroups, { FieldsetGroups } from './DefaultEntityBehavior/FilterFieldsetGroups';
 import Form, {
     PropertyFkChoices, EntityFormType, FkChoices, NullablePropertyFkChoices, EntityFormProps
@@ -21,10 +22,6 @@ import Form, {
 import View from './DefaultEntityBehavior/View';
 
 export const initialValues = {};
-
-export const foreignKeyGetter = async (): Promise<any> => {
-    return {};
-};
 
 export const columns = [];
 
@@ -106,6 +103,7 @@ export {
     autoSelectOptions,
     ListDecorator,
     foreignKeyResolver,
+    foreignKeyGetter,
     filterFieldsetGroups,
     Form
 }

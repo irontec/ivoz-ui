@@ -1,6 +1,5 @@
 
 import { styled } from '@mui/material';
-import { Theme } from '@mui/material';
 import Autocomplete from './Autocomplete';
 
 const StyledAutocomplete = styled(

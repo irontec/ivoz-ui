@@ -2,12 +2,18 @@ import { EntityValues } from '../../services/entity/EntityService';
 import { foreignKeyResolverProps } from '../EntityInterface';
 import _ from '../../services/translations/translate';
 import genericForeignKeyResolver from '../../services/api/genericForeigKeyResolver';
+import { StoreContainer } from '../../store';
 
 const autoForeignKeyResolver = (
     props: foreignKeyResolverProps
 ): Array<Promise<EntityValues | EntityValues[]>> => {
 
-    const { data, cancelToken, entityService, entities, skip } = props;
+    const { data, cancelToken, entityService, skip } = props;
+    let { entities } = props;
+    if (!entities) {
+        entities = StoreContainer.store.getState().entities.entities;
+    }
+
     if (!entities) {
         return [];
     }

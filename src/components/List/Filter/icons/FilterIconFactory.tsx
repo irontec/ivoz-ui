@@ -63,9 +63,9 @@ export default function FilterIconFactory(
   );
 }
 
-export const getFilterIcon = (
+const getFilterIcon = (
   name: string
-): OverridableComponent<SvgIconTypeMap> => {
+): React.FunctionComponent => {
   switch (name) {
     case 'exists':
       return AssignmentTurnedInIcon;

@@ -131,7 +131,7 @@ const Create = (props: CreateProps) => {
 
     errorList[idx] = (
       <li key={idx}>
-        {properties[idx].label}: {validationError[idx]}
+        <>{properties[idx].label}: {validationError[idx]}</>
       </li>
     );
   }

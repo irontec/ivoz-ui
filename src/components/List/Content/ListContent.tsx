@@ -13,18 +13,21 @@ import ListContentHeader from './ListContentHeader';
 import ContentTable from './Table/ContentTable';
 
 interface ListContentProps {
-  childEntities: Array<RouteMapItem>,
-  path: string,
-  entityService: EntityService,
-  ignoreColumn: string | undefined,
-  preloadData: boolean,
-  cancelToken: CancelToken,
-  match: match,
-  location: Location<Record<string, string> | undefined>,
-  parentEntity: EntityInterface | undefined,
+  childEntities: Array<RouteMapItem>;
+  path: string;
+  entityService: EntityService;
+  ignoreColumn: string | undefined;
+  preloadData: boolean;
+  cancelToken: CancelToken;
+  match: match;
+  location: Location<Record<string, string> | undefined>;
+  parentEntity: EntityInterface | undefined;
 }
 
-const ListContent = (props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
+const ListContent = (
+  props: ListContentProps,
+  ref: ForwardedRef<any>
+): JSX.Element => {
   const {
     childEntities,
     path,
@@ -53,23 +56,27 @@ const ListContent = (props: ListContentProps, ref: ForwardedRef<any>): JSX.Eleme
         parentEntity={parentEntity}
       />
 
-      {bigScreen && <Box>
-        <ContentTable
-          entityService={entityService}
-          ignoreColumn={ignoreColumn}
-          path={path}
-          childEntities={childEntities}
-        />
-      </Box>}
-      {!bigScreen && <Box>
-        <ContentCard
-          entityService={entityService}
-          ignoreColumn={ignoreColumn}
-          path={path}
-          childEntities={childEntities}
-        />
-      </Box>}
-    </React.Fragment >
+      {bigScreen && (
+        <Box>
+          <ContentTable
+            entityService={entityService}
+            ignoreColumn={ignoreColumn}
+            path={path}
+            childEntities={childEntities}
+          />
+        </Box>
+      )}
+      {!bigScreen && (
+        <Box>
+          <ContentCard
+            entityService={entityService}
+            ignoreColumn={ignoreColumn}
+            path={path}
+            childEntities={childEntities}
+          />
+        </Box>
+      )}
+    </React.Fragment>
   );
 };
 

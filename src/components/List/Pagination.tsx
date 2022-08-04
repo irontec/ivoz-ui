@@ -8,47 +8,36 @@ import { ROUTE_ITEMS_PER_PAGE_KEY, ROUTE_PAGE_KEY } from '../../store/route';
 import { CriteriaFilterValue } from './Filter/ContentFilter';
 
 interface ContentTablePaginationProps {
-  listRef: RefObject<any>,
+  listRef: RefObject<any>;
 }
 
-export default function Pagination(props: ContentTablePaginationProps): JSX.Element | null {
-  const {
-    listRef
-  } = props;
+export default function Pagination(
+  props: ContentTablePaginationProps
+): JSX.Element | null {
+  const { listRef } = props;
 
-  const loading = useStoreState(
-    (state) => state.api.loading
-  );
-  const itemsPerPage = useStoreState(
-    (state) => state.route.itemsPerPage
-  );
+  const loading = useStoreState((state) => state.api.loading);
+  const itemsPerPage = useStoreState((state) => state.route.itemsPerPage);
 
-  const headers = useStoreState(
-    (state) => state.list.headers
-  );
+  const headers = useStoreState((state) => state.list.headers);
 
-  const recordCount = parseInt(
-      headers['x-total-items'] ?? 0,
-      10
-  );
+  const recordCount = parseInt(headers['x-total-items'] ?? 0, 10);
 
-  const page = useStoreState(
-      (state) => state.route.page
-  );
+  const page = useStoreState((state) => state.route.page);
 
   const replaceInQueryStringCriteria = useStoreActions((actions) => {
-      return actions.route.replaceInQueryStringCriteria;
+    return actions.route.replaceInQueryStringCriteria;
   });
 
   const scrollToTop = () => {
-    listRef.current && listRef.current.scrollIntoView({
-      behavior: 'smooth',
-      block: 'end',
-    });
+    listRef.current &&
+      listRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+      });
   };
 
   const setItemsPerPage = (value: number) => {
-
     if (loading) {
       return;
     }
@@ -56,14 +45,14 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
     const criteria: CriteriaFilterValue = {
       name: ROUTE_ITEMS_PER_PAGE_KEY,
       type: '',
-      value
+      value,
     };
     replaceInQueryStringCriteria(criteria);
 
     const pageCriteria: CriteriaFilterValue = {
       name: ROUTE_PAGE_KEY,
       type: '',
-      value: 1
+      value: 1,
     };
     replaceInQueryStringCriteria(pageCriteria);
 
@@ -71,7 +60,6 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
   };
 
   const setPage = (value: number) => {
-
     if (loading) {
       return;
     }
@@ -79,21 +67,23 @@ export default function Pagination(props: ContentTablePaginationProps): JSX.Elem
     const criteria: CriteriaFilterValue = {
       name: ROUTE_PAGE_KEY,
       type: '',
-      value
+      value,
     };
     replaceInQueryStringCriteria(criteria);
 
     scrollToTop();
-  }
+  };
 
   if (recordCount === 0) {
     return null;
   }
 
   return (
-    <ThemeProvider theme={(outerTheme) => createTheme(outerTheme, locales['esES'])}>
+    <ThemeProvider
+      theme={(outerTheme) => createTheme(outerTheme, locales['esES'])}
+    >
       <TablePagination
-        component="div"
+        component='div'
         page={(page || 1) - 1}
         rowsPerPage={itemsPerPage}
         rowsPerPageOptions={[10, 25, 50, 100]}

@@ -1,24 +1,27 @@
 import { Action, action, computed, Computed, Thunk, thunk } from 'easy-peasy';
-import { CriteriaFilterValue, CriteriaFilterValues } from '../components/List/Filter/ContentFilter';
+import {
+  CriteriaFilterValue,
+  CriteriaFilterValues,
+} from '../components/List/Filter/ContentFilter';
 
 type DirectionType = 'asc' | 'desc';
 
 export interface RouteOrderState {
-  name: string,
-  direction: DirectionType
+  name: string;
+  direction: DirectionType;
 }
 
 interface RouteState {
-  queryStringCriteria: CriteriaFilterValues,
-  order: Computed<RouteState, RouteOrderState | null>,
-  defaultItemsPerPage: number,
-  itemsPerPage: Computed<RouteState, number>,
-  page: Computed<RouteState, number>,
+  queryStringCriteria: CriteriaFilterValues;
+  order: Computed<RouteState, RouteOrderState | null>;
+  defaultItemsPerPage: number;
+  itemsPerPage: Computed<RouteState, number>;
+  page: Computed<RouteState, number>;
 }
 
 interface RouteActions {
-  setQueryStringCriteria: Action<RouteState, CriteriaFilterValues>,
-  replaceInQueryStringCriteria: Thunk<RouteStore, CriteriaFilterValue, unknown>
+  setQueryStringCriteria: Action<RouteState, CriteriaFilterValues>;
+  replaceInQueryStringCriteria: Thunk<RouteStore, CriteriaFilterValue, unknown>;
 }
 
 export type RouteStore = RouteState & RouteActions;
@@ -27,16 +30,15 @@ export const ROUTE_ORDER_KEY = '_order';
 export const ROUTE_ITEMS_PER_PAGE_KEY = '_itemsPerPage';
 export const ROUTE_PAGE_KEY = '_page';
 
-
 const route: RouteStore = {
   queryStringCriteria: [],
   defaultItemsPerPage: 10,
   order: computed<RouteState, RouteOrderState | null>((state) => {
     for (const criteria of state.queryStringCriteria) {
       if (criteria.name === ROUTE_ORDER_KEY) {
-        const order : RouteOrderState = {
+        const order: RouteOrderState = {
           name: criteria.type,
-          direction: criteria.value as DirectionType
+          direction: criteria.value as DirectionType,
         };
 
         return order;
@@ -64,9 +66,11 @@ const route: RouteStore = {
     return 1;
   }),
   // actions
-  setQueryStringCriteria: action<RouteState, CriteriaFilterValues>((state: any, queryStringCriteria: CriteriaFilterValues) => {
-    state.queryStringCriteria = [...queryStringCriteria];
-  }),
+  setQueryStringCriteria: action<RouteState, CriteriaFilterValues>(
+    (state: any, queryStringCriteria: CriteriaFilterValues) => {
+      state.queryStringCriteria = [...queryStringCriteria];
+    }
+  ),
 
   // thunks
   replaceInQueryStringCriteria: thunk<RouteStore, CriteriaFilterValue, unknown>(
@@ -75,7 +79,6 @@ const route: RouteStore = {
 
       let replaced = false;
       for (const idx in queryStringCriteria) {
-
         if (queryStringCriteria[idx].name !== criteria.name) {
           continue;
         }
@@ -91,7 +94,7 @@ const route: RouteStore = {
 
       actions.setQueryStringCriteria(queryStringCriteria);
     }
-  )
+  ),
 };
 
 export default route;

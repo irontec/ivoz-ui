@@ -5,49 +5,47 @@ import genericForeignKeyResolver from '../../services/api/genericForeigKeyResolv
 import { StoreContainer } from '../../store';
 
 const autoForeignKeyResolver = (
-    props: foreignKeyResolverProps
+  props: foreignKeyResolverProps
 ): Array<Promise<EntityValues | EntityValues[]>> => {
+  const { data, cancelToken, entityService, skip } = props;
+  let { entities } = props;
+  if (!entities) {
+    entities = StoreContainer.store.getState().entities.entities;
+  }
 
-    const { data, cancelToken, entityService, skip } = props;
-    let { entities } = props;
-    if (!entities) {
-        entities = StoreContainer.store.getState().entities.entities;
+  if (!entities) {
+    return [];
+  }
+
+  const promises = [];
+  const fkProperties = entityService?.getFkProperties();
+
+  for (const idx in fkProperties) {
+    if (skip && skip.includes(idx)) {
+      continue;
     }
 
-    if (!entities) {
-        return [];
+    const ref = fkProperties[idx].$ref.replace('#/definitions/', '');
+    const entity = entities[ref];
+
+    if (!entity) {
+      if (ref) {
+        console.log('foreignKeyResolver', `${ref} not found`);
+      }
+      continue;
     }
 
-    const promises = [];
-    const fkProperties = entityService?.getFkProperties();
+    promises.push(
+      genericForeignKeyResolver({
+        data,
+        fkFld: idx,
+        entity: entity,
+        cancelToken,
+      })
+    );
+  }
 
-    for (const idx in fkProperties) {
-
-        if (skip && skip.includes(idx)) {
-            continue;
-        }
-
-        const ref = fkProperties[idx].$ref.replace('#/definitions/', '');
-        const entity = entities[ref];
-
-        if (!entity) {
-            if (ref) {
-                console.log('foreignKeyResolver', `${ref} not found`);
-            }
-            continue;
-        }
-
-        promises.push(
-            genericForeignKeyResolver({
-                data,
-                fkFld: idx,
-                entity: entity,
-                cancelToken,
-            })
-        );
-    }
-
-    return promises;
+  return promises;
 };
 
 export default autoForeignKeyResolver;

@@ -1,1 +1,1 @@
-export * from "./useCancelToken";
+export * from './useCancelToken';

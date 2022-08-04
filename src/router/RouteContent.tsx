@@ -1,16 +1,15 @@
-import EntityService from "../services/entity/EntityService";
-import ParsedApiSpecInterface from "../services/api/ParsedApiSpecInterface";
-import { RouteSpec } from "./parseRoutes";
-import { RouteMap } from "./routeMapParser";
+import EntityService from '../services/entity/EntityService';
+import ParsedApiSpecInterface from '../services/api/ParsedApiSpecInterface';
+import { RouteSpec } from './parseRoutes';
+import { RouteMap } from './routeMapParser';
 
 export interface RouteContentProps {
-  route: RouteSpec,
-  apiSpec: ParsedApiSpecInterface,
-  routeMap: RouteMap,
+  route: RouteSpec;
+  apiSpec: ParsedApiSpecInterface;
+  routeMap: RouteMap;
 }
 
 const RouteContent = (props: RouteContentProps): JSX.Element => {
-
   const { route, apiSpec, routeMap } = props;
 
   const entity = route.entity;

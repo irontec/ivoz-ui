@@ -1,13 +1,9 @@
 import { match } from 'react-router-dom';
 
 const buildLink = (link: string, match: match, id?: string): string => {
-
-  const params = match.params as Record<string, string>
+  const params = match.params as Record<string, string>;
   for (const idx in params) {
-    link = link.replace(
-        `:${idx}`,
-        params[idx]
-      )
+    link = link.replace(`:${idx}`, params[idx]);
   }
 
   const urlParamNum = Object.values(params).length;
@@ -16,6 +12,6 @@ const buildLink = (link: string, match: match, id?: string): string => {
   }
 
   return link;
-}
+};
 
 export default buildLink;

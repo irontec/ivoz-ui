@@ -7,22 +7,23 @@ import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import ListContentValue from '../ListContentValue';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import { StyledCardActions, StyledCard, StyledCardContainer } from './ContentCard.styles';
+import {
+  StyledCardActions,
+  StyledCard,
+  StyledCardContainer,
+} from './ContentCard.styles';
 
 interface ContentCardProps {
-  childEntities: Array<RouteMapItem>,
-  entityService: EntityService,
-  ignoreColumn: string | undefined,
-  path: string,
+  childEntities: Array<RouteMapItem>;
+  entityService: EntityService;
+  ignoreColumn: string | undefined;
+  path: string;
 }
 
 const ContentCard = (props: ContentCardProps): JSX.Element => {
-
   const { childEntities, entityService, path, ignoreColumn } = props;
 
-  const rows = useStoreState(
-    (state) => state.list.rows
-  );
+  const rows = useStoreState((state) => state.list.rows);
 
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
@@ -48,7 +49,6 @@ const ContentCard = (props: ContentCardProps): JSX.Element => {
   return (
     <>
       {rows.map((row: any, rKey: any) => {
-
         return (
           <StyledCard key={rKey}>
             <CardContent>
@@ -91,7 +91,11 @@ const ContentCard = (props: ContentCardProps): JSX.Element => {
                 )}
               </StyledCardContainer>
               <StyledCardContainer>
-                <ChildEntityLinks childEntities={childEntities} entityService={entityService} row={row} />
+                <ChildEntityLinks
+                  childEntities={childEntities}
+                  entityService={entityService}
+                  row={row}
+                />
               </StyledCardContainer>
             </StyledCardActions>
           </StyledCard>
@@ -99,6 +103,6 @@ const ContentCard = (props: ContentCardProps): JSX.Element => {
       })}
     </>
   );
-}
+};
 
 export default ContentCard;

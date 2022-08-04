@@ -27,7 +27,7 @@ export interface ChildDecoratorProps {
   row: Record<string, any>;
 }
 
-export type ChildDecoratorType = React.FunctionComponent<ChildDecoratorProps>;
+export type ChildDecoratorType = React.FunctionComponent<React.PropsWithChildren<ChildDecoratorProps>>;
 
 export interface foreignKeyResolverProps {
   data: any;

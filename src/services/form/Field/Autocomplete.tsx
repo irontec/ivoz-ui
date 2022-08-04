@@ -1,29 +1,43 @@
-import React, { useEffect, useState, useCallback, ReactElement, JSXElementConstructor } from 'react';
-import { TextField, } from '@mui/material';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  ReactElement,
+  JSXElementConstructor,
+} from 'react';
+import { TextField } from '@mui/material';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
 
 export interface AutocompleteProps {
-  className?: string,
-  name: string,
-  label: string | ReactElement<any, string | JSXElementConstructor<any>>,
-  value: any,
-  multiple: boolean,
-  required: boolean,
-  disabled: boolean,
-  onChange: (event: any) => void,
-  onBlur: (event: React.FocusEvent) => void,
-  choices: any,
-  error?: boolean,
-  helperText?: string,
-  hasChanged: boolean,
+  className?: string;
+  name: string;
+  label: string | ReactElement<any, string | JSXElementConstructor<any>>;
+  value: any;
+  multiple: boolean;
+  required: boolean;
+  disabled: boolean;
+  onChange: (event: any) => void;
+  onBlur: (event: React.FocusEvent) => void;
+  choices: any;
+  error?: boolean;
+  helperText?: string;
+  hasChanged: boolean;
 }
 
 const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
-
   const {
-    name, label, required, multiple, disabled, onChange, onBlur,
-    choices, error, helperText, hasChanged
+    name,
+    label,
+    required,
+    multiple,
+    disabled,
+    onChange,
+    onBlur,
+    choices,
+    error,
+    helperText,
+    hasChanged,
   } = props;
   const value = props.value || null;
   const i18n = getI18n();
@@ -35,48 +49,41 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
 
   const [arrayChoices, setArrayChoices] = useState<Array<any>>([]);
 
-  useEffect(
-    () => {
+  useEffect(() => {
+    const arrayValue = [];
+    for (const idx in choices) {
+      arrayValue.push({ value: idx, label: choices[idx] });
+    }
 
-      const arrayValue = [];
-      for (const idx in choices) {
-        arrayValue.push({ value: idx, label: choices[idx] });
-      }
-
-      setArrayChoices(arrayValue);
-
-    },
-    [choices]
-  );
+    setArrayChoices(arrayValue);
+  }, [choices]);
 
   const onChangeWrapper = useCallback(
     (e: any, option: any, reason: string) => {
-
       let selectedValue = undefined;
 
       if (reason !== 'clear') {
         selectedValue = multiple
-          ? option.map((item: any) => typeof item === 'object' ? item.value : item)
+          ? option.map((item: any) =>
+              typeof item === 'object' ? item.value : item
+            )
           : option?.value;
       } else {
-        selectedValue = choices?.__null__
-          ? '__null__'
-          : undefined;
+        selectedValue = choices?.__null__ ? '__null__' : undefined;
       }
 
       onChange({
         target: {
           name: name,
           value: selectedValue,
-        }
-      })
+        },
+      });
     },
     [multiple, onChange, name]
   );
 
   const getOptionLabel = useCallback(
     (value: any) => {
-
       if (typeof value !== 'object') {
         value = arrayChoices.find(
           // eslint-disable-next-line
@@ -85,19 +92,18 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
       }
 
       const isTranslation =
-        value?.label
-        && typeof value.label === 'object'
-        && value.label?.props?.defaults
-        && typeof value.label?.props?.defaults === 'string';
+        value?.label &&
+        typeof value.label === 'object' &&
+        value.label?.props?.defaults &&
+        typeof value.label?.props?.defaults === 'string';
 
       if (isTranslation) {
-
         const translatableText = value.label?.props?.defaults;
 
         return i18n.t(translatableText);
       }
 
-      return value?.label || "";
+      return value?.label || '';
     },
     [arrayChoices, i18n]
   );
@@ -116,11 +122,10 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
 
   const renderInput = useCallback(
     (params: any) => {
-
       const InputProps = {
         ...params.InputProps,
         notched: true,
-      }
+      };
 
       return (
         <TextField
@@ -137,9 +142,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     [name, label, required, error, helperText]
   );
 
-  const disableClearable = choices?.__null__
-    ? false
-    : true;
+  const disableClearable = choices?.__null__ ? false : true;
 
   return (
     <MuiAutocomplete

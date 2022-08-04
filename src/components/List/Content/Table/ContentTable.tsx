@@ -7,28 +7,33 @@ import { StyledActionsTableCell, StyledTableCell } from './ContentTable.styles';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import DeleteRowButton from '../CTA/DeleteRowButton';
-import { RouteMapItem, MultiSelectFunctionComponent } from '../../../../router/routeMapParser';
+import {
+  RouteMapItem,
+  MultiSelectFunctionComponent,
+} from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import useMultiselectState, { handleMultiselectChangeType } from './hook/useMultiselectState';
+import useMultiselectState, {
+  handleMultiselectChangeType,
+} from './hook/useMultiselectState';
 import { TableColumnMemo } from './ContentTableColumn';
 import { useStoreState } from 'store';
 
 interface ContentTableProps {
-  childEntities: Array<RouteMapItem>,
-  entityService: EntityService,
-  ignoreColumn: string | undefined,
-  path: string,
+  childEntities: Array<RouteMapItem>;
+  entityService: EntityService;
+  ignoreColumn: string | undefined;
+  path: string;
 }
 
 const ContentTable = (props: ContentTableProps): JSX.Element => {
-
   const { childEntities, entityService, path, ignoreColumn } = props;
-  const [selectedValues, handleChange, setSelectedValues] = useMultiselectState();
-  const [currentQueryString, setCurrentQueryString] = useState(window.location.search);
-
-  const rows = useStoreState(
-    (state) => state.list.rows
+  const [selectedValues, handleChange, setSelectedValues] =
+    useMultiselectState();
+  const [currentQueryString, setCurrentQueryString] = useState(
+    window.location.search
   );
+
+  const rows = useStoreState((state) => state.list.rows);
 
   if (currentQueryString !== window.location.search) {
     setCurrentQueryString(window.location.search);
@@ -54,21 +59,19 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
   };
 
   const multiselectActions = Object.values(entity.customActions)
-    .filter(
-      action => action.multiselect
-    )
-    .map(item => item.action as MultiSelectFunctionComponent );
+    .filter((action) => action.multiselect)
+    .map((item) => item.action as MultiSelectFunctionComponent);
 
   const columns = entityService.getCollectionColumns();
 
-  const multiselect = /*entityService.getAcls().delete === true ||*/ multiselectActions.length > 0;
+  const multiselect =
+    /*entityService.getAcls().delete === true ||*/ multiselectActions.length >
+    0;
   const selectAllHandlers: handleMultiselectChangeType = useCallback(
     (event) => {
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
-      const rowIds = value
-        ? rows.map(row => row.id.toString())
-        : [];
+      const rowIds = value ? rows.map((row) => row.id.toString()) : [];
 
       setSelectedValues(rowIds);
     },
@@ -76,7 +79,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
   );
 
   return (
-    <Table size="medium" sx={{ "tableLayout": 'fixed' }}>
+    <Table size='medium' sx={{ tableLayout: 'fixed' }}>
       <ContentTableHead
         entityService={entityService}
         ignoreColumn={ignoreColumn}
@@ -85,14 +88,12 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
       />
       <TableBody>
         {rows.map((row: any, key: any) => {
-
           const acl = entityService.getAcls();
           let selectableIdx = 0;
 
           return (
             <TableRow hover key={key}>
               {Object.keys(columns).map((columnKey: string, idx: number) => {
-
                 if (columnKey === ignoreColumn) {
                   selectableIdx++;
                   return null;
@@ -113,7 +114,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                   />
                 );
               })}
-              <StyledActionsTableCell key="actions">
+              <StyledActionsTableCell key='actions'>
                 {acl.update && (
                   <ChildDecorator routeMapItem={updateRouteMapItem} row={row}>
                     <EditRowButton row={row} path={path} />
@@ -124,7 +125,11 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     <ViewRowButton row={row} path={path} />
                   </ChildDecorator>
                 )}
-                <ChildEntityLinks childEntities={childEntities} entityService={entityService} row={row} />
+                <ChildEntityLinks
+                  childEntities={childEntities}
+                  entityService={entityService}
+                  row={row}
+                />
                 &nbsp;
                 {acl.delete && (
                   <ChildDecorator routeMapItem={deleteMapItem} row={row}>
@@ -137,33 +142,46 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
         })}
         {multiselect && (
           <TableRow hover key={'multiselect'}>
-            <StyledTableCell key={'multiselect'} variant='footer' colSpan={Object.values(columns).length}>
-              {false && <Button variant="contained" disabled={selectedValues.length < 1}>
-                <DeleteIcon sx={{color: 'white'}} />
-              </Button>}
+            <StyledTableCell
+              key={'multiselect'}
+              variant='footer'
+              colSpan={Object.values(columns).length}
+            >
+              {false && (
+                <Button
+                  variant='contained'
+                  disabled={selectedValues.length < 1}
+                >
+                  <DeleteIcon sx={{ color: 'white' }} />
+                </Button>
+              )}
               {multiselectActions.map((Action, key) => {
-                  return (
-                    <Button
-                      key={key}
-                      variant="contained"
-                      disabled={selectedValues.length < 1}
-                      sx={{verticalAlign: 'inherit', marginLeft: '10px', padding: 0}}
-                    >
-                      <Action
-                        style={{padding: '6px 18px 0'}}
-                        rows={rows}
-                        selectedValues={selectedValues}
-                        entityService={entityService}
-                      />
-                    </Button>
-                  );
+                return (
+                  <Button
+                    key={key}
+                    variant='contained'
+                    disabled={selectedValues.length < 1}
+                    sx={{
+                      verticalAlign: 'inherit',
+                      marginLeft: '10px',
+                      padding: 0,
+                    }}
+                  >
+                    <Action
+                      style={{ padding: '6px 18px 0' }}
+                      rows={rows}
+                      selectedValues={selectedValues}
+                      entityService={entityService}
+                    />
+                  </Button>
+                );
               })}
             </StyledTableCell>
           </TableRow>
         )}
-        </TableBody>
+      </TableBody>
     </Table>
   );
-}
+};
 
 export default ContentTable;

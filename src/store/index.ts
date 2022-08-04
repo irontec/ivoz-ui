@@ -8,12 +8,12 @@ import list, { ListStore } from './list';
 import entities, { EntitiesStore } from './entities';
 
 export interface IvozStore {
-  auth: AuthStore,
-  spec: SpecStore,
-  api: ApiStore,
-  route: RouteStore,
-  list: ListStore,
-  entities: EntitiesStore,
+  auth: AuthStore;
+  spec: SpecStore;
+  api: ApiStore;
+  route: RouteStore;
+  list: ListStore;
+  entities: EntitiesStore;
 }
 
 export const storeModel: IvozStore = {
@@ -23,21 +23,17 @@ export const storeModel: IvozStore = {
   route,
   list,
   entities,
-}
+};
 
 StoreContainer.store = createStore<IvozStore>(storeModel);
 
-const {
-  useStoreActions,
-  useStoreState,
-  useStoreDispatch,
-  useStore
-} = createTypedHooks<IvozStore>();
+const { useStoreActions, useStoreState, useStoreDispatch, useStore } =
+  createTypedHooks<IvozStore>();
 
 export {
   StoreContainer,
   useStoreActions,
   useStoreState,
   useStoreDispatch,
-  useStore
+  useStore,
 };

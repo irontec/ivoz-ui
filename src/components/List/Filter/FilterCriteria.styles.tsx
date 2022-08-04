@@ -1,7 +1,6 @@
 import { Chip, styled } from '@mui/material';
 import { forwardRef } from 'react';
 
-
 const _Chip = forwardRef<any, any>((props, ref) => {
   const { className, icon, label, onDelete } = props;
   return (
@@ -16,13 +15,11 @@ const _Chip = forwardRef<any, any>((props, ref) => {
 });
 _Chip.displayName = '_Chip';
 
-export const StyledChip = styled(_Chip)(
-  () => {
-    return {
-      margin: '0 5px 5px',
-    }
-  }
-);
+export const StyledChip = styled(_Chip)(() => {
+  return {
+    margin: '0 5px 5px',
+  };
+});
 
 const _ChipIcon = (props: any) => {
   const { children, className, fieldName } = props;
@@ -34,14 +31,12 @@ const _ChipIcon = (props: any) => {
   );
 };
 
-export const StyledChipIcon = styled(_ChipIcon)(
-  () => {
-    return {
-      paddingLeft: '5px',
-      '& .prefix': {
-        display: 'inline-flex',
-        paddingRight: '10px',
-      }
-    }
-  }
-);
+export const StyledChipIcon = styled(_ChipIcon)(() => {
+  return {
+    paddingLeft: '5px',
+    '& .prefix': {
+      display: 'inline-flex',
+      paddingRight: '10px',
+    },
+  };
+});

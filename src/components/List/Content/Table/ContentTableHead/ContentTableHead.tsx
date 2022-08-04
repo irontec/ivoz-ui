@@ -1,6 +1,4 @@
-import {
-    TableCell, TableHead, TableRow, TableSortLabel
-} from '@mui/material';
+import { TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
 import { isPropertyFk } from '../../../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../../../store';
@@ -10,26 +8,18 @@ import { handleMultiselectChangeType } from '../hook/useMultiselectState';
 import { StyledTableSortLabelVisuallyHidden } from './ContentTableHead.styles';
 
 interface ContentTableHead {
-    entityService: EntityService,
-    ignoreColumn: string | undefined,
-    multiselect: boolean,
-    selectAll: handleMultiselectChangeType,
+  entityService: EntityService;
+  ignoreColumn: string | undefined;
+  multiselect: boolean;
+  selectAll: handleMultiselectChangeType;
 }
 
 const ContentTableHead = function (props: ContentTableHead): JSX.Element {
-
-  const {
-    entityService,
-    ignoreColumn,
-    multiselect,
-    selectAll,
-  } = props;
+  const { entityService, ignoreColumn, multiselect, selectAll } = props;
 
   const columns = entityService.getCollectionColumns();
 
-  const order = useStoreState(
-    (state) => state.route.order
-  );
+  const order = useStoreState((state) => state.route.order);
   const direction = order?.direction || false;
   const replaceInQueryStringCriteria = useStoreActions((actions) => {
     return actions.route.replaceInQueryStringCriteria;
@@ -40,17 +30,14 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
       name: ROUTE_ORDER_KEY,
       type: property,
       value: direction,
-    }
+    };
 
     replaceInQueryStringCriteria(order);
-  }
+  };
 
   const createSortHandler = (property: string) => () => {
     const isDesc = order?.name === property && direction === 'desc';
-    setSort(
-      property,
-      isDesc ? 'asc' : 'desc'
-    );
+    setSort(property, isDesc ? 'asc' : 'desc');
   };
 
   let selectableIdx = 0;
@@ -62,10 +49,9 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     <TableHead>
       <TableRow>
         {Object.keys(columns).map((key: string, idx: number) => {
-
           if (key === ignoreColumn) {
-              selectableIdx++;
-              return null;
+            selectableIdx++;
+            return null;
           }
 
           return (
@@ -77,35 +63,43 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
               sx={styles}
             >
               {idx === selectableIdx && multiselect && (
-                  <input
-                    type="checkbox"
-                    style={{marginRight: '10px', verticalAlign: 'middle'}}
-                    onChange={selectAll}
-                  />
+                <input
+                  type='checkbox'
+                  style={{ marginRight: '10px', verticalAlign: 'middle' }}
+                  onChange={selectAll}
+                />
               )}
-              {!isPropertyFk(columns[key]) && <TableSortLabel
-                active={order?.name === key}
-                direction={order?.direction}
-                onClick={createSortHandler(key)}
-              >
-                {columns[key].label}
-                {order?.name === key ? (
-                  <StyledTableSortLabelVisuallyHidden>
-                      {order?.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </StyledTableSortLabelVisuallyHidden>
-                ) : null}
-              </TableSortLabel>}
-              {isPropertyFk(columns[key]) && <>
-                {columns[key].label}
-                {order?.name === key ? (
-                  <StyledTableSortLabelVisuallyHidden>
-                      {order?.direction === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                  </StyledTableSortLabelVisuallyHidden>
-                ) : null}
-              </>}
+              {!isPropertyFk(columns[key]) && (
+                <TableSortLabel
+                  active={order?.name === key}
+                  direction={order?.direction}
+                  onClick={createSortHandler(key)}
+                >
+                  {columns[key].label}
+                  {order?.name === key ? (
+                    <StyledTableSortLabelVisuallyHidden>
+                      {order?.direction === 'desc'
+                        ? 'sorted descending'
+                        : 'sorted ascending'}
+                    </StyledTableSortLabelVisuallyHidden>
+                  ) : null}
+                </TableSortLabel>
+              )}
+              {isPropertyFk(columns[key]) && (
+                <>
+                  {columns[key].label}
+                  {order?.name === key ? (
+                    <StyledTableSortLabelVisuallyHidden>
+                      {order?.direction === 'desc'
+                        ? 'sorted descending'
+                        : 'sorted ascending'}
+                    </StyledTableSortLabelVisuallyHidden>
+                  ) : null}
+                </>
+              )}
             </TableCell>
-          )}
-        )}
+          );
+        })}
         <TableCell
           key={'empty slot'}
           align='left'
@@ -115,6 +109,6 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
       </TableRow>
     </TableHead>
   );
-}
+};
 
 export default ContentTableHead;

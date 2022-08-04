@@ -1,12 +1,12 @@
 export interface OpenApiDefinitions {
-    [key: string]: any
+  [key: string]: any;
 }
 
 export interface OpenApiPaths {
-    [key: string]: any
+  [key: string]: any;
 }
 
 export default interface OpenApiSpecInterface {
-    definitions: OpenApiDefinitions;
-    paths: OpenApiPaths;
+  definitions: OpenApiDefinitions;
+  paths: OpenApiPaths;
 }

@@ -1,29 +1,38 @@
-import { useEffect, useState } from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { useEffect, useState } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { useStoreActions, useStoreState } from '../store';
 import { useFormik } from 'formik';
 import ErrorMessage from './shared/ErrorMessage';
 import EntityService, { EntityValues } from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
 import { useFormikType } from '../services/form/types';
-import { KeyValList, ScalarProperty } from "../services/api/ParsedApiSpecInterface";
-import useCancelToken from "../hooks/useCancelToken";
-import SaveButton from "./shared/Button/SaveButton";
-import findRoute from "../router/findRoute";
+import {
+  KeyValList,
+  ScalarProperty,
+} from '../services/api/ParsedApiSpecInterface';
+import useCancelToken from '../hooks/useCancelToken';
+import SaveButton from './shared/Button/SaveButton';
+import findRoute from '../router/findRoute';
 import { RouteMap } from '../router/routeMapParser';
-import { EntityFormType } from "../entities/DefaultEntityBehavior";
-import useRememberedValues from "./shared/useRememberedValues";
+import { EntityFormType } from '../entities/DefaultEntityBehavior';
+import useRememberedValues from './shared/useRememberedValues';
 
-type CreateProps = RouteComponentProps<any, any, Record<string, string>> & EntityInterface & {
-  entityService: EntityService,
-  routeMap: RouteMap,
-  Form: EntityFormType,
-}
+type CreateProps = RouteComponentProps<any, any, Record<string, string>> &
+  EntityInterface & {
+    entityService: EntityService;
+    routeMap: RouteMap;
+    Form: EntityFormType;
+  };
 
 const Create = (props: CreateProps) => {
-
   const {
-    marshaller, unmarshaller, path, history, routeMap, match, entityService
+    marshaller,
+    unmarshaller,
+    path,
+    history,
+    routeMap,
+    match,
+    entityService,
   } = props;
 
   const parentRoute = findRoute(routeMap, match);
@@ -45,8 +54,8 @@ const Create = (props: CreateProps) => {
 
   let initialValues: EntityValues = {
     ...entityService.getDefultValues(),
-    ...props.initialValues
-  }
+    ...props.initialValues,
+  };
 
   for (const idx in properties) {
     if (initialValues[idx] !== undefined) {
@@ -54,20 +63,14 @@ const Create = (props: CreateProps) => {
     }
 
     const isBoolean = (properties[idx] as ScalarProperty)?.type === 'boolean';
-    initialValues[idx] = isBoolean
-      ? 0
-      : '';
+    initialValues[idx] = isBoolean ? 0 : '';
   }
 
-  initialValues = unmarshaller(
-    initialValues,
-    properties
-  );
+  initialValues = unmarshaller(initialValues, properties);
 
   const formik: useFormikType = useFormik({
     initialValues,
     validate: (values: any) => {
-
       if (filterBy) {
         values[filterBy] = Object.values(match.params).pop();
       }
@@ -90,7 +93,6 @@ const Create = (props: CreateProps) => {
       return validationErrors;
     },
     onSubmit: async (values: any) => {
-
       const payload = marshaller(values, properties);
       const formData = entityService.prepareFormData(payload);
 
@@ -99,48 +101,38 @@ const Create = (props: CreateProps) => {
           path,
           values: formData,
           contentType: 'application/json',
-          cancelToken
+          cancelToken,
         });
 
         if (resp !== undefined) {
-
           const referrer = history.location.state.referrer;
-          const targetPath = referrer.search(parentPath) === 0
-            ? referrer
-            : parentPath;
+          const targetPath =
+            referrer.search(parentPath) === 0 ? referrer : parentPath;
 
-          history.push(
-            targetPath,
-            {referrer: history.location.pathname}
-          );
+          history.push(targetPath, { referrer: history.location.pathname });
         }
-
-      } catch { }
+      } catch {}
     },
   });
 
-  const rememberedValues = useRememberedValues(
-    formik
-  );
+  const rememberedValues = useRememberedValues(formik);
 
-  useEffect(
-    () => {
-      for (const idx in rememberedValues) {
-        formik.setFieldValue(idx, rememberedValues[idx]);
-      }
-    },
-    [rememberedValues]
-  );
+  useEffect(() => {
+    for (const idx in rememberedValues) {
+      formik.setFieldValue(idx, rememberedValues[idx]);
+    }
+  }, [rememberedValues]);
 
   const errorList: { [k: string]: JSX.Element } = {};
   for (const idx in validationError) {
-
     if (!formik.touched[idx]) {
       continue;
     }
 
     errorList[idx] = (
-      <li key={idx}>{properties[idx].label}: {validationError[idx]}</li>
+      <li key={idx}>
+        {properties[idx].label}: {validationError[idx]}
+      </li>
     );
   }
 
@@ -161,7 +153,7 @@ const Create = (props: CreateProps) => {
         {reqError && <ErrorMessage message={reqError} />}
       </form>
     </div>
-  )
+  );
 };
 
 export default withRouter<any, any>(Create);

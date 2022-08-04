@@ -3,59 +3,54 @@ import { match } from 'react-router-dom';
 import axios from 'axios';
 import { FkChoices } from '../DefaultEntityBehavior';
 import { ForeignKeyGetterType } from '../EntityInterface';
-import EntityService, { EntityValues } from '../../services/entity/EntityService';
-
+import EntityService, {
+  EntityValues,
+} from '../../services/entity/EntityService';
 
 interface useFkChoicesArgs {
-    foreignKeyGetter: ForeignKeyGetterType,
-    entityService: EntityService,
-    row?: EntityValues,
-    match: match,
-    skip?: Array<string>,
+  foreignKeyGetter: ForeignKeyGetterType;
+  entityService: EntityService;
+  row?: EntityValues;
+  match: match;
+  skip?: Array<string>;
 }
 
 const useFkChoices = (props: useFkChoicesArgs): FkChoices => {
+  const { foreignKeyGetter, entityService, row, match, skip } = props;
+  const [fkChoices, setFkChoices] = useState<FkChoices>({});
 
-    const { foreignKeyGetter, entityService, row, match, skip } = props;
-    const [fkChoices, setFkChoices] = useState<FkChoices>({});
+  useEffect(() => {
+    let mounted = true;
 
-    useEffect(
-        () => {
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
-            let mounted = true;
+    foreignKeyGetter({
+      cancelToken: source.token,
+      entityService,
+      row,
+      match,
+      skip,
+    }).then((options) => {
+      if (!mounted) {
+        return;
+      }
 
-            const CancelToken = axios.CancelToken;
-            const source = CancelToken.source();
+      setFkChoices((fkChoices: any) => {
+        return {
+          ...fkChoices,
+          ...options,
+        };
+      });
+    });
 
-            foreignKeyGetter({
-                cancelToken: source.token,
-                entityService,
-                row,
-                match,
-                skip,
-            }).then((options) => {
+    return () => {
+      mounted = false;
+      source.cancel();
+    };
+  }, [foreignKeyGetter, entityService, row, match]);
 
-                if (!mounted) {
-                    return;
-                }
-
-                setFkChoices((fkChoices: any) => {
-                    return {
-                        ...fkChoices,
-                        ...options
-                    }
-                });
-            });
-
-            return () => {
-                mounted = false;
-                source.cancel();
-            }
-        },
-        [foreignKeyGetter, entityService, row, match]
-    );
-
-    return fkChoices;
-}
+  return fkChoices;
+};
 
 export default useFkChoices;

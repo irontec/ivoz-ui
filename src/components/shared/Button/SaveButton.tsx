@@ -3,29 +3,28 @@ import { styled } from '@mui/material';
 import _ from '../../../services/translations/translate';
 
 interface SaveButtonProps {
-  className?: string,
+  className?: string;
 }
 
-const SaveButton = function(props: SaveButtonProps): JSX.Element {
-
+const SaveButton = function (props: SaveButtonProps): JSX.Element {
   const { className } = props;
 
   return (
     <div className={className}>
-      <Button variant="contained" type="submit">
+      <Button variant='contained' type='submit'>
         {_('Save')}
       </Button>
     </div>
   );
-}
+};
 
 export default styled(SaveButton)(() => {
   return {
-    'padding': '20px 10px 10px',
-    'display': 'flex',
-    'alignItems': 'center',
+    padding: '20px 10px 10px',
+    display: 'flex',
+    alignItems: 'center',
     '& button': {
-      'margin': '0 auto'
-    }
+      margin: '0 auto',
+    },
   };
-})
+});

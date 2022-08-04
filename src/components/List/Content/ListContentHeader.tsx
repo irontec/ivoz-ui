@@ -10,20 +10,27 @@ import EntityInterface from '../../../entities/EntityInterface';
 import EntityService from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
 import useParentIden from './hook/useParentIden';
-import { StyledActionButtonContainer, StyledFab, StyledLink } from './ListContent.styles';
+import {
+  StyledActionButtonContainer,
+  StyledFab,
+  StyledLink,
+} from './ListContent.styles';
 
 interface ListContentProps {
-  path: string,
-  entityService: EntityService,
-  ignoreColumn: string | undefined,
-  preloadData: boolean,
-  cancelToken: CancelToken,
-  match: match,
-  location: Location<Record<string, string> | undefined>,
-  parentEntity: EntityInterface | undefined,
+  path: string;
+  entityService: EntityService;
+  ignoreColumn: string | undefined;
+  preloadData: boolean;
+  cancelToken: CancelToken;
+  match: match;
+  location: Location<Record<string, string> | undefined>;
+  parentEntity: EntityInterface | undefined;
 }
 
-const ListContentHeader = (props: ListContentProps, ref: ForwardedRef<any>): JSX.Element => {
+const ListContentHeader = (
+  props: ListContentProps,
+  ref: ForwardedRef<any>
+): JSX.Element => {
   const {
     path,
     entityService,
@@ -46,7 +53,7 @@ const ListContentHeader = (props: ListContentProps, ref: ForwardedRef<any>): JSX
     setShowFilters(!showFilters);
   };
 
-  let iden = useParentIden({
+  const iden = useParentIden({
     match,
     location,
     parentEntity,
@@ -57,36 +64,36 @@ const ListContentHeader = (props: ListContentProps, ref: ForwardedRef<any>): JSX
     <React.Fragment>
       <StyledActionButtonContainer>
         <div ref={ref}>
-          <h3 style={{
-            margin: 0,
-            fontSize: '1.5em',
-            fontWeight: 400,
-          }}>
-            List of {entity.title} {iden && (<span>({iden})</span>)}
+          <h3
+            style={{
+              margin: 0,
+              fontSize: '1.5em',
+              fontWeight: 400,
+            }}
+          >
+            List of {entity.title} {iden && <span>({iden})</span>}
           </h3>
         </div>
-        <div className="buttons">
+        <div className='buttons'>
           <Tooltip title={_('Search')} arrow>
             <Fab
-              color="secondary"
-              size="small"
-              variant="extended"
+              color='secondary'
+              size='small'
+              variant='extended'
               onClick={filterButtonHandler}
             >
               <SearchIcon />
             </Fab>
           </Tooltip>
-          {acl.create && <StyledLink to={`${location.pathname}/create`}>
-            <Tooltip title="Add" enterTouchDelay={0} arrow>
-              <Fab
-                color="secondary"
-                size="small"
-                variant="extended"
-              >
-                <QueueIcon />
-              </Fab>
-            </Tooltip>
-          </StyledLink>}
+          {acl.create && (
+            <StyledLink to={`${location.pathname}/create`}>
+              <Tooltip title='Add' enterTouchDelay={0} arrow>
+                <Fab color='secondary' size='small' variant='extended'>
+                  <QueueIcon />
+                </Fab>
+              </Tooltip>
+            </StyledLink>
+          )}
         </div>
       </StyledActionButtonContainer>
 
@@ -100,7 +107,7 @@ const ListContentHeader = (props: ListContentProps, ref: ForwardedRef<any>): JSX
         cancelToken={cancelToken}
         match={match}
       />
-    </React.Fragment >
+    </React.Fragment>
   );
 };
 

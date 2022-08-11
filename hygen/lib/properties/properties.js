@@ -9,6 +9,7 @@ const tab = "  ";
  */
 module.exports = function (url, args) {
   const properties = getApiDocs(url, args);
+  console.log('getApiDocs', getApiDocs);
   const lines = [];
 
   for (const propertyName in properties) {

@@ -20,7 +20,9 @@ function getApiProperties(url, entityName) {
   });
   let data = JSON.parse(res.getBody("utf8"));
   let definitions = data.definitions;
-  let properties = definitions[entityName]["properties"];
+  let properties = definitions[entityName]
+    ? definitions[entityName]["properties"]
+    : {};
 
   for (const definitionName in definitions) {
     if (definitionName === entityName || definitionName.indexOf(entityName + "-") === 0) {

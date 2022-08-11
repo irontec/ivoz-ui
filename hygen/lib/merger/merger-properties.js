@@ -10,7 +10,7 @@ module.exports = function (old, newProps) {
   if (old) {
     for (const property in newProps) {
       if (!propertyExist(old, property)) {
-        old.push(property);
+        old[property] = newProps[property];
       }
     }
   }

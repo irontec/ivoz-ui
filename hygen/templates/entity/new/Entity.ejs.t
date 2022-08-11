@@ -23,7 +23,7 @@ const <%= name %>: EntityInterface = {
   path: '/<%= h.inflection.pluralize(name) %>',
   toStr: (row: any) => row.id,
   properties,
-  selectOptions: (props, customProps) => { return selectOptions(props, customProps); },
+  selectOptions,
   foreignKeyResolver,
   foreignKeyGetter,
   Form,

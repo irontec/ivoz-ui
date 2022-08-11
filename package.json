@@ -3,12 +3,14 @@
   "version": "0.9.1",
   "description": "UI library used in ivozprovider",
   "license": "GPL-3.0",
-  "main": "dist/index.js",
+  "main": "index.js",
   "files": [
-    "dist/*.js",
-    "dist/*.d.ts",
-    "dist/**/*.js",
-    "dist/**/*.d.ts"
+    "*.js",
+    "*.d.ts",
+    "**/*.js",
+    "**/*.d.ts",
+    "*.md",
+    "**/*.ejs.t"
   ],
   "repository": {
     "type": "git",

@@ -1,18 +1,14 @@
-import { Action, action, computed, Computed, Thunk, thunk } from 'easy-peasy';
-import {
-  CriteriaFilterValue,
-  CriteriaFilterValues,
-} from '../components/List/Filter/ContentFilter';
+import { Action, action, Thunk, thunk } from 'easy-peasy';
 import { EntityValues } from '../services/entity/EntityService';
 
-type DirectionType = 'asc' | 'desc';
-
 export interface ListState {
+  parentRow: EntityValues | undefined,
   rows: Array<EntityValues>;
   headers: Record<string, string>;
 }
 
 interface ListActions {
+  setParentRow: Action<ListState, undefined | EntityValues>,
   setRows: Action<ListState, Array<EntityValues>>;
   setHeaders: Action<ListState, Record<string, string>>;
   reset: Thunk<ListState, undefined, unknown>;
@@ -21,10 +17,15 @@ interface ListActions {
 export type ListStore = ListState & ListActions;
 
 const list: ListStore = {
+  parentRow: undefined,
   rows: [],
   headers: {},
 
   // actions
+  setParentRow: action<ListState, undefined | EntityValues>((state, row) => {
+    state.parentRow = row;
+  }),
+
   setRows: action<ListState, Array<EntityValues>>((state, rows) => {
     state.rows = [...rows];
   }),

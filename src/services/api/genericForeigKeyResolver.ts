@@ -12,6 +12,59 @@ interface GenericForeignKeyResolverProps {
   cancelToken?: CancelToken;
 }
 
+const entityObject2ListLink = async (props: GenericForeignKeyResolverProps, data: EntityValues[], response: any) => {
+
+  const {
+    fkFld,
+    entity,
+    addLink = true,
+    dataPreprocesor,
+  } = props;
+
+  const { path, toStr } = entity;
+
+  try {
+    if (dataPreprocesor) {
+      await dataPreprocesor(response);
+    }
+  } catch {}
+
+  const entityReducer = async (accumulator: any, value: any) => {
+    accumulator[value.id] = toStr(value);
+
+    return accumulator;
+  };
+
+  let entities: any = {};
+  for (const idx in response) {
+    await entityReducer(entities, response[idx]);
+  }
+
+  for (const idx in data as EntityValues[]) {
+    if (data[idx][fkFld]) {
+      let fk = data[idx][fkFld];
+      if (Array.isArray(fk)) {
+        for (const key in fk) {
+          fk[key] = entities[fk[key]];
+        }
+
+        data[idx][fkFld] = fk.join(', ');
+        continue;
+      } else if (typeof fk === 'object') {
+          fk = (fk as EntityValues).id;
+      }
+
+      const scalarFk = fk as string | number;
+
+      data[idx][`${fkFld}Id`] = data[idx][fkFld];
+      if (addLink) {
+        data[idx][`${fkFld}Link`] = `${path}/${scalarFk}/update`;
+      }
+      data[idx][fkFld] = entities[scalarFk];
+    }
+  }
+};
+
 export default async function genericForeignKeyResolver(
   props: GenericForeignKeyResolverProps
 ): Promise<Array<EntityValues> | EntityValues> {
@@ -19,7 +72,6 @@ export default async function genericForeignKeyResolver(
     data,
     fkFld,
     entity,
-    addLink = true,
     dataPreprocesor,
     cancelToken,
   } = props;
@@ -52,12 +104,19 @@ export default async function genericForeignKeyResolver(
   }
 
   const ids: Array<number> = [];
+  const embeded: Array<Record<string, unknown>> = [];
   for (const idx in data) {
     if (data[idx][fkFld]) {
       const val = data[idx][fkFld];
       const iterableValues: Array<any> = Array.isArray(val) ? val : [val];
 
       for (const value of iterableValues) {
+
+        if (typeof value === 'object') {
+          embeded.push(value);
+          continue;
+        }
+
         if (ids.includes(value)) {
           continue;
         }
@@ -67,7 +126,12 @@ export default async function genericForeignKeyResolver(
     }
   }
 
-  if (ids.length) {
+  if (embeded.length) {
+
+    await entityObject2ListLink(props, data, embeded)
+
+  } else if (ids.length) {
+
     const getAction = StoreContainer.store.getActions().api.get;
 
     await getAction({
@@ -77,46 +141,7 @@ export default async function genericForeignKeyResolver(
         _pagination: false,
       },
       cancelToken: cancelToken,
-      successCallback: async (response: any) => {
-        try {
-          if (dataPreprocesor) {
-            await dataPreprocesor(response);
-          }
-        } catch {}
-
-        const entityReducer = async (accumulator: any, value: any) => {
-          accumulator[value.id] = toStr(value);
-
-          return accumulator;
-        };
-
-        let entities: any = {};
-        for (const idx in response) {
-          entities = await entityReducer(entities, response[idx]);
-        }
-
-        for (const idx in data) {
-          if (data[idx][fkFld]) {
-            const fk = data[idx][fkFld];
-            if (Array.isArray(fk)) {
-              for (const key in fk) {
-                fk[key] = entities[fk[key]];
-              }
-
-              data[idx][fkFld] = fk.join(', ');
-              continue;
-            }
-
-            const scalarFk = fk as string | number;
-
-            data[idx][`${fkFld}Id`] = data[idx][fkFld];
-            if (addLink) {
-              data[idx][`${fkFld}Link`] = `${path}/${scalarFk}/update`;
-            }
-            data[idx][fkFld] = entities[scalarFk];
-          }
-        }
-      },
+      successCallback: async(response) => await entityObject2ListLink(props, data, response),
     });
   }
 

@@ -7,7 +7,7 @@ import { StoreContainer } from '../../store';
 const autoForeignKeyResolver = (
   props: foreignKeyResolverProps
 ): Array<Promise<EntityValues | EntityValues[]>> => {
-  const { data, cancelToken, entityService, skip } = props;
+  const { data, cancelToken, entityService, allowLinks, skip } = props;
   let { entities } = props;
   if (!entities) {
     entities = StoreContainer.store.getState().entities.entities;
@@ -40,6 +40,7 @@ const autoForeignKeyResolver = (
         data,
         fkFld: idx,
         entity: entity,
+        addLink: allowLinks,
         cancelToken,
       })
     );

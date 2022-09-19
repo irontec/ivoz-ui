@@ -18,7 +18,6 @@ const entityObject2ListLink = async (
   response: any
 ) => {
   const { fkFld, entity, addLink = true, dataPreprocesor } = props;
-
   const { path, toStr } = entity;
 
   try {

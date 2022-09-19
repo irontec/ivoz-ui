@@ -24,13 +24,18 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const ListDecorator = entityService.getListDecorator();
   const customComponent = (column as ScalarProperty).component;
 
-  const loadingValue =
-    ((column as FkProperty).$ref &&
-      row[columnName] &&
-      !row[`${columnName}Id`] &&
-      (column as FkProperty).type !== 'file') ||
-    ((column as ScalarProperty).type === 'array' &&
-      Array.isArray(row[columnName]));
+  const loadingFk =
+    (column as FkProperty).type !== 'array'
+    && ((column as FkProperty).$ref
+    && row[columnName]
+    && !row[`${columnName}Id`]
+    && (column as FkProperty).type !== 'file');
+
+  const loadingMultiselect =
+    (column as ScalarProperty).type === 'array'
+    && Array.isArray(row[columnName]);
+
+  const loadingValue = loadingFk || loadingMultiselect;
 
   const enumValues: any = (column as ScalarProperty).enum;
   const value = row[columnName];

@@ -30,14 +30,11 @@ const HistoryTrackerLink = forwardRef<any, any>(
       state.referrerIden = parentEntity.toStr(parentRow);
     }
 
-    useEffect(
-      () => {
-        if (parentEntity && parentRow) {
-          setParentRow(parentRow);
-        }
-      },
-      [parentRow]
-    );
+    useEffect(() => {
+      if (parentEntity && parentRow) {
+        setParentRow(parentRow);
+      }
+    }, [parentRow]);
 
     return (
       <Link

@@ -55,7 +55,15 @@ const useParentIden = (props: useParentIden): string | undefined => {
       },
       cancelToken,
     });
-  }, [locationState, parentId, parentRow, iden, parentEntity, apiGet, cancelToken]);
+  }, [
+    locationState,
+    parentId,
+    parentRow,
+    iden,
+    parentEntity,
+    apiGet,
+    cancelToken,
+  ]);
 
   return iden;
 };

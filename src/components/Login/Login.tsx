@@ -79,7 +79,10 @@ export default function Login(props: LoginProps): JSX.Element | null {
             value={formik.values.username}
             onChange={formik.handleChange}
             error={formik.touched.username && Boolean(formik.errors.username)}
-            helperText={formik.touched.username && formik.errors.username as React.ReactNode}
+            helperText={
+              formik.touched.username &&
+              (formik.errors.username as React.ReactNode)
+            }
             margin='normal'
             required
             fullWidth
@@ -91,7 +94,10 @@ export default function Login(props: LoginProps): JSX.Element | null {
             value={formik.values.password}
             onChange={formik.handleChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password as React.ReactNode}
+            helperText={
+              formik.touched.password &&
+              (formik.errors.password as React.ReactNode)
+            }
             margin='normal'
             required
             fullWidth

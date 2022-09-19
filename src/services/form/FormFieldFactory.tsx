@@ -269,7 +269,10 @@ export default class FormFieldFactory {
           onChange={this.changeHandler}
           onBlur={this.handleBlur}
           error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-          helperText={this.formik.touched[fld] && this.formik.errors[fld] as React.ReactNode}
+          helperText={
+            this.formik.touched[fld] &&
+            (this.formik.errors[fld] as React.ReactNode)
+          }
           inputProps={inputProps}
           InputProps={InputProps}
           hasChanged={hasChanged}
@@ -293,7 +296,10 @@ export default class FormFieldFactory {
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
             error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={this.formik.touched[fld] && this.formik.errors[fld] as React.ReactNode}
+            helperText={
+              this.formik.touched[fld] &&
+              (this.formik.errors[fld] as React.ReactNode)
+            }
             fullWidth={true}
             InputProps={InputProps}
             hasChanged={hasChanged}
@@ -313,7 +319,10 @@ export default class FormFieldFactory {
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
             error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={this.formik.touched[fld] && this.formik.errors[fld] as React.ReactNode}
+            helperText={
+              this.formik.touched[fld] &&
+              (this.formik.errors[fld] as React.ReactNode)
+            }
             InputProps={InputProps}
             hasChanged={hasChanged}
           />
@@ -332,7 +341,10 @@ export default class FormFieldFactory {
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
             error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={this.formik.touched[fld] && this.formik.errors[fld] as React.ReactNode}
+            helperText={
+              this.formik.touched[fld] &&
+              (this.formik.errors[fld] as React.ReactNode)
+            }
             InputProps={InputProps}
             hasChanged={hasChanged}
           />
@@ -356,7 +368,10 @@ export default class FormFieldFactory {
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
             error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={this.formik.touched[fld] && this.formik.errors[fld] as React.ReactNode}
+            helperText={
+              this.formik.touched[fld] &&
+              (this.formik.errors[fld] as React.ReactNode)
+            }
             InputProps={InputProps}
             inputProps={inputProps}
             hasChanged={hasChanged}
@@ -376,7 +391,10 @@ export default class FormFieldFactory {
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
             error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={this.formik.touched[fld] && this.formik.errors[fld] as React.ReactNode}
+            helperText={
+              this.formik.touched[fld] &&
+              (this.formik.errors[fld] as React.ReactNode)
+            }
             InputProps={InputProps}
             inputProps={inputProps}
             hasChanged={hasChanged}
@@ -396,7 +414,10 @@ export default class FormFieldFactory {
           onChange={this.changeHandler}
           onBlur={this.handleBlur}
           error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-          helperText={this.formik.touched[fld] && this.formik.errors[fld] as React.ReactNode}
+          helperText={
+            this.formik.touched[fld] &&
+            (this.formik.errors[fld] as React.ReactNode)
+          }
           InputProps={InputProps}
           inputProps={inputProps}
           hasChanged={hasChanged}

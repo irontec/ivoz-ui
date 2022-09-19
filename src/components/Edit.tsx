@@ -119,7 +119,9 @@ const Edit: any = (props: EditProps) => {
 
     errorList[idx] = (
       <li key={idx}>
-        <>{properties[idx].label}: {validationError[idx]}</>
+        <>
+          {properties[idx].label}: {validationError[idx]}
+        </>
       </li>
     );
   }

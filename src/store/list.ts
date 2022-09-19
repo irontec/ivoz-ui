@@ -2,13 +2,13 @@ import { Action, action, Thunk, thunk } from 'easy-peasy';
 import { EntityValues } from '../services/entity/EntityService';
 
 export interface ListState {
-  parentRow: EntityValues | undefined,
+  parentRow: EntityValues | undefined;
   rows: Array<EntityValues>;
   headers: Record<string, string>;
 }
 
 interface ListActions {
-  setParentRow: Action<ListState, undefined | EntityValues>,
+  setParentRow: Action<ListState, undefined | EntityValues>;
   setRows: Action<ListState, Array<EntityValues>>;
   setHeaders: Action<ListState, Record<string, string>>;
   reset: Thunk<ListState, undefined, unknown>;

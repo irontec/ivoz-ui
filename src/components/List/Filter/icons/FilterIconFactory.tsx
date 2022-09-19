@@ -63,9 +63,7 @@ export default function FilterIconFactory(
   );
 }
 
-const getFilterIcon = (
-  name: string
-): React.FunctionComponent => {
+const getFilterIcon = (name: string): React.FunctionComponent => {
   switch (name) {
     case 'exists':
       return AssignmentTurnedInIcon;

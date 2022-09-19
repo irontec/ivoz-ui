@@ -12,14 +12,12 @@ interface GenericForeignKeyResolverProps {
   cancelToken?: CancelToken;
 }
 
-const entityObject2ListLink = async (props: GenericForeignKeyResolverProps, data: EntityValues[], response: any) => {
-
-  const {
-    fkFld,
-    entity,
-    addLink = true,
-    dataPreprocesor,
-  } = props;
+const entityObject2ListLink = async (
+  props: GenericForeignKeyResolverProps,
+  data: EntityValues[],
+  response: any
+) => {
+  const { fkFld, entity, addLink = true, dataPreprocesor } = props;
 
   const { path, toStr } = entity;
 
@@ -35,7 +33,7 @@ const entityObject2ListLink = async (props: GenericForeignKeyResolverProps, data
     return accumulator;
   };
 
-  let entities: any = {};
+  const entities: any = {};
   for (const idx in response) {
     await entityReducer(entities, response[idx]);
   }
@@ -51,7 +49,7 @@ const entityObject2ListLink = async (props: GenericForeignKeyResolverProps, data
         data[idx][fkFld] = fk.join(', ');
         continue;
       } else if (typeof fk === 'object') {
-          fk = (fk as EntityValues).id;
+        fk = (fk as EntityValues).id;
       }
 
       const scalarFk = fk as string | number;
@@ -68,13 +66,7 @@ const entityObject2ListLink = async (props: GenericForeignKeyResolverProps, data
 export default async function genericForeignKeyResolver(
   props: GenericForeignKeyResolverProps
 ): Promise<Array<EntityValues> | EntityValues> {
-  const {
-    data,
-    fkFld,
-    entity,
-    dataPreprocesor,
-    cancelToken,
-  } = props;
+  const { data, fkFld, entity, dataPreprocesor, cancelToken } = props;
 
   const { path, toStr } = entity;
 
@@ -111,7 +103,6 @@ export default async function genericForeignKeyResolver(
       const iterableValues: Array<any> = Array.isArray(val) ? val : [val];
 
       for (const value of iterableValues) {
-
         if (typeof value === 'object') {
           embeded.push(value);
           continue;
@@ -127,11 +118,8 @@ export default async function genericForeignKeyResolver(
   }
 
   if (embeded.length) {
-
-    await entityObject2ListLink(props, data, embeded)
-
+    await entityObject2ListLink(props, data, embeded);
   } else if (ids.length) {
-
     const getAction = StoreContainer.store.getActions().api.get;
 
     await getAction({
@@ -141,7 +129,8 @@ export default async function genericForeignKeyResolver(
         _pagination: false,
       },
       cancelToken: cancelToken,
-      successCallback: async(response) => await entityObject2ListLink(props, data, response),
+      successCallback: async (response) =>
+        await entityObject2ListLink(props, data, response),
     });
   }
 

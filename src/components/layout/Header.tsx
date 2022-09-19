@@ -62,7 +62,6 @@ export default function Header(props: headerProps): JSX.Element {
                   )}
                 </IconButton>
               </Tooltip>
-
               <Menu
                 sx={{ mt: '45px' }}
                 id='menu-appbar'

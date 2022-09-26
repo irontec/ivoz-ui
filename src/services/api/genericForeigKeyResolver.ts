@@ -126,6 +126,7 @@ export default async function genericForeignKeyResolver(
       params: {
         id: ids,
         _pagination: false,
+        _itemsPerPage: 1000,
       },
       cancelToken: cancelToken,
       successCallback: async (response) =>

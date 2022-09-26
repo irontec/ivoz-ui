@@ -15,6 +15,7 @@ type useParentIden = {
 const useParentIden = (props: useParentIden): string | undefined => {
   const { location, parentEntity, match, cancelToken } = props;
   const { state: locationState } = location;
+
   const parentId = Object.values(match.params).pop();
 
   const [iden, setIden] = useState<string | undefined>(
@@ -30,7 +31,12 @@ const useParentIden = (props: useParentIden): string | undefined => {
   });
 
   useEffect(() => {
-    if (iden && iden === locationState?.referrerIden && parentRow) {
+
+    if (
+      iden
+      && parentRow
+      && (!locationState?.referrerIden || iden === locationState?.referrerIden)
+    ) {
       return;
     }
 

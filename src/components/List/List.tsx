@@ -95,7 +95,7 @@ const List = function (props: ListProps) {
   const reqQuerystring = currentQueryParams.join('&');
   const [prevReqQuerystring, setPrevReqQuerystring] = useState<string | null>(
     null
-  ); //38
+  );
 
   useEffect(() => {
     // Path change listener
@@ -127,6 +127,11 @@ const List = function (props: ListProps) {
       return;
     }
 
+    let referrer = history.location.pathname;
+    if (newReqQuerystring) {
+      referrer += `?${newReqQuerystring}`;
+    }
+
     // Change path
     history.push(
       {
@@ -134,7 +139,7 @@ const List = function (props: ListProps) {
         search: newReqQuerystring,
       },
       {
-        referrer: history.location.pathname + newReqQuerystring,
+        referrer,
       }
     );
   }, [

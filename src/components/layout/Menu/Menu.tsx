@@ -50,7 +50,7 @@ export default function Menu(props: menuProps): JSX.Element | null {
 
           return (
             <div key={key} style={styles}>
-              <MenuBlock routeMapBlock={routeMapBlock} />
+              <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
               {!lastItem && <Divider sx={{ width: '90%' }} />}
             </div>
           );

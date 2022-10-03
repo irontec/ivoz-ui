@@ -39,6 +39,10 @@ const ListDecorator: ListDecoratorType = (props) => {
     }
   }
 
+  if (isPropertyScalar(property) && property.format === 'date') {
+    return value.substring(0, 10);
+  }
+
   if (!value && property.null) {
     value = property.null;
   }

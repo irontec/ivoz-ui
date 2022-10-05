@@ -263,7 +263,6 @@ const api: ApiStore = {
               actions.setErrorMsg(errorMsg);
               actions.setErrorCode(error?.status);
             }
-
             throw error;
           }
         }
@@ -271,6 +270,8 @@ const api: ApiStore = {
         if (!silenceErrors) {
           actions.setErrorMsg(errorMsg);
           actions.setErrorCode(error?.status);
+        } else {
+          throw error;
         }
       } finally {
         actions.restRequest();

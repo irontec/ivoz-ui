@@ -26,14 +26,14 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
   const history = useHistory();
   const location = useLocation();
 
-  const open = useStoreState((store) => store.menu.open);
+  const close = useStoreState((store) => store.menu.close);
   const expandMenu = useStoreActions((actions) => actions.menu.expand);
   const colapseMenu = useStoreActions((actions) => actions.menu.colapse);
 
   return (
     <StyledList >
       <StyledAccordion
-        expanded={open.includes(idx)}
+        expanded={!close.includes(idx)}
         onChange={(event: unknown, expanded: boolean) => {
           if (expanded) {
             expandMenu(idx);

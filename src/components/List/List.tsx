@@ -174,8 +174,9 @@ const List = function (props: ListProps) {
     }
 
     let itemsPerPage = currentQueryParams.find(
-      (str: string) => str.indexOf('_itemsPerPage[') === 0
+      (str: string) => str.indexOf('_itemsPerPage=') === 0
     );
+
     if (!itemsPerPage) {
       itemsPerPage = encodeURI(`_itemsPerPage=${defaultItemsPerPage}`);
       const glue = filterByStr || currentQueryParams.length > 0 ? '&' : '?';

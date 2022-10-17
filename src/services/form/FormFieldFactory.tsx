@@ -31,9 +31,9 @@ import {
   FormOnChangeEvent,
   PropertyFkChoices,
 } from '../../entities/DefaultEntityBehavior';
+import { AutocompleteChoices } from './Field/Autocomplete';
 
-export type FormFieldFactoryChoices = { [key: string | number]: any };
-export type NullableFormFieldFactoryChoices = null | FormFieldFactoryChoices;
+export type NullableFormFieldFactoryChoices = null | AutocompleteChoices;
 
 export default class FormFieldFactory {
   constructor(
@@ -124,7 +124,11 @@ export default class FormFieldFactory {
       }
 
       if (property.null && !multiSelect) {
-        (choices as PropertyFkChoices)['__null__'] = property.null;
+        if (Array.isArray(choices)) {
+          choices.push({ label: property.null, id: '__null__' });
+        } else {
+          choices['__null__'] = property.null;
+        }
       }
 
       return (

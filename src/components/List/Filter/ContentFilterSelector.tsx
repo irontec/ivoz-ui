@@ -8,9 +8,7 @@ import {
   ScalarProperty,
   isPropertyScalar,
 } from '../../../services/api/ParsedApiSpecInterface';
-import FormFieldFactory, {
-  FormFieldFactoryChoices,
-} from '../../../services/form/FormFieldFactory';
+import FormFieldFactory from '../../../services/form/FormFieldFactory';
 import {
   FormOnChangeEvent,
   NullablePropertyFkChoices,
@@ -50,7 +48,7 @@ export default function ContentFilterSelector(
   const columnNames: Array<string> = Object.keys(columns).filter(
     (column) => column !== ignoreColumn
   );
-  const filters: FormFieldFactoryChoices = {};
+  const filters: { [key: string]: Array<string> } = {};
 
   for (const idx in columnNames) {
     const propertyName: string = columnNames[idx];

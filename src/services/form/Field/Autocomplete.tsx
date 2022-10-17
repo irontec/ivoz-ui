@@ -9,6 +9,17 @@ import { TextField } from '@mui/material';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
 
+export type AutocompleteArrayChoice = {
+  label: string | React.ReactElement<any>;
+  id: string | number;
+};
+
+export type AutocompleteArrayChoices = Array<AutocompleteArrayChoice>;
+
+export type AutocompleteChoices =
+  | { [label: string | number]: string | React.ReactElement<any> }
+  | AutocompleteArrayChoices;
+
 export interface AutocompleteProps {
   className?: string;
   name: string;
@@ -19,7 +30,7 @@ export interface AutocompleteProps {
   disabled: boolean;
   onChange: (event: any) => void;
   onBlur: (event: React.FocusEvent) => void;
-  choices: any;
+  choices: AutocompleteChoices;
   error?: boolean;
   helperText?: string;
   hasChanged: boolean;
@@ -41,35 +52,47 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   } = props;
   const value = props.value || null;
   const i18n = getI18n();
-
+ 
   let className = props.className;
   if (hasChanged) {
     className += ' changed';
   }
 
-  const [arrayChoices, setArrayChoices] = useState<Array<any>>([]);
+  const [arrayChoices, setArrayChoices] = useState<AutocompleteArrayChoices>(
+    []
+  );
 
   useEffect(() => {
+    if (Array.isArray(choices)) {
+      setArrayChoices(choices);
+      return;
+    }
+
     const arrayValue = [];
     for (const idx in choices) {
-      arrayValue.push({ value: idx, label: choices[idx] });
+      arrayValue.push({ id: idx, label: choices[idx] });
     }
 
     setArrayChoices(arrayValue);
   }, [choices]);
 
   const onChangeWrapper = useCallback(
-    (e: any, option: any, reason: string) => {
+    (
+      e: any,
+      option: AutocompleteArrayChoice | AutocompleteArrayChoices | null,
+      reason: string
+    ) => {
       let selectedValue = undefined;
-
-      if (reason !== 'clear') {
+      if (reason !== 'clear' && option !== null) {
         selectedValue = multiple
-          ? option.map((item: any) =>
-              typeof item === 'object' ? item.value : item
+          ? (option as AutocompleteArrayChoices).map((item: any) =>
+              typeof item === 'object' ? item.id : item
             )
-          : option?.value;
+          : (option as AutocompleteArrayChoice).id;
       } else {
-        selectedValue = choices?.__null__ ? '__null__' : undefined;
+        selectedValue = arrayChoices.find((item) => item.id === '__null__')
+          ? '__null__'
+          : undefined;
       }
 
       onChange({
@@ -79,7 +102,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
         },
       });
     },
-    [multiple, onChange, name]
+    [multiple, onChange, name, arrayChoices]
   );
 
   const getOptionLabel = useCallback(
@@ -109,9 +132,8 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   );
 
   const isOptionEqualToValue = useCallback(
-    (option: any, value: any): boolean => {
-      // eslint-disable-next-line
-      if (option.value == value) {
+    (option: AutocompleteArrayChoice, value: AutocompleteArrayChoice): boolean => {
+      if (option.id == value.id) {
         return true;
       }
 
@@ -142,12 +164,16 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     [name, label, required, error, helperText]
   );
 
-  const disableClearable = choices?.__null__ ? false : true;
+  const disableClearable = arrayChoices.find((item) => item.id === '__null__')
+    ? false
+    : true;
+
+  const autocompleteValue = arrayChoices?.find((item) => item.id === value) ?? null;
 
   return (
     <MuiAutocomplete
       className={className}
-      value={value}
+      value={autocompleteValue}
       multiple={multiple}
       disabled={disabled}
       disableClearable={disableClearable}

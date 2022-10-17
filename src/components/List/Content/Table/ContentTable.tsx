@@ -64,9 +64,8 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const columns = entityService.getCollectionColumns();
 
-  const multiselect =
-    entityService.getAcls().delete === true || multiselectActions.length >
-    0;
+  const multiselect =  multiselectActions.length > 0;
+
   const selectAllHandlers: handleMultiselectChangeType = useCallback(
     (event) => {
       const target = event.target;

@@ -6,13 +6,15 @@ import {
   RouteMapItem,
 } from '../../../router/routeMapParser';
 
-import {
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from '@mui/material';
+import { ListItem, ListItemButton, ListItemText } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { StyledAccordion, StyledAccordionDetails, StyledAccordionSummary, StyledList, StyledListItemIcon, } from './MenuBlock.styles';
+import {
+  StyledAccordion,
+  StyledAccordionDetails,
+  StyledAccordionSummary,
+  StyledList,
+  StyledListItemIcon,
+} from './MenuBlock.styles';
 
 interface menuBlockProps {
   idx: number;
@@ -31,7 +33,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
   const colapseMenu = useStoreActions((actions) => actions.menu.colapse);
 
   return (
-    <StyledList >
+    <StyledList>
       <StyledAccordion
         expanded={!close.includes(idx)}
         onChange={(event: unknown, expanded: boolean) => {
@@ -42,9 +44,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
           }
         }}
       >
-        <StyledAccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-        >
+        <StyledAccordionSummary expandIcon={<ExpandMoreIcon />}>
           <ListItem key={'label'} disablePadding>
             <strong style={{ fontSize: '0.8em' }}>{label}</strong>
           </ListItem>
@@ -66,7 +66,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
 
           return (
             <StyledAccordionDetails key={key}>
-              <ListItem disablePadding >
+              <ListItem disablePadding>
                 <ListItemButton
                   dense={true}
                   selected={location.pathname.indexOf(route) === 0}
@@ -76,7 +76,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
                     });
                   }}
                 >
-                  <StyledListItemIcon >
+                  <StyledListItemIcon>
                     <entity.icon />
                   </StyledListItemIcon>
                   <ListItemText primary={entity.title} />

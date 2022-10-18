@@ -1,7 +1,11 @@
 import {
   Accordion,
   AccordionDetails,
-  AccordionSummary, Divider, List, ListItemIcon, styled
+  AccordionSummary,
+  Divider,
+  List,
+  ListItemIcon,
+  styled,
 } from '@mui/material';
 
 export const StyledAccordion = styled(Accordion)(() => {
@@ -12,9 +16,9 @@ export const StyledAccordion = styled(Accordion)(() => {
 
 export const StyledAccordionSummary = styled(AccordionSummary)(() => {
   return {
-    minHeight: '0px!important', 
-    height: '20px', 
-    padding: '0px'
+    minHeight: '0px!important',
+    height: '20px',
+    padding: '0px',
   };
 });
 
@@ -30,15 +34,15 @@ export const StyledAccordionDetails = styled(AccordionDetails)(() => {
 
 export const StyledList = styled(List)(() => {
   return {
-    margin: '10px 0px'
+    margin: '10px 0px',
   };
 });
 
 export const StyledListItemIcon = styled(ListItemIcon)(() => {
   return {
-    minWidth: 0, 
-    marginRight: '10px', 
-    paddingBottom: '4px'
+    minWidth: 0,
+    marginRight: '10px',
+    paddingBottom: '4px',
   };
 });
 
@@ -47,4 +51,3 @@ export const StyledDivider = styled(Divider)(() => {
     margin: '5px 0 15px',
   };
 });
-

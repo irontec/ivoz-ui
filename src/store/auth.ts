@@ -137,6 +137,7 @@ const auth: AuthStore = {
           path: getState().login.refreshPath,
           values: payload,
           contentType: getState().login.contentType,
+          handleErrors: false,
         });
 
         if (response.data && response.data.token) {

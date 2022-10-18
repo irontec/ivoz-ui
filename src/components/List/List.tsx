@@ -168,7 +168,7 @@ const List = function (props: ListProps) {
         encodeURI(
           [...currentQueryParams, ...filterValues, filterByStr].join('&')
         );
-    } else if (filterByStr || filterValues) {
+    } else if (filterByStr || filterValues.length > 0) {
       reqPath =
         path + '?' + encodeURI([...filterValues, filterByStr].join('&'));
     }

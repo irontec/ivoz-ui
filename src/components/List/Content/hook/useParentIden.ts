@@ -31,11 +31,10 @@ const useParentIden = (props: useParentIden): string | undefined => {
   });
 
   useEffect(() => {
-
     if (
-      iden
-      && parentRow
-      && (!locationState?.referrerIden || iden === locationState?.referrerIden)
+      iden &&
+      parentRow &&
+      (!locationState?.referrerIden || iden === locationState?.referrerIden)
     ) {
       return;
     }

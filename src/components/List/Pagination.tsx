@@ -84,7 +84,9 @@ export default function Pagination(
 
   return (
     <ThemeProvider
-      theme={(outerTheme) => createTheme(outerTheme, (locales as {[key:string]: any})[locale])}
+      theme={(outerTheme) =>
+        createTheme(outerTheme, (locales as { [key: string]: any })[locale])
+      }
     >
       <TablePagination
         component='div'

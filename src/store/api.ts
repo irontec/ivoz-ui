@@ -125,8 +125,14 @@ const api: ApiStore = {
       actions.sumRequest();
       actions.setErrorMsg(null);
       actions.setErrorCode(null);
-      const { path, params, successCallback, cancelToken, silenceErrors, handleErrors } =
-        payload;
+      const {
+        path,
+        params,
+        successCallback,
+        cancelToken,
+        silenceErrors,
+        handleErrors,
+      } = payload;
 
       const request = async () => {
         const resp = await ApiClient.get(
@@ -142,7 +148,6 @@ const api: ApiStore = {
       try {
         return await request();
       } catch (error: any) {
-
         if (handleErrors === false) {
           throw error;
         }
@@ -183,8 +188,14 @@ const api: ApiStore = {
       payload: apiGetRequestParams,
       { getStoreActions, getStoreState }
     ) => {
-      const { path, params, successCallback, cancelToken, silenceErrors, handleErrors } =
-        payload;
+      const {
+        path,
+        params,
+        successCallback,
+        cancelToken,
+        silenceErrors,
+        handleErrors,
+      } = payload;
       actions.sumRequest();
       actions.setErrorMsg(null);
       actions.setErrorCode(null);
@@ -201,7 +212,6 @@ const api: ApiStore = {
       try {
         return await request();
       } catch (error: any) {
-
         if (handleErrors === false) {
           throw error;
         }
@@ -246,7 +256,14 @@ const api: ApiStore = {
       payload: apiPostRequestParams,
       { getStoreActions, getStoreState }
     ) => {
-      const { path, values, contentType, cancelToken, silenceErrors, handleErrors } = payload;
+      const {
+        path,
+        values,
+        contentType,
+        cancelToken,
+        silenceErrors,
+        handleErrors,
+      } = payload;
       actions.sumRequest();
       actions.setErrorMsg(null);
       actions.setErrorCode(null);
@@ -258,7 +275,6 @@ const api: ApiStore = {
       try {
         return await request();
       } catch (error: any) {
-
         if (handleErrors === false) {
           throw error;
         }
@@ -303,7 +319,8 @@ const api: ApiStore = {
       payload: apiPutRequestParams,
       { getStoreActions, getStoreState }
     ) => {
-      const { path, values, cancelToken, silenceErrors, handleErrors } = payload;
+      const { path, values, cancelToken, silenceErrors, handleErrors } =
+        payload;
       actions.sumRequest();
       actions.setErrorMsg(null);
       actions.setErrorCode(null);
@@ -315,7 +332,6 @@ const api: ApiStore = {
       try {
         return await request();
       } catch (error: any) {
-
         if (handleErrors === false) {
           throw error;
         }
@@ -371,7 +387,6 @@ const api: ApiStore = {
       try {
         return await request();
       } catch (error: any) {
-
         if (handleErrors === false) {
           throw error;
         }

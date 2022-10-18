@@ -52,7 +52,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   } = props;
   const value = props.value || null;
   const i18n = getI18n();
- 
+
   let className = props.className;
   if (hasChanged) {
     className += ' changed';
@@ -132,7 +132,10 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   );
 
   const isOptionEqualToValue = useCallback(
-    (option: AutocompleteArrayChoice, value: AutocompleteArrayChoice): boolean => {
+    (
+      option: AutocompleteArrayChoice,
+      value: AutocompleteArrayChoice
+    ): boolean => {
       if (option.id == value.id) {
         return true;
       }
@@ -168,7 +171,8 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     ? false
     : true;
 
-  const autocompleteValue = arrayChoices?.find((item) => item.id === value) ?? null;
+  const autocompleteValue =
+    arrayChoices?.find((item) => item.id === value) ?? null;
 
   return (
     <MuiAutocomplete

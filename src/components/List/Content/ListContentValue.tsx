@@ -25,15 +25,15 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const customComponent = (column as ScalarProperty).component;
 
   const loadingFk =
-    (column as FkProperty).type !== 'array'
-    && ((column as FkProperty).$ref
-    && row[columnName]
-    && !row[`${columnName}Id`]
-    && (column as FkProperty).type !== 'file');
+    (column as FkProperty).type !== 'array' &&
+    (column as FkProperty).$ref &&
+    row[columnName] &&
+    !row[`${columnName}Id`] &&
+    (column as FkProperty).type !== 'file';
 
   const loadingMultiselect =
-    (column as ScalarProperty).type === 'array'
-    && Array.isArray(row[columnName]);
+    (column as ScalarProperty).type === 'array' &&
+    Array.isArray(row[columnName]);
 
   const loadingValue = loadingFk || loadingMultiselect;
 

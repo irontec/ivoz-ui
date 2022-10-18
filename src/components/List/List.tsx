@@ -173,10 +173,19 @@ const List = function (props: ListProps) {
         path + '?' + encodeURI([...filterValues, filterByStr].join('&'));
     }
 
+    let page = currentQueryParams.find(
+      (str: string) => str.indexOf('_page=') === 0
+    );
+    if (!page) {
+      page = encodeURI(`_page=1`);
+      const glue = filterByStr || currentQueryParams.length > 0 ? '&' : '?';
+
+      reqPath += `${glue}${page}`;
+    }
+
     let itemsPerPage = currentQueryParams.find(
       (str: string) => str.indexOf('_itemsPerPage=') === 0
     );
-
     if (!itemsPerPage) {
       itemsPerPage = encodeURI(`_itemsPerPage=${defaultItemsPerPage}`);
       const glue = filterByStr || currentQueryParams.length > 0 ? '&' : '?';

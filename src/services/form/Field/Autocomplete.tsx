@@ -50,6 +50,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     helperText,
     hasChanged,
   } = props;
+
   const value = props.value || null;
   const i18n = getI18n();
 
@@ -172,7 +173,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     : true;
 
   const autocompleteValue =
-    arrayChoices?.find((item) => item.id === value) ?? null;
+    arrayChoices?.find((item) => `${item.id}` === `${value}`) ?? null;
 
   return (
     <MuiAutocomplete

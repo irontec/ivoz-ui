@@ -43,6 +43,19 @@ const Dropdown = (props: SelectProps): JSX.Element => {
 
   const labelClassName = hasChanged ? 'changed' : '';
 
+  const entriesChoices = Object.entries(choices).filter(
+    ([, label]) => label !== false
+  );
+
+  const valuesChoices = Object.values(choices).sort();
+
+  const orderChoices: any = [];
+  valuesChoices.map((valueChoices) =>
+    entriesChoices.map((entryChoices) =>
+      valueChoices === entryChoices[1] ? orderChoices.push(entryChoices) : []
+    )
+  );
+
   return (
     <FormControl fullWidth={true} error={error} className={className}>
       <InputLabel
@@ -64,15 +77,13 @@ const Dropdown = (props: SelectProps): JSX.Element => {
           <OutlinedInput name={name} type='text' label={label} notched={true} />
         }
       >
-        {Object.entries(choices)
-          .filter(([, label]) => label !== false)
-          .map(([value, label]: [string, any], key: number) => {
-            return (
-              <MenuItem value={value} key={`${value}-${key}`}>
-                {label}
-              </MenuItem>
-            );
-          })}
+        {orderChoices.map(([value, label]: [string, any], key: number) => {
+          return (
+            <MenuItem value={value} key={`${value}-${key}`}>
+              {label}
+            </MenuItem>
+          );
+        })}
       </Select>
       {helperText && <FormHelperText>{helperText}</FormHelperText>}
     </FormControl>

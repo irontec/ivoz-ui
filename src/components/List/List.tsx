@@ -178,7 +178,7 @@ const List = function (props: ListProps) {
     );
     if (!page) {
       page = encodeURI(`_page=1`);
-      const glue = filterByStr || currentQueryParams.length > 0 ? '&' : '?';
+      const glue = reqPath.indexOf('?') !== -1 ? '&' : '?';
 
       reqPath += `${glue}${page}`;
     }
@@ -188,7 +188,7 @@ const List = function (props: ListProps) {
     );
     if (!itemsPerPage) {
       itemsPerPage = encodeURI(`_itemsPerPage=${defaultItemsPerPage}`);
-      const glue = filterByStr || currentQueryParams.length > 0 ? '&' : '?';
+      const glue = reqPath.indexOf('?') !== -1 ? '&' : '?';
 
       reqPath += `${glue}${itemsPerPage}`;
     }

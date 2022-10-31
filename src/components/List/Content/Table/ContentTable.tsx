@@ -6,7 +6,6 @@ import EntityService from 'services/entity/EntityService';
 import { StyledActionsTableCell, StyledTableCell } from './ContentTable.styles';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
-import DeleteRowButton from '../CTA/DeleteRowButton';
 import {
   RouteMapItem,
   MultiSelectFunctionComponent,
@@ -17,6 +16,8 @@ import useMultiselectState, {
 } from './hook/useMultiselectState';
 import { TableColumnMemo } from './ContentTableColumn';
 import { useStoreState } from 'store';
+import DeleteRowsButton from '../CTA/DeleteRowsButton';
+import DeleteRowButton from '../CTA/DeleteRowButton';
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>;
@@ -64,7 +65,8 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const columns = entityService.getCollectionColumns();
 
-  const multiselect = multiselectActions.length > 0;
+  const multiselect =
+    entityService.getAcls().delete === true || multiselectActions.length > 0;
 
   const selectAllHandlers: handleMultiselectChangeType = useCallback(
     (event) => {
@@ -175,6 +177,21 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                   </Button>
                 );
               })}
+              <Button
+                variant='contained'
+                disabled={selectedValues.length < 1}
+                sx={{
+                  verticalAlign: 'inherit',
+                  marginLeft: '10px',
+                  padding: 0,
+                  paddingTop: 0.5,
+                }}
+              >
+                <DeleteRowsButton
+                  selectedValues={selectedValues}
+                  entityService={entityService}
+                />
+              </Button>
             </StyledTableCell>
           </TableRow>
         )}

@@ -1,4 +1,5 @@
 import React from 'react';
+import { DropdownObjectChoices } from 'services/form/Field/Dropdown';
 import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import { PropertyCustomFunctionComponent } from '../form/Field/CustomComponentWrapper';
 
@@ -67,7 +68,7 @@ export interface ScalarProperty {
   minimum?: number;
   maximum?: number;
   default?: any;
-  enum?: KeyValList;
+  enum?: DropdownObjectChoices;
   null?: string | React.ReactElement<any>;
   visualToggle?: visualToggleValue;
   label: string | React.ReactElement<any>;

@@ -19,6 +19,7 @@ import { useFormikType } from '../../../services/form/types';
 import EntityService from '../../../services/entity/EntityService';
 import FilterIconFactory, { SearchFilterType } from './icons/FilterIconFactory';
 import { CriteriaFilterValue } from './ContentFilter';
+import { DropdownObjectChoices } from 'services/form/Field/Dropdown';
 
 export interface ContentFilterRowProps {
   entityService: EntityService;
@@ -58,7 +59,7 @@ export default function ContentFilterSelector(
     );
   }
 
-  const fieldNames: KeyValList = {};
+  const fieldNames: DropdownObjectChoices = {};
   for (const fldName in filters) {
     fieldNames[fldName] = columns[fldName].label;
   }
@@ -83,7 +84,7 @@ export default function ContentFilterSelector(
     : propertyFilters[0] || '';
   const [type, setType] = useState<SearchFilterType>(defaultFilter);
 
-  const filterLabels: KeyValList = {};
+  const filterLabels: DropdownObjectChoices = {};
   for (const filter of filters[name] || {}) {
     filterLabels[filter] = FilterIconFactory({
       name: filter,

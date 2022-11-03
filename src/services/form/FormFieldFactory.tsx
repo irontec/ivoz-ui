@@ -31,9 +31,9 @@ import {
   FormOnChangeEvent,
   PropertyFkChoices,
 } from '../../entities/DefaultEntityBehavior';
-import { AutocompleteChoices } from './Field/Autocomplete';
+import { DropdownChoices } from './Field';
 
-export type NullableFormFieldFactoryChoices = null | AutocompleteChoices;
+export type NullableFormFieldFactoryChoices = null | DropdownChoices;
 
 export default class FormFieldFactory {
   constructor(
@@ -152,7 +152,7 @@ export default class FormFieldFactory {
     }
 
     if (isPropertyScalar(property) && property.enum) {
-      const enumValues: any = property.enum;
+      const enumValues = property.enum;
       if (Array.isArray(enumValues)) {
         choices = choices || {};
         for (const enumValue of enumValues) {

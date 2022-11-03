@@ -8,17 +8,7 @@ import React, {
 import { TextField } from '@mui/material';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
-
-export type AutocompleteArrayChoice = {
-  label: string | React.ReactElement<any>;
-  id: string | number;
-};
-
-export type AutocompleteArrayChoices = Array<AutocompleteArrayChoice>;
-
-export type AutocompleteChoices =
-  | { [label: string | number]: string | React.ReactElement<any> }
-  | AutocompleteArrayChoices;
+import { DropdownChoices, DropdownArrayChoices, DropdownArrayChoice } from './Dropdown';
 
 export interface AutocompleteProps {
   className?: string;
@@ -30,7 +20,7 @@ export interface AutocompleteProps {
   disabled: boolean;
   onChange: (event: any) => void;
   onBlur: (event: React.FocusEvent) => void;
-  choices: AutocompleteChoices;
+  choices: DropdownChoices;
   error?: boolean;
   helperText?: string;
   hasChanged: boolean;
@@ -59,7 +49,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     className += ' changed';
   }
 
-  const [arrayChoices, setArrayChoices] = useState<AutocompleteArrayChoices>(
+  const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>(
     []
   );
 
@@ -80,16 +70,16 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   const onChangeWrapper = useCallback(
     (
       e: any,
-      option: AutocompleteArrayChoice | AutocompleteArrayChoices | null,
+      option: DropdownArrayChoice | DropdownArrayChoices | null,
       reason: string
     ) => {
       let selectedValue = undefined;
       if (reason !== 'clear' && option !== null) {
         selectedValue = multiple
-          ? (option as AutocompleteArrayChoices).map((item: any) =>
+          ? (option as DropdownArrayChoices).map((item: any) =>
               typeof item === 'object' ? item.id : item
             )
-          : (option as AutocompleteArrayChoice).id;
+          : (option as DropdownArrayChoice).id;
       } else {
         selectedValue = arrayChoices.find((item) => item.id === '__null__')
           ? '__null__'
@@ -134,8 +124,8 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
 
   const isOptionEqualToValue = useCallback(
     (
-      option: AutocompleteArrayChoice,
-      value: AutocompleteArrayChoice
+      option: DropdownArrayChoice,
+      value: DropdownArrayChoice
     ): boolean => {
       if (option.id == value.id) {
         return true;

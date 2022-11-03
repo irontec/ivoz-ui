@@ -9,7 +9,7 @@ pushd "${SCRIPT_DIR}"/../
     yarn pre-publish
     cp -r hygen dist/
     cd dist
-    yarn publish
+    yarn publish -f
 popd
 
 

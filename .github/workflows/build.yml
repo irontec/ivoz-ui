@@ -1,0 +1,25 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: borales/actions-yarn@v3.0.0
+      with:
+        cmd: install
+    - uses: borales/actions-yarn@v3.0.0
+      with:
+        cmd: build

@@ -12,6 +12,7 @@ import React from 'react';
 import { match } from 'react-router-dom';
 import { EntityFormProps } from './DefaultEntityBehavior';
 import { ActionItem, RouteMapItem } from '../router/routeMapParser';
+import { DropdownChoices } from 'services';
 
 export type ListDecoratorPropsType = {
   field: string;
@@ -55,7 +56,7 @@ export type ForeignKeyGetterType = (
   props: ForeignKeyGetterTypeArgs
 ) => Promise<any>;
 export declare type FetchFksCallback = (
-  choices: Record<string | number, unknown>,
+  choices: DropdownChoices,
   fullResponse?: undefined | Record<string | number, unknown>
 ) => void;
 export type SelectOptionsArgs = {

@@ -100,8 +100,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     (value: any) => {
       if (typeof value !== 'object') {
         value = arrayChoices.find(
-          // eslint-disable-next-line
-          (option: any) => option.value == value
+          (option) => option.id == value
         );
       }
 
@@ -125,9 +124,14 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   const isOptionEqualToValue = useCallback(
     (
       option: DropdownArrayChoice,
-      value: DropdownArrayChoice
+      value: DropdownArrayChoice | number | string
     ): boolean => {
-      if (option.id == value.id) {
+
+      if (option.id == value) {
+        return true;
+      }
+
+      if (option.id == (value as DropdownArrayChoice).id) {
         return true;
       }
 
@@ -162,8 +166,16 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     ? false
     : true;
 
-  const autocompleteValue =
-    arrayChoices?.find((item) => `${item.id}` === `${value}`) ?? null;
+  let autocompleteValue;
+  if (multiple) {
+    autocompleteValue = arrayChoices.length
+      ? value
+      : []
+  } else {
+    autocompleteValue = arrayChoices?.find(
+      (item) => `${item.id}` === `${value}`
+    ) ?? null;
+  }
 
   return (
     <MuiAutocomplete

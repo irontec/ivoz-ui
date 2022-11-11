@@ -24,10 +24,11 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
     return actions.api.delete;
   });
 
-  let selectedValuesIds = selectedValues.pop();
+  const selectedValuesCopy = [...selectedValues];
+  let selectedValuesIds = selectedValuesCopy.pop();
 
   if (selectedValues.length > 1) {
-    selectedValuesIds += `?_rmAlso[]=${selectedValues.join('&_rmAlso[]=')}`;
+    selectedValuesIds += `?_rmAlso[]=${selectedValuesCopy.join('&_rmAlso[]=')}`;
   }
 
   const handleDelete = async (event: any): Promise<void> => {

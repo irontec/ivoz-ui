@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router-dom';
+import { useMatch } from 'react-router-dom';
 import { useFormikType } from '../../services/form/types';
 
 type Values = Record<string, string | number>;
@@ -12,7 +12,7 @@ interface StoredValuesInterface {
 const useRememberedValues = function (formik: useFormikType): Values {
   const SESSION_STORAGE_KEY = 'form-values';
 
-  const match = useRouteMatch();
+  const match = useMatch(window.location.pathname);
   const [response, setResponse] = useState({});
 
   const storedValues: StoredValuesInterface | null = JSON.parse(
@@ -28,7 +28,7 @@ const useRememberedValues = function (formik: useFormikType): Values {
   const applyStoresValues =
     reloadedPage &&
     storedValues &&
-    storedValues.url === match.url &&
+    storedValues.url === match?.pathname &&
     JSON.stringify(storedValues.values) !== JSON.stringify(response);
 
   if (applyStoresValues) {
@@ -49,7 +49,7 @@ const useRememberedValues = function (formik: useFormikType): Values {
       sessionStorage.setItem(
         SESSION_STORAGE_KEY,
         JSON.stringify({
-          url: match.url,
+          url: match?.pathname,
           values: changedValues,
         })
       );

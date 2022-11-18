@@ -1,9 +1,8 @@
-import { withRouter } from 'react-router-dom';
-import { Grid, styled, Theme } from '@mui/material';
+import { Grid, styled } from '@mui/material';
 import { RouteMap, RouteMapBlock } from '../../router/routeMapParser';
 import DashboardBlock from './DashboardBlock';
 
-interface DashboardProps {
+export interface DashboardProps {
   className?: string;
   routeMap: RouteMap;
 }
@@ -20,17 +19,15 @@ const Dashboard = (props: DashboardProps) => {
   );
 };
 
-export default withRouter<any, any>(
-  styled(Dashboard)(({ theme }) => {
-    return {
-      [theme.breakpoints.down('md')]: {
-        '& ul': {
-          paddingInlineStart: '20px',
-        },
-        '& ul li.submenu li': {
-          paddingInlineStart: '40px',
-        },
+export default styled(Dashboard)(({ theme }) => {
+  return {
+    [theme.breakpoints.down('md')]: {
+      '& ul': {
+        paddingInlineStart: '20px',
       },
-    };
-  })
-);
+      '& ul li.submenu li': {
+        paddingInlineStart: '40px',
+      },
+    },
+  };
+});

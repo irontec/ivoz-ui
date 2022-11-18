@@ -8,7 +8,11 @@ import React, {
 import { TextField } from '@mui/material';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
-import { DropdownChoices, DropdownArrayChoices, DropdownArrayChoice } from './Dropdown';
+import {
+  DropdownChoices,
+  DropdownArrayChoices,
+  DropdownArrayChoice,
+} from './Dropdown';
 
 export interface AutocompleteProps {
   className?: string;
@@ -49,9 +53,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     className += ' changed';
   }
 
-  const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>(
-    []
-  );
+  const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>([]);
 
   useEffect(() => {
     if (Array.isArray(choices)) {
@@ -99,9 +101,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   const getOptionLabel = useCallback(
     (value: any) => {
       if (typeof value !== 'object') {
-        value = arrayChoices.find(
-          (option) => option.id == value
-        );
+        value = arrayChoices.find((option) => option.id == value);
       }
 
       const isTranslation =
@@ -126,7 +126,6 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
       option: DropdownArrayChoice,
       value: DropdownArrayChoice | number | string
     ): boolean => {
-
       if (option.id == value) {
         return true;
       }
@@ -168,13 +167,10 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
 
   let autocompleteValue;
   if (multiple) {
-    autocompleteValue = arrayChoices.length
-      ? value
-      : []
+    autocompleteValue = arrayChoices.length ? value : [];
   } else {
-    autocompleteValue = arrayChoices?.find(
-      (item) => `${item.id}` === `${value}`
-    ) ?? null;
+    autocompleteValue =
+      arrayChoices?.find((item) => `${item.id}` === `${value}`) ?? null;
   }
 
   return (

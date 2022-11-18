@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useStoreActions } from '../../../../store';
 import { Tooltip } from '@mui/material';
 import ConfirmDialog from '../../../shared/ConfirmDialog';
@@ -19,7 +19,7 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
   const handleHideDelete = (): void => {
     setShowDelete(false);
   };
-  const history = useHistory();
+  const navigate = useNavigate();
   const apiDelete = useStoreActions((actions: any) => {
     return actions.api.delete;
   });
@@ -43,11 +43,10 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
       });
 
       if (resp !== undefined) {
-        history.replace(`${location.pathname}/__reloading`);
+        const navOptions = { replace: true, preventScrollReset: true };
+        navigate(`${location.pathname}/__reloading`, navOptions);
         setTimeout(() => {
-          history.replace(location.pathname, {
-            from: history.location.pathname,
-          });
+          navigate(location.pathname, navOptions);
         });
       }
     } catch (error: unknown) {

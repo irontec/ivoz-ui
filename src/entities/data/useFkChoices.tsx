@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 import axios from 'axios';
 import { FkChoices } from '../DefaultEntityBehavior';
 import { ForeignKeyGetterType } from '../EntityInterface';
@@ -11,7 +11,7 @@ interface useFkChoicesArgs {
   foreignKeyGetter: ForeignKeyGetterType;
   entityService: EntityService;
   row?: EntityValues;
-  match: match;
+  match: PathMatch;
   skip?: Array<string>;
 }
 

@@ -9,7 +9,7 @@ import EntityService, {
   VisualToggleStates,
 } from '../services/entity/EntityService';
 import React from 'react';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 import { EntityFormProps } from './DefaultEntityBehavior';
 import { ActionItem, RouteMapItem } from '../router/routeMapParser';
 import { DropdownChoices } from 'services';
@@ -47,7 +47,7 @@ export type foreignKeyResolverType = (
 export type ForeignKeyGetterTypeArgs = {
   cancelToken?: CancelToken;
   entityService: EntityService;
-  match: match;
+  match: PathMatch;
   row?: EntityValues;
   filterContext?: boolean;
   skip?: Array<string>;

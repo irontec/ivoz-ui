@@ -4,7 +4,7 @@ import { Box } from '@mui/system';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef } from 'react';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 import EntityInterface from '../../../entities/EntityInterface';
 import { RouteMapItem } from '../../../router/routeMapParser';
 import EntityService from '../../../services/entity/EntityService';
@@ -19,7 +19,7 @@ interface ListContentProps {
   ignoreColumn: string | undefined;
   preloadData: boolean;
   cancelToken: CancelToken;
-  match: match;
+  match: PathMatch;
   location: Location<Record<string, string> | undefined>;
   parentEntity: EntityInterface | undefined;
 }

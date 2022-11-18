@@ -1,7 +1,7 @@
 import React from 'react';
 import EntityService from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 
 export interface EntityItem {
   entity: EntityInterface;
@@ -15,7 +15,7 @@ export interface EntityItem {
 export interface ActionItemProps {
   row: Record<string, any>;
   entityService: EntityService;
-  match: match<{}>;
+  match: PathMatch;
 }
 
 export interface MultiSelectActionItemProps {

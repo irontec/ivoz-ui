@@ -2,7 +2,12 @@
 
 import { useState, useEffect, createRef } from 'react';
 import { useStoreActions, useStoreState } from '../../store';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import {
+  useLocation,
+  useMatch,
+  PathMatch,
+  useNavigate,
+} from 'react-router-dom';
 import EntityService from '../../services/entity/EntityService';
 import { CriteriaFilterValues } from './Filter/ContentFilter';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
@@ -15,7 +20,7 @@ import { foreignKeyResolverType } from '../../entities/EntityInterface';
 import findRoute, { findParentEntity } from '../../router/findRoute';
 import ErrorMessage from '../shared/ErrorMessage';
 
-type ListProps = RouteComponentProps<any, any, Record<string, string>> & {
+type ListProps = {
   path: string;
   routeMap: RouteMap;
   entityService: EntityService;
@@ -23,17 +28,13 @@ type ListProps = RouteComponentProps<any, any, Record<string, string>> & {
 };
 
 const List = function (props: ListProps) {
-  const {
-    path,
-    history,
-    foreignKeyResolver,
-    entityService,
-    routeMap,
-    match,
-    location,
-  } = props;
+  const { path, foreignKeyResolver, entityService, routeMap } = props;
 
   const listRef = createRef();
+
+  const location = useLocation();
+  const match = useMatch(location.pathname) as PathMatch;
+  const navigate = useNavigate();
 
   const currentRoute = findRoute(routeMap, match);
   const parentEntity = findParentEntity(routeMap, match);
@@ -127,19 +128,21 @@ const List = function (props: ListProps) {
       return;
     }
 
-    let referrer = history.location.pathname;
+    let referrer = location.pathname;
     if (newReqQuerystring) {
       referrer += `?${newReqQuerystring}`;
     }
 
     // Change path
-    history.push(
+    navigate(
       {
         pathname: location.pathname,
         search: newReqQuerystring,
       },
       {
-        referrer,
+        state: {
+          referrer,
+        },
       }
     );
   }, [
@@ -275,4 +278,4 @@ const List = function (props: ListProps) {
   );
 };
 
-export default withRouter(List);
+export default List;

@@ -4,11 +4,11 @@ import { EntityValues } from '../services';
 import EntityInterface from '../entities/EntityInterface';
 import { useStoreActions } from '../store';
 import useCancelToken from './useCancelToken';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 
 type useParentRowProps = {
   parentEntity: EntityInterface;
-  match: match;
+  match: PathMatch;
   parentId?: string | number | undefined;
   cancelToken?: CancelToken;
 };

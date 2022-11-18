@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import {
+  useMatch,
+  useLocation,
+  useNavigate,
+  PathMatch,
+} from 'react-router-dom';
 import { useStoreActions, useStoreState } from '../store';
 import { useFormik } from 'formik';
 import ErrorMessage from './shared/ErrorMessage';
@@ -17,23 +22,18 @@ import { RouteMap } from '../router/routeMapParser';
 import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import useRememberedValues from './shared/useRememberedValues';
 
-type CreateProps = RouteComponentProps<any, any, Record<string, string>> &
-  EntityInterface & {
-    entityService: EntityService;
-    routeMap: RouteMap;
-    Form: EntityFormType;
-  };
+type CreateProps = EntityInterface & {
+  entityService: EntityService;
+  routeMap: RouteMap;
+  Form: EntityFormType;
+};
 
 const Create = (props: CreateProps) => {
-  const {
-    marshaller,
-    unmarshaller,
-    path,
-    history,
-    routeMap,
-    match,
-    entityService,
-  } = props;
+  const { marshaller, unmarshaller, path, routeMap, entityService } = props;
+
+  const location = useLocation();
+  const match = useMatch(location.pathname) as PathMatch;
+  const navigate = useNavigate();
 
   const parentRoute = findRoute(routeMap, match);
   const filterBy = parentRoute?.filterBy;
@@ -41,7 +41,7 @@ const Create = (props: CreateProps) => {
 
   let parentPath = parentRoute?.route || '';
   for (const idx in match.params) {
-    parentPath = parentPath.replace(`:${idx}`, match.params[idx]);
+    parentPath = parentPath.replace(`:${idx}`, match.params[idx] as string);
   }
 
   const { Form: EntityForm } = props;
@@ -105,11 +105,15 @@ const Create = (props: CreateProps) => {
         });
 
         if (resp !== undefined) {
-          const referrer = history.location.state.referrer;
+          const referrer = location.state.referrer;
           const targetPath =
             referrer.search(parentPath) === 0 ? referrer : parentPath;
 
-          history.push(targetPath, { referrer: history.location.pathname });
+          navigate(targetPath, {
+            state: {
+              referrer: location.pathname,
+            },
+          });
         }
       } catch {}
     },
@@ -158,4 +162,4 @@ const Create = (props: CreateProps) => {
   );
 };
 
-export default withRouter<any, any>(Create);
+export default Create;

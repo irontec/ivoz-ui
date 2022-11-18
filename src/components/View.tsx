@@ -1,18 +1,15 @@
 import { useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 import EntityService from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
 import withRowData from './withRowData';
 
 interface ViewProps extends EntityInterface {
   entityService: EntityService;
-  history: any;
-  match: any;
   row: any;
   View: any;
 }
 
-const View: any = (props: ViewProps & RouteComponentProps) => {
+const View: any = (props: ViewProps) => {
   const { View: EntityView, row, entityService, foreignKeyResolver } = props;
   const [parsedData, setParsedData] = useState<any>({});
   const [foreignKeysResolved, setForeignKeysResolved] =
@@ -37,4 +34,4 @@ const View: any = (props: ViewProps & RouteComponentProps) => {
   );
 };
 
-export default withRouter<any, any>(withRowData(View));
+export default withRowData(View);

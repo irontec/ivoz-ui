@@ -43,7 +43,7 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
       });
 
       if (resp !== undefined) {
-        const navOptions = {replace: true, preventScrollReset: true};
+        const navOptions = { replace: true, preventScrollReset: true };
         navigate(`${location.pathname}/__reloading`, navOptions);
         setTimeout(() => {
           navigate(location.pathname, navOptions);

@@ -2,7 +2,12 @@
 
 import { useState, useEffect, createRef } from 'react';
 import { useStoreActions, useStoreState } from '../../store';
-import { useLocation, useMatch, PathMatch, useNavigate } from 'react-router-dom';
+import {
+  useLocation,
+  useMatch,
+  PathMatch,
+  useNavigate,
+} from 'react-router-dom';
 import EntityService from '../../services/entity/EntityService';
 import { CriteriaFilterValues } from './Filter/ContentFilter';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
@@ -23,12 +28,7 @@ type ListProps = {
 };
 
 const List = function (props: ListProps) {
-  const {
-    path,
-    foreignKeyResolver,
-    entityService,
-    routeMap,
-  } = props;
+  const { path, foreignKeyResolver, entityService, routeMap } = props;
 
   const listRef = createRef();
 
@@ -142,10 +142,9 @@ const List = function (props: ListProps) {
       {
         state: {
           referrer,
-        }
+        },
       }
     );
-
   }, [
     reqQuerystring,
     prevReqQuerystring,

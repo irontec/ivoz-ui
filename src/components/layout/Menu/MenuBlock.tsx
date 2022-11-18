@@ -71,14 +71,11 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
                   dense={true}
                   selected={location.pathname.indexOf(route) === 0}
                   onClick={() => {
-                    navigate(
-                      route,
-                      {
-                        state: {
-                          referrer: location.pathname,
-                        }
-                      }
-                    );
+                    navigate(route, {
+                      state: {
+                        referrer: location.pathname,
+                      },
+                    });
                   }}
                 >
                   <StyledListItemIcon>

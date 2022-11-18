@@ -36,13 +36,7 @@ const HistoryTrackerLink = forwardRef<any, any>(
     }, [parentRow]);
 
     return (
-      <Link
-        ref={ref}
-        className={className}
-        to={to}
-        state={state}
-        {...rest}
-      >
+      <Link ref={ref} className={className} to={to} state={state} {...rest}>
         {children}
       </Link>
     );

@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useMatch, useLocation, useNavigate, PathMatch } from 'react-router-dom';
+import {
+  useMatch,
+  useLocation,
+  useNavigate,
+  PathMatch,
+} from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useStoreActions, useStoreState } from '../store';
 import ErrorMessage from '../components/shared/ErrorMessage';
@@ -16,20 +21,14 @@ import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import useRememberedValues from './shared/useRememberedValues';
 
 type EditProps = EntityInterface & {
-    entityService: EntityService;
-    routeMap: RouteMap;
-    row: Record<string, any>;
-    Form: EntityFormType;
-  };
+  entityService: EntityService;
+  routeMap: RouteMap;
+  row: Record<string, any>;
+  Form: EntityFormType;
+};
 
 const Edit: any = (props: EditProps) => {
-  const {
-    marshaller,
-    unmarshaller,
-    row,
-    routeMap,
-    entityService,
-  } = props;
+  const { marshaller, unmarshaller, row, routeMap, entityService } = props;
 
   const { Form: EntityForm } = props;
 
@@ -98,14 +97,11 @@ const Edit: any = (props: EditProps) => {
           const targetPath =
             referrer.search(parentPath) === 0 ? referrer : parentPath;
 
-          navigate(
-            targetPath,
-            {
-              state: { 
-                referrer: location.pathname 
-              }
-            }
-          );
+          navigate(targetPath, {
+            state: {
+              referrer: location.pathname,
+            },
+          });
         }
       } catch {}
     },

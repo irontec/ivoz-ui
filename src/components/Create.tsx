@@ -1,5 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useMatch, useLocation, useNavigate, PathMatch } from 'react-router-dom';
+import {
+  useMatch,
+  useLocation,
+  useNavigate,
+  PathMatch,
+} from 'react-router-dom';
 import { useStoreActions, useStoreState } from '../store';
 import { useFormik } from 'formik';
 import ErrorMessage from './shared/ErrorMessage';
@@ -18,20 +23,13 @@ import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import useRememberedValues from './shared/useRememberedValues';
 
 type CreateProps = EntityInterface & {
-    entityService: EntityService;
-    routeMap: RouteMap;
-    Form: EntityFormType;
-  };
+  entityService: EntityService;
+  routeMap: RouteMap;
+  Form: EntityFormType;
+};
 
 const Create = (props: CreateProps) => {
-  const {
-    marshaller,
-    unmarshaller,
-    path,
-    routeMap,
-    entityService,
-  } = props;
-
+  const { marshaller, unmarshaller, path, routeMap, entityService } = props;
 
   const location = useLocation();
   const match = useMatch(location.pathname) as PathMatch;
@@ -111,14 +109,11 @@ const Create = (props: CreateProps) => {
           const targetPath =
             referrer.search(parentPath) === 0 ? referrer : parentPath;
 
-            navigate(
-              targetPath,
-              {
-                state: {
-                  referrer: location.pathname
-                }
-              }
-            );
+          navigate(targetPath, {
+            state: {
+              referrer: location.pathname,
+            },
+          });
         }
       } catch {}
     },

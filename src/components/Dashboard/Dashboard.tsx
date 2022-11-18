@@ -19,17 +19,15 @@ const Dashboard = (props: DashboardProps) => {
   );
 };
 
-export default
-  styled(Dashboard)(({ theme }) => {
-    return {
-      [theme.breakpoints.down('md')]: {
-        '& ul': {
-          paddingInlineStart: '20px',
-        },
-        '& ul li.submenu li': {
-          paddingInlineStart: '40px',
-        },
+export default styled(Dashboard)(({ theme }) => {
+  return {
+    [theme.breakpoints.down('md')]: {
+      '& ul': {
+        paddingInlineStart: '20px',
       },
-    };
-  })
-;
+      '& ul li.submenu li': {
+        paddingInlineStart: '40px',
+      },
+    },
+  };
+});

@@ -19,11 +19,11 @@ export type DropdownArrayChoice = {
 };
 export type DropdownArrayChoices = Array<DropdownArrayChoice>;
 
-export type DropdownObjectChoices = { [label: string | number]: string | React.ReactElement<any> };
+export type DropdownObjectChoices = {
+  [label: string | number]: string | React.ReactElement<any>;
+};
 
-export type DropdownChoices =
-  | DropdownObjectChoices
-  | DropdownArrayChoices;
+export type DropdownChoices = DropdownObjectChoices | DropdownArrayChoices;
 
 export interface SelectProps {
   className?: string;

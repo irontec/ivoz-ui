@@ -10,7 +10,7 @@ import {
   StyledGroupGrid,
 } from '../DefaultEntityBehavior.styles';
 import _ from '../../services/translations/translate';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 import EntityInterface from '../EntityInterface';
 import filterFieldsetGroups, {
   FieldsetGroups,
@@ -42,7 +42,7 @@ export type EntityFormProps = EntityInterface & {
   readOnlyProperties?: ReadOnlyProperties;
   validationErrors: Record<string, JSX.Element>;
   row?: EntityValues;
-  match: match;
+  match: PathMatch;
   filterBy?: string | undefined;
 };
 

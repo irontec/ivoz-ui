@@ -7,7 +7,7 @@ import { SearchFilterType } from './icons/FilterIconFactory';
 import { FilterCriteria } from './FilterCriteria';
 import { useStoreState, useStoreActions } from '../../../store';
 import { CancelToken } from 'axios';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 
 export interface CriteriaFilterValue {
   name: string;
@@ -25,7 +25,7 @@ interface ContentFilterMenuProps {
   preloadData: boolean;
   ignoreColumn: string | undefined;
   cancelToken: CancelToken;
-  match: match;
+  match: PathMatch;
 }
 
 export function ContentFilter(

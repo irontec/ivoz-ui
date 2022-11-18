@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useMatch, useLocation, useNavigate, PathMatch } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useStoreActions, useStoreState } from '../store';
 import ErrorMessage from '../components/shared/ErrorMessage';
@@ -15,8 +15,7 @@ import findRoute from '../router/findRoute';
 import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import useRememberedValues from './shared/useRememberedValues';
 
-type EditProps = RouteComponentProps<any, any, Record<string, string>> &
-  EntityInterface & {
+type EditProps = EntityInterface & {
     entityService: EntityService;
     routeMap: RouteMap;
     row: Record<string, any>;
@@ -27,8 +26,6 @@ const Edit: any = (props: EditProps) => {
   const {
     marshaller,
     unmarshaller,
-    history,
-    match,
     row,
     routeMap,
     entityService,
@@ -36,16 +33,20 @@ const Edit: any = (props: EditProps) => {
 
   const { Form: EntityForm } = props;
 
+  const location = useLocation();
+  const match = useMatch(location.pathname) as PathMatch;
+  const navigate = useNavigate();
+
   const parentRoute = findRoute(routeMap, match);
   const filterBy = parentRoute?.filterBy;
   const fixedValues = parentRoute?.fixedValues;
 
   let parentPath = parentRoute?.route || '';
   for (const idx in match.params) {
-    parentPath = parentPath.replace(`:${idx}`, match.params[idx]);
+    parentPath = parentPath.replace(`:${idx}`, match.params[idx] as string);
   }
 
-  const entityId = match.params.id;
+  const entityId = match.params.id as string;
 
   const reqError = useStoreState((store) => store.api.errorMsg);
   const apiPut = useStoreActions((actions) => actions.api.put);
@@ -93,11 +94,18 @@ const Edit: any = (props: EditProps) => {
         });
 
         if (resp !== undefined) {
-          const referrer = history.location.state.referrer;
+          const referrer = location.state.referrer;
           const targetPath =
             referrer.search(parentPath) === 0 ? referrer : parentPath;
 
-          history.push(targetPath, { referrer: history.location.pathname });
+          navigate(
+            targetPath,
+            {
+              state: { 
+                referrer: location.pathname 
+              }
+            }
+          );
         }
       } catch {}
     },
@@ -145,4 +153,4 @@ const Edit: any = (props: EditProps) => {
   );
 };
 
-export default withRouter<any, any>(withRowData(Edit));
+export default withRowData(Edit);

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { Location } from 'history';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 import { CancelToken } from 'axios';
 import { useStoreActions, useStoreState } from '../../../../store';
 import EntityInterface from '../../../../entities/EntityInterface';
 
 type useParentIden = {
-  match: match;
+  match: PathMatch;
   location: Location<Record<string, string> | undefined>;
   parentEntity?: EntityInterface;
   cancelToken: CancelToken;

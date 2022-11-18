@@ -1,5 +1,5 @@
 import { Tooltip } from '@mui/material';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useLocation, useMatch, PathMatch } from 'react-router-dom';
 import {
   isActionItem,
   isSingleRowActionItem,
@@ -13,14 +13,18 @@ import {
 } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
 
-type ChildEntityLinksProps = RouteComponentProps & {
+type ChildEntityLinksProps = {
   childEntities: Array<RouteMapItem>;
   row: Record<string, any>;
   entityService: EntityService;
 };
 
 const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
-  const { entityService, childEntities, row, match } = props;
+  const { entityService, childEntities, row } = props;
+
+  const location = useLocation();
+  const match = useMatch(location.pathname) as PathMatch;
+
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
 
@@ -68,4 +72,4 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
   );
 };
 
-export default withRouter(ChildEntityLinks);
+export default ChildEntityLinks;

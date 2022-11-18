@@ -1,6 +1,6 @@
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 
-const buildLink = (link: string, match: match, id?: string): string => {
+const buildLink = (link: string, match: PathMatch, id?: string): string => {
   const params = match.params as Record<string, string>;
   for (const idx in params) {
     link = link.replace(`:${idx}`, params[idx]);

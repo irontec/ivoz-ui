@@ -1,4 +1,4 @@
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions, useStoreState } from '../../../store';
 import {
   isActionItem,
@@ -25,7 +25,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
   const { idx, routeMapBlock } = props;
   const { label, children } = routeMapBlock;
 
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const close = useStoreState((store) => store.menu.close);
@@ -71,9 +71,14 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
                   dense={true}
                   selected={location.pathname.indexOf(route) === 0}
                   onClick={() => {
-                    history.push(route, {
-                      referrer: history.location.pathname,
-                    });
+                    navigate(
+                      route,
+                      {
+                        state: {
+                          referrer: location.pathname,
+                        }
+                      }
+                    );
                   }}
                 >
                   <StyledListItemIcon>

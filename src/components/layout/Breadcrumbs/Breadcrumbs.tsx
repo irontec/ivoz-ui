@@ -1,6 +1,6 @@
 import { CircularProgress, styled, Tooltip } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useLocation, useMatch, PathMatch } from 'react-router-dom';
 import { filterRouteMapPath } from '../../../router/findRoute';
 import {
   EntityItem,
@@ -16,13 +16,15 @@ import {
   StyledHomeIcon,
 } from './Breadcrumbs.styles';
 
-type RouterProps = RouteComponentProps<any>;
-type BreadcrumbsProps = RouterProps & {
+type BreadcrumbsProps = {
   routeMap: RouteMap;
 };
 
 const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
-  const { match, routeMap } = props;
+  const { routeMap } = props;
+
+  const location = useLocation();
+  const match = useMatch(location.pathname) as PathMatch;
   const filteredRouteMapPath = filterRouteMapPath(routeMap, match);
 
   const routeItems: Array<EntityItem> = filteredRouteMapPath?.entity
@@ -45,7 +47,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
     child = child.children?.[0];
   }
 
-  const lastPathSegment = (match.path as string).split('/').pop() as string;
+  const lastPathSegment = (match.pathname as string).split('/').pop() as string;
   const appendSegment = ['create', 'detailed', 'update'].includes(
     lastPathSegment
   );
@@ -80,7 +82,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
       {routeItems.map((routeItem, key: number) => {
         let to = routeItem.route || '/';
         for (const idx in match.params) {
-          const val: string = match.params[idx];
+          const val = match.params[idx] as string;
           to = to.replace(`:${idx}`, val);
         }
 
@@ -109,4 +111,4 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
   );
 };
 
-export default withRouter(Breadcrumbs);
+export default Breadcrumbs;

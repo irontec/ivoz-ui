@@ -4,12 +4,12 @@ import {
   RouteMapItem,
   EntityItem,
 } from './routeMapParser';
-import { match } from 'react-router-dom';
+import { PathMatch } from 'react-router-dom';
 import EntityInterface from '../entities/EntityInterface';
 
 const matchRoute = (
   route: EntityItem,
-  match: match,
+  match: PathMatch,
   includeChildren = false
 ): EntityItem | undefined => {
   const routePaths = [
@@ -19,7 +19,7 @@ const matchRoute = (
     route.route + '/:id/detailed',
   ];
 
-  if (routePaths.includes(match.path)) {
+  if (routePaths.includes(match.pathname)) {
     const resp: RouteMapItem = { ...route };
     if (!includeChildren) {
       delete resp.children;
@@ -31,7 +31,7 @@ const matchRoute = (
 
 const _filterRoutePathItems = (
   route: RouteMapItem,
-  match: match
+  match: PathMatch
 ): EntityItem | undefined => {
   if (isActionItem(route)) {
     return undefined;
@@ -54,7 +54,7 @@ const _filterRoutePathItems = (
 
 export const filterRouteMapPath = (
   routeMap: RouteMap,
-  match: match
+  match: PathMatch
 ): EntityItem | undefined => {
   for (const item of routeMap) {
     for (const child of item.children) {
@@ -68,7 +68,7 @@ export const filterRouteMapPath = (
 
 const _findRoute = (
   route: RouteMapItem,
-  match: match
+  match: PathMatch
 ): EntityItem | undefined => {
   if (isActionItem(route)) {
     return undefined;
@@ -88,7 +88,7 @@ const _findRoute = (
 
 const findRoute = (
   routeMap: RouteMap,
-  match: match
+  match: PathMatch
 ): EntityItem | undefined => {
   for (const item of routeMap) {
     for (const child of item.children) {
@@ -102,13 +102,13 @@ const findRoute = (
 
 export const findParentEntity = (
   routeMap: RouteMap,
-  match: match
+  match: PathMatch
 ): EntityInterface | undefined => {
-  const parentPath = match.path.split('/').slice(0, -2).join('/');
+  const parentPath = match.pathname.split('/').slice(0, -2).join('/');
 
   for (const item of routeMap) {
     for (const child of item.children) {
-      const resp = _findRoute(child, { ...match, path: parentPath });
+      const resp = _findRoute(child, { ...match, pathname: parentPath });
       if (resp) {
         return resp.entity;
       }

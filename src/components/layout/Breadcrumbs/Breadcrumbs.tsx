@@ -1,6 +1,5 @@
 import { CircularProgress, styled, Tooltip } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
-import { useLocation, useMatch, PathMatch } from 'react-router-dom';
 import { filterRouteMapPath } from '../../../router/findRoute';
 import {
   EntityItem,
@@ -15,6 +14,7 @@ import {
   StyledCollapsedBreadcrumbsTypography,
   StyledHomeIcon,
 } from './Breadcrumbs.styles';
+import useCurrentPathMatch from '../../../hooks/useCurrentPathMatch';
 
 type BreadcrumbsProps = {
   routeMap: RouteMap;
@@ -23,8 +23,7 @@ type BreadcrumbsProps = {
 const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
   const { routeMap } = props;
 
-  const location = useLocation();
-  const match = useMatch(location.pathname) as PathMatch;
+  const match = useCurrentPathMatch();
   const filteredRouteMapPath = filterRouteMapPath(routeMap, match);
 
   const routeItems: Array<EntityItem> = filteredRouteMapPath?.entity
@@ -47,7 +46,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
     child = child.children?.[0];
   }
 
-  const lastPathSegment = (match.pathname as string).split('/').pop() as string;
+  const lastPathSegment = match.pathname.split('/').pop() as string;
   const appendSegment = ['create', 'detailed', 'update'].includes(
     lastPathSegment
   );

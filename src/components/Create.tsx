@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  useMatch,
-  useLocation,
-  useNavigate,
-  PathMatch,
-} from 'react-router-dom';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions, useStoreState } from '../store';
 import { useFormik } from 'formik';
 import ErrorMessage from './shared/ErrorMessage';
@@ -21,6 +16,7 @@ import findRoute from '../router/findRoute';
 import { RouteMap } from '../router/routeMapParser';
 import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import useRememberedValues from './shared/useRememberedValues';
+import useCurrentPathMatch from '../hooks/useCurrentPathMatch';
 
 type CreateProps = EntityInterface & {
   entityService: EntityService;
@@ -32,7 +28,8 @@ const Create = (props: CreateProps) => {
   const { marshaller, unmarshaller, path, routeMap, entityService } = props;
 
   const location = useLocation();
-  const match = useMatch(location.pathname) as PathMatch;
+  const match = useCurrentPathMatch();
+  const params = useParams();
   const navigate = useNavigate();
 
   const parentRoute = findRoute(routeMap, match);
@@ -40,8 +37,8 @@ const Create = (props: CreateProps) => {
   const fixedValues = parentRoute?.fixedValues;
 
   let parentPath = parentRoute?.route || '';
-  for (const idx in match.params) {
-    parentPath = parentPath.replace(`:${idx}`, match.params[idx] as string);
+  for (const idx in params) {
+    parentPath = parentPath.replace(`:${idx}`, params[idx] as string);
   }
 
   const { Form: EntityForm } = props;
@@ -72,7 +69,7 @@ const Create = (props: CreateProps) => {
     initialValues,
     validate: (values: any) => {
       if (filterBy) {
-        values[filterBy] = Object.values(match.params).pop();
+        values[filterBy] = Object.values(params).pop();
       }
 
       if (fixedValues) {

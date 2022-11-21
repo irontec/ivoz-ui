@@ -19,7 +19,7 @@ const matchRoute = (
     route.route + '/:id/detailed',
   ];
 
-  if (routePaths.includes(match.pathname)) {
+  if (routePaths.includes(match.pattern.path)) {
     const resp: RouteMapItem = { ...route };
     if (!includeChildren) {
       delete resp.children;
@@ -104,11 +104,20 @@ export const findParentEntity = (
   routeMap: RouteMap,
   match: PathMatch
 ): EntityInterface | undefined => {
-  const parentPath = match.pathname.split('/').slice(0, -2).join('/');
+  const parentPattern = match.pattern.path.split('/').slice(0, -2).join('/');
+  if (!parentPattern) {
+    return;
+  }
 
   for (const item of routeMap) {
     for (const child of item.children) {
-      const resp = _findRoute(child, { ...match, pathname: parentPath });
+      const resp = _findRoute(child, {
+        ...match,
+        pattern: {
+          ...match.pattern,
+          path: parentPattern,
+        },
+      });
       if (resp) {
         return resp.entity;
       }

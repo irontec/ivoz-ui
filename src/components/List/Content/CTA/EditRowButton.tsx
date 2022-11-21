@@ -1,9 +1,9 @@
 import { Tooltip } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { useLocation, useMatch, PathMatch } from 'react-router-dom';
 import { StyledTableRowCta } from '../Table/ContentTable.styles';
 import _ from '../../../../services/translations/translate';
 import buildLink from '../Shared/BuildLink';
+import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 
 type EditRowButtonProps = {
   row: Record<string, any>;
@@ -13,10 +13,11 @@ type EditRowButtonProps = {
 const EditRowButton = (props: EditRowButtonProps): JSX.Element => {
   const { row } = props;
 
-  const location = useLocation();
-  const match = useMatch(location.pathname) as PathMatch;
-
-  const link = buildLink(match.pathname, match);
+  const match = useCurrentPathMatch();
+  const link = buildLink({
+    link: match.pattern.path,
+    params: match.params,
+  });
 
   return (
     <Tooltip title={_('Edit')} placement='bottom'>

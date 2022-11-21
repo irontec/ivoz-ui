@@ -1,9 +1,14 @@
-import { PathMatch } from 'react-router-dom';
+interface buildLinkProps {
+  link: string;
+  id?: string;
+  params: Record<string, unknown>;
+}
 
-const buildLink = (link: string, match: PathMatch, id?: string): string => {
-  const params = match.params as Record<string, string>;
+const buildLink = (props: buildLinkProps): string => {
+  let { link, params, id } = props;
+
   for (const idx in params) {
-    link = link.replace(`:${idx}`, params[idx]);
+    link = link.replace(`:${idx}`, params[idx] as string);
   }
 
   const urlParamNum = Object.values(params).length;

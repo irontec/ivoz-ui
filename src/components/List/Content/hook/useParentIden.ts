@@ -1,22 +1,22 @@
 import { useEffect, useState } from 'react';
 import { Location } from 'history';
-import { PathMatch } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { CancelToken } from 'axios';
 import { useStoreActions, useStoreState } from '../../../../store';
 import EntityInterface from '../../../../entities/EntityInterface';
 
 type useParentIden = {
-  match: PathMatch;
   location: Location<Record<string, string> | undefined>;
   parentEntity?: EntityInterface;
   cancelToken: CancelToken;
 };
 
 const useParentIden = (props: useParentIden): string | undefined => {
-  const { location, parentEntity, match, cancelToken } = props;
+  const { location, parentEntity, cancelToken } = props;
   const { state: locationState } = location;
 
-  const parentId = Object.values(match.params).pop();
+  const params = useParams();
+  const parentId = Object.values(params).pop();
 
   const [iden, setIden] = useState<string | undefined>(
     locationState?.referrerIden

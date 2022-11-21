@@ -1,10 +1,5 @@
 import { useEffect, useState } from 'react';
-import {
-  useMatch,
-  useLocation,
-  useNavigate,
-  PathMatch,
-} from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { useStoreActions, useStoreState } from '../store';
 import ErrorMessage from '../components/shared/ErrorMessage';
@@ -19,6 +14,7 @@ import { RouteMap } from '../router/routeMapParser';
 import findRoute from '../router/findRoute';
 import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import useRememberedValues from './shared/useRememberedValues';
+import useCurrentPathMatch from '../hooks/useCurrentPathMatch';
 
 type EditProps = EntityInterface & {
   entityService: EntityService;
@@ -33,7 +29,7 @@ const Edit: any = (props: EditProps) => {
   const { Form: EntityForm } = props;
 
   const location = useLocation();
-  const match = useMatch(location.pathname) as PathMatch;
+  const match = useCurrentPathMatch();
   const navigate = useNavigate();
 
   const parentRoute = findRoute(routeMap, match);

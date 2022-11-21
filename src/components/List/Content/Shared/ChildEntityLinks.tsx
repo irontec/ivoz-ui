@@ -1,5 +1,5 @@
 import { Tooltip } from '@mui/material';
-import { useLocation, useMatch, PathMatch } from 'react-router-dom';
+import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 import {
   isActionItem,
   isSingleRowActionItem,
@@ -22,8 +22,7 @@ type ChildEntityLinksProps = {
 const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
   const { entityService, childEntities, row } = props;
 
-  const location = useLocation();
-  const match = useMatch(location.pathname) as PathMatch;
+  const match = useCurrentPathMatch();
 
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
@@ -52,7 +51,11 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
 
         const Icon = routeMapItem.entity.icon as React.FunctionComponent;
         const title = routeMapItem.entity.title as JSX.Element;
-        const link = buildLink(routeMapItem.route || '', match, row.id);
+        const link = buildLink({
+          link: routeMapItem.route || '',
+          id: row.id,
+          params: match.params,
+        });
 
         return (
           <ChildDecorator key={key} routeMapItem={routeMapItem} row={row}>

@@ -2,7 +2,6 @@ import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconF
 import EntityInterface, {
   EntityAclType,
   ForeignKeyGetterType,
-  ListDecoratorPropsType,
   OrderDirection,
 } from '../../entities/EntityInterface';
 import {

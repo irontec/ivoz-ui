@@ -2,12 +2,7 @@
 
 import { useState, useEffect, createRef } from 'react';
 import { useStoreActions, useStoreState } from '../../store';
-import {
-  useLocation,
-  useMatch,
-  PathMatch,
-  useNavigate,
-} from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import EntityService from '../../services/entity/EntityService';
 import { CriteriaFilterValues } from './Filter/ContentFilter';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
@@ -19,6 +14,7 @@ import { RouteMap } from '../../router/routeMapParser';
 import { foreignKeyResolverType } from '../../entities/EntityInterface';
 import findRoute, { findParentEntity } from '../../router/findRoute';
 import ErrorMessage from '../shared/ErrorMessage';
+import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
 
 type ListProps = {
   path: string;
@@ -29,11 +25,11 @@ type ListProps = {
 
 const List = function (props: ListProps) {
   const { path, foreignKeyResolver, entityService, routeMap } = props;
-
   const listRef = createRef();
 
   const location = useLocation();
-  const match = useMatch(location.pathname) as PathMatch;
+  const match = useCurrentPathMatch();
+  const params = useParams();
   const navigate = useNavigate();
 
   const currentRoute = findRoute(routeMap, match);
@@ -79,7 +75,7 @@ const List = function (props: ListProps) {
 
   if (currentRoute?.filterBy) {
     filterBy.push(currentRoute.filterBy);
-    filterBy.push(Object.values(match.params).pop() as string);
+    filterBy.push(Object.values(params).pop() as string);
   }
 
   const filterValues: Array<string> = [];

@@ -54,7 +54,6 @@ const ListContentHeader = (
   };
 
   const iden = useParentIden({
-    match,
     location,
     parentEntity,
     cancelToken,

@@ -18,7 +18,6 @@ const RouteContent = (props: RouteContentProps): JSX.Element => {
     apiSpec[entity.iden].properties,
     { ...entity }
   );
-
   const properties = entityService.getProperties();
 
   return (

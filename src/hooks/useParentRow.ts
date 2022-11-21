@@ -4,7 +4,7 @@ import { EntityValues } from '../services';
 import EntityInterface from '../entities/EntityInterface';
 import { useStoreActions } from '../store';
 import useCancelToken from './useCancelToken';
-import { PathMatch } from 'react-router-dom';
+import { PathMatch, useParams } from 'react-router-dom';
 
 type useParentRowProps = {
   parentEntity: EntityInterface;
@@ -19,22 +19,24 @@ const useParentRow = <T extends {} = EntityValues>(
   const { parentEntity, match } = props;
   let { parentId } = props;
 
+  const params = useParams();
+
   let { cancelToken } = props;
   if (!cancelToken) {
     [, cancelToken] = useCancelToken();
   }
 
   if (!parentId) {
-    const params = { ...match.params } as Record<string, string>;
-    for (const idx in params) {
+    const myParams = { ...params } as Record<string, string>;
+    for (const idx in myParams) {
       if (idx.indexOf('parent_id') === 0) {
         continue;
       }
 
-      delete params[idx];
+      delete myParams[idx];
     }
 
-    parentId = Object.values(params).pop() || '';
+    parentId = Object.values(myParams).pop() || '';
   }
 
   const [row, setRow] = useState<T | null | undefined>(undefined);

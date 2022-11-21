@@ -32,6 +32,7 @@ import Form, {
   EntityFormProps,
 } from './DefaultEntityBehavior/Form';
 import View from './DefaultEntityBehavior/View';
+import { EntityItem, isEntityItem } from '../router';
 
 export const initialValues = {};
 
@@ -59,7 +60,16 @@ export const ChildDecorator: ChildDecoratorType = (props) => {
 export const ChildDecoratorMemo = React.memo(
   ChildDecorator,
   (prev: ChildDecoratorProps, next: ChildDecoratorProps): boolean => {
-    return prev.row.id === next.row.id;
+    const areEntityItems =
+      isEntityItem(prev.routeMapItem) && isEntityItem(next.routeMapItem);
+
+    const sameRoute =
+      areEntityItems &&
+      (prev.routeMapItem as EntityItem).route ===
+        (next.routeMapItem as EntityItem).route;
+    const sameId = prev.row.id === next.row.id;
+
+    return sameRoute && sameId;
   }
 );
 

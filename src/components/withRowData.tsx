@@ -3,16 +3,17 @@ import hoistStatics from 'hoist-non-react-statics';
 import { useStoreActions } from '../store';
 import EntityService from '../services/entity/EntityService';
 import useCancelToken from '../hooks/useCancelToken';
+import { useParams } from 'react-router-dom';
 
 const withRowData = (
   Component: FunctionComponent | ComponentClass
 ): FunctionComponent => {
   const displayName = `withRowData(${Component.displayName || Component.name})`;
   const C: any = (props: any): JSX.Element | null => {
-    const { match } = props;
     const { entityService }: { entityService: EntityService } = props;
 
-    const entityId = match.params.id;
+    const params = useParams();
+    const entityId = params.id as string;
 
     const [loading, setLoading] = useState(true);
     const [row, setRow] = useState({});

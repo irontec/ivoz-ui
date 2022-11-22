@@ -125,7 +125,12 @@ export default class FormFieldFactory {
 
       if (property.null && !multiSelect) {
         if (Array.isArray(choices)) {
-          choices.push({ label: property.null, id: '__null__' });
+
+          const nullAlreadyAssigned = choices.find((item) => item.id == '__null__');
+          if (!nullAlreadyAssigned) {
+            choices.push({ label: property.null, id: '__null__' });
+          }
+
         } else {
           choices['__null__'] = property.null;
         }

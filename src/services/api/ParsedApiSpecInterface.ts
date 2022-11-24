@@ -73,6 +73,7 @@ export interface ScalarProperty {
   visualToggle?: visualToggleValue;
   label: string | React.ReactElement<any>;
   prefix?: string | React.ReactElement<any>;
+  subfix?: string | React.ReactElement<any>;
   component?: PropertyCustomFunctionComponent<any> | React.ComponentClass<any>;
   memoize?: boolean;
   required: boolean;
@@ -87,6 +88,7 @@ export interface FkProperty {
   readOnly?: boolean;
   label: string | React.ReactElement<any>;
   prefix?: string | React.ReactElement<any>;
+  subfix?: string | React.ReactElement<any>;
   null?: string | React.ReactElement<any>;
   required: boolean;
   component?: PropertyCustomFunctionComponent<any>;

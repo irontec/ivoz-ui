@@ -225,9 +225,16 @@ export default class FormFieldFactory {
 
     const inputProps: any = {};
     const InputProps: any = {};
+
     if (property.prefix) {
       InputProps.startAdornment = (
         <InputAdornment position='start'>{property.prefix}</InputAdornment>
+      );
+    }
+
+    if (property.subfix) {
+      InputProps.endAdornment = (
+        <InputAdornment position='end'>{property.subfix}</InputAdornment>
       );
     }
 
@@ -258,7 +265,8 @@ export default class FormFieldFactory {
       );
     }
 
-    if (isPropertyScalar(property) && property.type === 'integer') {
+    if (isPropertyScalar(property) && ['integer', 'number'].includes(property.type || '')) {
+
       if (property.minimum !== undefined) {
         inputProps.min = property.minimum;
       }

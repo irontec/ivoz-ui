@@ -25,7 +25,7 @@ export const StyledAccordionSummary = styled(AccordionSummary)(() => {
 export const StyledAccordionDetails = styled(AccordionDetails)(() => {
   return {
     padding: '0px',
-    '&:first-child': {
+    '&:first-of-type': {
       paddingTop: 0,
       marginTop: 12,
     },

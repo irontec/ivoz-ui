@@ -62,7 +62,7 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
         </a>
       </Tooltip>
       <ConfirmDialog
-        text={`You're about to remove items #${selectedValues.join(', ')}`}
+        text={`${selectedValues.length} elements will be removed. Are you sure?`}
         open={showDelete}
         handleClose={handleHideDelete}
         handleApply={handleDelete}

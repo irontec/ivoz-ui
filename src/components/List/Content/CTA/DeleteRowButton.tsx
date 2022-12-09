@@ -48,6 +48,8 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
     }
   };
 
+  const iden = entityService.getEntity().toStr(row);
+
   return (
     <>
       <Tooltip title={_('Delete')} placement='bottom' enterTouchDelay={0}>
@@ -56,7 +58,7 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
         </a>
       </Tooltip>
       <ConfirmDialog
-        text={`You're about to remove item #${row.id}`}
+        text={`You are about to remove ${iden}`}
         open={showDelete}
         handleClose={handleHideDelete}
         handleApply={handleDelete}

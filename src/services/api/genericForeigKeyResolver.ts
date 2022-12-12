@@ -3,7 +3,7 @@ import { StoreContainer } from '../../store';
 import { EntityValues } from '../entity/EntityService';
 import EntityInterface from '../../entities/EntityInterface';
 
-interface GenericForeignKeyResolverProps {
+export interface GenericForeignKeyResolverProps {
   data: Array<EntityValues> | EntityValues;
   fkFld: string;
   entity: EntityInterface;
@@ -12,13 +12,13 @@ interface GenericForeignKeyResolverProps {
   cancelToken?: CancelToken;
 }
 
-const entityObject2ListLink = async (
+export const entityObject2ListLink = async (
   props: GenericForeignKeyResolverProps,
   data: EntityValues[],
   response: any
 ) => {
   const { fkFld, entity, addLink = true, dataPreprocesor } = props;
-  const { path, toStr } = entity;
+  const { localPath, path, toStr } = entity;
 
   try {
     if (dataPreprocesor) {
@@ -55,7 +55,7 @@ const entityObject2ListLink = async (
 
       data[idx][`${fkFld}Id`] = data[idx][fkFld];
       if (addLink) {
-        data[idx][`${fkFld}Link`] = `${path}/${scalarFk}/update`;
+        data[idx][`${fkFld}Link`] = `${localPath || path}/${scalarFk}/update`;
       }
       data[idx][fkFld] = entities[scalarFk];
     }

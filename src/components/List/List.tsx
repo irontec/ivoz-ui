@@ -38,9 +38,6 @@ const List = function (props: ListProps) {
   const resetList = useStoreActions((actions: any) => {
     return actions.list.reset;
   });
-  useEffect(() => {
-    resetList();
-  }, []);
 
   const setRows = useStoreActions((actions: any) => {
     return actions.list.setRows;
@@ -66,6 +63,12 @@ const List = function (props: ListProps) {
   const setQueryStringCriteria = useStoreActions((actions) => {
     return actions.route.setQueryStringCriteria;
   });
+
+  const [prevPath, setPrevPath] = useState<string>('');
+  useEffect(() => {
+    resetList();
+    setPrevPath(path);
+  }, [path]);
 
   ////////////////////////////
   // Filters
@@ -117,7 +120,6 @@ const List = function (props: ListProps) {
     if (reqQuerystring !== prevReqQuerystring) {
       return;
     }
-
     const newReqQuerystring = criteriaToArray(queryStringCriteria).join('&');
 
     if (reqQuerystring === newReqQuerystring) {
@@ -249,6 +251,10 @@ const List = function (props: ListProps) {
     cancelToken,
     mounted,
   ]);
+
+  if (prevPath !== path) {
+    return null;
+  }
 
   if (!criteriaIsReady || !mounted) {
     return null;

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import {
   Avatar,
@@ -9,24 +8,29 @@ import {
   Tooltip,
   Typography,
 } from '@mui/material';
-import { useStoreActions } from '../../store';
+import { useState } from 'react';
 import { RouteMap } from '../../router/routeMapParser';
+import { useStoreActions } from '../../store';
 import Breadcrumbs from './Breadcrumbs';
 import {
   StyledAppBar,
   StyledHeaderContainer,
   StyledToolbar,
 } from './Header.styles';
+import LanguageSelector, {
+  Languages,
+} from './LanguageSelector/LanguageSelector';
 
 interface headerProps {
   loggedIn: boolean;
   routeMap: RouteMap;
   children?: React.ReactNode;
   customAvatar?: JSX.Element;
+  languages?: Languages;
 }
 
 export default function Header(props: headerProps): JSX.Element {
-  const { loggedIn, routeMap, children, customAvatar } = props;
+  const { loggedIn, routeMap, children, customAvatar, languages } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const handleLogout = () => {
     resetAuth();
@@ -53,6 +57,7 @@ export default function Header(props: headerProps): JSX.Element {
           )}
           {loggedIn && (
             <Box sx={{ flexGrow: 0 }}>
+              {languages && <LanguageSelector languages={languages} />}
               <Tooltip title='Open settings'>
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   {customAvatar || (

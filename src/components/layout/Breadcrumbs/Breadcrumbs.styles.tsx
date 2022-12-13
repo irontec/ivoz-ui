@@ -1,6 +1,6 @@
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
 import HomeIcon from '@mui/icons-material/Home';
-import { Theme, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
 import { styled } from '@mui/material';
 import HistoryTrackerLink from '../../../components/shared/HistoryTrackerLink';
 

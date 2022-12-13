@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Grid, Button } from '@mui/material';
 import {
   FkProperty,
-  KeyValList,
   isPropertyFk,
   PropertySpec,
   ScalarProperty,

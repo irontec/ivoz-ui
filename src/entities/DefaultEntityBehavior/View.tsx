@@ -7,7 +7,6 @@ import {
   StyledGroupLegend,
   StyledGroupGrid,
 } from '../DefaultEntityBehavior.styles';
-import _ from '../../services/translations/translate';
 import filterFieldsetGroups, { FieldsetGroups } from './FilterFieldsetGroups';
 
 const View = (props: ViewProps): JSX.Element | null => {

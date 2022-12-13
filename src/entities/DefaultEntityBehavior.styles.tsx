@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import { Typography, Grid, Theme } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
 
 interface StyledGroupLegendProps {
   children: React.ReactNode;

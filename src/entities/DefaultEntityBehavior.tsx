@@ -8,7 +8,6 @@ import {
   FetchFksCallback,
   ChildDecoratorProps,
 } from './EntityInterface';
-import _ from '../services/translations/translate';
 import { CancelToken } from 'axios';
 
 import validator from './DefaultEntityBehavior/Validator';

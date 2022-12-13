@@ -1,5 +1,4 @@
 import { styled } from '@mui/material';
-import { Theme } from '@mui/material/styles';
 import ErrorIcon from '@mui/icons-material/Error';
 import Message from './Message';
 

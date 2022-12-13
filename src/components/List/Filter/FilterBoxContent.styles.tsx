@@ -1,5 +1,5 @@
 import { styled } from '@mui/material';
-import { Theme, AppBar, Typography, Toolbar } from '@mui/material';
+import { AppBar, Typography, Toolbar } from '@mui/material';
 import FilterBoxContent from './FilterBoxContent';
 
 export const StyledAppBar = styled(AppBar)(() => {

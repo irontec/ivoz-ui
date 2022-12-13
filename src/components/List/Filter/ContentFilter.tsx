@@ -72,7 +72,7 @@ export function ContentFilter(
       setDelayedApply(false);
       handleClose();
     },
-    [criteria, handleClose, setQueryStringCriteria]
+    [criteria, setQueryStringCriteria, setDelayedApply, handleClose]
   );
 
   useEffect(() => {
@@ -101,7 +101,8 @@ export function ContentFilter(
     if (delayedApply) {
       apply(false);
     }
-  }, [delayedApply, criteria, apply]);
+    // eslint-disable-next-line
+  }, [delayedApply]);
 
   const addCriteria = (data: CriteriaFilterValue) => {
     const newCriteria: CriteriaFilterValues = [...criteria, data];

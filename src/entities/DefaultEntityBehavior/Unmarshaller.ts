@@ -2,7 +2,6 @@ import {
   PartialPropertyList,
   ScalarProperty,
 } from '../../services/api/ParsedApiSpecInterface';
-import _ from '../../services/translations/translate';
 import { MarshallerValues } from './Marshaller';
 
 // API Response format => formik compatible format

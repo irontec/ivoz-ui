@@ -1,6 +1,5 @@
 import { GridSize } from '@mui/material';
 import * as React from 'react';
-import _ from '../../services/translations/translate';
 
 type DetailedFormFieldSpec = {
   name: string;

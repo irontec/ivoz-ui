@@ -10,11 +10,7 @@ import EntityInterface from '../../../entities/EntityInterface';
 import EntityService from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
 import useParentIden from './hook/useParentIden';
-import {
-  StyledActionButtonContainer,
-  StyledFab,
-  StyledLink,
-} from './ListContent.styles';
+import { StyledActionButtonContainer, StyledLink } from './ListContent.styles';
 
 interface ListContentProps {
   path: string;

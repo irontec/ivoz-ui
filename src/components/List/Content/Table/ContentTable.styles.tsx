@@ -1,4 +1,4 @@
-import { TableCell, TableCellProps, Theme } from '@mui/material';
+import { TableCell, TableCellProps } from '@mui/material';
 import { styled } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';

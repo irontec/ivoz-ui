@@ -125,12 +125,12 @@ export default class FormFieldFactory {
 
       if (property.null && !multiSelect) {
         if (Array.isArray(choices)) {
-
-          const nullAlreadyAssigned = choices.find((item) => item.id == '__null__');
+          const nullAlreadyAssigned = choices.find(
+            (item) => item.id == '__null__'
+          );
           if (!nullAlreadyAssigned) {
             choices.push({ label: property.null, id: '__null__' });
           }
-
         } else {
           choices['__null__'] = property.null;
         }
@@ -265,8 +265,10 @@ export default class FormFieldFactory {
       );
     }
 
-    if (isPropertyScalar(property) && ['integer', 'number'].includes(property.type || '')) {
-
+    if (
+      isPropertyScalar(property) &&
+      ['integer', 'number'].includes(property.type || '')
+    ) {
       if (property.minimum !== undefined) {
         inputProps.min = property.minimum;
       }

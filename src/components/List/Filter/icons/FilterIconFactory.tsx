@@ -10,8 +10,6 @@ import GreaterThanEqual from './greaterThanEqual';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import _ from '../../../../services/translations/translate';
 import { styled } from '@mui/material';
-import { OverridableComponent } from '@mui/material/OverridableComponent';
-import { SvgIconTypeMap } from '@mui/material';
 
 export type OrderFilterType = string;
 export type SearchFilterType =

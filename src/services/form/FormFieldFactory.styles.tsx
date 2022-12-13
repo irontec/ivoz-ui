@@ -1,11 +1,5 @@
 import { styled, TextFieldProps } from '@mui/material';
-import {
-  Theme,
-  Typography,
-  FormControl,
-  TextField,
-  TextareaAutosize,
-} from '@mui/material';
+import { Typography, FormControl, TextField } from '@mui/material';
 
 interface StyledSwitchFormControlProps {
   children: React.ReactNode;

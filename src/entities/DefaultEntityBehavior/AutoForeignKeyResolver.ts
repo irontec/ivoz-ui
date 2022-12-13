@@ -1,6 +1,5 @@
 import { EntityValues } from '../../services/entity/EntityService';
 import { foreignKeyResolverProps } from '../EntityInterface';
-import _ from '../../services/translations/translate';
 import genericForeignKeyResolver from '../../services/api/genericForeigKeyResolver';
 import { StoreContainer } from '../../store';
 

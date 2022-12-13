@@ -2,7 +2,6 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import { VisualToggleStates } from '../../services/entity/EntityService';
 import FormFieldFactory from '../../services/form/FormFieldFactory';
-import _ from '../../services/translations/translate';
 import {
   FkChoices,
   ReadOnlyProperties,

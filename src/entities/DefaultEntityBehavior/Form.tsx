@@ -17,13 +17,11 @@ import filterFieldsetGroups, {
   FieldsetGroupsField,
 } from './FilterFieldsetGroups';
 import FormFieldMemo from './FormField';
+import { DropdownChoices } from '../../services';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 
-export type PropertyFkChoices = {
-  [key: string]: string | React.ReactElement<any>;
-};
-
+export type PropertyFkChoices = DropdownChoices;
 export type NullablePropertyFkChoices = null | PropertyFkChoices;
 
 export type FkChoices = {

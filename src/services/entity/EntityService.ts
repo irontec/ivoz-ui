@@ -172,13 +172,17 @@ export default class EntityService {
     );
 
     for (const idx in values) {
-      this.updateVisualToggle(idx, values[idx], visualToggles);
+      this.hideVisualToggle(idx, values[idx], visualToggles);
+    }
+
+    for (const idx in values) {
+      this.showVisualToggle(idx, values[idx], visualToggles);
     }
 
     return visualToggles;
   }
 
-  private updateVisualToggle(
+  private hideVisualToggle(
     fld: string,
     value: string | number,
     visualToggles: VisualToggleStates
@@ -189,7 +193,7 @@ export default class EntityService {
       return visualToggles;
     }
 
-    if (visualToggles[fld] === false) {
+    if (value === '__null__' || value === null) {
       if (!rules[fld]['__null__']) {
         return visualToggles;
       }
@@ -204,11 +208,60 @@ export default class EntityService {
     const normalizedValue = typeof value === 'boolean' ? value + 0 : value;
 
     if (!rules[fld][normalizedValue]) {
+      if (rules[fld]['__default__']) {
+        for (const hideFld of rules[fld]['__default__']['hide']) {
+          visualToggles[hideFld] = false;
+        }
+      }
+
       return visualToggles;
     }
 
     for (const hideFld of rules[fld][normalizedValue]['hide']) {
       visualToggles[hideFld] = false;
+    }
+
+    return visualToggles;
+  }
+
+  private showVisualToggle(
+    fld: string,
+    value: string | number,
+    visualToggles: VisualToggleStates
+  ): VisualToggleStates {
+    const rules = this.getVisualToggleRules();
+
+    if (!visualToggles[fld]) {
+      return visualToggles;
+    }
+
+    if (!rules[fld]) {
+      return visualToggles;
+    }
+
+    if (value === '__null__' || value === null) {
+      if (!rules[fld]['__null__']) {
+        return visualToggles;
+      }
+
+      for (const hideFld of rules[fld]['__null__']['show']) {
+        visualToggles[hideFld] = true;
+      }
+
+      return visualToggles;
+    }
+
+    const normalizedValue = typeof value === 'boolean' ? value + 0 : value;
+
+    if (!rules[fld][normalizedValue]) {
+      if (rules[fld]['__default__']) {
+
+        for (const showFld of rules[fld]['__default__']['show']) {
+          visualToggles[showFld] = true;
+        }
+      }
+
+      return visualToggles;
     }
 
     for (const showFld of rules[fld][normalizedValue]['show']) {

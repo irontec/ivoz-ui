@@ -5,6 +5,7 @@ import { CriteriaFilterValue, CriteriaFilterValues } from './ContentFilter';
 import FilterIconFactory, { getFilterLabel } from './icons/FilterIconFactory';
 import { isPropertyFk } from '../../../services/api/ParsedApiSpecInterface';
 import { StyledChip, StyledChipIcon } from './FilterCriteria.styles';
+import { DropdownObjectChoices } from '../../../services';
 
 interface FilterCriteriaProps {
   entityService: EntityService;
@@ -30,7 +31,7 @@ export function FilterCriteria(props: FilterCriteriaProps): JSX.Element | null {
 
         let valueStr: string | JSX.Element = value as string;
         if (isPropertyFk(column)) {
-          valueStr = fkChoices[name]?.[value as string] as string;
+          valueStr = (fkChoices[name] as DropdownObjectChoices | null)?.[value as string] as string;
         } else if (column.enum) {
           valueStr = column.enum[value as string] as string | JSX.Element;
         }

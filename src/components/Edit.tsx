@@ -50,7 +50,10 @@ const Edit: any = (props: EditProps) => {
 
   const properties = entityService.getProperties();
 
-  const initialValues = unmarshaller(row, properties);
+  const initialValues = {
+    ...entityService.getDefultValues(),
+    ...unmarshaller(row, properties),
+  };
 
   const formik: useFormikType = useFormik({
     initialValues,

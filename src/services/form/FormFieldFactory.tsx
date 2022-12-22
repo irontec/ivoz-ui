@@ -129,10 +129,16 @@ export default class FormFieldFactory {
             (item) => item.id == '__null__'
           );
           if (!nullAlreadyAssigned) {
-            choices.push({ label: property.null, id: '__null__' });
+            choices = [
+              { label: property.null, id: '__null__' },
+              ...choices
+            ];
           }
         } else {
-          choices['__null__'] = property.null;
+          choices =  {
+            '__null__': property.null,
+            ...choices
+          };
         }
       }
 
@@ -168,7 +174,17 @@ export default class FormFieldFactory {
       }
 
       if (property.null) {
-        (choices as PropertyFkChoices)['__null__'] = property.null;
+        if (Array.isArray(choices)) {
+          choices.unshift({
+            id: '__null__',
+            label: property.null
+          });
+        } else {
+          choices = {
+            '__null__': property.null,
+            ...(choices as PropertyFkChoices)
+          };
+        }
       }
 
       let value =
@@ -189,7 +205,7 @@ export default class FormFieldFactory {
           disabled={disabled}
           onChange={this.changeHandler}
           onBlur={this.handleBlur}
-          choices={choices}
+          choices={choices as DropdownChoices}
           error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
           helperText={
             this.formik.touched[fld] ? (this.formik.errors[fld] as string) : ''

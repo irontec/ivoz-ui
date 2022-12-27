@@ -16,6 +16,7 @@ import {
 export type DropdownArrayChoice = {
   label: string | React.ReactElement<any>;
   id: string | number;
+  extraData?: Record<string, unknown>;
 };
 export type DropdownArrayChoices = Array<DropdownArrayChoice>;
 

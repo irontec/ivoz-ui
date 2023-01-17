@@ -1,6 +1,7 @@
 import { isPropertyScalar } from '../../services/api/ParsedApiSpecInterface';
 import { CustomFunctionComponentContext } from '../../services/form/Field/CustomComponentWrapper';
 import { ListDecoratorType } from '../EntityInterface';
+import ListDecoratorMultilang from './ListDecoratorMultilang';
 
 const ListDecorator: ListDecoratorType = (props) => {
   const { field, row, property, ignoreCustomComponent } = props;
@@ -21,6 +22,12 @@ const ListDecorator: ListDecoratorType = (props) => {
           return null;
         }}
       />
+    );
+  }
+
+  if (isPropertyScalar(property) && property.multilang === true) {
+    return (
+      <ListDecoratorMultilang field={field} row={row} property={property} />
     );
   }
 
@@ -46,7 +53,6 @@ const ListDecorator: ListDecoratorType = (props) => {
   if (!value && property.null) {
     value = property.null;
   }
-
   return value !== null && value !== undefined ? value : '';
 };
 

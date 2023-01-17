@@ -79,6 +79,7 @@ export interface ScalarProperty {
   required: boolean;
   pattern?: RegExp;
   helpText?: string | React.ReactElement<any>;
+  multilang?: boolean;
 }
 
 export interface FkProperty {
@@ -107,7 +108,10 @@ export const isPropertyFk = (
 export const isPropertyScalar = (
   property: PropertySpec
 ): property is ScalarProperty => {
-  return (property as FkProperty).$ref === undefined;
+  return (
+    (property as FkProperty).$ref === undefined ||
+    (property as ScalarProperty).multilang === true
+  );
 };
 
 export type PartialPropertyList = {

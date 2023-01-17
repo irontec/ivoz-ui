@@ -29,7 +29,8 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     (column as FkProperty).$ref &&
     row[columnName] &&
     !row[`${columnName}Id`] &&
-    (column as FkProperty).type !== 'file';
+    (column as FkProperty).type !== 'file' &&
+    (column as ScalarProperty).multilang !== true;
 
   const loadingMultiselect =
     (column as ScalarProperty).type === 'array' &&

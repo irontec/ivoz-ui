@@ -61,11 +61,14 @@ describe('in <%= Name %>', () => {
   ///////////////////////////////
   it('edit a <%= Name %>', () => {
 
-    cy.usePactIntercept({
-      method: 'GET',
-      url: '**/isbc/api/<%= name %>s/1',
-      response: {...<%= name %>Item},
-    }).as('get<%= Name %>-1');
+    cy.usePactIntercept(
+      {
+        method: 'GET',
+        url: '**/isbc/api/<%= name %>s/1',
+        response: {...<%= name %>Item},
+      },
+      'get<%= Name %>-1'
+    );
 
     cy.usePactIntercept(
       {
@@ -87,7 +90,7 @@ describe('in <%= Name %>', () => {
 
     cy.contains('List of <%= Name %>s');
 
-    cy.usePactWait(['get<%= Name %>s'])
+    cy.usePactWait(['edit<%= Name %>'])
       .its('response.statusCode')
       .should('eq', 200);
   });

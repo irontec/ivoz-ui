@@ -5,7 +5,7 @@ import React, {
   ReactElement,
   JSXElementConstructor,
 } from 'react';
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
 import {
@@ -187,6 +187,11 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
       isOptionEqualToValue={isOptionEqualToValue}
       filterSelectedOptions
       renderInput={renderInput}
+      renderOption={(props, option) => (
+        <Box component="li" data-value={option.id} {...props}>
+          {option.label}
+        </Box>
+      )}
     />
   );
 };

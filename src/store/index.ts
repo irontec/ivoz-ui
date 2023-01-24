@@ -7,6 +7,7 @@ import route, { RouteStore } from './route';
 import list, { ListStore } from './list';
 import menu, { MenuStore } from './menu';
 import entities, { EntitiesStore } from './entities';
+import i18n, { LanguagesStore } from './i18n';
 
 export interface IvozStore {
   auth: AuthStore;
@@ -16,6 +17,7 @@ export interface IvozStore {
   list: ListStore;
   menu: MenuStore;
   entities: EntitiesStore;
+  i18n: LanguagesStore;
 }
 
 export const storeModel: IvozStore = {
@@ -26,6 +28,7 @@ export const storeModel: IvozStore = {
   list,
   menu,
   entities,
+  i18n,
 };
 
 StoreContainer.store = createStore<IvozStore>(storeModel);

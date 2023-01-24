@@ -9,6 +9,7 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
+import { Language } from 'store/i18n';
 import { RouteMap } from '../../router/routeMapParser';
 import { useStoreActions } from '../../store';
 import Breadcrumbs from './Breadcrumbs';
@@ -17,16 +18,14 @@ import {
   StyledHeaderContainer,
   StyledToolbar,
 } from './Header.styles';
-import LanguageSelector, {
-  Languages,
-} from './LanguageSelector/LanguageSelector';
+import LanguageSelector from './LanguageSelector/LanguageSelector';
 
 interface headerProps {
   loggedIn: boolean;
   routeMap: RouteMap;
   children?: React.ReactNode;
   customAvatar?: JSX.Element;
-  languages?: Languages;
+  languages?: Language[];
 }
 
 export default function Header(props: headerProps): JSX.Element {

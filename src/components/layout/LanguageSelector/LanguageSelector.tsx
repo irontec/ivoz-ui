@@ -9,22 +9,17 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
-type Language = {
-  name: string;
-  locale: string;
-};
-
-export type Languages = Array<Language>;
+import { Language } from 'store/i18n';
 
 interface LanguageSelectorProps {
-  languages: Languages;
+  languages: Language[];
 }
 
 export default function LanguageSelector(
   props: LanguageSelectorProps
 ): JSX.Element {
   const { languages } = props;
+
   const { i18n } = useTranslation();
   const [language, setLanguage] = useState(i18n.language);
 

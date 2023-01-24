@@ -57,9 +57,7 @@ class ApiClient {
     try {
       const response = await axios.get(ApiClient.API_URL + endpoint, {
         params: params,
-        headers: {
-          Accept: 'application/json',
-        },
+        headers: {},
         responseType: 'blob',
         cancelToken,
       });

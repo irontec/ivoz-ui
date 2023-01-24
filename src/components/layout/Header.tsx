@@ -9,9 +9,8 @@ import {
   Typography,
 } from '@mui/material';
 import { useState } from 'react';
-import { Language } from 'store/i18n';
 import { RouteMap } from '../../router/routeMapParser';
-import { useStoreActions } from '../../store';
+import { useStoreActions, useStoreState } from '../../store';
 import Breadcrumbs from './Breadcrumbs';
 import {
   StyledAppBar,
@@ -25,15 +24,15 @@ interface headerProps {
   routeMap: RouteMap;
   children?: React.ReactNode;
   customAvatar?: JSX.Element;
-  languages?: Language[];
 }
 
 export default function Header(props: headerProps): JSX.Element {
-  const { loggedIn, routeMap, children, customAvatar, languages } = props;
+  const { loggedIn, routeMap, children, customAvatar } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const handleLogout = () => {
     resetAuth();
   };
+  const languages = useStoreState((state) => state.i18n.languages);
 
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 

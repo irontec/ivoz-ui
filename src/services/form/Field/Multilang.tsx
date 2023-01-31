@@ -5,11 +5,7 @@ import withCustomComponentWrapper, {
   PropertyCustomFunctionComponentProps,
 } from './CustomComponentWrapper';
 
-interface MultilangProps<T> extends PropertyCustomFunctionComponentProps<T> {
-  name?: string;
-}
-
-type MultilangPropsType = MultilangProps<{ [k: string]: Language }>;
+type MultilangPropsType = PropertyCustomFunctionComponentProps<{ [k: string]: Language }>;
 
 const Multilang: React.FC<MultilangPropsType> = (props): JSX.Element => {
   const { _columnName, formik, changeHandler } = props;
@@ -20,7 +16,7 @@ const Multilang: React.FC<MultilangPropsType> = (props): JSX.Element => {
     <Box sx={{ padding: '5px' }}>
       {languages?.map((lng, idx) => {
         const locale = lng.locale.split('-').shift() ?? 'en';
-        
+
         const value = mlValue[locale];
         const name = `${_columnName}.${locale}`;
 
@@ -44,5 +40,5 @@ const Multilang: React.FC<MultilangPropsType> = (props): JSX.Element => {
 
 export default withCustomComponentWrapper<
   MultilangPropsType,
-  MultilangProps<MultilangPropsType>
+  PropertyCustomFunctionComponentProps<MultilangPropsType>
 >(Multilang);

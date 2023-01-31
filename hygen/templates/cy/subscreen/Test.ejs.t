@@ -1,8 +1,10 @@
 ---
 to: cypress/e2e/<%= Name %>/<%= Name %>.cy.js
 root: <%= root %>
+parent: <%= parent %>
 ---
-import <%= name %>Collection from '../../fixtures/<%= Name %>/getCollection.json';
+import <%= parent %>Collection from '../../fixtures/<%= h.inflection.capitalize(parent) %>/getCollection.json';
+import <%= name %>Collection from '../../fixtures/<%= name %>/getCollection.json';
 import new<%= Name %> from '../../fixtures/<%= Name %>/post.json';
 import <%= name %>Item from '../../fixtures/<%= Name %>/getItem.json';
 import edit<%= Name %> from '../../fixtures/<%= Name %>/put.json';
@@ -10,7 +12,14 @@ import edit<%= Name %> from '../../fixtures/<%= Name %>/put.json';
 describe('in <%= Name %>', () => {
   beforeEach(() => {
     cy.prepareGenericPactInterceptors('<%= name %>');
-    cy.before();
+
+    cy.intercept('GET', '**/aps/api/<%= parent %>/1*', {
+      ...<%= parent %>Collection,
+      body: <%= parent %>Collection.body.find((row) => row.id === 1),
+    }).as('getPlatform1');
+
+    cy.before('<%= parent %>');
+    cy.get('[aria-label="<%= Name %>"]').first().click();
 
     cy
       .contains('<%= Name %>')

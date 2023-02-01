@@ -188,7 +188,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
       filterSelectedOptions
       renderInput={renderInput}
       renderOption={(props, option) => (
-        <Box component="li" data-value={option.id} {...props}>
+        <Box component='li' data-value={option.id} {...props}>
           {option.label}
         </Box>
       )}

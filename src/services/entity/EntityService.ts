@@ -255,7 +255,6 @@ export default class EntityService {
 
     if (!rules[fld][normalizedValue]) {
       if (rules[fld]['__default__']) {
-
         for (const showFld of rules[fld]['__default__']['show']) {
           visualToggles[showFld] = true;
         }

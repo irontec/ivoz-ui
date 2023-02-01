@@ -5,4 +5,5 @@ export * from './CustomComponentWrapper.styles';
 export * from './CustomComponentWrapper';
 export * from './Dropdown.styles';
 export * from './Dropdown';
+export * from './Multilang';
 export * from './ViewFieldValue';

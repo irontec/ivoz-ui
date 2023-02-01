@@ -102,7 +102,10 @@ export type PropertySpec = ScalarProperty | FkProperty;
 export const isPropertyFk = (
   property: PropertySpec
 ): property is FkProperty => {
-  return (property as FkProperty).$ref !== undefined;
+  return (
+    (property as FkProperty).$ref !== undefined &&
+    !(property as ScalarProperty).multilang
+  );
 };
 
 export const isPropertyScalar = (

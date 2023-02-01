@@ -31,7 +31,9 @@ export function FilterCriteria(props: FilterCriteriaProps): JSX.Element | null {
 
         let valueStr: string | JSX.Element = value as string;
         if (isPropertyFk(column)) {
-          valueStr = (fkChoices[name] as DropdownObjectChoices | null)?.[value as string] as string;
+          valueStr = (fkChoices[name] as DropdownObjectChoices | null)?.[
+            value as string
+          ] as string;
         } else if (column.enum) {
           valueStr = column.enum[value as string] as string | JSX.Element;
         }

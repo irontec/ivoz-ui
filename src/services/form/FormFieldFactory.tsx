@@ -32,6 +32,7 @@ import {
   PropertyFkChoices,
 } from '../../entities/DefaultEntityBehavior';
 import { DropdownChoices } from './Field';
+import Multilang from './Field/Multilang';
 
 export type NullableFormFieldFactoryChoices = null | DropdownChoices;
 
@@ -129,15 +130,12 @@ export default class FormFieldFactory {
             (item) => item.id == '__null__'
           );
           if (!nullAlreadyAssigned) {
-            choices = [
-              { label: property.null, id: '__null__' },
-              ...choices
-            ];
+            choices = [{ label: property.null, id: '__null__' }, ...choices];
           }
         } else {
-          choices =  {
-            '__null__': property.null,
-            ...choices
+          choices = {
+            __null__: property.null,
+            ...choices,
           };
         }
       }
@@ -177,12 +175,12 @@ export default class FormFieldFactory {
         if (Array.isArray(choices)) {
           choices.unshift({
             id: '__null__',
-            label: property.null
+            label: property.null,
           });
         } else {
           choices = {
-            '__null__': property.null,
-            ...(choices as PropertyFkChoices)
+            __null__: property.null,
+            ...(choices as PropertyFkChoices),
           };
         }
       }
@@ -456,6 +454,23 @@ export default class FormFieldFactory {
           InputProps={InputProps}
           inputProps={inputProps}
           hasChanged={hasChanged}
+        />
+      );
+    }
+
+    if (isPropertyScalar(property) && property.multilang === true) {
+      return (
+        <Multilang
+          property={property as FkProperty}
+          _columnName={fld}
+          readOnly={readOnly}
+          disabled={disabled}
+          formik={this.formik}
+          values={this.formik.values}
+          changeHandler={this.changeHandler}
+          onBlur={this.handleBlur}
+          hasChanged={hasChanged}
+          choices={null}
         />
       );
     }

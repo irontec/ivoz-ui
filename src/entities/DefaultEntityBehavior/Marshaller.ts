@@ -1,6 +1,7 @@
 import { PartialPropertyList } from '../../services/api/ParsedApiSpecInterface';
 
 export type MarshallerValues = { [key: string]: any };
+
 const marshaller = (
   values: MarshallerValues,
   properties: PartialPropertyList
@@ -23,6 +24,10 @@ const marshaller = (
     }
 
     if (property?.type === 'boolean') {
+      continue;
+    }
+
+    if (property?.multilang === true) {
       continue;
     }
 

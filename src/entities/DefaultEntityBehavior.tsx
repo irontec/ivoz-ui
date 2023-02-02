@@ -76,7 +76,7 @@ export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 
 const fetchFks = (
   endpoint: string,
-  properties: Array<string>,
+  properties: Array<EntityValues> | Array<string> /* Array<string> is deprecated */,
   setter: FetchFksCallback,
   cancelToken?: CancelToken
 ): Promise<unknown> => {

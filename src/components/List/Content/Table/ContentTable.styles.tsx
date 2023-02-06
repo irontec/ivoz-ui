@@ -33,10 +33,12 @@ export const StyledTableRowCta = styled(TableRowLink)(() => {
   };
 });
 
-export const StyledTableRowCustomCta = styled('a')(() => {
+export const StyledTableRowCustomCta = styled('span')(() => {
   return {
-    ...linkSharedStyles,
-    textDecoration: 'none',
+    '& > a': {
+      ...linkSharedStyles,
+      textDecoration: 'none',
+    },
     '& > *': {
       marginRight: '5px',
     },

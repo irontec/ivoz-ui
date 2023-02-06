@@ -5,6 +5,7 @@ import { IvozStore } from '../index';
 interface LoginProps {
   path: string;
   refreshPath: string;
+  exchangePath: string,
   contentType: string;
 }
 
@@ -27,6 +28,7 @@ interface AuthActions {
   resetAll: Thunk<AuthState>;
   resetToken: Thunk<AuthState>;
   resetRefreshToken: Thunk<AuthState>;
+  exchangeToken: Thunk<AuthState, Record<string, string>>;
 }
 
 export type AuthStore = AuthActions & AuthState;
@@ -39,6 +41,7 @@ const auth: AuthStore = {
   login: {
     path: '/admin_login',
     refreshPath: '/token/refresh',
+    exchangePath: '/token/exchange',
     contentType: 'application/x-www-form-urlencoded',
   },
 
@@ -170,6 +173,26 @@ const auth: AuthStore = {
       const sessionStoragePrefix = getState().sessionStoragePrefix;
       localStorage.removeItem(`${sessionStoragePrefix}refreshToken`);
       actions.setRefreshToken(null);
+    }
+  ),
+
+  exchangeToken: thunk<AuthStore, Record<string, string>, unknown, IvozStore>(
+    async (actions, values, { getStoreActions, getState }) => {
+      const apiPost = getStoreActions().api.post;
+      const response = await apiPost({
+        path: getState().login.exchangePath,
+        values,
+        contentType: getState().login.contentType,
+      });
+
+      if (response.data && response.data.token) {
+        actions.setToken(response.data.token);
+        actions.setRefreshToken(null);
+
+        return true;
+      }
+
+      return false;
     }
   ),
 };

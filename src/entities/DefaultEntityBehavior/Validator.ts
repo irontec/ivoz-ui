@@ -21,13 +21,16 @@ const validator: EntityValidator = (
       continue;
     }
 
+    const required = (properties[idx] as ScalarProperty)?.required;
     const pattern: RegExp | undefined = (properties[idx] as ScalarProperty)
       ?.pattern;
     if (pattern && !(values[idx] + '').match(pattern)) {
+      if (!values[idx] && !required) {
+        continue;
+      }
       response[idx] = _('invalid pattern');
     }
 
-    const required = (properties[idx] as ScalarProperty)?.required;
     const isEmpty = ['', '__null__', null].includes(values[idx]);
 
     if (required && isEmpty) {

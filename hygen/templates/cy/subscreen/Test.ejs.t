@@ -4,7 +4,7 @@ root: <%= root %>
 parent: <%= parent %>
 ---
 import <%= parent %>Collection from '../../fixtures/<%= h.inflection.capitalize(parent) %>/getCollection.json';
-import <%= name %>Collection from '../../fixtures/<%= name %>/getCollection.json';
+import <%= name %>Collection from '../../fixtures/<%= Name %>/getCollection.json';
 import new<%= Name %> from '../../fixtures/<%= Name %>/post.json';
 import <%= name %>Item from '../../fixtures/<%= Name %>/getItem.json';
 import edit<%= Name %> from '../../fixtures/<%= Name %>/put.json';
@@ -16,7 +16,7 @@ describe('in <%= Name %>', () => {
     cy.intercept('GET', '**/aps/api/<%= parent %>/1*', {
       ...<%= parent %>Collection,
       body: <%= parent %>Collection.body.find((row) => row.id === 1),
-    }).as('getPlatform1');
+    }).as('get<%= h.inflection.capitalize(parent) %>-1');
 
     cy.before('<%= parent %>');
     cy.get('[aria-label="<%= Name %>"]').first().click();
@@ -27,7 +27,7 @@ describe('in <%= Name %>', () => {
 
     cy
       .get('h3')
-      .should('contain', 'List of <%= Name %>');
+      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
 
     cy
       .get('table')
@@ -58,7 +58,7 @@ describe('in <%= Name %>', () => {
 
     cy
       .get('h3')
-      .should('contain', 'List of <%= Name %>');
+      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
 
     cy
       .usePactWait(['create<%= Name %>'])
@@ -135,7 +135,7 @@ describe('in <%= Name %>', () => {
 
     cy
       .get('h3')
-      .should('contain', 'List of <%= Name %>');
+      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
 
     cy
       .usePactWait(['delete<%= Name %>'])

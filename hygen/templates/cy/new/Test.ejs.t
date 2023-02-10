@@ -18,7 +18,7 @@ describe('in <%= Name %>', () => {
 
     cy
       .get('h3')
-      .should('contain', 'List of <%= Name %>');
+      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
 
     cy
       .get('table')
@@ -49,7 +49,7 @@ describe('in <%= Name %>', () => {
 
     cy
       .get('h3')
-      .should('contain', 'List of <%= Name %>');
+      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
 
     cy
       .usePactWait(['create<%= Name %>'])
@@ -126,7 +126,7 @@ describe('in <%= Name %>', () => {
 
     cy
       .get('h3')
-      .should('contain', 'List of <%= Name %>');
+      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
 
     cy
       .usePactWait(['delete<%= Name %>'])

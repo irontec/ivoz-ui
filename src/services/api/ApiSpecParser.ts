@@ -27,6 +27,28 @@ export default class ApiSpecParser {
           ...apiSpec.definitions[parentModelName],
           paths,
         };
+      } else if (modelName.indexOf('_') > 0) {
+
+        //embed properties in parent model
+        const parentModelName = modelName.split('_').shift() as string;
+        for (const idx in responseData[parentModelName]) {
+          const model = responseData[parentModelName][idx];
+          for (const propertyIdx in model?.properties) {
+            const property = model.properties[propertyIdx];
+            if (!property.$ref) {
+              continue;
+            }
+
+            if (property.$ref !== `#/definitions/${modelName}`) {
+              continue;
+            }
+
+            for (const embeddedIdx in apiSpec.definitions[modelName].properties) {
+              const embeddedProperty = apiSpec.definitions[modelName].properties[embeddedIdx];
+              responseData[parentModelName][idx].properties[`${propertyIdx}.${embeddedIdx}`] = embeddedProperty;
+            }
+          }
+        }
       }
 
       responseData[entityNameRoot][modelName] = {

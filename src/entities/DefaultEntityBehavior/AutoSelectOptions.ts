@@ -46,14 +46,14 @@ export const autoSelectOptions = (
     alreadyRequested.push(cleanRef);
 
     if (!entity) {
-      if (cleanRef) {
+      if (cleanRef && cleanRef.indexOf('_') < 0) {
         console.log('autoSelectOptions', `${cleanRef} not found`);
       }
       continue;
     }
 
     if (!entity.selectOptions) {
-      if (cleanRef) {
+      if (cleanRef && cleanRef.indexOf('_') < 0) {
         console.log(
           'autoSelectOptions',
           `${cleanRef} selectOption is not defined`

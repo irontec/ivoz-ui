@@ -1,5 +1,7 @@
 import {
+  isPropertyEmbeddable,
   PartialPropertyList,
+  PropertySpec,
   ScalarProperty,
 } from '../../services/api/ParsedApiSpecInterface';
 import { MarshallerValues } from './Marshaller';
@@ -9,10 +11,10 @@ const unmarshaller = (
   row: MarshallerValues,
   properties: PartialPropertyList
 ): MarshallerValues => {
-  const normalizedData: any = {};
+  let normalizedData: any = {};
 
   // eslint-disable-next-line
-    const dateTimePattern = `^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$`;
+  const dateTimePattern = `^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$`;
   const dateTimeRegExp = new RegExp(dateTimePattern);
 
   for (const idx in row) {
@@ -33,6 +35,26 @@ const unmarshaller = (
       (properties[idx] as ScalarProperty).type === 'boolean'
     ) {
       normalizedData[idx] = row[idx] === true || row[idx] === 1 ? true : false;
+
+    } else if (
+      typeof row[idx] === 'object'
+      && properties[idx]
+      && isPropertyEmbeddable(properties[idx] as PropertySpec)
+    ) {
+      //embeddables
+      const subset: Record<string, unknown> = {};
+      for (const subkey in row[idx]) {
+        subset[`${idx}.${subkey}`] = row[idx][subkey];
+      }
+
+      const unmarshalledEmbeddable = unmarshaller(subset, properties);
+      const unmarshalledSubset: Record<string, unknown> = {};
+      for (const subkey in unmarshalledEmbeddable) {
+        const propertyName = subkey.split('.').pop() as string;
+        unmarshalledSubset[propertyName] = unmarshalledEmbeddable[subkey];
+      }
+      normalizedData[idx] = unmarshalledSubset;
+
     } else {
       normalizedData[idx] = row[idx];
     }

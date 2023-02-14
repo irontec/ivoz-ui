@@ -99,6 +99,15 @@ export interface FkProperty {
 
 export type PropertySpec = ScalarProperty | FkProperty;
 
+export const isPropertyEmbeddable = (
+  property: PropertySpec
+): property is FkProperty => {
+  return (
+    (property as FkProperty).$ref !== undefined &&
+    (property as FkProperty).$ref.indexOf('_') > 0
+  );
+};
+
 export const isPropertyFk = (
   property: PropertySpec
 ): property is FkProperty => {

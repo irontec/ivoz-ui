@@ -292,7 +292,28 @@ export default class EntityService {
       }
     }
 
-    return response;
+    const embeddables: Record<string, EntityValues> = {};
+    for (const idx in response) {
+      if (idx.indexOf('.') < 0) {
+        continue;
+      }
+
+      const nameSegments = idx.split('.');
+      const parent = nameSegments[0] as string;
+      const property = nameSegments[1] as string;
+
+      if (!embeddables[parent]) {
+        embeddables[parent] = {};
+      }
+
+      embeddables[parent][property] = response[idx];
+      delete response[idx];
+    }
+
+    return {
+      ...response,
+      ...embeddables,
+    };
   }
 
   public prepareFormData(payload: EntityValues): FormData | EntityValues {

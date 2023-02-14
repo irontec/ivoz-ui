@@ -32,18 +32,22 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     (column as FkProperty).type !== 'file' &&
     (column as ScalarProperty).multilang !== true;
 
+  const valuePath = columnName.split('.');
+  const value = valuePath.length > 1
+    ? row[valuePath.shift() as  string][valuePath.shift() as  string]
+    : row[columnName];
+
   const loadingMultiselect =
     (column as ScalarProperty).type === 'array' &&
-    Array.isArray(row[columnName]);
+    Array.isArray(value);
 
   const loadingValue = loadingFk || loadingMultiselect;
 
   const enumValues: any = (column as ScalarProperty).enum;
-  const value = row[columnName];
   const isBoolean = typeof value === 'boolean';
 
   let response = value;
-  if (loadingValue || (row[columnName] === undefined && !customComponent)) {
+  if (loadingValue || (value === undefined && !customComponent)) {
     response = (
       <Fade
         in={true}

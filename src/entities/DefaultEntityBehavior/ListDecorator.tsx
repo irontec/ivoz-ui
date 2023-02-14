@@ -5,7 +5,11 @@ import ListDecoratorMultilang from './ListDecoratorMultilang';
 
 const ListDecorator: ListDecoratorType = (props) => {
   const { field, row, property, ignoreCustomComponent } = props;
-  let value = row[field];
+
+  const valuePath = field.split('.');
+  let value = valuePath.length > 1
+    ? row[valuePath.shift() as  string][valuePath.shift() as  string]
+    : row[field];
 
   if (property.component && !ignoreCustomComponent) {
     return (

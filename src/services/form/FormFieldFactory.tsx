@@ -91,8 +91,15 @@ export default class FormFieldFactory {
     const disabled = property.readOnly || readOnly;
     const multiSelect = (property as ScalarProperty).type === 'array';
     const fileUpload = (property as ScalarProperty).type === 'file';
-    const hasChanged =
-      this.formik.initialValues[fld] != this.formik.values[fld];
+    const valuePath = fld.split('.');
+    const value = valuePath.length > 1
+      ? this.formik.values[valuePath[0] as string][valuePath[1] as string]
+      : this.formik.values[fld];
+
+    const initialValue = valuePath.length > 1
+      ? this.formik.values[valuePath[0] as string][valuePath[1] as string]
+      : this.formik.initialValues[fld];
+    const hasChanged = initialValue != value;
 
     if (property.component) {
       const PropertyComponent = (property as ScalarProperty)
@@ -144,7 +151,7 @@ export default class FormFieldFactory {
         <StyledAutocomplete
           name={fld}
           label={property.label}
-          value={this.formik.values[fld]}
+          value={value}
           multiple={multiSelect}
           required={property.required}
           disabled={disabled}
@@ -185,20 +192,20 @@ export default class FormFieldFactory {
         }
       }
 
-      let value =
-        typeof this.formik.values[fld] === 'boolean'
-          ? +this.formik.values[fld]
-          : this.formik.values[fld];
+      let booleanValue =
+        typeof value === 'boolean'
+          ? +value
+          : value;
 
-      if (value === null) {
-        value = '__null__';
+      if (booleanValue === null) {
+        booleanValue = '__null__';
       }
 
       return (
         <StyledDropdown
           name={fld}
           label={property.label}
-          value={value}
+          value={booleanValue}
           required={property.required}
           disabled={disabled}
           onChange={this.changeHandler}
@@ -214,9 +221,9 @@ export default class FormFieldFactory {
     }
 
     if (isPropertyScalar(property) && property.type === 'boolean') {
-      const checked = Array.isArray(this.formik.values[fld])
-        ? this.formik.values[fld].includes('1')
-        : Boolean(this.formik.values[fld]);
+      const checked = Array.isArray(value)
+        ? value.includes('1')
+        : Boolean(value);
 
       return (
         <StyledSwitchFormControl hasChanged={hasChanged}>
@@ -295,7 +302,7 @@ export default class FormFieldFactory {
         <StyledTextField
           name={fld}
           type='number'
-          value={this.formik.values[fld]}
+          value={value}
           disabled={disabled}
           label={property.label}
           required={property.required}
@@ -319,7 +326,7 @@ export default class FormFieldFactory {
           <StyledTextField
             name={fld}
             type='datetime-local'
-            value={this.formik.values[fld]}
+            value={value}
             inputProps={{
               step: 1,
             }}
@@ -345,7 +352,7 @@ export default class FormFieldFactory {
           <StyledTextField
             name={fld}
             type='date'
-            value={this.formik.values[fld]}
+            value={value}
             disabled={disabled}
             label={property.label}
             required={property.required}
@@ -367,7 +374,7 @@ export default class FormFieldFactory {
           <StyledTextField
             name={fld}
             type='time'
-            value={this.formik.values[fld]}
+            value={value}
             disabled={disabled}
             label={property.label}
             required={property.required}
@@ -394,7 +401,7 @@ export default class FormFieldFactory {
             name={fld}
             type='text'
             multiline={true}
-            value={this.formik.values[fld]}
+            value={value}
             disabled={disabled}
             label={property.label}
             required={property.required}
@@ -417,7 +424,7 @@ export default class FormFieldFactory {
           <StyledTextField
             name={fld}
             type={'password'}
-            value={this.formik.values[fld]}
+            value={value}
             disabled={disabled}
             label={property.label}
             required={property.required}
@@ -440,7 +447,7 @@ export default class FormFieldFactory {
           name={fld}
           type='text'
           multiline={false}
-          value={this.formik.values[fld]}
+          value={value}
           disabled={disabled}
           label={property.label}
           required={property.required}

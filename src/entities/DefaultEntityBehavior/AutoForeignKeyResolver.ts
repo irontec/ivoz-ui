@@ -28,7 +28,7 @@ const autoForeignKeyResolver = (
     const entity = entities[ref];
 
     if (!entity) {
-      if (ref) {
+      if (ref && ref.indexOf('_') < 0) {
         console.log('foreignKeyResolver', `${ref} not found`);
       }
       continue;

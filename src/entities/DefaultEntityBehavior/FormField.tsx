@@ -70,6 +70,7 @@ export const FormField: EntityFormFieldType = (props) => {
 const FormFieldMemo = React.memo(
   FormField,
   (prev: EntityFormFieldProps, next: EntityFormFieldProps): boolean => {
+
     const columnSpec = prev.column;
     const columnName = isDetailedFormFieldSpec(columnSpec)
       ? columnSpec.name
@@ -109,13 +110,42 @@ const FormFieldMemo = React.memo(
     const prevFormik = prev.formFieldFactory.formik;
     const nextFormik = next.formFieldFactory.formik;
 
+    const columnNameSegments = columnName.split('.');
+    const prevFormikValue = columnNameSegments.length > 1
+      ? prevFormik.values[columnNameSegments[0]][columnNameSegments[1]]
+      : prevFormik.values[columnName];
+
+    const nextFormikValue = columnNameSegments.length > 1
+      ? nextFormik.values[columnNameSegments[0]][columnNameSegments[1]]
+      : nextFormik.values[columnName];
+
+    const prevTouchedSubproperty = prevFormik.touched[columnNameSegments[0]] as Record<string, unknown> | undefined;
+    const prevFormikTouched = columnNameSegments.length > 1 && prevTouchedSubproperty
+      ? prevTouchedSubproperty[columnNameSegments[1]]
+      : prevFormik.touched[columnName];
+
+    const nextTouchedSubproperty = nextFormik.touched[columnNameSegments[0]] as Record<string, unknown> | undefined;
+    const nextFormikTouched = columnNameSegments.length > 1 && nextTouchedSubproperty
+      ? nextTouchedSubproperty[columnNameSegments[1]]
+      : nextFormik.touched[columnName];
+
+    const prevErrorSubproperty = prevFormik.errors[columnNameSegments[0]] as Record<string, unknown> | undefined;
+    const prevFormikError = columnNameSegments.length > 1 && prevErrorSubproperty
+      ? prevErrorSubproperty[columnNameSegments[1]]
+      : prevFormik.errors[columnName];
+
+    const nextErrorSubproperty = nextFormik.errors[columnNameSegments[0]] as Record<string, unknown> | undefined;
+    const nextFormikError = columnNameSegments.length > 1 && nextErrorSubproperty
+      ? nextErrorSubproperty[columnNameSegments[1]]
+      : nextFormik.errors[columnName];
+
     return (
       columnName === nextColumnName &&
       prevFkChoices === nextFkChoices &&
       prevReadOnlyProperties === nextReadOnlyProperties &&
-      prevFormik.values[columnName] === nextFormik.values[columnName] &&
-      prevFormik.touched[columnName] === nextFormik.touched[columnName] &&
-      prevFormik.errors[columnName] === nextFormik.errors[columnName] &&
+      prevFormikValue === nextFormikValue &&
+      prevFormikTouched === nextFormikTouched &&
+      prevFormikError === nextFormikError &&
       prevVisualToggle === nextVisualToggle
     );
   }

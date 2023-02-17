@@ -5,6 +5,8 @@ import {
   FormHelperText,
   LinearProgress,
   InputAdornment,
+  OutlinedInputProps,
+  InputBaseProps,
 } from '@mui/material';
 import {
   ScalarProperty,
@@ -244,8 +246,8 @@ export default class FormFieldFactory {
       );
     }
 
-    const inputProps: any = {};
-    const InputProps: any = {};
+    const inputProps: InputBaseProps['inputProps'] = {};
+    const InputProps: Partial<OutlinedInputProps> = {};
 
     if (property.prefix) {
       InputProps.startAdornment = (
@@ -466,9 +468,13 @@ export default class FormFieldFactory {
     }
 
     if (isPropertyScalar(property) && property.multilang === true) {
+
+      const properties = this.entityService.getAllProperties();
+
       return (
         <Multilang
           property={property as FkProperty}
+          properties={properties}
           _columnName={fld}
           readOnly={readOnly}
           disabled={disabled}
@@ -478,6 +484,8 @@ export default class FormFieldFactory {
           onBlur={this.handleBlur}
           hasChanged={hasChanged}
           choices={null}
+          InputProps={InputProps}
+          inputProps={inputProps}
         />
       );
     }

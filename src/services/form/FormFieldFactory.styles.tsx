@@ -51,10 +51,13 @@ export const StyledFilterDialogTypography = styled(
 
 type StyledTextFieldProps = TextFieldProps & {
   hasChanged: boolean;
+  margin?: 'dense' | 'normal' | 'none';
+  size?: 'small' | 'medium';
 };
 export const StyledTextField = styled((props: StyledTextFieldProps) => {
   const {
     name,
+    size,
     type,
     value,
     disabled,
@@ -70,6 +73,8 @@ export const StyledTextField = styled((props: StyledTextFieldProps) => {
     hasChanged,
   } = props;
 
+  const margin = props.margin ?? 'normal';
+
   let className = props.className;
   if (hasChanged) {
     className += ' changed';
@@ -81,6 +86,7 @@ export const StyledTextField = styled((props: StyledTextFieldProps) => {
     <TextField
       name={name}
       type={type}
+      size={size}
       multiline={multiline}
       maxRows={maxRows}
       value={value}
@@ -93,7 +99,7 @@ export const StyledTextField = styled((props: StyledTextFieldProps) => {
       helperText={helperText}
       fullWidth={true}
       className={className}
-      margin='normal'
+      margin={margin}
       inputProps={inputProps}
       InputProps={InputProps}
     />
@@ -104,6 +110,12 @@ export const StyledTextField = styled((props: StyledTextFieldProps) => {
     '&.changed > label': {
       color: theme.palette.info.main,
     },
+  };
+});
+
+export const StyledSubTextField = styled(StyledTextField)(() => {
+  return {
+    marginTop: '10px',
   };
 });
 

@@ -43,9 +43,18 @@ export default class ApiSpecParser {
               continue;
             }
 
-            for (const embeddedIdx in apiSpec.definitions[modelName].properties) {
-              const embeddedProperty = apiSpec.definitions[modelName].properties[embeddedIdx];
+            const embeddedModel = apiSpec.definitions[modelName];
+            for (const embeddedIdx in embeddedModel.properties) {
+              const embeddedProperty = embeddedModel.properties[embeddedIdx];
               responseData[parentModelName][idx].properties[`${propertyIdx}.${embeddedIdx}`] = embeddedProperty;
+            }
+
+            if (embeddedModel.required) {
+              responseData[parentModelName][idx].required ??= [];
+              responseData[parentModelName][idx].required = [
+                ...responseData[parentModelName][idx].required,
+                ...embeddedModel.required.map((fld: string) => `${propertyIdx}.${fld}`)
+              ];
             }
           }
         }

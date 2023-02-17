@@ -82,7 +82,7 @@ const Create = (props: CreateProps) => {
 
       const validationErrors = props.validator(
         values,
-        properties,
+        entityService.getAllProperties(),
         visualToggles
       );
       setValidationError(validationErrors);

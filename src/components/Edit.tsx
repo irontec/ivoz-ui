@@ -68,7 +68,7 @@ const Edit: any = (props: EditProps) => {
 
       const validationErrors = props.validator(
         values,
-        properties,
+        entityService.getAllProperties(),
         visualToggles
       );
       setValidationError(validationErrors);

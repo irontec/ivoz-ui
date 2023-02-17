@@ -1,23 +1,47 @@
-import { VisualToggleStates } from '../../services/entity/EntityService';
+import { EntityValue, EntityValues, VisualToggleStates } from '../../services/entity/EntityService';
 import {
+  isPropertyEmbeddable,
   PartialPropertyList,
+  PropertySpec,
   ScalarProperty,
 } from '../../services/api/ParsedApiSpecInterface';
 import {
   EntityValidator,
-  EntityValidatorValues,
   EntityValidatorResponse,
 } from '../EntityInterface';
 import _ from '../../services/translations/translate';
 
 const validator: EntityValidator = (
-  values: EntityValidatorValues,
-  properties: PartialPropertyList,
-  visualToggle: VisualToggleStates
+  values,
+  properties,
+  visualToggle
 ): EntityValidatorResponse => {
-  const response: EntityValidatorResponse = {};
+  let response: EntityValidatorResponse = {};
   for (const idx in values) {
     if (!visualToggle[idx]) {
+      continue;
+    }
+
+    if (isPropertyEmbeddable(properties[idx] as PropertySpec)) {
+
+      const value = values[idx] as EntityValues;
+      const embeddedValues: EntityValues = {};
+      const embeddedVisualToggle: VisualToggleStates = {};
+      for (const subName in value) {
+        embeddedValues[`${idx}.${subName}`] = value[subName];
+        embeddedVisualToggle[`${idx}.${subName}`] = true;
+      }
+
+      const embeddedErrors = validator(
+        embeddedValues,
+        properties,
+        embeddedVisualToggle
+      );
+
+      response =  {
+        ...response,
+        ...embeddedErrors
+      };
       continue;
     }
 
@@ -31,7 +55,7 @@ const validator: EntityValidator = (
       response[idx] = _('invalid pattern');
     }
 
-    const isEmpty = ['', '__null__', null].includes(values[idx]);
+    const isEmpty = ['', '__null__', null].includes(values[idx].toString());
 
     if (required && isEmpty) {
       response[idx] = _('required value');

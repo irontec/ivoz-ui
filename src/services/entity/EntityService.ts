@@ -51,6 +51,24 @@ export default class EntityService {
     return response;
   }
 
+  public getAllProperties(): PropertyList {
+    const response = this.properties;
+    const properties = this.entityConfig.properties;
+
+    for (const idx in properties) {
+      const propertyOverwrite = properties[idx] || {};
+      const label = properties[idx].label || '';
+
+      response[idx] = {
+        ...this.properties[idx],
+        ...propertyOverwrite,
+        label,
+      };
+    }
+
+    return response;
+  }
+
   public replaceProperties(properties: PropertyList): void {
     this.entityConfig.properties = properties;
   }
@@ -272,13 +290,15 @@ export default class EntityService {
 
   public getDefultValues(): EntityValues {
     const response: EntityValues = {};
-    const properties = this.getProperties();
+    const properties = this.getAllProperties();
 
     for (const idx in properties) {
       const property: ScalarProperty = properties[idx];
       if (property.default === undefined && !property.enum) {
         if (property.type === 'array') {
           response[idx] = [];
+        } else if (idx.indexOf('.') > 0) {
+          response[idx] = '';
         }
         continue;
       }

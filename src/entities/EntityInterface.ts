@@ -88,7 +88,8 @@ export type EntityValidatorResponse = Record<string, string | JSX.Element>;
 export type EntityValidator = (
   values: EntityValues,
   properties: PartialPropertyList,
-  visualToggles: VisualToggleStates
+  visualToggles: VisualToggleStates,
+  validateEmbeddables?: boolean
 ) => EntityValidatorResponse;
 
 export enum OrderDirection {

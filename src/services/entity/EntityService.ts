@@ -17,7 +17,8 @@ import {
 } from '../../services/api/ParsedApiSpecInterface';
 
 export type VisualToggleStates = { [key: string]: boolean };
-export type EntityValue = string | number | File | Array<string | number>;
+export type ScalarEntityValue = string | number | boolean | null;
+export type EntityValue = ScalarEntityValue | File | Array<string>;
 export type EntityValues = {
   [key: string]: EntityValue | EntityValues;
 };
@@ -33,6 +34,7 @@ export default class EntityService {
     return this.entityConfig;
   }
 
+  // Properties declared explicitly in the entity
   public getProperties(): PropertyList {
     const response: PropertyList = {};
     const properties = this.entityConfig.properties;
@@ -51,6 +53,7 @@ export default class EntityService {
     return response;
   }
 
+  // All API spec properties + properties declared in entity
   public getAllProperties(): PropertyList {
     const response = this.properties;
     const properties = this.entityConfig.properties;

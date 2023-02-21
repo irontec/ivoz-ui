@@ -33,13 +33,13 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     (column as ScalarProperty).multilang !== true;
 
   const valuePath = columnName.split('.');
-  const value = valuePath.length > 1
-    ? row[valuePath.shift() as  string][valuePath.shift() as  string]
-    : row[columnName];
+  const value =
+    valuePath.length > 1
+      ? row[valuePath.shift() as string][valuePath.shift() as string]
+      : row[columnName];
 
   const loadingMultiselect =
-    (column as ScalarProperty).type === 'array' &&
-    Array.isArray(value);
+    (column as ScalarProperty).type === 'array' && Array.isArray(value);
 
   const loadingValue = loadingFk || loadingMultiselect;
 

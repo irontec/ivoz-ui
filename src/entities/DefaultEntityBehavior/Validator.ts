@@ -1,20 +1,20 @@
-import { EntityValue, EntityValues, VisualToggleStates } from '../../services/entity/EntityService';
+import {
+  EntityValues,
+  VisualToggleStates,
+} from '../../services/entity/EntityService';
 import {
   isPropertyEmbeddable,
-  PartialPropertyList,
   PropertySpec,
   ScalarProperty,
 } from '../../services/api/ParsedApiSpecInterface';
-import {
-  EntityValidator,
-  EntityValidatorResponse,
-} from '../EntityInterface';
+import { EntityValidator, EntityValidatorResponse } from '../EntityInterface';
 import _ from '../../services/translations/translate';
 
 const validator: EntityValidator = (
   values,
   properties,
-  visualToggle
+  visualToggle,
+  validateEmbeddables = false
 ): EntityValidatorResponse => {
   let response: EntityValidatorResponse = {};
   for (const idx in values) {
@@ -22,8 +22,15 @@ const validator: EntityValidator = (
       continue;
     }
 
-    if (isPropertyEmbeddable(properties[idx] as PropertySpec)) {
+    if (!properties[idx]) {
+      continue;
+    }
 
+    if (!validateEmbeddables && idx.indexOf('.') > 0) {
+      continue;
+    }
+
+    if (isPropertyEmbeddable(properties[idx] as PropertySpec)) {
       const value = values[idx] as EntityValues;
       const embeddedValues: EntityValues = {};
       const embeddedVisualToggle: VisualToggleStates = {};
@@ -35,12 +42,13 @@ const validator: EntityValidator = (
       const embeddedErrors = validator(
         embeddedValues,
         properties,
-        embeddedVisualToggle
+        embeddedVisualToggle,
+        true
       );
 
-      response =  {
+      response = {
         ...response,
-        ...embeddedErrors
+        ...embeddedErrors,
       };
       continue;
     }
@@ -55,7 +63,9 @@ const validator: EntityValidator = (
       response[idx] = _('invalid pattern');
     }
 
-    const isEmpty = ['', '__null__', null].includes(values[idx].toString());
+    const isEmpty = ['', '__null__', null].includes(
+      values?.[idx]?.toString() || ''
+    );
 
     if (required && isEmpty) {
       response[idx] = _('required value');
@@ -63,6 +73,10 @@ const validator: EntityValidator = (
   }
 
   for (const fld in visualToggle) {
+    if (!validateEmbeddables && fld.indexOf('.') > 0) {
+      continue;
+    }
+
     if (!visualToggle[fld]) {
       continue;
     }

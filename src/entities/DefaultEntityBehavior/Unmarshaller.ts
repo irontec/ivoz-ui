@@ -11,7 +11,7 @@ const unmarshaller = (
   row: MarshallerValues,
   properties: PartialPropertyList
 ): MarshallerValues => {
-  let normalizedData: any = {};
+  const normalizedData: any = {};
 
   // eslint-disable-next-line
   const dateTimePattern = `^[0-9]{4}\-[0-9]{2}\-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}$`;
@@ -35,11 +35,10 @@ const unmarshaller = (
       (properties[idx] as ScalarProperty).type === 'boolean'
     ) {
       normalizedData[idx] = row[idx] === true || row[idx] === 1 ? true : false;
-
     } else if (
-      typeof row[idx] === 'object'
-      && properties[idx]
-      && isPropertyEmbeddable(properties[idx] as PropertySpec)
+      typeof row[idx] === 'object' &&
+      properties[idx] &&
+      isPropertyEmbeddable(properties[idx] as PropertySpec)
     ) {
       //embeddables
       const subset: Record<string, unknown> = {};
@@ -54,7 +53,6 @@ const unmarshaller = (
         unmarshalledSubset[propertyName] = unmarshalledEmbeddable[subkey];
       }
       normalizedData[idx] = unmarshalledSubset;
-
     } else {
       normalizedData[idx] = row[idx];
     }

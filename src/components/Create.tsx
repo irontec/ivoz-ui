@@ -1,22 +1,13 @@
-import { useEffect, useState } from 'react';
-import { useParams, useLocation, useNavigate } from 'react-router-dom';
-import { useStoreActions, useStoreState } from '../store';
-import { useFormik } from 'formik';
-import ErrorMessage from './shared/ErrorMessage';
-import EntityService, { EntityValues } from '../services/entity/EntityService';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import EntityInterface from '../entities/EntityInterface';
-import { useFormikType } from '../services/form/types';
-import {
-  KeyValList,
-  ScalarProperty,
-} from '../services/api/ParsedApiSpecInterface';
 import useCancelToken from '../hooks/useCancelToken';
-import SaveButton from './shared/Button/SaveButton';
+import useCurrentPathMatch from '../hooks/useCurrentPathMatch';
 import findRoute from '../router/findRoute';
 import { RouteMap } from '../router/routeMapParser';
-import { EntityFormType } from '../entities/DefaultEntityBehavior';
-import useRememberedValues from './shared/useRememberedValues';
-import useCurrentPathMatch from '../hooks/useCurrentPathMatch';
+import { ScalarProperty } from '../services/api/ParsedApiSpecInterface';
+import EntityService, { EntityValues } from '../services/entity/EntityService';
+import { useStoreActions } from '../store';
 
 type CreateProps = EntityInterface & {
   entityService: EntityService;
@@ -42,8 +33,6 @@ const Create = (props: CreateProps) => {
   }
 
   const { Form: EntityForm } = props;
-  const reqError = useStoreState((store) => store.api.errorMsg);
-  const [validationError, setValidationError] = useState<KeyValList>({});
   const apiPost = useStoreActions((actions) => actions.api.post);
   const [, cancelToken] = useCancelToken();
 
@@ -65,97 +54,43 @@ const Create = (props: CreateProps) => {
 
   initialValues = unmarshaller(initialValues, properties);
 
-  const formik: useFormikType = useFormik({
-    initialValues,
-    validate: (values: any) => {
-      if (filterBy) {
-        values[filterBy] = Object.values(params).pop();
-      }
+  const onSubmit = async (values: EntityValues) => {
+    const payload = marshaller(values, properties);
+    const formData = entityService.prepareFormData(payload);
 
-      if (fixedValues) {
-        for (const idx in fixedValues) {
-          values[idx] = fixedValues[idx];
-        }
-      }
+    try {
+      const resp = await apiPost({
+        path,
+        values: formData,
+        contentType: 'application/json',
+        cancelToken,
+      });
 
-      const visualToggles = entityService.getVisualToggles(values);
+      if (resp !== undefined) {
+        const referrer = location.state.referrer;
+        const targetPath =
+          referrer.search(parentPath) === 0 ? referrer : parentPath;
 
-      const validationErrors = props.validator(
-        values,
-        entityService.getAllProperties(),
-        visualToggles
-      );
-      setValidationError(validationErrors);
-
-      return validationErrors;
-    },
-    onSubmit: async (values: any) => {
-      const payload = marshaller(values, properties);
-      const formData = entityService.prepareFormData(payload);
-
-      try {
-        const resp = await apiPost({
-          path,
-          values: formData,
-          contentType: 'application/json',
-          cancelToken,
+        navigate(targetPath, {
+          state: {
+            referrer: location.pathname,
+          },
         });
-
-        if (resp !== undefined) {
-          const referrer = location.state.referrer;
-          const targetPath =
-            referrer.search(parentPath) === 0 ? referrer : parentPath;
-
-          navigate(targetPath, {
-            state: {
-              referrer: location.pathname,
-            },
-          });
-        }
-      } catch {}
-    },
-  });
-
-  const rememberedValues = useRememberedValues(formik);
-
-  useEffect(() => {
-    for (const idx in rememberedValues) {
-      formik.setFieldValue(idx, rememberedValues[idx]);
-    }
-  }, [rememberedValues]);
-
-  const errorList: { [k: string]: JSX.Element } = {};
-  for (const idx in validationError) {
-    if (!formik.touched[idx]) {
-      continue;
-    }
-
-    errorList[idx] = (
-      <li key={idx}>
-        <>
-          {properties[idx].label}: {validationError[idx]}
-        </>
-      </li>
-    );
-  }
+      }
+    } catch {}
+  };
 
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
-        <EntityForm
-          {...props}
-          entityService={entityService}
-          formik={formik}
-          create={true}
-          validationErrors={errorList}
-          match={match}
-          filterBy={filterBy}
-        />
-
-        <SaveButton />
-        {reqError && <ErrorMessage message={reqError} />}
-      </form>
-    </div>
+    <EntityForm
+      {...props}
+      fixedValues={fixedValues}
+      initialValues={initialValues}
+      onSubmit={onSubmit}
+      entityService={entityService}
+      create={true}
+      match={match}
+      filterBy={filterBy}
+    />
   );
 };
 

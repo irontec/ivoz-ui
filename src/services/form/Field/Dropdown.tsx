@@ -38,7 +38,7 @@ export interface SelectProps {
   hasChanged: boolean;
   choices: DropdownChoices;
   error?: boolean;
-  helperText?: string;
+  helperText?: string | React.ReactNode;
 }
 
 const Dropdown = (props: SelectProps): JSX.Element => {

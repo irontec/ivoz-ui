@@ -26,7 +26,7 @@ export interface AutocompleteProps {
   onBlur: (event: React.FocusEvent) => void;
   choices: DropdownChoices;
   error?: boolean;
-  helperText?: string;
+  helperText?: string | React.ReactNode;
   hasChanged: boolean;
 }
 

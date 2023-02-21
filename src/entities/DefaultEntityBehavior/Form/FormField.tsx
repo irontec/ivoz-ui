@@ -1,7 +1,8 @@
 import React from 'react';
 import { Grid } from '@mui/material';
-import { VisualToggleStates } from '../../services/entity/EntityService';
-import FormFieldFactory from '../../services/form/FormFieldFactory';
+import { VisualToggleStates } from '../../../services/entity/EntityService';
+import FormFieldFactory from '../../../services/form/FormFieldFactory';
+import { isPropertyScalar } from '../../../services/api/ParsedApiSpecInterface';
 import {
   FkChoices,
   ReadOnlyProperties,
@@ -10,7 +11,7 @@ import {
 import {
   FieldsetGroupsField,
   isDetailedFormFieldSpec,
-} from './FilterFieldsetGroups';
+} from '../FilterFieldsetGroups';
 
 export type EntityFormFieldProps = {
   column: FieldsetGroupsField;
@@ -70,7 +71,6 @@ export const FormField: EntityFormFieldType = (props) => {
 const FormFieldMemo = React.memo(
   FormField,
   (prev: EntityFormFieldProps, next: EntityFormFieldProps): boolean => {
-
     const columnSpec = prev.column;
     const columnName = isDetailedFormFieldSpec(columnSpec)
       ? columnSpec.name
@@ -84,6 +84,10 @@ const FormFieldMemo = React.memo(
     const column = prev.formFieldFactory.getProperty(columnName);
 
     if (column.memoize === false) {
+      return false;
+    }
+
+    if (isPropertyScalar(column) && column.multilang === true) {
       return false;
     }
 
@@ -111,33 +115,47 @@ const FormFieldMemo = React.memo(
     const nextFormik = next.formFieldFactory.formik;
 
     const columnNameSegments = columnName.split('.');
-    const prevFormikValue = columnNameSegments.length > 1
-      ? prevFormik.values[columnNameSegments[0]][columnNameSegments[1]]
-      : prevFormik.values[columnName];
+    const prevFormikValue =
+      columnNameSegments.length > 1
+        ? prevFormik.values[columnNameSegments[0]][columnNameSegments[1]]
+        : prevFormik.values[columnName];
 
-    const nextFormikValue = columnNameSegments.length > 1
-      ? nextFormik.values[columnNameSegments[0]][columnNameSegments[1]]
-      : nextFormik.values[columnName];
+    const nextFormikValue =
+      columnNameSegments.length > 1
+        ? nextFormik.values[columnNameSegments[0]][columnNameSegments[1]]
+        : nextFormik.values[columnName];
 
-    const prevTouchedSubproperty = prevFormik.touched[columnNameSegments[0]] as Record<string, unknown> | undefined;
-    const prevFormikTouched = columnNameSegments.length > 1 && prevTouchedSubproperty
-      ? prevTouchedSubproperty[columnNameSegments[1]]
-      : prevFormik.touched[columnName];
+    const prevTouchedSubproperty = prevFormik.touched[columnNameSegments[0]] as
+      | Record<string, unknown>
+      | undefined;
+    const prevFormikTouched =
+      columnNameSegments.length > 1 && prevTouchedSubproperty
+        ? prevTouchedSubproperty[columnNameSegments[1]]
+        : prevFormik.touched[columnName];
 
-    const nextTouchedSubproperty = nextFormik.touched[columnNameSegments[0]] as Record<string, unknown> | undefined;
-    const nextFormikTouched = columnNameSegments.length > 1 && nextTouchedSubproperty
-      ? nextTouchedSubproperty[columnNameSegments[1]]
-      : nextFormik.touched[columnName];
+    const nextTouchedSubproperty = nextFormik.touched[columnNameSegments[0]] as
+      | Record<string, unknown>
+      | undefined;
+    const nextFormikTouched =
+      columnNameSegments.length > 1 && nextTouchedSubproperty
+        ? nextTouchedSubproperty[columnNameSegments[1]]
+        : nextFormik.touched[columnName];
 
-    const prevErrorSubproperty = prevFormik.errors[columnNameSegments[0]] as Record<string, unknown> | undefined;
-    const prevFormikError = columnNameSegments.length > 1 && prevErrorSubproperty
-      ? prevErrorSubproperty[columnNameSegments[1]]
-      : prevFormik.errors[columnName];
+    const prevErrorSubproperty = prevFormik.errors[columnNameSegments[0]] as
+      | Record<string, unknown>
+      | undefined;
+    const prevFormikError =
+      columnNameSegments.length > 1 && prevErrorSubproperty
+        ? prevErrorSubproperty[columnNameSegments[1]]
+        : prevFormik.errors[columnName];
 
-    const nextErrorSubproperty = nextFormik.errors[columnNameSegments[0]] as Record<string, unknown> | undefined;
-    const nextFormikError = columnNameSegments.length > 1 && nextErrorSubproperty
-      ? nextErrorSubproperty[columnNameSegments[1]]
-      : nextFormik.errors[columnName];
+    const nextErrorSubproperty = nextFormik.errors[columnNameSegments[0]] as
+      | Record<string, unknown>
+      | undefined;
+    const nextFormikError =
+      columnNameSegments.length > 1 && nextErrorSubproperty
+        ? nextErrorSubproperty[columnNameSegments[1]]
+        : nextFormik.errors[columnName];
 
     return (
       columnName === nextColumnName &&

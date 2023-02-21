@@ -5,7 +5,8 @@ interface buildLinkProps {
 }
 
 const buildLink = (props: buildLinkProps): string => {
-  let { link, params, id } = props;
+  const { params, id } = props;
+  let { link } = props;
 
   for (const idx in params) {
     link = link.replace(`:${idx}`, params[idx] as string);

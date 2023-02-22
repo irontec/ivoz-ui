@@ -82,6 +82,21 @@ export interface ScalarProperty {
   multilang?: boolean;
 }
 
+export interface EmbeddableProperty {
+  type?: PropertyType;
+  $ref: string;
+  preferredFilter?: SearchFilterType;
+  readOnly?: boolean;
+  label: string | React.ReactElement<any>;
+  prefix?: string | React.ReactElement<any>;
+  subfix?: string | React.ReactElement<any>;
+  null?: string | React.ReactElement<any>;
+  required: boolean;
+  component?: PropertyCustomFunctionComponent<any>;
+  memoize?: boolean;
+  helpText?: string;
+}
+
 export interface FkProperty {
   type?: PropertyType;
   $ref: string;
@@ -97,12 +112,12 @@ export interface FkProperty {
   helpText?: string;
 }
 
-export type PropertySpec = ScalarProperty | FkProperty;
+export type PropertySpec = ScalarProperty | EmbeddableProperty | FkProperty;
 
 export const isPropertyEmbeddable = (
   property: PropertySpec
-): property is FkProperty => {
-  return (property as FkProperty).$ref?.indexOf('_') > 0;
+): property is EmbeddableProperty => {
+  return (property as EmbeddableProperty).$ref?.indexOf('_') > 0;
 };
 
 export const isPropertyFk = (

@@ -14,6 +14,7 @@ import {
   PropertySpec,
   isPropertyScalar,
   isPropertyFk,
+  isPropertyEmbeddable,
 } from '../api/ParsedApiSpecInterface';
 import {
   CustomFunctionComponentContext,
@@ -140,7 +141,7 @@ export default class FormFieldFactory {
       );
     }
 
-    if (!fileUpload && (isPropertyFk(property) || multiSelect)) {
+    if (isPropertyFk(property) || multiSelect) {
       if (!choices) {
         return (
           <StyledLinearProgressContainer>
@@ -270,7 +271,7 @@ export default class FormFieldFactory {
       );
     }
 
-    if (isPropertyFk(property) && fileUpload) {
+    if (isPropertyEmbeddable(property) && fileUpload) {
       const downloadModel = property.$ref.split('/').pop();
       const downloadAction = this.entityService.getItemByModel(
         downloadModel ?? ''

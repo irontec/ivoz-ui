@@ -84,14 +84,12 @@ export interface ViewProps {
 }
 export type ViewType = (props: ViewProps) => JSX.Element | null;
 
-export interface EntityValidatorValues {
-  [label: string]: string;
-}
 export type EntityValidatorResponse = Record<string, string | JSX.Element>;
 export type EntityValidator = (
-  values: EntityValidatorValues,
+  values: EntityValues,
   properties: PartialPropertyList,
-  visualToggles: VisualToggleStates
+  visualToggles: VisualToggleStates,
+  validateEmbeddables?: boolean
 ) => EntityValidatorResponse;
 
 export enum OrderDirection {

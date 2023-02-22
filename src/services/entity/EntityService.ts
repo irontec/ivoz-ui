@@ -17,7 +17,8 @@ import {
 } from '../../services/api/ParsedApiSpecInterface';
 
 export type VisualToggleStates = { [key: string]: boolean };
-export type EntityValue = string | number | File | Array<string | number>;
+export type ScalarEntityValue = string | number | boolean | null;
+export type EntityValue = ScalarEntityValue | File | Array<string>;
 export type EntityValues = {
   [key: string]: EntityValue | EntityValues;
 };
@@ -33,8 +34,28 @@ export default class EntityService {
     return this.entityConfig;
   }
 
+  // Properties declared explicitly in the entity
   public getProperties(): PropertyList {
     const response: PropertyList = {};
+    const properties = this.entityConfig.properties;
+
+    for (const idx in properties) {
+      const propertyOverwrite = properties[idx] || {};
+      const label = properties[idx].label || '';
+
+      response[idx] = {
+        ...this.properties[idx],
+        ...propertyOverwrite,
+        label,
+      };
+    }
+
+    return response;
+  }
+
+  // All API spec properties + properties declared in entity
+  public getAllProperties(): PropertyList {
+    const response = this.properties;
     const properties = this.entityConfig.properties;
 
     for (const idx in properties) {
@@ -272,13 +293,15 @@ export default class EntityService {
 
   public getDefultValues(): EntityValues {
     const response: EntityValues = {};
-    const properties = this.getProperties();
+    const properties = this.getAllProperties();
 
     for (const idx in properties) {
       const property: ScalarProperty = properties[idx];
       if (property.default === undefined && !property.enum) {
         if (property.type === 'array') {
           response[idx] = [];
+        } else if (idx.indexOf('.') > 0) {
+          response[idx] = '';
         }
         continue;
       }

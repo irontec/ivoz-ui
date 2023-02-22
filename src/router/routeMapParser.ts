@@ -1,5 +1,7 @@
 import React from 'react';
-import EntityService from '../services/entity/EntityService';
+import EntityService, {
+  ScalarEntityValue,
+} from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
 import { PathMatch } from 'react-router-dom';
 
@@ -7,8 +9,8 @@ export interface EntityItem {
   entity: EntityInterface;
   route?: string;
   filterBy?: string;
-  filterValues?: Record<string, string | number | boolean | null>;
-  fixedValues?: Record<string, string | number | boolean>;
+  filterValues?: Record<string, ScalarEntityValue>;
+  fixedValues?: Record<string, ScalarEntityValue>;
   children?: Array<RouteMapItem>;
 }
 

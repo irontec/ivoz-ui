@@ -5,7 +5,7 @@ import { IvozStore } from '../index';
 interface LoginProps {
   path: string;
   refreshPath: string;
-  exchangePath: string,
+  exchangePath: string;
   contentType: string;
 }
 

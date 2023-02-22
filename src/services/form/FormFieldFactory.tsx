@@ -5,6 +5,8 @@ import {
   FormHelperText,
   LinearProgress,
   InputAdornment,
+  OutlinedInputProps,
+  InputBaseProps,
 } from '@mui/material';
 import {
   ScalarProperty,
@@ -92,14 +94,30 @@ export default class FormFieldFactory {
     const multiSelect = (property as ScalarProperty).type === 'array';
     const fileUpload = (property as ScalarProperty).type === 'file';
     const valuePath = fld.split('.');
-    const value = valuePath.length > 1
-      ? this.formik.values[valuePath[0] as string][valuePath[1] as string]
-      : this.formik.values[fld];
+    const value =
+      valuePath.length > 1
+        ? this.formik.values[valuePath[0]][valuePath[1]]
+        : this.formik.values[fld];
 
-    const initialValue = valuePath.length > 1
-      ? this.formik.values[valuePath[0] as string][valuePath[1] as string]
-      : this.formik.initialValues[fld];
+    const initialValue =
+      valuePath.length > 1
+        ? this.formik.values[valuePath[0]][valuePath[1]]
+        : this.formik.initialValues[fld];
     const hasChanged = initialValue != value;
+
+    const formikError = this.formik.errors;
+    const error =
+      valuePath.length > 1 && formikError[valuePath[0]]
+        ? (formikError[valuePath[0]] as Record<string, React.ReactNode>)[
+            valuePath[1]
+          ]
+        : (formikError[fld] as React.ReactNode);
+
+    const formikTouched = this.formik.touched;
+    const touched =
+      valuePath.length > 1 && formikTouched[valuePath[0]]
+        ? (formikTouched[valuePath[0]] as Record<string, boolean>)[valuePath[1]]
+        : (formikTouched[fld] as undefined | boolean);
 
     if (property.component) {
       const PropertyComponent = (property as ScalarProperty)
@@ -158,10 +176,8 @@ export default class FormFieldFactory {
           onChange={this.changeHandler}
           onBlur={this.handleBlur}
           choices={choices}
-          error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-          helperText={
-            this.formik.touched[fld] ? (this.formik.errors[fld] as string) : ''
-          }
+          error={touched && Boolean(error)}
+          helperText={touched ? error : ''}
           hasChanged={hasChanged}
         />
       );
@@ -192,10 +208,7 @@ export default class FormFieldFactory {
         }
       }
 
-      let booleanValue =
-        typeof value === 'boolean'
-          ? +value
-          : value;
+      let booleanValue = typeof value === 'boolean' ? +value : value;
 
       if (booleanValue === null) {
         booleanValue = '__null__';
@@ -211,10 +224,8 @@ export default class FormFieldFactory {
           onChange={this.changeHandler}
           onBlur={this.handleBlur}
           choices={choices as DropdownChoices}
-          error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-          helperText={
-            this.formik.touched[fld] ? (this.formik.errors[fld] as string) : ''
-          }
+          error={touched && Boolean(error)}
+          helperText={touched ? error : ''}
           hasChanged={hasChanged}
         />
       );
@@ -244,8 +255,8 @@ export default class FormFieldFactory {
       );
     }
 
-    const inputProps: any = {};
-    const InputProps: any = {};
+    const inputProps: InputBaseProps['inputProps'] = {};
+    const InputProps: Partial<OutlinedInputProps> = {};
 
     if (property.prefix) {
       InputProps.startAdornment = (
@@ -308,11 +319,8 @@ export default class FormFieldFactory {
           required={property.required}
           onChange={this.changeHandler}
           onBlur={this.handleBlur}
-          error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-          helperText={
-            this.formik.touched[fld] &&
-            (this.formik.errors[fld] as React.ReactNode)
-          }
+          error={touched && Boolean(error)}
+          helperText={touched ? error : ''}
           inputProps={inputProps}
           InputProps={InputProps}
           hasChanged={hasChanged}
@@ -335,11 +343,8 @@ export default class FormFieldFactory {
             required={property.required}
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
-            error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={
-              this.formik.touched[fld] &&
-              (this.formik.errors[fld] as React.ReactNode)
-            }
+            error={touched && Boolean(error)}
+            helperText={touched ? error : ''}
             fullWidth={true}
             InputProps={InputProps}
             hasChanged={hasChanged}
@@ -358,11 +363,8 @@ export default class FormFieldFactory {
             required={property.required}
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
-            error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={
-              this.formik.touched[fld] &&
-              (this.formik.errors[fld] as React.ReactNode)
-            }
+            error={touched && Boolean(error)}
+            helperText={touched ? error : ''}
             InputProps={InputProps}
             hasChanged={hasChanged}
           />
@@ -380,11 +382,8 @@ export default class FormFieldFactory {
             required={property.required}
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
-            error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={
-              this.formik.touched[fld] &&
-              (this.formik.errors[fld] as React.ReactNode)
-            }
+            error={touched && Boolean(error)}
+            helperText={touched ? error : ''}
             InputProps={InputProps}
             hasChanged={hasChanged}
           />
@@ -407,11 +406,8 @@ export default class FormFieldFactory {
             required={property.required}
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
-            error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={
-              this.formik.touched[fld] &&
-              (this.formik.errors[fld] as React.ReactNode)
-            }
+            error={touched && Boolean(error)}
+            helperText={touched ? error : ''}
             InputProps={InputProps}
             inputProps={inputProps}
             hasChanged={hasChanged}
@@ -430,11 +426,8 @@ export default class FormFieldFactory {
             required={property.required}
             onChange={this.changeHandler}
             onBlur={this.handleBlur}
-            error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-            helperText={
-              this.formik.touched[fld] &&
-              (this.formik.errors[fld] as React.ReactNode)
-            }
+            error={touched && Boolean(error)}
+            helperText={touched ? error : ''}
             InputProps={InputProps}
             inputProps={inputProps}
             hasChanged={hasChanged}
@@ -453,11 +446,8 @@ export default class FormFieldFactory {
           required={property.required}
           onChange={this.changeHandler}
           onBlur={this.handleBlur}
-          error={this.formik.touched[fld] && Boolean(this.formik.errors[fld])}
-          helperText={
-            this.formik.touched[fld] &&
-            (this.formik.errors[fld] as React.ReactNode)
-          }
+          error={touched && Boolean(error)}
+          helperText={touched ? error : ''}
           InputProps={InputProps}
           inputProps={inputProps}
           hasChanged={hasChanged}
@@ -466,9 +456,12 @@ export default class FormFieldFactory {
     }
 
     if (isPropertyScalar(property) && property.multilang === true) {
+      const properties = this.entityService.getAllProperties();
+
       return (
         <Multilang
           property={property as FkProperty}
+          properties={properties}
           _columnName={fld}
           readOnly={readOnly}
           disabled={disabled}
@@ -478,6 +471,8 @@ export default class FormFieldFactory {
           onBlur={this.handleBlur}
           hasChanged={hasChanged}
           choices={null}
+          InputProps={InputProps}
+          inputProps={inputProps}
         />
       );
     }

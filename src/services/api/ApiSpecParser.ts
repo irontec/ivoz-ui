@@ -28,7 +28,6 @@ export default class ApiSpecParser {
           paths,
         };
       } else if (modelName.indexOf('_') > 0) {
-
         //embed properties in parent model
         const parentModelName = modelName.split('_').shift() as string;
         for (const idx in responseData[parentModelName]) {
@@ -43,9 +42,22 @@ export default class ApiSpecParser {
               continue;
             }
 
-            for (const embeddedIdx in apiSpec.definitions[modelName].properties) {
-              const embeddedProperty = apiSpec.definitions[modelName].properties[embeddedIdx];
-              responseData[parentModelName][idx].properties[`${propertyIdx}.${embeddedIdx}`] = embeddedProperty;
+            const embeddedModel = apiSpec.definitions[modelName];
+            for (const embeddedIdx in embeddedModel.properties) {
+              const embeddedProperty = embeddedModel.properties[embeddedIdx];
+              responseData[parentModelName][idx].properties[
+                `${propertyIdx}.${embeddedIdx}`
+              ] = embeddedProperty;
+            }
+
+            if (embeddedModel.required) {
+              responseData[parentModelName][idx].required ??= [];
+              responseData[parentModelName][idx].required = [
+                ...responseData[parentModelName][idx].required,
+                ...embeddedModel.required.map(
+                  (fld: string) => `${propertyIdx}.${fld}`
+                ),
+              ];
             }
           }
         }

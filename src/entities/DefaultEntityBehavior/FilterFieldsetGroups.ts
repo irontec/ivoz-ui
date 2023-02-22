@@ -36,7 +36,7 @@ const filterFieldsetGroups = (
 
     const fields = group.fields.filter((item) =>
       ['string', 'object'].includes(typeof item)
-    ) as Array<string>;
+    ) as Array<FieldsetGroupsField>;
 
     if (!fields.length) {
       continue;

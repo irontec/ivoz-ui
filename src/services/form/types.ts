@@ -8,4 +8,4 @@ import {
 export type useFormikType = FormikState<any> &
   FormikComputedProps<any> &
   FormikHelpers<any> &
-  FormikHandlers;
+  FormikHandlers & { visibleFields?: string[] };

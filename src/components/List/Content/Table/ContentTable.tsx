@@ -72,7 +72,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     (event) => {
       const target = event.target;
       const value = target.type === 'checkbox' ? target.checked : target.value;
-      const rowIds = value ? rows.map((row) => row.id.toString()) : [];
+      const rowIds = value ? rows.map((row) => row.id?.toString() || '') : [];
 
       setSelectedValues(rowIds);
     },

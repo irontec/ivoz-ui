@@ -102,10 +102,7 @@ export type PropertySpec = ScalarProperty | FkProperty;
 export const isPropertyEmbeddable = (
   property: PropertySpec
 ): property is FkProperty => {
-  return (
-    (property as FkProperty).$ref !== undefined &&
-    (property as FkProperty).$ref.indexOf('_') > 0
-  );
+  return (property as FkProperty).$ref?.indexOf('_') > 0;
 };
 
 export const isPropertyFk = (
@@ -113,7 +110,7 @@ export const isPropertyFk = (
 ): property is FkProperty => {
   return (
     (property as FkProperty).$ref !== undefined &&
-    !(property as ScalarProperty).multilang
+    (property as FkProperty).$ref?.indexOf('_') < 0
   );
 };
 
@@ -122,6 +119,7 @@ export const isPropertyScalar = (
 ): property is ScalarProperty => {
   return (
     (property as FkProperty).$ref === undefined ||
+    (property as FkProperty).$ref?.indexOf('_') > 0 ||
     (property as ScalarProperty).multilang === true
   );
 };

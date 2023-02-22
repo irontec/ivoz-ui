@@ -1,6 +1,7 @@
 import { Fade, LinearProgress } from '@mui/material';
 import {
   FkProperty,
+  isPropertyFk,
   PropertySpec,
   ScalarProperty,
 } from '../../../services/api/ParsedApiSpecInterface';
@@ -24,13 +25,12 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const ListDecorator = entityService.getListDecorator();
   const customComponent = (column as ScalarProperty).component;
 
+  const isFk = isPropertyFk(column);
   const loadingFk =
+    isFk &&
     (column as FkProperty).type !== 'array' &&
-    (column as FkProperty).$ref &&
     row[columnName] &&
-    !row[`${columnName}Id`] &&
-    (column as FkProperty).type !== 'file' &&
-    (column as ScalarProperty).multilang !== true;
+    !row[`${columnName}Id`];
 
   const valuePath = columnName.split('.');
   const value =
@@ -47,28 +47,33 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const isBoolean = typeof value === 'boolean';
 
   let response = value;
-  if (loadingValue || (value === undefined && !customComponent)) {
-    response = (
-      <Fade
-        in={true}
-        style={{
-          transitionDelay: '1000ms',
-        }}
-        unmountOnExit
-      >
-        <LinearProgress color='inherit' />
-      </Fade>
-    );
+  if (isFk) {
+    const emptyValue = !row[columnName] && !row[`${columnName}Id`];
+    const preparedValue = Boolean(row[`${columnName}Id`]);
+
+    if (loadingValue || (!emptyValue && !preparedValue && !customComponent)) {
+      response = (
+        <Fade
+          in={true}
+          style={{
+            transitionDelay: '1000ms',
+          }}
+          unmountOnExit
+        >
+          <LinearProgress color='inherit' />
+        </Fade>
+      );
+    } else if (row[`${columnName}Link`]) {
+      response = (
+        <StyledTableRowFkLink to={row[`${columnName}Link`]}>
+          {value}
+        </StyledTableRowFkLink>
+      );
+    }
   } else if (isBoolean && !enumValues && value) {
     response = <StyledCheckBoxIcon />;
   } else if (isBoolean && !enumValues) {
     response = <StyledCheckBoxOutlineBlankIcon />;
-  } else if (row[`${columnName}Link`]) {
-    response = (
-      <StyledTableRowFkLink to={row[`${columnName}Link`]}>
-        {value}
-      </StyledTableRowFkLink>
-    );
   } else {
     response = <ListDecorator field={columnName} row={row} property={column} />;
   }

@@ -52,7 +52,6 @@ export const entityObject2ListLink = async (
       }
 
       const scalarFk = fk as string | number;
-
       data[idx][`${fkFld}Id`] = data[idx][fkFld];
       if (addLink) {
         data[idx][`${fkFld}Link`] = `${localPath || path}/${scalarFk}/update`;

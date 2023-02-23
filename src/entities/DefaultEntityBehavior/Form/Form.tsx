@@ -135,9 +135,6 @@ const Form: EntityFormType = (props) => {
   visibleFields.push(...whitelist);
 
   formik.visibleFields = visibleFields;
-
-  console.log('formik.visibleFields', formik.visibleFields);
-
   const errorList = validationErrosToJsxErrorList(formik, allProperties);
 
   const formFieldFactory = new FormFieldFactory(

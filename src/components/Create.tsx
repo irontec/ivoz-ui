@@ -62,8 +62,11 @@ const Create = (props: CreateProps) => {
       fixedValues,
       filterValues,
     });
-
-    const payload = marshaller(values, properties, whitelist);
+    const payload = marshaller(
+      values,
+      entityService.getAllProperties(),
+      whitelist
+    );
     const formData = entityService.prepareFormData(payload);
 
     try {
@@ -91,6 +94,7 @@ const Create = (props: CreateProps) => {
   return (
     <EntityForm
       {...props}
+      filterBy={filterBy}
       fixedValues={fixedValues}
       filterValues={filterValues}
       initialValues={initialValues}
@@ -98,7 +102,6 @@ const Create = (props: CreateProps) => {
       entityService={entityService}
       create={true}
       match={match}
-      filterBy={filterBy}
     />
   );
 };

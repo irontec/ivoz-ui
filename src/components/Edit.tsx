@@ -59,8 +59,11 @@ const Edit: any = (props: EditProps) => {
       fixedValues,
       filterValues,
     });
-
-    const payload = marshaller(values, properties, whitelist);
+    const payload = marshaller(
+      values,
+      entityService.getAllProperties(),
+      whitelist
+    );
     const formData = entityService.prepareFormData(payload);
 
     try {
@@ -88,12 +91,12 @@ const Edit: any = (props: EditProps) => {
     <EntityForm
       {...props}
       initialValues={initialValues}
+      filterBy={filterBy}
       fixedValues={fixedValues}
       filterValues={filterValues}
       onSubmit={onSubmit}
       edit={true}
       match={match}
-      filterBy={filterBy}
     />
   );
 };

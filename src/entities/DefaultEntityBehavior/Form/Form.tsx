@@ -1,4 +1,5 @@
 import { Alert, AlertTitle } from '@mui/material';
+import { getMarshallerWhiteList } from '../../../components/form.helper';
 import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
 import SaveButton from '../../../components/shared/Button/SaveButton';
@@ -59,7 +60,14 @@ export type EntityFormProps = FormProps &
   Pick<EntityInterface, 'validator' | 'foreignKeyGetter'>;
 export type EntityFormType = (props: EntityFormProps) => JSX.Element | null;
 const Form: EntityFormType = (props) => {
-  const { entityService, readOnlyProperties, fkChoices, filterBy } = props;
+  const {
+    entityService,
+    readOnlyProperties,
+    fkChoices,
+    filterBy,
+    fixedValues,
+    filterValues,
+  } = props;
 
   const formik = props.formik || useFormHandler(props);
   const reqError = useStoreState((store) => store.api.errorMsg);
@@ -114,11 +122,23 @@ const Form: EntityFormType = (props) => {
   }
 
   fields.push(...mlSubproperties);
-  formik.visibleFields = fields;
+  const visualToggles = entityService.getVisualToggles(formik.values);
+  const visibleFields = fields.filter(
+    (fldName) => visualToggles[fldName] || false
+  );
+
+  const whitelist = getMarshallerWhiteList({
+    filterBy,
+    fixedValues,
+    filterValues,
+  });
+  visibleFields.push(...whitelist);
+
+  formik.visibleFields = visibleFields;
+
+  console.log('formik.visibleFields', formik.visibleFields);
 
   const errorList = validationErrosToJsxErrorList(formik, allProperties);
-
-  const visualToggles = entityService.getVisualToggles(formik.values);
 
   const formFieldFactory = new FormFieldFactory(
     entityService,

@@ -12,7 +12,7 @@ const useFormHandler = (props: EntityFormProps): useFormikType => {
     filterValues,
     filterBy,
     initialValues,
-    onSubmit,
+    onSubmit: onSubmitCallback,
   } = props;
 
   const params = useParams();
@@ -68,7 +68,19 @@ const useFormHandler = (props: EntityFormProps): useFormikType => {
 
       return validationErrors;
     },
-    onSubmit,
+    onSubmit: (values: EntityValues) => {
+      const visibleFields = instanceRef.current?.visibleFields || [];
+
+      const filteredValues: EntityValues = {};
+      for (const idx in values) {
+        if (!visibleFields.includes(idx)) {
+          continue;
+        }
+        filteredValues[idx] = values[idx];
+      }
+
+      onSubmitCallback(filteredValues);
+    },
   });
 
   instanceRef.current = formik;

@@ -38,21 +38,6 @@ export type FkChoices = {
 
 export type ReadOnlyProperties = { [attribute: string]: boolean };
 
-export interface FormikProps {
-  create?: boolean;
-  edit?: boolean;
-  entityService: EntityService;
-  groups?: Array<FieldsetGroups | false>;
-  fkChoices?: FkChoices;
-  readOnlyProperties?: ReadOnlyProperties;
-  row?: EntityValues;
-  match: PathMatch;
-  fixedValues?: Record<string, ScalarEntityValue>;
-  filterBy?: string | undefined;
-  initialValues: EntityValues;
-  onSubmit: (values: EntityValues) => Promise<void>;
-}
-
 export interface FormProps {
   formik?: useFormikType;
   create?: boolean;
@@ -64,6 +49,7 @@ export interface FormProps {
   row?: EntityValues;
   match: PathMatch;
   fixedValues?: Record<string, ScalarEntityValue>;
+  filterValues?: Record<string, ScalarEntityValue>;
   filterBy?: string | undefined;
   initialValues: EntityValues;
   onSubmit: (values: EntityValues) => Promise<void>;

@@ -9,6 +9,7 @@ const useFormHandler = (props: EntityFormProps): useFormikType => {
     create,
     entityService,
     fixedValues,
+    filterValues,
     filterBy,
     initialValues,
     onSubmit,
@@ -29,6 +30,12 @@ const useFormHandler = (props: EntityFormProps): useFormikType => {
       if (fixedValues) {
         for (const idx in fixedValues) {
           values[idx] = fixedValues[idx];
+        }
+      }
+
+      if (filterValues) {
+        for (const idx in filterValues) {
+          values[idx] = filterValues[idx];
         }
       }
 

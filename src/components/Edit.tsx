@@ -28,6 +28,7 @@ const Edit: any = (props: EditProps) => {
   const parentRoute = findRoute(routeMap, match);
   const filterBy = parentRoute?.filterBy;
   const fixedValues = parentRoute?.fixedValues;
+  const filterValues = parentRoute?.filterValues;
 
   let parentPath = parentRoute?.route || '';
   for (const idx in match.params) {
@@ -81,6 +82,7 @@ const Edit: any = (props: EditProps) => {
       {...props}
       initialValues={initialValues}
       fixedValues={fixedValues}
+      filterValues={filterValues}
       onSubmit={onSubmit}
       edit={true}
       match={match}

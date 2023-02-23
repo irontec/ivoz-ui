@@ -26,6 +26,7 @@ const Create = (props: CreateProps) => {
   const parentRoute = findRoute(routeMap, match);
   const filterBy = parentRoute?.filterBy;
   const fixedValues = parentRoute?.fixedValues;
+  const filterValues = parentRoute?.filterValues;
 
   let parentPath = parentRoute?.route || '';
   for (const idx in params) {
@@ -84,6 +85,7 @@ const Create = (props: CreateProps) => {
     <EntityForm
       {...props}
       fixedValues={fixedValues}
+      filterValues={filterValues}
       initialValues={initialValues}
       onSubmit={onSubmit}
       entityService={entityService}

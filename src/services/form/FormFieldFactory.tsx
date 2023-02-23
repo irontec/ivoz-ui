@@ -79,7 +79,7 @@ export default class FormFieldFactory {
     );
   }
 
-  public getProperty(fld: string): PropertySpec {
+  public getProperty(fld: string): PropertySpec | null {
     const properties = this.entityService.getProperties();
 
     return properties[fld] as PropertySpec;

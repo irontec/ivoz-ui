@@ -82,6 +82,9 @@ const FormFieldMemo = React.memo(
       : nextColumnSpec;
 
     const column = prev.formFieldFactory.getProperty(columnName);
+    if (!column) {
+      throw `Unknown property ${columnName}`;
+    }
 
     if (column.memoize === false) {
       return false;

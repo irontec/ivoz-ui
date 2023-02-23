@@ -38,9 +38,8 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
       ? row[valuePath.shift() as string][valuePath.shift() as string]
       : row[columnName];
 
-  const loadingMultiselect =
-    (column as ScalarProperty).type === 'array' && Array.isArray(value);
-
+  const isMultiSelect = (column as ScalarProperty).type === 'array';
+  const loadingMultiselect = isMultiSelect && Array.isArray(value);
   const loadingValue = loadingFk || loadingMultiselect;
 
   const enumValues: any = (column as ScalarProperty).enum;
@@ -51,7 +50,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     const emptyValue = !row[columnName] && !row[`${columnName}Id`];
     const preparedValue = Boolean(row[`${columnName}Id`]);
 
-    if (loadingValue || (!emptyValue && !preparedValue && !customComponent)) {
+    if (loadingValue || (!isMultiSelect && !emptyValue && !preparedValue && !customComponent)) {
       response = (
         <Fade
           in={true}

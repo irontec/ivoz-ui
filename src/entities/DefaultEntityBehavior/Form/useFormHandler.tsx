@@ -23,8 +23,16 @@ const useFormHandler = (props: EntityFormProps): useFormikType => {
     validate: (values: EntityValues) => {
       const visibleFields = instanceRef.current?.visibleFields || [];
 
-      if (create && filterBy) {
-        values[filterBy] = Object.values(params).pop() as string;
+      if (filterValues) {
+        for (const idx in filterValues) {
+          // Sanitize values like type[exact]
+          const sanitizedIdx = idx.match(/^[^[]+/)?.[0] || '';
+          if (!sanitizedIdx) {
+            continue;
+          }
+
+          values[sanitizedIdx] = filterValues[idx];
+        }
       }
 
       if (fixedValues) {
@@ -33,10 +41,11 @@ const useFormHandler = (props: EntityFormProps): useFormikType => {
         }
       }
 
-      if (filterValues) {
-        for (const idx in filterValues) {
-          values[idx] = filterValues[idx];
-        }
+      if (create && filterBy) {
+        const paramValue = Object.values(params).pop() as unknown;
+        values[filterBy] = isNaN(paramValue as number)
+          ? (paramValue as string)
+          : Number(paramValue);
       }
 
       const visualToggles = entityService.getVisualToggles(values);

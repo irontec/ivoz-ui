@@ -7,6 +7,7 @@ import findRoute from '../router/findRoute';
 import { RouteMap } from '../router/routeMapParser';
 import { ScalarProperty } from '../services/api/ParsedApiSpecInterface';
 import EntityService, { EntityValues } from '../services/entity/EntityService';
+import { getMarshallerWhiteList } from './form.helper';
 import { useStoreActions } from '../store';
 
 type CreateProps = EntityInterface & {
@@ -56,7 +57,13 @@ const Create = (props: CreateProps) => {
   initialValues = unmarshaller(initialValues, properties);
 
   const onSubmit = async (values: EntityValues) => {
-    const payload = marshaller(values, properties);
+    const whitelist = getMarshallerWhiteList({
+      filterBy,
+      fixedValues,
+      filterValues,
+    });
+
+    const payload = marshaller(values, properties, whitelist);
     const formData = entityService.prepareFormData(payload);
 
     try {

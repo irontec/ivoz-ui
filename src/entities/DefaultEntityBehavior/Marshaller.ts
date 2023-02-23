@@ -4,14 +4,19 @@ export type MarshallerValues = { [key: string]: any };
 
 const marshaller = (
   values: MarshallerValues,
-  properties: PartialPropertyList
+  properties: PartialPropertyList,
+  whitelist: string[] = []
 ): MarshallerValues => {
   values = { ...values };
+
   for (const idx in values) {
     const property: any = properties[idx];
 
     if (!property || property.readOnly) {
-      delete values[idx];
+      if (!whitelist.includes(idx)) {
+        delete values[idx];
+      }
+
       continue;
     }
 

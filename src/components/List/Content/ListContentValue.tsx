@@ -50,7 +50,10 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     const emptyValue = !row[columnName] && !row[`${columnName}Id`];
     const preparedValue = Boolean(row[`${columnName}Id`]);
 
-    if (loadingValue || (!isMultiSelect && !emptyValue && !preparedValue && !customComponent)) {
+    if (
+      loadingValue ||
+      (!isMultiSelect && !emptyValue && !preparedValue && !customComponent)
+    ) {
       response = (
         <Fade
           in={true}

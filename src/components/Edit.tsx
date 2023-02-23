@@ -7,6 +7,7 @@ import findRoute from '../router/findRoute';
 import { RouteMap } from '../router/routeMapParser';
 import EntityService, { EntityValues } from '../services/entity/EntityService';
 import { useStoreActions } from '../store';
+import { getMarshallerWhiteList } from './form.helper';
 import withRowData from './withRowData';
 
 type EditProps = EntityInterface & {
@@ -53,7 +54,13 @@ const Edit: any = (props: EditProps) => {
       throw new Error('Unknown item path');
     }
 
-    const payload = marshaller(values, properties);
+    const whitelist = getMarshallerWhiteList({
+      filterBy,
+      fixedValues,
+      filterValues,
+    });
+
+    const payload = marshaller(values, properties, whitelist);
     const formData = entityService.prepareFormData(payload);
 
     try {

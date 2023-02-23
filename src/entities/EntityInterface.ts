@@ -102,7 +102,11 @@ export type CustomActionsType = Record<string, ActionItem>;
 export default interface EntityInterface {
   initialValues: any;
   validator: EntityValidator;
-  marshaller: (T: any, properties: PartialPropertyList) => any;
+  marshaller: (
+    T: any,
+    properties: PartialPropertyList,
+    whitelist?: string[]
+  ) => any;
   unmarshaller: (T: any, properties: PartialPropertyList) => any;
   foreignKeyResolver: foreignKeyResolverType;
   foreignKeyGetter: ForeignKeyGetterType;

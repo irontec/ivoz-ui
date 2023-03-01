@@ -23,6 +23,13 @@ const marshaller = (
     if (property?.type === 'file') {
       if (values[idx].file) {
         values[idx] = values[idx].file;
+      } else {
+        for (const prop in values[idx]) {
+          //Empty string to null
+          if (values[idx][prop] === '') {
+            values[idx][prop] = null;
+          }
+        }
       }
 
       continue;

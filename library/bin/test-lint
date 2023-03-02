@@ -3,13 +3,13 @@
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 [ -x $(which yarn) ] && YARN=$(which yarn) || YARN=$(which yarnpkg)
 
-pushd "${SCRIPT_DIR}"/../
+pushd "${SCRIPT_DIR}"/../library
     # Install required dependencies
     $YARN install
 
     # Run linter
     $YARN lint
-    
+
     CHANGED_FILES=$(git diff --name-only)
 
     if [ -z "$CHANGED_FILES" ]; then

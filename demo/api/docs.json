@@ -1,0 +1,3087 @@
+{
+    "swagger": "2.0",
+    "basePath": "/demo/api/",
+    "info": {
+        "title": "IVOZ-UI demo backend",
+        "version": "1",
+        "description": "Rest API"
+    },
+    "paths": {
+        "/admin_login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "postAdminAuthenticate",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve JWT token",
+                "parameters": [
+                    {
+                        "name": "username",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "formData",
+                        "type": "string",
+                        "format": "password",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Valid credentials"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "401": {
+                        "description": "Bad credentials"
+                    }
+                }
+            }
+        },
+        "/token/refresh": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "postTokenRefresh",
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve JWT token",
+                "parameters": [
+                    {
+                        "name": "refresh_token",
+                        "in": "formData",
+                        "type": "string",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Valid credentials"
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "401": {
+                        "description": "Bad credentials"
+                    }
+                }
+            }
+        },
+        "/administrators": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domain"
+                ],
+                "operationId": "getAdministratorCollection",
+                "summary": "Retrieves the collection of Administrator resources.",
+                "responses": {
+                    "200": {
+                        "description": "Administrator collection response",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/Administrator-collection"
+                            }
+                        },
+                        "headers": {
+                            "X-Total-Items": {
+                                "type": "integer"
+                            },
+                            "X-Total-Pages": {
+                                "type": "integer"
+                            },
+                            "X-First-Page": {
+                                "type": "string"
+                            },
+                            "X-Next-Page": {
+                                "type": "string"
+                            },
+                            "X-Last-Page": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email[exact]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email[partial]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email[end]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email[exists]",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "email[neq]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "email[start]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "exists[email]",
+                        "in": "query",
+                        "required": false,
+                        "type": "boolean"
+                    },
+                    {
+                        "name": "id[exact]",
+                        "in": "query",
+                        "required": false,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "id[neq]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username[exact]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username[neq]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username[start]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username[partial]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "username[end]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "enum": [
+                            "ASC",
+                            "DESC"
+                        ],
+                        "name": "_order[email]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "enum": [
+                            "ASC",
+                            "DESC"
+                        ],
+                        "name": "_order[id]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "enum": [
+                            "ASC",
+                            "DESC"
+                        ],
+                        "name": "_order[username]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "_itemsPerPage",
+                        "in": "query",
+                        "required": false,
+                        "description": "The number of items per page",
+                        "type": "integer"
+                    },
+                    {
+                        "name": "_page",
+                        "in": "query",
+                        "required": false,
+                        "description": "The collection page number",
+                        "type": "integer"
+                    },
+                    {
+                        "description": "Allows you to reduce the response to contain only the properties you need. If your desired property is nested, you can address it using nested arrays. Example: _properties[]={propertyName}&_properties[]={anotherPropertyName}&_properties[{nestedPropertyParent}][]={nestedProperty}",
+                        "name": "_properties[]",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        },
+                        "in": "query",
+                        "required": false,
+                        "collectionFormat": "multi"
+                    }
+                ]
+            },
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domain"
+                ],
+                "operationId": "postAdministratorCollection",
+                "summary": "Creates a Administrator resource.",
+                "responses": {
+                    "201": {
+                        "description": "Administrator resource created",
+                        "schema": {
+                            "$ref": "#/definitions/Administrator"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "administrator",
+                        "in": "body",
+                        "description": "The new Administrator resource",
+                        "schema": {
+                            "$ref": "#/definitions/Administrator"
+                        }
+                    }
+                ]
+            }
+        },
+        "/administrators/{id}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domain"
+                ],
+                "operationId": "getAdministratorItem",
+                "summary": "Retrieves a Administrator resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Administrator resource response",
+                        "schema": {
+                            "$ref": "#/definitions/Administrator-detailed"
+                        }
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                }
+            },
+            "put": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Domain"
+                ],
+                "operationId": "putAdministratorItem",
+                "summary": "Replaces the Administrator resource.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "administrator",
+                        "in": "body",
+                        "description": "The updated Administrator resource",
+                        "schema": {
+                            "$ref": "#/definitions/Administrator"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Administrator resource updated",
+                        "schema": {
+                            "$ref": "#/definitions/Administrator"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid input"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    },
+                    "422": {
+                        "description": "Unprocessable entity"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Domain"
+                ],
+                "operationId": "deleteAdministratorItem",
+                "summary": "Removes the Administrator resource.",
+                "responses": {
+                    "204": {
+                        "description": "Administrator resource deleted"
+                    },
+                    "404": {
+                        "description": "Resource not found"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "_rmAlso[]",
+                        "in": "query",
+                        "required": false,
+                        "type": "string"
+                    }
+                ]
+            }
+        },
+        "/clients": {
+            "get": {
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "getClientCollection",
+              "summary": "Retrieves the collection of Client resources.",
+              "responses": {
+                "200": {
+                  "description": "Client collection response",
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Client-collection"
+                    }
+                  },
+                  "headers": {
+                    "X-Total-Items": {
+                      "type": "integer"
+                    },
+                    "X-Total-Pages": {
+                      "type": "integer"
+                    },
+                    "X-First-Page": {
+                      "type": "string"
+                    },
+                    "X-Next-Page": {
+                      "type": "string"
+                    },
+                    "X-Last-Page": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "cardDav",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "cardDavPass",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "cardDavPass[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "cardDavPass[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "cardDavPass[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "cardDavPass[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "cardDavPass[exists]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "cardDavPass[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "customTabUrl",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "customTabUrl[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "customTabUrl[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "customTabUrl[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "customTabUrl[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "customTabUrl[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "description",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "description[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "description[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "description[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "description[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "description[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "description[exists]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "desktopLicences",
+                  "in": "query",
+                  "required": false,
+                  "type": "integer"
+                },
+                {
+                  "name": "desktopLicences[gt]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "desktopLicences[gte]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "desktopLicences[lt]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "desktopLicences[lte]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "desktopLicences[between]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "desktopLicences[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "domain",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "domain[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "domain[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "domain[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "domain[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "domain[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "exists[cardDavPass]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "exists[description]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "id[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "integer"
+                },
+                {
+                  "name": "id[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "mobileLicences",
+                  "in": "query",
+                  "required": false,
+                  "type": "integer"
+                },
+                {
+                  "name": "mobileLicences[gt]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "mobileLicences[gte]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "mobileLicences[lt]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "mobileLicences[lte]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "mobileLicences[between]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "mobileLicences[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "platform",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "platform[]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[cardDavPass]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[cardDav]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[customTabUrl]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[description]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[desktopLicences]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[domain]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[id]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[iden]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[mobileLicences]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "_itemsPerPage",
+                  "in": "query",
+                  "required": false,
+                  "description": "The number of items per page",
+                  "type": "integer"
+                },
+                {
+                  "name": "_page",
+                  "in": "query",
+                  "required": false,
+                  "description": "The collection page number",
+                  "type": "integer"
+                },
+                {
+                  "description": "Allows you to reduce the response to contain only the properties you need. If your desired property is nested, you can address it using nested arrays. Example: _properties[]={propertyName}&_properties[]={anotherPropertyName}&_properties[{nestedPropertyParent}][]={nestedProperty}",
+                  "name": "_properties[]",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "in": "query",
+                  "required": false,
+                  "collectionFormat": "multi"
+                }
+              ]
+            },
+            "post": {
+              "consumes": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "postClientCollection",
+              "summary": "Creates a Client resource.",
+              "responses": {
+                "201": {
+                  "description": "Client resource created",
+                  "schema": {
+                    "$ref": "#/definitions/Client"
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "404": {
+                  "description": "Resource not found"
+                },
+                "422": {
+                  "description": "Unprocessable entity"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "client",
+                  "in": "body",
+                  "description": "The new Client resource",
+                  "schema": {
+                    "$ref": "#/definitions/Client"
+                  }
+                }
+              ]
+            }
+          },
+          "/clients/available": {
+            "get": {
+              "tags": [
+                "Domain"
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "parameters": [
+                {
+                  "name": "_platformId",
+                  "in": "query",
+                  "type": "integer",
+                  "required": true,
+                  "description": "Platform to search in"
+                }
+              ],
+              "operationId": "get_remote_clients_availableClientsAvailableCollection",
+              "summary": "Retrieves the collection of ClientsAvailable resources.",
+              "responses": {
+                "200": {
+                  "description": "ClientsAvailable collection response",
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/ClientsAvailable"
+                    }
+                  },
+                  "headers": {
+                    "X-Total-Items": {
+                      "type": "integer"
+                    },
+                    "X-Total-Pages": {
+                      "type": "integer"
+                    },
+                    "X-First-Page": {
+                      "type": "string"
+                    },
+                    "X-Next-Page": {
+                      "type": "string"
+                    },
+                    "X-Last-Page": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/clients/{id}": {
+            "get": {
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "getClientItem",
+              "summary": "Retrieves a Client resource.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Client resource response",
+                  "schema": {
+                    "$ref": "#/definitions/Client-detailed"
+                  }
+                },
+                "404": {
+                  "description": "Resource not found"
+                }
+              }
+            },
+            "put": {
+              "consumes": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "putClientItem",
+              "summary": "Replaces the Client resource.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "client",
+                  "in": "body",
+                  "description": "The updated Client resource",
+                  "schema": {
+                    "$ref": "#/definitions/Client"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Client resource updated",
+                  "schema": {
+                    "$ref": "#/definitions/Client"
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "404": {
+                  "description": "Resource not found"
+                },
+                "422": {
+                  "description": "Unprocessable entity"
+                }
+              }
+            },
+            "delete": {
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "deleteClientItem",
+              "summary": "Removes the Client resource.",
+              "responses": {
+                "204": {
+                  "description": "Client resource deleted"
+                },
+                "404": {
+                  "description": "Resource not found"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "_rmAlso[]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "/platforms": {
+            "get": {
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "getPlatformCollection",
+              "summary": "Retrieves the collection of Platform resources.",
+              "responses": {
+                "200": {
+                  "description": "Platform collection response",
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/Platform-collection"
+                    }
+                  },
+                  "headers": {
+                    "X-Total-Items": {
+                      "type": "integer"
+                    },
+                    "X-Total-Pages": {
+                      "type": "integer"
+                    },
+                    "X-First-Page": {
+                      "type": "string"
+                    },
+                    "X-Next-Page": {
+                      "type": "string"
+                    },
+                    "X-Last-Page": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "apiUrl",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "apiUrl[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "apiUrl[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "apiUrl[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "apiUrl[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "apiUrl[exists]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "apiUrl[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "exists[apiUrl]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "id[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "integer"
+                },
+                {
+                  "name": "id[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "name",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "name[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "name[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "name[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "name[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "name[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "type",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "type[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "type[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "type[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "type[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "type[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[apiUrl]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[id]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[name]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[type]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "_itemsPerPage",
+                  "in": "query",
+                  "required": false,
+                  "description": "The number of items per page",
+                  "type": "integer"
+                },
+                {
+                  "name": "_page",
+                  "in": "query",
+                  "required": false,
+                  "description": "The collection page number",
+                  "type": "integer"
+                },
+                {
+                  "description": "Allows you to reduce the response to contain only the properties you need. If your desired property is nested, you can address it using nested arrays. Example: _properties[]={propertyName}&_properties[]={anotherPropertyName}&_properties[{nestedPropertyParent}][]={nestedProperty}",
+                  "name": "_properties[]",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "in": "query",
+                  "required": false,
+                  "collectionFormat": "multi"
+                }
+              ]
+            },
+            "post": {
+              "consumes": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "postPlatformCollection",
+              "summary": "Creates a Platform resource.",
+              "responses": {
+                "201": {
+                  "description": "Platform resource created",
+                  "schema": {
+                    "$ref": "#/definitions/Platform"
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "404": {
+                  "description": "Resource not found"
+                },
+                "422": {
+                  "description": "Unprocessable entity"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "platform",
+                  "in": "body",
+                  "description": "The new Platform resource",
+                  "schema": {
+                    "$ref": "#/definitions/Platform"
+                  }
+                }
+              ]
+            }
+          },
+          "/platforms/{id}": {
+            "get": {
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "getPlatformItem",
+              "summary": "Retrieves a Platform resource.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Platform resource response",
+                  "schema": {
+                    "$ref": "#/definitions/Platform-detailed"
+                  }
+                },
+                "404": {
+                  "description": "Resource not found"
+                }
+              }
+            },
+            "put": {
+              "consumes": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "putPlatformItem",
+              "summary": "Replaces the Platform resource.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "platform",
+                  "in": "body",
+                  "description": "The updated Platform resource",
+                  "schema": {
+                    "$ref": "#/definitions/Platform"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "Platform resource updated",
+                  "schema": {
+                    "$ref": "#/definitions/Platform"
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "404": {
+                  "description": "Resource not found"
+                },
+                "422": {
+                  "description": "Unprocessable entity"
+                }
+              }
+            },
+            "delete": {
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "deletePlatformItem",
+              "summary": "Removes the Platform resource.",
+              "responses": {
+                "204": {
+                  "description": "Platform resource deleted"
+                },
+                "404": {
+                  "description": "Resource not found"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "_rmAlso[]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "/users": {
+            "get": {
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "getUserCollection",
+              "summary": "Retrieves the collection of User resources.",
+              "responses": {
+                "200": {
+                  "description": "User collection response",
+                  "schema": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/definitions/User-collection"
+                    }
+                  },
+                  "headers": {
+                    "X-Total-Items": {
+                      "type": "integer"
+                    },
+                    "X-Total-Pages": {
+                      "type": "integer"
+                    },
+                    "X-First-Page": {
+                      "type": "string"
+                    },
+                    "X-Next-Page": {
+                      "type": "string"
+                    },
+                    "X-Last-Page": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "parameters": [
+                {
+                  "name": "client",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "client[]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "email",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "email[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "email[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "email[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "email[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "email[exists]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "email[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "enabled",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "enabled[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "enabled[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "enabled[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "enabled[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "enabled[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "exists[email]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "exists[lastProvisionDate]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "exists[remoteId]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "id[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "integer"
+                },
+                {
+                  "name": "id[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "iden[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "lastProvisionDate",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "lastProvisionDate[after]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "lastProvisionDate[before]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "lastProvisionDate[exists]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "lastProvisionDate[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "lastProvisionDate[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "lastProvisionDate[strictly_after]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "lastProvisionDate[strictly_before]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "remoteId",
+                  "in": "query",
+                  "required": false,
+                  "type": "integer"
+                },
+                {
+                  "name": "remoteId[exists]",
+                  "in": "query",
+                  "required": false,
+                  "type": "boolean"
+                },
+                {
+                  "name": "remoteId[gt]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "remoteId[gte]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "remoteId[lt]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "remoteId[lte]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "remoteId[between]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "remoteId[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "terminal",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "terminal[exact]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "terminal[end]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "terminal[neq]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "terminal[start]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "terminal[partial]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[email]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[enabled]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[id]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[iden]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[lastProvisionDate]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[remoteId]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "enum": [
+                    "ASC",
+                    "DESC"
+                  ],
+                  "name": "_order[terminal]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                },
+                {
+                  "name": "_itemsPerPage",
+                  "in": "query",
+                  "required": false,
+                  "description": "The number of items per page",
+                  "type": "integer"
+                },
+                {
+                  "name": "_page",
+                  "in": "query",
+                  "required": false,
+                  "description": "The collection page number",
+                  "type": "integer"
+                },
+                {
+                  "description": "Allows you to reduce the response to contain only the properties you need. If your desired property is nested, you can address it using nested arrays. Example: _properties[]={propertyName}&_properties[]={anotherPropertyName}&_properties[{nestedPropertyParent}][]={nestedProperty}",
+                  "name": "_properties[]",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "in": "query",
+                  "required": false,
+                  "collectionFormat": "multi"
+                },
+                {
+                  "name": "_timezone",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "description": "Use a time zone of choice instead of the token user one (Applies to both input and output)"
+                }
+              ]
+            },
+            "post": {
+              "consumes": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "postUserCollection",
+              "summary": "Creates a User resource.",
+              "responses": {
+                "201": {
+                  "description": "User resource created",
+                  "schema": {
+                    "$ref": "#/definitions/User"
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "404": {
+                  "description": "Resource not found"
+                },
+                "422": {
+                  "description": "Unprocessable entity"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "user",
+                  "in": "body",
+                  "description": "The new User resource",
+                  "schema": {
+                    "$ref": "#/definitions/User"
+                  }
+                },
+                {
+                  "name": "_timezone",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "description": "Use a time zone of choice instead of the token user one (Applies to both input and output)"
+                }
+              ]
+            }
+          },
+          "/users/{id}": {
+            "get": {
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "getUserItem",
+              "summary": "Retrieves a User resource.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "_timezone",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "description": "Use a time zone of choice instead of the token user one (Applies to both input and output)"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "User resource response",
+                  "schema": {
+                    "$ref": "#/definitions/User-detailed"
+                  }
+                },
+                "404": {
+                  "description": "Resource not found"
+                }
+              }
+            },
+            "put": {
+              "consumes": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "produces": [
+                "application/json",
+                "application/ld+json"
+              ],
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "putUserItem",
+              "summary": "Replaces the User resource.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "user",
+                  "in": "body",
+                  "description": "The updated User resource",
+                  "schema": {
+                    "$ref": "#/definitions/User"
+                  }
+                },
+                {
+                  "name": "_timezone",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "description": "Use a time zone of choice instead of the token user one (Applies to both input and output)"
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "User resource updated",
+                  "schema": {
+                    "$ref": "#/definitions/User"
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "404": {
+                  "description": "Resource not found"
+                },
+                "422": {
+                  "description": "Unprocessable entity"
+                }
+              }
+            },
+            "delete": {
+              "tags": [
+                "Domain"
+              ],
+              "operationId": "deleteUserItem",
+              "summary": "Removes the User resource.",
+              "responses": {
+                "204": {
+                  "description": "User resource deleted"
+                },
+                "404": {
+                  "description": "Resource not found"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "_rmAlso[]",
+                  "in": "query",
+                  "required": false,
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "/users/{id}/login_qr": {
+            "get": {
+              "tags": [
+                "Domain"
+              ],
+              "produces": [
+                "image/png"
+              ],
+              "responses": {
+                "200": {
+                  "description": "User resource response",
+                  "schema": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                },
+                "404": {
+                  "description": "Resource not found"
+                }
+              },
+              "operationId": "get_users_login_qrUserItem",
+              "summary": "Retrieves a User resource.",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "/users/{id}/switch_licenses": {
+            "post": {
+              "tags": [
+                "Domain"
+              ],
+              "produces": [
+                "application/json"
+              ],
+              "parameters": [
+                {
+                  "name": "type",
+                  "in": "query",
+                  "type": "string",
+                  "required": true,
+                  "description": "Type of license must be \"no\" | \"desktop\" | \"mobile\" | \"dual\""
+                },
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "type": "string"
+                },
+                {
+                  "name": "user",
+                  "in": "body",
+                  "description": "The new User resource",
+                  "schema": {
+                    "$ref": "#/definitions/User"
+                  }
+                },
+                {
+                  "name": "_timezone",
+                  "in": "query",
+                  "required": false,
+                  "type": "string",
+                  "description": "Use a time zone of choice instead of the token user one (Applies to both input and output)"
+                }
+              ],
+              "operationId": "post_users_switch_licensesUserItem",
+              "consumes": [
+                "application/json",
+                "application/ld+json",
+                "text/csv",
+                "application/xml",
+                "text/xml",
+                "text/html",
+                "application/octet-stream",
+                "image/png"
+              ],
+              "summary": "Creates a User resource.",
+              "responses": {
+                "201": {
+                  "description": "User resource created",
+                  "schema": {
+                    "$ref": "#/definitions/User"
+                  }
+                },
+                "400": {
+                  "description": "Invalid input"
+                },
+                "404": {
+                  "description": "Resource not found"
+                },
+                "422": {
+                  "description": "Unprocessable entity"
+                }
+              }
+            }
+          }
+    },
+    "security": [
+        {
+            "bearer": []
+        }
+    ],
+    "securityDefinitions": {
+        "bearer": {
+            "type": "apiKey",
+            "in": "header",
+            "description": "Value for the Authorization header",
+            "name": "Authorization"
+        }
+    },
+    "definitions": {
+        "Administrator": {
+            "type": "object",
+            "required": [
+                "username",
+                "pass"
+            ],
+            "properties": {
+                "username": {
+                    "maxLength": 65,
+                    "description": "",
+                    "type": "string"
+                },
+                "pass": {
+                    "maxLength": 80,
+                    "description": "",
+                    "type": "string"
+                },
+                "email": {
+                    "maxLength": 100,
+                    "description": "",
+                    "type": "string"
+                },
+                "name": {
+                    "maxLength": 100,
+                    "description": "",
+                    "type": "string"
+                },
+                "lastname": {
+                    "maxLength": 100,
+                    "description": "",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "readOnly": true
+                }
+            }
+        },
+        "Administrator-collection": {
+            "type": "object",
+            "required": [
+                "username"
+            ],
+            "properties": {
+                "username": {
+                    "maxLength": 65,
+                    "description": "",
+                    "type": "string"
+                },
+                "email": {
+                    "maxLength": 100,
+                    "description": "",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "readOnly": true
+                }
+            }
+        },
+        "Administrator-detailed": {
+            "type": "object",
+            "required": [
+                "username",
+                "pass"
+            ],
+            "properties": {
+                "username": {
+                    "maxLength": 65,
+                    "description": "",
+                    "type": "string"
+                },
+                "pass": {
+                    "maxLength": 80,
+                    "description": "",
+                    "type": "string"
+                },
+                "email": {
+                    "maxLength": 100,
+                    "description": "",
+                    "type": "string"
+                },
+                "name": {
+                    "maxLength": 100,
+                    "description": "",
+                    "type": "string"
+                },
+                "lastname": {
+                    "maxLength": 100,
+                    "description": "",
+                    "type": "string"
+                },
+                "id": {
+                    "description": "",
+                    "type": "integer",
+                    "readOnly": true
+                }
+            }
+        },
+        "Client": {
+            "type": "object",
+            "required": [
+              "iden",
+              "customTabUrl",
+              "domain",
+              "sdes",
+              "desktopLicences",
+              "mobileLicences",
+              "authType",
+              "transport",
+              "cardDav",
+              "voiceMailNumber",
+              "platform"
+            ],
+            "properties": {
+              "iden": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "customTabUrl": {
+                "default": "",
+                "maxLength": 512,
+                "description": "",
+                "example": "",
+                "type": "string"
+              },
+              "domain": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "proxyHost": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "proxyPort": {
+                "description": "",
+                "type": "integer"
+              },
+              "sdes": {
+                "default": "required",
+                "enum": [
+                  "required",
+                  "disabled"
+                ],
+                "maxLength": 64,
+                "description": "",
+                "example": "required",
+                "type": "string"
+              },
+              "desktopLicences": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "integer"
+              },
+              "mobileLicences": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "integer"
+              },
+              "remoteId": {
+                "description": "",
+                "type": "integer"
+              },
+              "authType": {
+                "default": "password",
+                "enum": [
+                  "password",
+                  "ldap"
+                ],
+                "maxLength": 64,
+                "description": "",
+                "example": "password",
+                "type": "string"
+              },
+              "ldapServer": {
+                "maxLength": 128,
+                "description": "",
+                "type": "string"
+              },
+              "ldapQuery": {
+                "maxLength": 256,
+                "description": "",
+                "type": "string"
+              },
+              "description": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "transport": {
+                "default": "tls+sip:",
+                "enum": [
+                  "udp",
+                  "tcp",
+                  "tls+sip:"
+                ],
+                "maxLength": 64,
+                "description": "",
+                "example": "tls+sip:",
+                "type": "string"
+              },
+              "cardDav": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "boolean"
+              },
+              "cardDavPass": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "voiceMailNumber": {
+                "default": "*93",
+                "maxLength": 8,
+                "description": "",
+                "example": "*93",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              },
+              "platform": {
+                "description": "",
+                "type": "integer"
+              }
+            }
+          },
+          "Client-collection": {
+            "type": "object",
+            "required": [
+              "iden",
+              "domain",
+              "desktopLicences",
+              "mobileLicences",
+              "platform",
+              "cardDav",
+              "customTabUrl"
+            ],
+            "properties": {
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              },
+              "iden": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "domain": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "desktopLicences": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "integer"
+              },
+              "mobileLicences": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "integer"
+              },
+              "description": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "platform": {
+                "description": "",
+                "type": "integer"
+              },
+              "cardDav": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "boolean"
+              },
+              "cardDavPass": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "customTabUrl": {
+                "default": "",
+                "maxLength": 512,
+                "description": "",
+                "example": "",
+                "type": "string"
+              }
+            }
+          },
+          "Client-detailed": {
+            "type": "object",
+            "required": [
+              "iden",
+              "customTabUrl",
+              "domain",
+              "sdes",
+              "desktopLicences",
+              "mobileLicences",
+              "authType",
+              "transport",
+              "cardDav",
+              "voiceMailNumber",
+              "platform"
+            ],
+            "properties": {
+              "iden": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "customTabUrl": {
+                "default": "",
+                "maxLength": 512,
+                "description": "",
+                "example": "",
+                "type": "string"
+              },
+              "domain": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "proxyHost": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "proxyPort": {
+                "description": "",
+                "type": "integer"
+              },
+              "sdes": {
+                "default": "required",
+                "enum": [
+                  "required",
+                  "disabled"
+                ],
+                "maxLength": 64,
+                "description": "",
+                "example": "required",
+                "type": "string"
+              },
+              "desktopLicences": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "integer"
+              },
+              "mobileLicences": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "integer"
+              },
+              "remoteId": {
+                "description": "",
+                "type": "integer"
+              },
+              "authType": {
+                "default": "password",
+                "enum": [
+                  "password",
+                  "ldap"
+                ],
+                "maxLength": 64,
+                "description": "",
+                "example": "password",
+                "type": "string"
+              },
+              "ldapServer": {
+                "maxLength": 128,
+                "description": "",
+                "type": "string"
+              },
+              "ldapQuery": {
+                "maxLength": 256,
+                "description": "",
+                "type": "string"
+              },
+              "description": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "transport": {
+                "default": "tls+sip:",
+                "enum": [
+                  "udp",
+                  "tcp",
+                  "tls+sip:"
+                ],
+                "maxLength": 64,
+                "description": "",
+                "example": "tls+sip:",
+                "type": "string"
+              },
+              "cardDav": {
+                "default": 0,
+                "description": "",
+                "example": "0",
+                "type": "boolean"
+              },
+              "cardDavPass": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "voiceMailNumber": {
+                "default": "*93",
+                "maxLength": 8,
+                "description": "",
+                "example": "*93",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              },
+              "platform": {
+                "$ref": "#/definitions/Platform"
+              }
+            }
+          },
+          "ClientsAvailable": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "description": "",
+                "type": "integer"
+              },
+              "name": {
+                "description": "",
+                "type": "string"
+              },
+              "domain": {
+                "description": "",
+                "type": "string"
+              }
+            }
+          },
+          "EmailTemplate": {
+            "type": "object",
+            "required": [
+              "iden",
+              "subject",
+              "fromName",
+              "fromAddress",
+              "body"
+            ],
+            "properties": {
+              "iden": {
+                "maxLength": 120,
+                "description": "",
+                "type": "string"
+              },
+              "subject": {
+                "maxLength": 120,
+                "description": "",
+                "type": "string"
+              },
+              "fromName": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "fromAddress": {
+                "maxLength": 120,
+                "description": "",
+                "type": "string"
+              },
+              "body": {
+                "description": "",
+                "type": "string"
+              },
+              "description": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              }
+            }
+          },
+          "Platform": {
+            "type": "object",
+            "required": [
+              "name",
+              "type",
+              "tlsPort",
+              "tcpPort",
+              "udpPort"
+            ],
+            "properties": {
+              "name": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "type": {
+                "default": "isbc",
+                "enum": [
+                  "isbc",
+                  "other",
+                  "ivozprovider-v2",
+                  "ivozprovider-v3"
+                ],
+                "maxLength": 50,
+                "description": "",
+                "example": "isbc",
+                "type": "string"
+              },
+              "apiUrl": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "tlsPort": {
+                "default": 5061,
+                "minimum": 0,
+                "description": "",
+                "example": "5061",
+                "type": "integer"
+              },
+              "tcpPort": {
+                "default": 5060,
+                "minimum": 0,
+                "description": "",
+                "example": "5060",
+                "type": "integer"
+              },
+              "udpPort": {
+                "default": 5060,
+                "minimum": 0,
+                "description": "",
+                "example": "5060",
+                "type": "integer"
+              },
+              "refreshToken": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              }
+            }
+          },
+          "Platform-collection": {
+            "type": "object",
+            "required": [
+              "name",
+              "type"
+            ],
+            "properties": {
+              "name": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "type": {
+                "default": "isbc",
+                "enum": [
+                  "isbc",
+                  "other",
+                  "ivozprovider-v2",
+                  "ivozprovider-v3"
+                ],
+                "maxLength": 50,
+                "description": "",
+                "example": "isbc",
+                "type": "string"
+              },
+              "apiUrl": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              }
+            }
+          },
+          "Platform-detailed": {
+            "type": "object",
+            "required": [
+              "name",
+              "type",
+              "tlsPort",
+              "tcpPort",
+              "udpPort"
+            ],
+            "properties": {
+              "name": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "type": {
+                "default": "isbc",
+                "enum": [
+                  "isbc",
+                  "other",
+                  "ivozprovider-v2",
+                  "ivozprovider-v3"
+                ],
+                "maxLength": 50,
+                "description": "",
+                "example": "isbc",
+                "type": "string"
+              },
+              "apiUrl": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "tlsPort": {
+                "default": 5061,
+                "minimum": 0,
+                "description": "",
+                "example": "5061",
+                "type": "integer"
+              },
+              "tcpPort": {
+                "default": 5060,
+                "minimum": 0,
+                "description": "",
+                "example": "5060",
+                "type": "integer"
+              },
+              "udpPort": {
+                "default": 5060,
+                "minimum": 0,
+                "description": "",
+                "example": "5060",
+                "type": "integer"
+              },
+              "refreshToken": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              }
+            }
+          },
+          "User": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "iden": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "email": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "terminal": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "sipPassword": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "acrobitsPassword": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "enabled": {
+                "default": "no",
+                "enum": [
+                  "no",
+                  "desktop",
+                  "mobile",
+                  "dual"
+                ],
+                "description": "",
+                "example": "no",
+                "type": "string"
+              },
+              "remoteId": {
+                "description": "",
+                "type": "integer"
+              },
+              "lastProvisionDate": {
+                "readOnly": true,
+                "format": "date-time",
+                "description": "",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              },
+              "client": {
+                "description": "",
+                "type": "integer"
+              }
+            },
+            "required": [
+              "iden",
+              "terminal",
+              "sipPassword",
+              "enabled",
+              "client"
+            ]
+          },
+          "User-collection": {
+            "type": "object",
+            "required": [
+              "iden",
+              "terminal",
+              "enabled",
+              "client"
+            ],
+            "properties": {
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              },
+              "iden": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "email": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "terminal": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "enabled": {
+                "default": "no",
+                "enum": [
+                  "no",
+                  "desktop",
+                  "mobile",
+                  "dual"
+                ],
+                "description": "",
+                "example": "no",
+                "type": "string"
+              },
+              "client": {
+                "description": "",
+                "type": "integer"
+              },
+              "remoteId": {
+                "description": "",
+                "type": "integer"
+              },
+              "lastProvisionDate": {
+                "readOnly": true,
+                "format": "date-time",
+                "description": "",
+                "type": "string"
+              }
+            }
+          },
+          "User-detailed": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "maxLength": 64,
+                "description": "",
+                "type": "string"
+              },
+              "iden": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "email": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "terminal": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "sipPassword": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "acrobitsPassword": {
+                "maxLength": 255,
+                "description": "",
+                "type": "string"
+              },
+              "enabled": {
+                "default": "no",
+                "enum": [
+                  "no",
+                  "desktop",
+                  "mobile",
+                  "dual"
+                ],
+                "description": "",
+                "example": "no",
+                "type": "string"
+              },
+              "remoteId": {
+                "description": "",
+                "type": "integer"
+              },
+              "lastProvisionDate": {
+                "readOnly": true,
+                "format": "date-time",
+                "description": "",
+                "type": "string"
+              },
+              "id": {
+                "description": "",
+                "type": "integer",
+                "readOnly": true
+              },
+              "client": {
+                "$ref": "#/definitions/Client"
+              }
+            },
+            "required": [
+              "iden",
+              "terminal",
+              "sipPassword",
+              "enabled",
+              "client"
+            ]
+          }
+    }
+}

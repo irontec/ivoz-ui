@@ -1,4 +1,5 @@
 # ivoz-ui
 UI library used in ivozprovider
 
-- [Hygen Configuration](hygen/README.md)
+- [Ivoz-UI demo](demo/README.md)
+- [Entity generator](hygen/README.md)

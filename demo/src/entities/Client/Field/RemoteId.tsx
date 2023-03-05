@@ -1,4 +1,5 @@
 import {
+  DropdownChoices,
   ListDecorator,
   NullableFormFieldFactoryChoices,
   ScalarProperty,
@@ -9,7 +10,7 @@ import {
 } from '@irontec/ivoz-ui/services/form/Field/CustomComponentWrapper';
 import { useEffect, useState } from 'react';
 import { FormikHelpers } from 'formik';
-import { ClientPropertyList } from '../ClientProperties';
+import { ClientPropertiesList, ClientPropertyList } from '../ClientProperties';
 import { RemoteIdSelectOptions } from '../SelectOptions';
 
 type RouteTypeValues = ClientPropertyList<string>;
@@ -26,9 +27,7 @@ const RemoteId: RouteTypeProps = (props): JSX.Element | null => {
 
   const [localChoices, setLocalChoices] =
     useState<NullableFormFieldFactoryChoices>(null);
-  const [remotePbxs, setRemotePbxs] = useState<
-    Array<Record<string, string | number>>
-  >([]);
+  const [remotePbxs, setRemotePbxs] = useState<ClientPropertiesList>([]);
 
   useEffect(() => {
     if (!platformId) {
@@ -37,10 +36,13 @@ const RemoteId: RouteTypeProps = (props): JSX.Element | null => {
 
     RemoteIdSelectOptions(
       {
-        callback: (options: any, rows: any) => {
+        callback: (
+          options: DropdownChoices,
+          rows: undefined | ClientPropertiesList
+        ) => {
           setFieldValue(_columnName, '');
           setLocalChoices(options);
-          setRemotePbxs(rows);
+          setRemotePbxs(rows || []);
         },
       },
       {

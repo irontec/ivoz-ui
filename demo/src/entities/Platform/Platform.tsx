@@ -4,7 +4,8 @@ import _ from '@irontec/ivoz-ui/services/translations/translate';
 import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
 import selectOptions from './SelectOptions';
 import Form from './Form';
-import { PlatformProperties } from './PlatformProperties';
+import { PlatformProperties, PlatformPropertyList } from './PlatformProperties';
+import { EntityValue } from '@irontec/ivoz-ui/services';
 
 const properties: PlatformProperties = {
   name: {
@@ -69,7 +70,7 @@ const platform: EntityInterface = {
   title: 'Platforms',
   path: '/platforms',
   defaultOrderBy: '',
-  toStr: (row: any) => row.name,
+  toStr: (row: PlatformPropertyList<EntityValue>) => row.name as string,
   properties,
   columns: ['name', 'type'],
   selectOptions,

@@ -5,10 +5,11 @@ import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavi
 import selectOptions from './SelectOptions';
 import Form from './Form';
 import { foreignKeyGetter } from './ForeignKeyGetter';
-import { ClientProperties } from './ClientProperties';
+import { ClientProperties, ClientPropertyList } from './ClientProperties';
 import foreignKeyResolver from './ForeignKeyResolver';
 import RemoteId from './Field/RemoteId';
 import Actions from './Action';
+import { EntityValue } from '@irontec/ivoz-ui/services';
 
 const properties: ClientProperties = {
   iden: {
@@ -110,7 +111,7 @@ const client: EntityInterface = {
   title: 'Clients',
   path: '/clients',
   defaultOrderBy: '',
-  toStr: (row: any) => row.iden,
+  toStr: (row: ClientPropertyList<EntityValue>) => row.iden as string,
   properties,
   columns: [
     'iden',

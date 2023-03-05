@@ -11,16 +11,14 @@ import { languagesList } from './translations/languages';
 
 export default function App(): JSX.Element {
   StoreContainer.store = store;
-  const setLanguages = useStoreActions(
-    (actions: any) => actions.i18n.setLanguages
-  );
+  const setLanguages = useStoreActions((actions) => actions.i18n.setLanguages);
   setLanguages(languagesList);
 
-  const apiSpecStore = useStoreActions((actions: any) => {
+  const apiSpecStore = useStoreActions((actions) => {
     return actions.spec;
   });
-  const authStore = useStoreActions((actions: any) => actions.auth);
-  const token = useStoreState((actions: any) => actions.auth.token);
+  const authStore = useStoreActions((actions) => actions.auth);
+  const token = useStoreState((actions) => actions.auth.token);
 
   useEffect(() => {
     apiSpecStore.setSessionStoragePrefix('demo-');

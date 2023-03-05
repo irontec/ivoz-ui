@@ -21,13 +21,18 @@ const RemoteIdSelectOptions: SelectOptionsType<CustomProps> = (
   return getAction({
     path: Client.path + '/available',
     params,
-    successCallback: async (data: any) => {
+    successCallback: async (data) => {
+      const hintedData = data as Array<{
+        id: number;
+        name: string;
+        domain: string;
+      }>;
       const choices: DropdownChoices = [];
-      for (const item of data) {
+      for (const item of hintedData) {
         choices.push({ id: item.id, label: item.name });
       }
 
-      callback(choices, data);
+      callback(choices, hintedData);
     },
     cancelToken,
     silenceErrors: true,

@@ -13,6 +13,7 @@ export type PlatformPropertyList<T> = {
   tcpPort?: T;
   udpPort?: T;
   refreshToken?: T;
+  features?: T;
 };
 
 export type PlatformProperties = PlatformPropertyList<Partial<PropertySpec>>;

@@ -1,5 +1,5 @@
 import routeMapParser, {
-  RouteMap,
+  RouteMap, RouteMapItem,
 } from '@irontec/ivoz-ui/router/routeMapParser';
 import entities from '../entities/index';
 
@@ -44,11 +44,17 @@ const getEntityMap = (): RouteMap => {
         {
           entity: entities.Administrator,
         },
+        {
+          entity: entities.Feature,
+        },
+        {
+          entity: entities.Language,
+        }
       ],
     },
   ];
 
-  return routeMapParser<RouteMap>(map);
+  return routeMapParser<RouteMapItem>(map);
 };
 
 export default getEntityMap;

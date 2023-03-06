@@ -30,6 +30,10 @@ const properties: AdministratorProperties = {
     label: _('Password'),
     helpText: _('Used to log into this web portal'),
   },
+  avatar: {
+    label: _('Logo'),
+    type: 'file',
+  },
 };
 
 const administrator: EntityInterface = {

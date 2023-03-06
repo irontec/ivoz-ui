@@ -1,0 +1,15 @@
+{
+  "administrators": [
+    {
+      "id": 1,
+      "username": "admin",
+      "pass": "1234",
+      "email": null,
+      "name": null,
+      "lastname": null
+    }
+  ],
+  "platforms": [],
+  "clients": [],
+  "users": []
+}

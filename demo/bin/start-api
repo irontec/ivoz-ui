@@ -1,0 +1,13 @@
+#!/bin/bash
+
+SCRIPT_DIR=$(dirname $(realpath $0))
+
+pushd ${SCRIPT_DIR}/../
+
+    if [ ! -f api/db.json ]
+    then
+        cp api/db.json.initial api/db.json
+    fi
+
+    node api/server.js
+popd

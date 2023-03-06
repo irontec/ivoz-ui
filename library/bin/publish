@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -e
+
+SCRIPT_DIR=$(dirname "$(realpath "$0")")
+pushd "${SCRIPT_DIR}"/../library
+    rm -fr dist/*
+    yarn build
+    yarn pre-publish
+    cp -r hygen dist/
+    cd dist
+    yarn publish -f
+popd
+
+

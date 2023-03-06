@@ -15,6 +15,7 @@ import { foreignKeyResolverType } from '../../entities/EntityInterface';
 import findRoute, { findParentEntity } from '../../router/findRoute';
 import ErrorMessage from '../shared/ErrorMessage';
 import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
+import ErrorBoundary from '../../components/ErrorBoundary';
 
 type ListProps = {
   path: string;
@@ -261,7 +262,7 @@ const List = function (props: ListProps) {
   }
 
   return (
-    <>
+    <ErrorBoundary>
       <ListContent
         ref={listRef}
         childEntities={currentRoute?.children || []}
@@ -276,7 +277,7 @@ const List = function (props: ListProps) {
       />
       <Pagination listRef={listRef} />
       {reqError && <ErrorMessage message={reqError} />}
-    </>
+    </ErrorBoundary>
   );
 };
 

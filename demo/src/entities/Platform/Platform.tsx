@@ -61,6 +61,10 @@ const properties: PlatformProperties = {
     label: _('Refresh token'),
     helpText: _('Make sure it does not expire'),
   },
+  features: {
+    label: _('Feature', {count: 2}),
+    $ref: '#/definitions/Feature',
+  }
 };
 
 const platform: EntityInterface = {
@@ -72,7 +76,7 @@ const platform: EntityInterface = {
   defaultOrderBy: '',
   toStr: (row: PlatformPropertyList<EntityValue>) => row.name as string,
   properties,
-  columns: ['name', 'type'],
+  columns: ['name', 'type', 'features'],
   selectOptions,
   Form,
 };

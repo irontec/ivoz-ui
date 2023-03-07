@@ -25,6 +25,9 @@ const properties: ClientProperties = {
       'Added in SIP URI domain fields and used as proxy if none defined in Proxy field'
     ),
   },
+  language: {
+    label: _('language'),
+  },
   desktopLicences: {
     label: _('Desktop licences'),
     helpText: _('For Windows and macOS environments'),
@@ -70,6 +73,7 @@ const properties: ClientProperties = {
   },
   description: {
     label: _('Description'),
+    format: 'textarea',
   },
   transport: {
     label: _('Transport'),
@@ -118,7 +122,7 @@ const client: EntityInterface = {
     'platform',
     'desktopLicences',
     'mobileLicences',
-    'description',
+    'language',
   ],
   customActions: Actions,
   selectOptions,

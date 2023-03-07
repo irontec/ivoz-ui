@@ -57,7 +57,7 @@ export interface FormProps {
 }
 
 export type EntityFormProps = FormProps &
-  Pick<EntityInterface, 'validator' | 'foreignKeyGetter'>;
+  Pick<EntityInterface, 'validator' | 'foreignKeyGetter' | 'properties'>;
 export type EntityFormType = (props: EntityFormProps) => JSX.Element | null;
 const Form: EntityFormType = (props) => {
   const {

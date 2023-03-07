@@ -1,15 +1,31 @@
 {
   "administrators": [
     {
-      "id": 1,
+      "active": 1,
       "username": "admin",
       "pass": "1234",
-      "email": null,
+      "email": "some@email.net",
       "name": null,
-      "lastname": null
+      "lastname": null,
+      "avatar": {
+        "baseName": "myAvatar.jpeg",
+        "fileSize": 9914567,
+        "mimeType": "image/jpeg"
+      },
+      "id": 1
     }
   ],
   "platforms": [],
   "clients": [],
-  "users": []
+  "users": [],
+  "features": [
+    {"iden":"queues","id":1,"name":{"en":"Queues","es":"Colas","ca":"Colas","it":"Queues"}},
+    {"iden":"recordings","id":2,"name":{"en":"Recordings","es":"Grabaciones","ca":"Grabaciones","it":"Recordings"}},
+    {"iden":"faxes","id":3,"name":{"en":"Faxes","es":"Fax Virtual","ca":"Fax Virtual","it":"Faxes"}},
+    {"iden":"conferences","id":4,"name":{"en":"Conferences","es":"Conferencias","ca":"Conferencias","it":"Conferences"}}
+  ],
+  "languages": [
+    {"id":1,"name":{"en":"Spanish","es":"Espa\u00f1ol","ca":"Castell\u00e0","it":"Spagnolo"}},
+    {"id":2,"name":{"en":"English","es":"Ingl\u00e9s","ca":"Angl\u00e8s","it":"Inglese"}}
+  ]
 }

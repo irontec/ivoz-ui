@@ -28,6 +28,7 @@ const properties: UserProperties = {
   },
   terminal: {
     label: _('SIP username'),
+    prefix: '@|'
   },
   enabled: {
     label: _('Licence'),

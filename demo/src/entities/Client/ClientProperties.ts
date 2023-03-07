@@ -8,6 +8,7 @@ export type ClientPropertyList<T> = {
   id?: T;
   iden?: T;
   domain?: T;
+  language?: T;
   desktopLicences?: T;
   mobileLicences?: T;
   authType?: T;

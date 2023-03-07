@@ -28,6 +28,7 @@ import filterFieldsetGroups, {
 import FormFieldMemo from './FormField';
 import { useFormHandler } from './useFormHandler';
 import { validationErrosToJsxErrorList } from './validationErrosToJsxErrorList';
+import ErrorBoundary from '../../../components/ErrorBoundary';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 export type PropertyFkChoices = DropdownChoices;
@@ -179,14 +180,15 @@ const Form: EntityFormType = (props) => {
                   }
 
                   return (
-                    <FormFieldMemo
-                      key={idx}
-                      column={column}
-                      fkChoices={fkChoices}
-                      visualToggles={visualToggles}
-                      readOnlyProperties={readOnlyProperties}
-                      formFieldFactory={formFieldFactory}
-                    />
+                    <ErrorBoundary key={idx} minimalist={true}>
+                      <FormFieldMemo
+                        column={column}
+                        fkChoices={fkChoices}
+                        visualToggles={visualToggles}
+                        readOnlyProperties={readOnlyProperties}
+                        formFieldFactory={formFieldFactory}
+                      />
+                    </ErrorBoundary>
                   );
                 })}
               </StyledGroupGrid>

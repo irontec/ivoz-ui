@@ -7,6 +7,7 @@ import findRoute from '../router/findRoute';
 import { RouteMap } from '../router/routeMapParser';
 import EntityService, { EntityValues } from '../services/entity/EntityService';
 import { useStoreActions } from '../store';
+import ErrorBoundary from './ErrorBoundary';
 import { getMarshallerWhiteList } from './form.helper';
 import withRowData from './withRowData';
 
@@ -88,16 +89,18 @@ const Edit: any = (props: EditProps) => {
   };
 
   return (
-    <EntityForm
-      {...props}
-      initialValues={initialValues}
-      filterBy={filterBy}
-      fixedValues={fixedValues}
-      filterValues={filterValues}
-      onSubmit={onSubmit}
-      edit={true}
-      match={match}
-    />
+    <ErrorBoundary>
+      <EntityForm
+        {...props}
+        initialValues={initialValues}
+        filterBy={filterBy}
+        fixedValues={fixedValues}
+        filterValues={filterValues}
+        onSubmit={onSubmit}
+        edit={true}
+        match={match}
+      />
+    </ErrorBoundary>
   );
 };
 

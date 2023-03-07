@@ -9,6 +9,7 @@ import { ScalarProperty } from '../services/api/ParsedApiSpecInterface';
 import EntityService, { EntityValues } from '../services/entity/EntityService';
 import { getMarshallerWhiteList } from './form.helper';
 import { useStoreActions } from '../store';
+import ErrorBoundary from './ErrorBoundary';
 
 type CreateProps = EntityInterface & {
   entityService: EntityService;
@@ -92,17 +93,19 @@ const Create = (props: CreateProps) => {
   };
 
   return (
-    <EntityForm
-      {...props}
-      filterBy={filterBy}
-      fixedValues={fixedValues}
-      filterValues={filterValues}
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      entityService={entityService}
-      create={true}
-      match={match}
-    />
+    <ErrorBoundary>
+      <EntityForm
+          {...props}
+          filterBy={filterBy}
+          fixedValues={fixedValues}
+          filterValues={filterValues}
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          entityService={entityService}
+          create={true}
+          match={match}
+        />
+    </ErrorBoundary>
   );
 };
 

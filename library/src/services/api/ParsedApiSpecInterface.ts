@@ -130,7 +130,7 @@ export const isPropertyFk = (
 };
 
 export const isPropertyScalar = (
-  property: PropertySpec
+  property?: PropertySpec
 ): property is ScalarProperty => {
   return (
     (property as FkProperty).$ref === undefined ||

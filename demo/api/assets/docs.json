@@ -4367,8 +4367,7 @@
           "description": "",
           "type": "integer"
         },
-        "lastProvisionDate": {
-          "readOnly": true,
+        "birthDate": {
           "format": "date-time",
           "description": "",
           "type": "string"

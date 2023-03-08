@@ -50,7 +50,7 @@ const properties: UserProperties = {
   },
   sipPassword: {
     label: _('SIP password'),
-    component: Password,
+    format: 'password',
   },
   acrobitsPassword: {
     label: _('Password'),
@@ -63,8 +63,9 @@ const properties: UserProperties = {
     component: Password,
     required: true,
   },
-  lastProvisionDate: {
-    label: _('Last provision date'),
+  birthDate: {
+    label: _('Birth date'),
+    format: 'date',
   },
 };
 
@@ -107,7 +108,7 @@ const user: EntityInterface = {
   defaultOrderBy: '',
   toStr: (row: any) => row.id,
   properties,
-  columns: ['client', 'iden', 'enabled', 'email', 'lastProvisionDate'],
+  columns: ['client', 'iden', 'enabled', 'email', 'birthDate'],
   customActions: Actions,
   foreignKeyResolver,
   foreignKeyGetter,

@@ -13,7 +13,7 @@ const FeatureSelectOptions: SelectOptionsType = ({
 
   return defaultEntityBehavior.fetchFks(
     Feature.path,
-    ['id', 'iden', 'name'],
+    ['id', 'iden'],
     (data: FeaturePropertiesList) => {
       const options: DropdownChoices = [];
 

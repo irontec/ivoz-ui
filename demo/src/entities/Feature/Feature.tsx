@@ -6,6 +6,7 @@ import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { FeatureProperties, FeaturePropertyList } from './FeatureProperties';
 import { getI18n } from 'react-i18next';
 import selectOptions from './SelectOptions';
+import Form from './Form';
 
 const properties: FeatureProperties = {
   iden: {
@@ -30,6 +31,7 @@ const Feature: EntityInterface = {
   },
   properties,
   selectOptions,
+  Form,
 };
 
 export default Feature;

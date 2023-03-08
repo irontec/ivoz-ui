@@ -77,7 +77,7 @@ const Form = (props: EntityFormProps): JSX.Element | null => {
     },
     {
       legend: _('User Info'),
-      fields: ['email', 'title'],
+      fields: ['email', 'title', 'birthDate'],
     },
   ];
 

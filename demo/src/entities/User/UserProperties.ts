@@ -15,7 +15,7 @@ export type UserPropertyList<T> = {
   sipPassword?: T;
   acrobitsPassword?: T;
   remoteId?: T;
-  lastProvisionDate?: T;
+  birthDate?: T;
 };
 
 export type UserProperties = UserPropertyList<Partial<PropertySpec>>;

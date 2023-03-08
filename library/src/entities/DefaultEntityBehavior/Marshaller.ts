@@ -1,4 +1,4 @@
-import { PartialPropertyList } from '../../services/api/ParsedApiSpecInterface';
+import { PartialPropertyList, PropertySpec, isPropertyScalar, isPropertyFk } from '../../services/api/ParsedApiSpecInterface';
 
 export type MarshallerValues = { [key: string]: any };
 
@@ -10,13 +10,20 @@ const marshaller = (
   values = { ...values };
 
   for (const idx in values) {
-    const property: any = properties[idx];
+    const property = properties[idx] as PropertySpec | undefined;
 
     if (!property || property.readOnly) {
       if (!whitelist.includes(idx)) {
         delete values[idx];
       }
 
+      continue;
+    }
+
+    if (isPropertyScalar(property) && property.format === 'password') {
+      if (values[idx] === '*****') {
+        delete values[idx];
+      }
       continue;
     }
 
@@ -35,15 +42,15 @@ const marshaller = (
       continue;
     }
 
-    if (property?.type === 'boolean') {
+    if (property.type === 'boolean') {
       continue;
     }
 
-    if (property?.multilang === true) {
+    if (isPropertyScalar(property) && property.multilang === true) {
       continue;
     }
 
-    if (property?.$ref && values[idx] === '') {
+    if (isPropertyFk(property) && property.$ref && values[idx] === '') {
       values[idx] = null;
 
       continue;

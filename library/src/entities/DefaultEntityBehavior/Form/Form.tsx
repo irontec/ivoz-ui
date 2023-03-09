@@ -29,6 +29,7 @@ import FormFieldMemo from './FormField';
 import { useFormHandler } from './useFormHandler';
 import { validationErrosToJsxErrorList } from './validationErrosToJsxErrorList';
 import ErrorBoundary from '../../../components/ErrorBoundary';
+import { FilterValuesType } from '../../../router/routeMapParser';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 export type PropertyFkChoices = DropdownChoices;
@@ -51,7 +52,7 @@ export interface FormProps {
   row?: EntityValues;
   match: PathMatch;
   fixedValues?: Record<string, ScalarEntityValue>;
-  filterValues?: Record<string, ScalarEntityValue>;
+  filterValues?: FilterValuesType;
   filterBy?: string | undefined;
   initialValues: EntityValues;
   onSubmit: (values: EntityValues) => Promise<void>;

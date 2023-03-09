@@ -1,5 +1,5 @@
-import { Grid, LinearProgress } from "@mui/material";
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import { Grid, LinearProgress } from '@mui/material';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children?: ReactNode;
@@ -12,7 +12,7 @@ interface State {
 
 class ErrorBoundary extends Component<Props, State> {
   public state: State = {
-    hasError: false
+    hasError: false,
   };
 
   public static getDerivedStateFromError(_: Error): State {
@@ -21,33 +21,30 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error("Uncaught error:", error, errorInfo);
+    console.error('Uncaught error:', error, errorInfo);
   }
 
   public render() {
-
     if (!this.state.hasError) {
-        return this.props.children;
+      return this.props.children;
     }
 
     if (!this.props.minimalist) {
-      return (
-        <h3>Sorry.. there was an error</h3>
-      );
+      return <h3>Sorry.. there was an error</h3>;
     }
 
     const size = {
-        xs: 12,
-        md: 6,
-        lg: 4,
-        xl: 3,
+      xs: 12,
+      md: 6,
+      lg: 4,
+      xl: 3,
     };
 
     return (
-        <Grid item {...size}>
-            <LinearProgress color={'secondary'} />
-            &nbsp;
-        </Grid>
+      <Grid item {...size}>
+        <LinearProgress color={'secondary'} />
+        &nbsp;
+      </Grid>
     );
   }
 }

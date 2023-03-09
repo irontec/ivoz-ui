@@ -95,16 +95,16 @@ const Create = (props: CreateProps) => {
   return (
     <ErrorBoundary>
       <EntityForm
-          {...props}
-          filterBy={filterBy}
-          fixedValues={fixedValues}
-          filterValues={filterValues}
-          initialValues={initialValues}
-          onSubmit={onSubmit}
-          entityService={entityService}
-          create={true}
-          match={match}
-        />
+        {...props}
+        filterBy={filterBy}
+        fixedValues={fixedValues}
+        filterValues={filterValues}
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        entityService={entityService}
+        create={true}
+        match={match}
+      />
     </ErrorBoundary>
   );
 };

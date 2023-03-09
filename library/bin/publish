@@ -3,7 +3,7 @@
 set -e
 
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
-pushd "${SCRIPT_DIR}"/../library
+pushd "${SCRIPT_DIR}"/../
     rm -fr dist/*
     yarn build
     yarn pre-publish

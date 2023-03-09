@@ -86,8 +86,14 @@ const List = function (props: ListProps) {
   const entityFilterValues = currentRoute?.filterValues || {};
   for (const idx in entityFilterValues) {
     const value = entityFilterValues[idx];
-    const param =
-      value !== null ? `${idx}=${entityFilterValues[idx]}` : `${idx}`;
+    if (Array.isArray(value)) {
+      for (const valueInArray of value) {
+        filterValues.push(`${idx}[]=${valueInArray}`);
+      }
+      continue;
+    }
+
+    const param = value !== null ? `${idx}=${value}` : `${idx}`;
 
     filterValues.push(param);
   }

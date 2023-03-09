@@ -1,7 +1,12 @@
 import { useFormik } from 'formik';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import { EntityValues, PropertyList, useFormikType } from '../../../services';
+import {
+  EntityValues,
+  PropertyList,
+  ScalarEntityValue,
+  useFormikType,
+} from '../../../services';
 import { EntityFormProps } from './Form';
 
 const useFormHandler = (props: EntityFormProps): useFormikType => {
@@ -31,7 +36,11 @@ const useFormHandler = (props: EntityFormProps): useFormikType => {
             continue;
           }
 
-          values[sanitizedIdx] = filterValues[idx];
+          if (Array.isArray(filterValues[idx])) {
+            continue;
+          }
+
+          values[sanitizedIdx] = filterValues[idx] as ScalarEntityValue;
         }
       }
 

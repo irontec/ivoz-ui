@@ -1,4 +1,9 @@
-import { PartialPropertyList, PropertySpec, isPropertyScalar, isPropertyFk } from '../../services/api/ParsedApiSpecInterface';
+import {
+  PartialPropertyList,
+  PropertySpec,
+  isPropertyScalar,
+  isPropertyFk,
+} from '../../services/api/ParsedApiSpecInterface';
 
 export type MarshallerValues = { [key: string]: any };
 

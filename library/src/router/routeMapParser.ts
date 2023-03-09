@@ -5,11 +5,16 @@ import EntityService, {
 import EntityInterface from '../entities/EntityInterface';
 import { PathMatch } from 'react-router-dom';
 
+export type FilterValuesType = Record<
+  string,
+  ScalarEntityValue | ScalarEntityValue[]
+>;
+
 export interface EntityItem {
   entity: EntityInterface;
   route?: string;
   filterBy?: string;
-  filterValues?: Record<string, ScalarEntityValue>;
+  filterValues?: FilterValuesType;
   fixedValues?: Record<string, ScalarEntityValue>;
   children?: Array<RouteMapItem>;
 }

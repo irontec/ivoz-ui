@@ -811,6 +811,18 @@
             "type": "string"
           },
           {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "language[]",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
             "enum": [
               "ASC",
               "DESC"

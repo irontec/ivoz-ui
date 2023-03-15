@@ -10,6 +10,8 @@ import { EntityValue } from '@irontec/ivoz-ui/services';
 const properties: PlatformProperties = {
   name: {
     label: _('Name'),
+    prefix: (<CastleIcon />),
+    suffix: (<CastleIcon />),
   },
   type: {
     label: _('Type'),

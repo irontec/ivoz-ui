@@ -11,18 +11,21 @@ interface AppRouteContentProps {
 export default function AppRouteContentWrapper(
   props: AppRouteContentProps
 ): JSX.Element {
-  const { loggedIn, routeMap } = props;
+  const { loggedIn, routeMap, children } = props;
 
   return (
     <>
       <Box sx={{ display: 'flex' }}>
-        <Header loggedIn={loggedIn} routeMap={routeMap} />
         <Box sx={{ display: 'flex' }}>
           <Menu routeMap={routeMap} />
         </Box>
-        <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-          <Toolbar />
-          {props.children}
+        <Box component='main' sx={{ display: 'block', padding: 3 }}>
+          <Box>
+            {loggedIn && <Header routeMap={routeMap} />}
+          </Box>
+          <Box>
+            {children}
+          </Box>
         </Box>
       </Box>
       <Box>

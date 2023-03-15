@@ -26,7 +26,8 @@ const properties: ClientProperties = {
     ),
   },
   language: {
-    label: _('language'),
+    label: _('Language'),
+    helpText: 'Select one',
   },
   desktopLicences: {
     label: _('Desktop licences'),

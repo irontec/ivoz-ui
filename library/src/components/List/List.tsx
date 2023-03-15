@@ -1,21 +1,21 @@
 /* eslint-disable no-script-url */
 
-import { useState, useEffect, createRef } from 'react';
-import { useStoreActions, useStoreState } from '../../store';
+import { createRef, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import { foreignKeyResolverType } from '../../entities/EntityInterface';
+import useCancelToken from '../../hooks/useCancelToken';
+import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
+import findRoute from '../../router/findRoute';
+import { RouteMap } from '../../router/routeMapParser';
 import EntityService from '../../services/entity/EntityService';
+import { useStoreActions, useStoreState } from '../../store';
+import ErrorMessage from '../shared/ErrorMessage';
+import ListContent from './Content/ListContent';
 import { CriteriaFilterValues } from './Filter/ContentFilter';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
-import ListContent from './Content/ListContent';
 import Pagination from './Pagination';
 import useQueryStringParams from './useQueryStringParams';
-import useCancelToken from '../../hooks/useCancelToken';
-import { RouteMap } from '../../router/routeMapParser';
-import { foreignKeyResolverType } from '../../entities/EntityInterface';
-import findRoute, { findParentEntity } from '../../router/findRoute';
-import ErrorMessage from '../shared/ErrorMessage';
-import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
-import ErrorBoundary from '../../components/ErrorBoundary';
 
 type ListProps = {
   path: string;
@@ -34,7 +34,6 @@ const List = function (props: ListProps) {
   const navigate = useNavigate();
 
   const currentRoute = findRoute(routeMap, match);
-  const parentEntity = findParentEntity(routeMap, match);
 
   const resetList = useStoreActions((actions: any) => {
     return actions.list.reset;
@@ -270,7 +269,6 @@ const List = function (props: ListProps) {
   return (
     <ErrorBoundary>
       <ListContent
-        ref={listRef}
         childEntities={currentRoute?.children || []}
         path={path}
         ignoreColumn={filterBy[0]}
@@ -279,7 +277,6 @@ const List = function (props: ListProps) {
         cancelToken={cancelToken}
         match={match}
         location={location}
-        parentEntity={parentEntity}
       />
       <Pagination listRef={listRef} />
       {reqError && <ErrorMessage message={reqError} />}

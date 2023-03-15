@@ -2,10 +2,10 @@ import { Box, InputBaseProps, OutlinedInputProps } from '@mui/material';
 import { PartialPropertyList, ScalarProperty } from 'services/api';
 import { useStoreState } from 'store';
 import { Language } from 'store/i18n';
-import { StyledSubTextField } from '../FormFieldFactory.styles';
 import withCustomComponentWrapper, {
   PropertyCustomFunctionComponentProps,
 } from './CustomComponentWrapper';
+import { StyledMultilangTextField } from './TextField/TextField.styles';
 
 type Languages = { [k: string]: Language };
 interface MultilangPropsInterface
@@ -16,15 +16,10 @@ interface MultilangPropsInterface
 }
 
 const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
-  const {
-    _columnName,
-    properties,
-    formik,
-    InputProps,
-    inputProps,
-    onBlur,
-    changeHandler,
-  } = props;
+  const { _columnName, properties, formik, inputProps, onBlur, changeHandler } =
+    props;
+
+  let { InputProps } = props;
 
   const languages = useStoreState((state) => state.i18n.languages);
   const mlValue: Record<string, string> = formik?.values[_columnName] || {};
@@ -42,23 +37,31 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
         const touched =
           formik?.touched[_columnName] &&
           (formik?.touched[_columnName] as Record<string, boolean>)[locale];
-        const error = formik?.errors[name];
+        const error = formik?.errors[name] as string | undefined;
+
+        InputProps = InputProps ?? {};
+        InputProps.startAdornment = (
+          <span className='preffix'>
+            {lng.name.substring(0, 3).toUpperCase()}
+          </span>
+        );
 
         return (
-          <StyledSubTextField
+          <StyledMultilangTextField
             key={name}
             name={name}
             type='text'
             multiline={multiline}
             value={value}
             disabled={false}
-            label={lng.name}
+            label={undefined}
             required={required}
             onChange={changeHandler}
             onBlur={onBlur}
             error={touched && Boolean(error)}
-            helperText={touched && (error as React.ReactNode)}
-            InputProps={InputProps}
+            errorMsg={touched && error}
+            helperText={property.helpText}
+            InputProps={{ ...InputProps }}
             inputProps={inputProps}
             hasChanged={false} //TODO
             margin='dense'

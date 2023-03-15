@@ -1,7 +1,7 @@
 import { Action, action } from 'easy-peasy';
 
 export interface MenuState {
-  close: Array<number | string>;
+  open: Array<number | string>;
 }
 
 interface MenuActions {
@@ -12,15 +12,15 @@ interface MenuActions {
 export type MenuStore = MenuState & MenuActions;
 
 const list: MenuStore = {
-  close: [],
+  open: [0],
 
   // actions
   colapse: action<MenuState, number | string>((state, menuKey) => {
-    state.close.push(menuKey);
+    state.open = state.open.filter((item) => item != menuKey);
   }),
 
   expand: action<MenuState, number | string>((state, menuKey) => {
-    state.close = state.close.filter((item) => item != menuKey);
+    state.open.push(menuKey);
   }),
 };
 

@@ -1,35 +1,40 @@
-import { useState, useCallback } from 'react';
-import { Button, Table, TableBody, TableRow } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ContentTableHead from './ContentTableHead';
+import { Table, TableBody, TableRow } from '@mui/material';
+import { useCallback, useState } from 'react';
 import EntityService from 'services/entity/EntityService';
-import { StyledActionsTableCell, StyledTableCell } from './ContentTable.styles';
+import { useStoreState } from 'store';
+import {
+  MultiSelectFunctionComponent,
+  RouteMapItem,
+} from '../../../../router/routeMapParser';
+import DeleteRowButton from '../CTA/DeleteRowButton';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
-import {
-  RouteMapItem,
-  MultiSelectFunctionComponent,
-} from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import useMultiselectState, {
-  handleMultiselectChangeType,
-} from './hook/useMultiselectState';
+import { StyledActionsTableCell } from './ContentTable.styles';
 import { TableColumnMemo } from './ContentTableColumn';
-import { useStoreState } from 'store';
-import DeleteRowsButton from '../CTA/DeleteRowsButton';
-import DeleteRowButton from '../CTA/DeleteRowButton';
+import ContentTableHead from './ContentTableHead';
+import { handleMultiselectChangeType } from './hook/useMultiselectState';
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>;
   entityService: EntityService;
   ignoreColumn: string | undefined;
   path: string;
+  selectedValues: string[];
+  handleChange: handleMultiselectChangeType;
+  setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const ContentTable = (props: ContentTableProps): JSX.Element => {
-  const { childEntities, entityService, path, ignoreColumn } = props;
-  const [selectedValues, handleChange, setSelectedValues] =
-    useMultiselectState();
+  const {
+    childEntities,
+    entityService,
+    path,
+    ignoreColumn,
+    selectedValues,
+    handleChange,
+    setSelectedValues,
+  } = props;
   const [currentQueryString, setCurrentQueryString] = useState(
     window.location.search
   );
@@ -141,60 +146,6 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
             </TableRow>
           );
         })}
-        {multiselect && (
-          <TableRow hover key={'multiselect'}>
-            <StyledTableCell
-              key={'multiselect'}
-              variant='footer'
-              colSpan={Object.values(columns).length}
-            >
-              {false && (
-                <Button
-                  variant='contained'
-                  disabled={selectedValues.length < 1}
-                >
-                  <DeleteIcon sx={{ color: 'white' }} />
-                </Button>
-              )}
-              {multiselectActions.map((Action, key) => {
-                return (
-                  <Button
-                    key={key}
-                    variant='contained'
-                    disabled={selectedValues.length < 1}
-                    sx={{
-                      verticalAlign: 'inherit',
-                      marginLeft: '10px',
-                      padding: 0,
-                    }}
-                  >
-                    <Action
-                      style={{ padding: '6px 18px 0' }}
-                      rows={rows}
-                      selectedValues={selectedValues}
-                      entityService={entityService}
-                    />
-                  </Button>
-                );
-              })}
-              <Button
-                variant='contained'
-                disabled={selectedValues.length < 1}
-                sx={{
-                  verticalAlign: 'inherit',
-                  marginLeft: '10px',
-                  padding: 0,
-                  paddingTop: 0.5,
-                }}
-              >
-                <DeleteRowsButton
-                  selectedValues={selectedValues}
-                  entityService={entityService}
-                />
-              </Button>
-            </StyledTableCell>
-          </TableRow>
-        )}
       </TableBody>
     </Table>
   );

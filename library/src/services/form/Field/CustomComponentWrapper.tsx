@@ -67,7 +67,7 @@ export const CustomComponentWrapper: React.FunctionComponent<
       hasChanged={hasChanged}
       disabled={disabled}
     >
-      <StyledFieldset label={property.label}>{props.children}</StyledFieldset>
+      <StyledFieldset>{props.children}</StyledFieldset>
     </StyledFieldsetRoot>
   );
 };

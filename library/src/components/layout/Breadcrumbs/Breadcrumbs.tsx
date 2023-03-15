@@ -1,5 +1,6 @@
-import { CircularProgress, styled, Tooltip } from '@mui/material';
+import { Tooltip } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
+import useCurrentPathMatch from '../../../hooks/useCurrentPathMatch';
 import { filterRouteMapPath } from '../../../router/findRoute';
 import {
   EntityItem,
@@ -7,14 +8,11 @@ import {
   RouteMap,
 } from '../../../router/routeMapParser';
 import _ from '../../../services/translations/translate';
-import { useStoreState } from '../../../store';
 import {
   StyledCollapsedBreadcrumbsLink,
   StyledCollapsedBreadcrumbsNavigateNextIcon,
   StyledCollapsedBreadcrumbsTypography,
-  StyledHomeIcon,
 } from './Breadcrumbs.styles';
-import useCurrentPathMatch from '../../../hooks/useCurrentPathMatch';
 
 type BreadcrumbsProps = {
   routeMap: RouteMap;
@@ -55,29 +53,11 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
     ? _(lastPathSegment[0].toUpperCase() + lastPathSegment.substring(1))
     : false;
 
-  const loading = useStoreState((state: any) => state.api.loading);
-  const StyleCircularProgress = styled(CircularProgress)(() => {
-    return {
-      margin: '0 4px',
-    };
-  });
-
-  const homeIcon = loading ? (
-    <StyleCircularProgress size='20px' color='inherit' />
-  ) : (
-    <StyledHomeIcon />
-  );
-
   return (
     <MuiBreadcrumbs
       separator={<StyledCollapsedBreadcrumbsNavigateNextIcon />}
       aria-label='breadcrumb'
     >
-      <StyledCollapsedBreadcrumbsLink to={'/'}>
-        <Tooltip title={_('Dashboard')} enterTouchDelay={0}>
-          {homeIcon}
-        </Tooltip>
-      </StyledCollapsedBreadcrumbsLink>
       {routeItems.map((routeItem, key: number) => {
         let to = routeItem.route || '/';
         for (const idx in match.params) {
@@ -95,7 +75,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
 
         return (
           <StyledCollapsedBreadcrumbsLink to={to} key={key}>
-            <Tooltip title={routeItem.entity.title} enterTouchDelay={0}>
+            <Tooltip title={routeItem.entity.title} enterTouchDelay={0} arrow>
               <routeItem.entity.icon />
             </Tooltip>
           </StyledCollapsedBreadcrumbsLink>

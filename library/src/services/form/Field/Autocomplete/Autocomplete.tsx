@@ -1,18 +1,19 @@
+import { Box } from '@mui/material';
+import MuiAutocomplete from '@mui/material/Autocomplete';
 import React, {
+  JSXElementConstructor,
+  ReactElement,
+  useCallback,
   useEffect,
   useState,
-  useCallback,
-  ReactElement,
-  JSXElementConstructor,
 } from 'react';
-import { Box, TextField } from '@mui/material';
-import MuiAutocomplete from '@mui/material/Autocomplete';
 import { getI18n } from 'react-i18next';
 import {
-  DropdownChoices,
-  DropdownArrayChoices,
   DropdownArrayChoice,
-} from './Dropdown';
+  DropdownArrayChoices,
+  DropdownChoices,
+} from '../Dropdown';
+import { StyledAutocompleteTextField } from '../TextField';
 
 export interface AutocompleteProps {
   className?: string;
@@ -26,6 +27,7 @@ export interface AutocompleteProps {
   onBlur: (event: React.FocusEvent) => void;
   choices: DropdownChoices;
   error?: boolean;
+  errorMsg?: React.ReactNode;
   helperText?: string | React.ReactNode;
   hasChanged: boolean;
 }
@@ -41,6 +43,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     onBlur,
     choices,
     error,
+    errorMsg,
     helperText,
     hasChanged,
   } = props;
@@ -140,25 +143,28 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   );
 
   const renderInput = useCallback(
-    (params: any) => {
+    (props: any) => {
       const InputProps = {
-        ...params.InputProps,
+        ...props.InputProps,
         notched: true,
       };
 
       return (
-        <TextField
-          {...params}
+        <StyledAutocompleteTextField
+          {...props}
           name={name}
           label={label}
+          required={required}
+          disabled={disabled}
           InputProps={InputProps}
           InputLabelProps={{ shrink: true, required: required }}
           error={error}
+          errorMsg={errorMsg}
           helperText={helperText}
         />
       );
     },
-    [name, label, required, error, helperText]
+    [name, label, required, disabled, error, errorMsg, helperText]
   );
 
   const disableClearable = arrayChoices.find((item) => item.id === '__null__')

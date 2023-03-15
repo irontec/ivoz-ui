@@ -1,15 +1,8 @@
-import TranslateIcon from '@mui/icons-material/Translate';
-import {
-  Avatar,
-  IconButton,
-  Menu,
-  ToggleButton,
-  ToggleButtonGroup,
-  Tooltip,
-} from '@mui/material';
+import { Menu, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Language } from 'store/i18n';
+import { StyledTranslateButton } from './styles';
 
 interface LanguageSelectorProps {
   languages: Language[];
@@ -44,23 +37,10 @@ export default function LanguageSelector(
 
   return (
     <>
-      <Tooltip title='Translate'>
-        <IconButton onClick={handleOpenMenu} sx={{ p: 0, mr: '10px' }}>
-          <Avatar
-            sx={{
-              width: '30px',
-              height: '30px',
-              bgcolor: 'white',
-              color: 'primary.main',
-            }}
-          >
-            <TranslateIcon fontSize='small' />
-          </Avatar>
-        </IconButton>
-      </Tooltip>
+      <StyledTranslateButton onClick={handleOpenMenu} />
       <Menu
         id='menu-appbar'
-        sx={{ mt: '45px' }}
+        sx={{ marginTop: '45px' }}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',

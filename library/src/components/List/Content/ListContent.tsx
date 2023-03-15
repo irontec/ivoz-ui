@@ -11,6 +11,7 @@ import EntityService from '../../../services/entity/EntityService';
 import ContentCard from './Card/ContentCard';
 import ListContentHeader from './ListContentHeader';
 import ContentTable from './Table/ContentTable';
+import useMultiselectState from './Table/hook/useMultiselectState';
 
 interface ListContentProps {
   childEntities: Array<RouteMapItem>;
@@ -21,7 +22,6 @@ interface ListContentProps {
   cancelToken: CancelToken;
   match: PathMatch;
   location: Location<Record<string, string> | undefined>;
-  parentEntity: EntityInterface | undefined;
 }
 
 const ListContent = (
@@ -37,11 +37,13 @@ const ListContent = (
     cancelToken,
     match,
     location,
-    parentEntity,
   } = props;
 
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+  
+  const [selectedValues, handleChange, setSelectedValues] =
+  useMultiselectState();
 
   return (
     <React.Fragment>
@@ -53,7 +55,8 @@ const ListContent = (
         cancelToken={cancelToken}
         match={match}
         location={location}
-        parentEntity={parentEntity}
+        selectedValues={selectedValues}
+        ref={ref}
       />
 
       {bigScreen && (
@@ -63,6 +66,9 @@ const ListContent = (
             ignoreColumn={ignoreColumn}
             path={path}
             childEntities={childEntities}
+            selectedValues={selectedValues}
+            handleChange={handleChange}
+            setSelectedValues={setSelectedValues}
           />
         </Box>
       )}

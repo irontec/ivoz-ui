@@ -10,8 +10,8 @@ import {
   PropertyCustomFunctionComponent,
 } from './CustomComponentWrapper';
 import FileUploader from './FileUploader';
-import { StyledSwitchFormControl } from '../FormFieldFactory.styles';
 import { FormControlLabel, Switch } from '@mui/material';
+import { StyledSwitchFormControl } from './SwitchFormControl';
 
 interface ViewValueProps {
   columnName: string;

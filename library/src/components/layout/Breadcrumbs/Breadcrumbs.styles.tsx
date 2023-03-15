@@ -7,7 +7,7 @@ import HistoryTrackerLink from '../../../components/shared/HistoryTrackerLink';
 const linkStyles = {
   textDecoration: 'none',
   display: 'flex',
-  color: 'white',
+  color: 'black',
 };
 
 interface StyledCollapsedBreadcrumbsLinkProps {

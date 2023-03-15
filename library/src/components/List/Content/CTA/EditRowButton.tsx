@@ -20,7 +20,7 @@ const EditRowButton = (props: EditRowButtonProps): JSX.Element => {
   });
 
   return (
-    <Tooltip title={_('Edit')} placement='bottom'>
+    <Tooltip title={_('Edit')} placement='bottom' arrow>
       <StyledTableRowCta to={`${link}/${row.id}/update`}>
         <EditIcon />
       </StyledTableRowCta>

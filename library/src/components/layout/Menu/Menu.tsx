@@ -1,13 +1,7 @@
-import {
-  Box,
-  Divider,
-  Drawer,
-  Toolbar,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
+import { Box, Divider, Drawer, useMediaQuery, useTheme } from '@mui/material';
 import { RouteMap } from '../../../router/routeMapParser';
 import MenuBlock from './MenuBlock';
+import MenuHead from './MenuHead';
 
 interface menuProps {
   routeMap: RouteMap;
@@ -38,8 +32,8 @@ export default function Menu(props: menuProps): JSX.Element | null {
         },
       }}
     >
-      <Toolbar />
       <Box sx={{ overflow: 'auto' }}>
+        <MenuHead />
         {routeMap.map((routeMapBlock, key: number) => {
           const lastItem = key === routeMap.length - 1;
 

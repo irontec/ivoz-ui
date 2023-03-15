@@ -59,7 +59,12 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
 
         return (
           <ChildDecorator key={key} routeMapItem={routeMapItem} row={row}>
-            <Tooltip title={title} placement='bottom-start' enterTouchDelay={0}>
+            <Tooltip
+              title={title}
+              placement='bottom-start'
+              enterTouchDelay={0}
+              arrow
+            >
               <StyledTableRowEntityCta
                 to={link}
                 parentEntity={entity}

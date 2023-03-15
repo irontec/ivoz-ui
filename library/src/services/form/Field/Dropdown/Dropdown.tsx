@@ -1,17 +1,18 @@
 import {
   FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  OutlinedInput,
   FormHelperText,
+  MenuItem,
+  OutlinedInput,
+  Select,
 } from '@mui/material';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import {
   JSXElementConstructor,
   ReactElement,
   useEffect,
   useState,
 } from 'react';
+import { StyledHelpTextTooltip } from '../Shared/HelpText.styles';
 
 export type DropdownArrayChoice = {
   label: string | React.ReactElement<any>;
@@ -38,6 +39,7 @@ export interface SelectProps {
   hasChanged: boolean;
   choices: DropdownChoices;
   error?: boolean;
+  errorMsg?: React.ReactNode;
   helperText?: string | React.ReactNode;
 }
 
@@ -52,6 +54,7 @@ const Dropdown = (props: SelectProps): JSX.Element => {
     onBlur,
     choices,
     error,
+    errorMsg,
     helperText,
     hasChanged,
     className,
@@ -81,14 +84,15 @@ const Dropdown = (props: SelectProps): JSX.Element => {
 
   return (
     <FormControl fullWidth={true} error={error} className={className}>
-      <InputLabel
-        required={required}
-        shrink={true}
-        className={labelClassName}
-        id={labelId}
-      >
+      <label htmlFor={name} id={labelId} className={labelClassName}>
         {label}
-      </InputLabel>
+        {required && '*'}
+        {helperText && (
+          <StyledHelpTextTooltip title={helperText} placement='top' arrow>
+            <HelpOutlineIcon />
+          </StyledHelpTextTooltip>
+        )}
+      </label>
       {ready && (
         <Select
           value={value}
@@ -102,7 +106,7 @@ const Dropdown = (props: SelectProps): JSX.Element => {
               name={name}
               type='text'
               label={label}
-              notched={true}
+              notched={false}
             />
           }
         >
@@ -120,7 +124,7 @@ const Dropdown = (props: SelectProps): JSX.Element => {
             })}
         </Select>
       )}
-      {helperText && <FormHelperText>{helperText}</FormHelperText>}
+      {error && errorMsg && <FormHelperText>{errorMsg}</FormHelperText>}
     </FormControl>
   );
 };

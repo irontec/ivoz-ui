@@ -52,7 +52,7 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
 
   return (
     <>
-      <Tooltip title={_('Delete')} placement='bottom' enterTouchDelay={0}>
+      <Tooltip title={_('Delete')} placement='bottom' enterTouchDelay={0} arrow>
         <a>
           <StyledDeleteIcon onClick={() => setShowDelete(true)} />
         </a>

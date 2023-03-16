@@ -23,9 +23,6 @@ export default function AppRoutes(props: AppRoutesProps): React.ReactNode {
     return <Login />;
   }
 
-  const routeSpecs = parseRoutes(apiSpec, entityMap);
-  const routePaths = routeSpecs.map((route) => route.path);
-
   const routes: RouteObject[] = [
     {
       path: '/',
@@ -37,6 +34,7 @@ export default function AppRoutes(props: AppRoutesProps): React.ReactNode {
     },
   ];
 
+  const routeSpecs = parseRoutes(apiSpec, entityMap);
   routeSpecs.map((route: RouteSpec) => {
     routes.push({
       path: route.path,

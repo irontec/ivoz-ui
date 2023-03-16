@@ -67,9 +67,11 @@ export type RouteMapBlock<T extends RouteMapItem = RouteMapItem> = {
   children: Array<T>;
 };
 
-export const isRouteMapBlock = (property: RouteMapBlock | RouteMapItem): property is RouteMapBlock => {
+export const isRouteMapBlock = (
+  property: RouteMapBlock | RouteMapItem
+): property is RouteMapBlock => {
   return (property as RouteMapBlock).label !== undefined;
-}
+};
 
 export const isEntityItem = (
   property: RouteMapItem
@@ -133,7 +135,8 @@ const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(
     };
   }
 
-  const path = (item as EntityItem).entity?.localPath || (item as EntityItem).entity?.path;
+  const path =
+    (item as EntityItem).entity?.localPath || (item as EntityItem).entity?.path;
 
   return {
     ...item,
@@ -144,9 +147,7 @@ const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(
 const routeMapParser = <T extends RouteMapItem = RouteMapItem>(
   map: RouteMap<T>
 ): RouteMap<T> => {
-
   const resp = map.map((block) => {
-
     let children: Array<T> = [];
     if (isRouteMapBlock(block)) {
       children = block.children?.map((item: T) => {
@@ -157,7 +158,7 @@ const routeMapParser = <T extends RouteMapItem = RouteMapItem>(
         ...block,
         children,
       };
-    } 
+    }
 
     if (isEntityItem(block)) {
       return RouteMapItemParser<T>(block);

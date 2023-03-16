@@ -2,7 +2,13 @@ import { List, Create, Edit, View } from '../components';
 import ParsedApiSpecInterface from '../services/api/ParsedApiSpecInterface';
 import EntityService from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
-import { isActionItem, isEntityItem, isRouteMapBlock, RouteMap, RouteMapItem } from './routeMapParser';
+import {
+  isActionItem,
+  isEntityItem,
+  isRouteMapBlock,
+  RouteMap,
+  RouteMapItem,
+} from './routeMapParser';
 
 export interface EntityList {
   [name: string]: Readonly<EntityInterface>;
@@ -93,7 +99,6 @@ const parseRoutes = (
 ): RouteSpec[] => {
   const routes: Array<RouteSpec> = [];
   for (const entity of routeMap) {
-
     if (isRouteMapBlock(entity)) {
       if (!entity.children) {
         continue;
@@ -105,14 +110,8 @@ const parseRoutes = (
         routeMap
       );
       routes.push(...childrenRoutes);
-
     } else if (isEntityItem(entity)) {
-
-      const childrenRoutes = parseRouteMapItems(
-        apiSpec,
-        [entity],
-        routeMap
-      );
+      const childrenRoutes = parseRouteMapItems(apiSpec, [entity], routeMap);
       routes.push(...childrenRoutes);
     }
   }

@@ -1,7 +1,13 @@
-import { Box, Divider, Drawer, useMediaQuery, useTheme } from '@mui/material';
-import { RouteMap } from '../../../router/routeMapParser';
+import { useMediaQuery, useTheme } from '@mui/material';
+import {
+  EntityItem,
+  isEntityItem,
+  RouteMap,
+  RouteMapItem,
+} from '../../../router/routeMapParser';
+import { StyledDivider, StyledHomeIcon, StyledMenuList } from './Menu.styles';
 import MenuBlock from './MenuBlock';
-import MenuHead from './MenuHead';
+import MenuListItem from './MenuListItem';
 
 interface menuProps {
   routeMap: RouteMap;
@@ -17,39 +23,31 @@ export default function Menu(props: menuProps): JSX.Element | null {
     return null;
   }
 
-  const width = 225;
-
   return (
-    <Drawer
-      variant='permanent'
-      sx={{
-        width,
-        flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
-          width,
-          boxSizing: 'border-box',
-          borderRight: 'none',
-        },
-      }}
-    >
-      <Box sx={{ overflow: 'auto' }}>
-        <MenuHead />
-        {routeMap.map((routeMapBlock, key: number) => {
-          const lastItem = key === routeMap.length - 1;
-
-          const styles: Record<string, string> = { paddingLeft: '10px' };
-          if (key === 0) {
-            styles.marginTop = '23px';
-          }
+    <StyledMenuList>
+      <MenuListItem path='/' icon={<StyledHomeIcon />} text={'Dashboard'} />
+      <StyledDivider />
+      {routeMap.map((routeMapBlock, key: number) => {
+        if (isEntityItem(routeMapBlock as RouteMapItem)) {
+          const entity = (routeMapBlock as EntityItem).entity;
 
           return (
-            <div key={key} style={styles}>
-              <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
-              {!lastItem && <Divider sx={{ width: '90%' }} />}
-            </div>
+            <MenuListItem
+              key={key}
+              path={entity.localPath || entity.path}
+              icon={<entity.icon />}
+              text={entity.title}
+            />
           );
-        })}
-      </Box>
-    </Drawer>
+        }
+
+        return (
+          <div key={key}>
+            <StyledDivider />
+            <MenuBlock routeMapBlock={routeMapBlock} />
+          </div>
+        );
+      })}
+    </StyledMenuList>
   );
 }

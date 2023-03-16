@@ -59,7 +59,6 @@ export const filterRouteMapPath = (
   match: PathMatch
 ): EntityItem | undefined => {
   for (const item of routeMap) {
-
     if (isRouteMapBlock(item)) {
       for (const child of item.children) {
         const resp = _filterRoutePathItems(child, match);
@@ -101,7 +100,6 @@ const findRoute = (
   match: PathMatch
 ): EntityItem | undefined => {
   for (const item of routeMap) {
-
     if (isRouteMapBlock(item)) {
       for (const child of item.children) {
         const resp = _findRoute(child, match);
@@ -128,7 +126,6 @@ export const findParentEntity = (
   }
 
   for (const item of routeMap) {
-
     if (isRouteMapBlock(item)) {
       for (const child of item.children) {
         const resp = _findRoute(child, {

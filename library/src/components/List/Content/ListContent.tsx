@@ -41,9 +41,9 @@ const ListContent = (
 
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
-  
+
   const [selectedValues, handleChange, setSelectedValues] =
-  useMultiselectState();
+    useMultiselectState();
 
   return (
     <React.Fragment>

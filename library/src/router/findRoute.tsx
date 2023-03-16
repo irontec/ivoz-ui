@@ -3,6 +3,8 @@ import {
   RouteMap,
   RouteMapItem,
   EntityItem,
+  isRouteMapBlock,
+  isEntityItem,
 } from './routeMapParser';
 import { PathMatch } from 'react-router-dom';
 import EntityInterface from '../entities/EntityInterface';
@@ -57,8 +59,16 @@ export const filterRouteMapPath = (
   match: PathMatch
 ): EntityItem | undefined => {
   for (const item of routeMap) {
-    for (const child of item.children) {
-      const resp = _filterRoutePathItems(child, match);
+
+    if (isRouteMapBlock(item)) {
+      for (const child of item.children) {
+        const resp = _filterRoutePathItems(child, match);
+        if (resp) {
+          return resp;
+        }
+      }
+    } else if (isEntityItem(item)) {
+      const resp = _filterRoutePathItems(item, match);
       if (resp) {
         return resp;
       }
@@ -91,8 +101,16 @@ const findRoute = (
   match: PathMatch
 ): EntityItem | undefined => {
   for (const item of routeMap) {
-    for (const child of item.children) {
-      const resp = _findRoute(child, match);
+
+    if (isRouteMapBlock(item)) {
+      for (const child of item.children) {
+        const resp = _findRoute(child, match);
+        if (resp) {
+          return resp;
+        }
+      }
+    } else if (isEntityItem(item)) {
+      const resp = _filterRoutePathItems(item, match);
       if (resp) {
         return resp;
       }
@@ -110,14 +128,29 @@ export const findParentEntity = (
   }
 
   for (const item of routeMap) {
-    for (const child of item.children) {
-      const resp = _findRoute(child, {
+
+    if (isRouteMapBlock(item)) {
+      for (const child of item.children) {
+        const resp = _findRoute(child, {
+          ...match,
+          pattern: {
+            ...match.pattern,
+            path: parentPattern,
+          },
+        });
+        if (resp) {
+          return resp.entity;
+        }
+      }
+    } else if (isEntityItem(item)) {
+      const resp = _findRoute(item, {
         ...match,
         pattern: {
           ...match.pattern,
           path: parentPattern,
         },
       });
+
       if (resp) {
         return resp.entity;
       }

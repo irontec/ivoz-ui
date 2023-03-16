@@ -1,7 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions, useStoreState } from '../../../store';
 import {
+  EntityItem,
   isActionItem,
+  isEntityItem,
   RouteMapBlock,
   RouteMapItem,
 } from '../../../router/routeMapParser';
@@ -15,15 +17,16 @@ import {
   StyledList,
   StyledListItemIcon,
 } from './MenuBlock.styles';
+import MenuListItem from './MenuListItem';
 
 interface menuBlockProps {
   idx: number;
-  routeMapBlock: RouteMapBlock;
+  routeMapBlock: RouteMapItem | RouteMapBlock;
 }
 
 export default function MenuBlock(props: menuBlockProps): JSX.Element {
   const { idx, routeMapBlock } = props;
-  const { label, children } = routeMapBlock;
+  
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -31,6 +34,19 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
   const open = useStoreState((store) => store.menu.open);
   const expandMenu = useStoreActions((actions) => actions.menu.expand);
   const colapseMenu = useStoreActions((actions) => actions.menu.colapse);
+
+  if (isEntityItem(routeMapBlock as RouteMapItem)) {
+    const entity = (routeMapBlock as EntityItem).entity;
+    return (
+      <MenuListItem 
+        path={entity.path}
+        icon={(<entity.icon />)}
+        text={entity.title}
+      />
+    );
+  }
+
+  const { label, children } = routeMapBlock as RouteMapBlock;
 
   return (
     <StyledList>

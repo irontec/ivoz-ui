@@ -1,18 +1,17 @@
-import { Tooltip } from '@mui/material';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
-import useCurrentPathMatch from '../../../hooks/useCurrentPathMatch';
-import { filterRouteMapPath } from '../../../router/findRoute';
+import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
+import { filterRouteMapPath } from '../../../../router/findRoute';
 import {
   EntityItem,
   isActionItem,
   RouteMap,
-} from '../../../router/routeMapParser';
-import _ from '../../../services/translations/translate';
+} from '../../../../router/routeMapParser';
+import _ from '../../../../services/translations/translate';
 import {
   StyledCollapsedBreadcrumbsLink,
   StyledCollapsedBreadcrumbsNavigateNextIcon,
   StyledCollapsedBreadcrumbsTypography,
-} from './Breadcrumbs.styles';
+} from './styles/Links.styles';
 
 type BreadcrumbsProps = {
   routeMap: RouteMap;
@@ -65,19 +64,9 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
           to = to.replace(`:${idx}`, val);
         }
 
-        if (key + 1 === routeItems.length) {
-          return (
-            <StyledCollapsedBreadcrumbsLink to={to} key={key}>
-              {routeItem.entity.title}
-            </StyledCollapsedBreadcrumbsLink>
-          );
-        }
-
         return (
           <StyledCollapsedBreadcrumbsLink to={to} key={key}>
-            <Tooltip title={routeItem.entity.title} enterTouchDelay={0} arrow>
-              <routeItem.entity.icon />
-            </Tooltip>
+            {routeItem.entity.title}
           </StyledCollapsedBreadcrumbsLink>
         );
       })}

@@ -1,8 +1,6 @@
 import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import HomeIcon from '@mui/icons-material/Home';
-import { Typography } from '@mui/material';
-import { styled } from '@mui/material';
-import HistoryTrackerLink from '../../../components/shared/HistoryTrackerLink';
+import { styled, Typography } from '@mui/material';
+import HistoryTrackerLink from '../../../../shared/HistoryTrackerLink';
 
 const linkStyles = {
   textDecoration: 'none',
@@ -62,13 +60,5 @@ export const StyledCollapsedBreadcrumbsNavigateNextIcon = styled(
 )(() => {
   return {
     ...linkStyles,
-  };
-});
-
-export const StyledHomeIcon = styled(HomeIcon)(({ theme }) => {
-  return {
-    marginRight: theme.spacing(0.5),
-    width: 25,
-    height: 25,
   };
 });

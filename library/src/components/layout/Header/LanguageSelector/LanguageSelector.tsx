@@ -1,8 +1,9 @@
-import { Menu, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Language } from 'store/i18n';
-import { StyledTranslateButton } from './styles';
+import StyledMenu from './styles/Menu.styles';
+import { TranslateButton } from './TranslateButton';
 
 interface LanguageSelectorProps {
   languages: Language[];
@@ -37,10 +38,9 @@ export default function LanguageSelector(
 
   return (
     <>
-      <StyledTranslateButton onClick={handleOpenMenu} />
-      <Menu
+      <TranslateButton onClick={handleOpenMenu} />
+      <StyledMenu
         id='menu-appbar'
-        sx={{ marginTop: '45px' }}
         anchorOrigin={{
           vertical: 'top',
           horizontal: 'right',
@@ -66,7 +66,7 @@ export default function LanguageSelector(
             </ToggleButton>
           ))}
         </ToggleButtonGroup>
-      </Menu>
+      </StyledMenu>
     </>
   );
 }

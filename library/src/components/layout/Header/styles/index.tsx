@@ -1,5 +1,3 @@
-import { StyledAppBar } from './AppBar.styles';
-import { StyledAvatar } from './Avatar.styles';
-import { StyledMenu } from './Menu.styles';
+import { StyledButton } from './Button.styles';
 
-export { StyledAppBar, StyledAvatar, StyledMenu };
+export { StyledButton };

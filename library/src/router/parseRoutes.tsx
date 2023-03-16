@@ -34,12 +34,15 @@ const parseRouteMapItems = (
 
     const iden = entity.iden;
 
-    const entityService = new EntityService(
-      apiSpec[iden].actions,
-      apiSpec[iden].properties,
-      entity
-    );
-    const acls = entityService.getAcls();
+    let acls = entity.acl;
+    if (apiSpec[iden]) {
+      const entityService = new EntityService(
+        apiSpec[iden].actions,
+        apiSpec[iden].properties,
+        entity
+      );
+      acls = entityService.getAcls();
+    }
 
     if (acls.read) {
       routes.push({

@@ -1,4 +1,4 @@
-export default function ActiveCalls(): JSX.Element | null {
+export default function Blank(): JSX.Element | null {
 
   return (
     <div>

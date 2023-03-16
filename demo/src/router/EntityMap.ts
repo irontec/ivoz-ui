@@ -10,6 +10,9 @@ const getEntityMap = (): RouteMap => {
       entity: entities.Blank,
     },
     {
+      entity: entities.Blank2,
+    },
+    {
       label: 'Instances',
       children: [
         {

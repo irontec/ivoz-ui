@@ -1,6 +1,6 @@
-import { Box, Toolbar } from '@mui/material';
-import { Header, Menu, Footer } from '@irontec/ivoz-ui/components/layout';
+import { Footer, Header, Menu } from '@irontec/ivoz-ui/components/layout';
 import { RouteMap } from '@irontec/ivoz-ui/router/routeMapParser';
+import { Box } from '@mui/material';
 
 interface AppRouteContentProps {
   routeMap: RouteMap;

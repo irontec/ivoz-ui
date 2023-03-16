@@ -7,6 +7,9 @@ import entities from '../entities/index';
 const getEntityMap = (): RouteMap => {
   const map: RouteMap = [
     {
+      entity: entities.Blank,
+    },
+    {
       label: 'Instances',
       children: [
         {
@@ -50,9 +53,6 @@ const getEntityMap = (): RouteMap => {
         },
         {
           entity: entities.Language,
-        },
-        {
-          entity: entities.Blank,
         }
       ],
     },

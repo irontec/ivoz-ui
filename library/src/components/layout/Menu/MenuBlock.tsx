@@ -6,7 +6,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect } from 'react';
+import { useStoreActions, useStoreState } from 'store';
 import {
   EntityItem,
   isActionItem,
@@ -19,12 +20,36 @@ import { StyledMenuListSubItem } from './MenuListItem.styles';
 
 interface menuBlockProps {
   routeMapBlock: RouteMapItem | RouteMapBlock;
+  idx: string | number;
 }
 
 export default function MenuBlock(props: menuBlockProps): JSX.Element {
-  const { routeMapBlock } = props;
+  const { routeMapBlock, idx } = props;
 
-  const [open, setOpen] = useState(false);
+  const openIdx = useStoreState((store) => store.menu.open);
+  const open = openIdx === idx;
+  const colapseMenu = useStoreActions((actions) => actions.menu.colapse);
+  const expandMenu = useStoreActions((actions) => actions.menu.expand);
+
+  const { label, children } = routeMapBlock as RouteMapBlock;
+  const selectedChild = (children || []).find((item: RouteMapItem) => {
+    if (!isEntityItem(item)) {
+      return false;
+    }
+
+    const route = item.route;
+    const match =
+      location.pathname === `${route}` ||
+      location.pathname.indexOf(`${route}/`) === 0;
+
+    return match;
+  });
+
+  useEffect(() => {
+    if (selectedChild) {
+      expandMenu(idx);
+    }
+  }, []);
 
   if (isEntityItem(routeMapBlock as RouteMapItem)) {
     const entity = (routeMapBlock as EntityItem).entity;
@@ -37,9 +62,12 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
     );
   }
 
-  const { label, children } = routeMapBlock as RouteMapBlock;
   const handleClick = () => {
-    setOpen(!open);
+    if (open) {
+      colapseMenu();
+    } else {
+      expandMenu(idx);
+    }
   };
 
   return (

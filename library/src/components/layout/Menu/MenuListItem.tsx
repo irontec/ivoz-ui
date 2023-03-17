@@ -14,11 +14,14 @@ export default function MenuListItem(
   const { path, icon, text, className } = props;
   const navigate = useNavigate();
 
+  const selected =
+    location.pathname === path || location.pathname.indexOf(`${path}/`) === 0;
+
   return (
     <ListItemButton
       className={className}
       dense={true}
-      selected={location.pathname === path}
+      selected={selected}
       onClick={() => {
         navigate(path, {
           state: {

@@ -44,7 +44,7 @@ export default function Menu(props: menuProps): JSX.Element | null {
         return (
           <div key={key}>
             <StyledDivider />
-            <MenuBlock routeMapBlock={routeMapBlock} />
+            <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
           </div>
         );
       })}

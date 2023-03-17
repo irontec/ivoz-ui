@@ -1,27 +1,27 @@
 import { Action, action } from 'easy-peasy';
 
 export interface MenuState {
-  open: Array<number | string>;
+  open: number | string | undefined;
 }
 
 interface MenuActions {
   expand: Action<MenuState, number | string>;
-  colapse: Action<MenuState, number | string>;
+  colapse: Action<MenuState>;
 }
 
 export type MenuStore = MenuState & MenuActions;
 
-const list: MenuStore = {
-  open: [0],
+const menu: MenuStore = {
+  open: undefined,
 
   // actions
-  colapse: action<MenuState, number | string>((state, menuKey) => {
-    state.open = state.open.filter((item) => item != menuKey);
+  colapse: action<MenuState>((state) => {
+    state.open = undefined;
   }),
 
   expand: action<MenuState, number | string>((state, menuKey) => {
-    state.open.push(menuKey);
+    state.open = menuKey;
   }),
 };
 
-export default list;
+export default menu;

@@ -1,15 +1,17 @@
 import { Fade, LinearProgress } from '@mui/material';
+import { matchRoutes } from 'react-router-dom';
+import { useStoreState } from 'store';
 import {
   FkProperty,
   isPropertyFk,
   PropertySpec,
-  ScalarProperty,
+  ScalarProperty
 } from '../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../services/entity/EntityService';
 import {
   StyledCheckBoxIcon,
   StyledCheckBoxOutlineBlankIcon,
-  StyledTableRowFkLink,
+  StyledTableRowFkLink
 } from './Table/ContentTable.styles';
 
 interface ListContentValueProps {
@@ -21,6 +23,8 @@ interface ListContentValueProps {
 
 const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const { column, columnName, row, entityService } = props;
+
+  const routes = useStoreState((state) => state.routes.routes);
 
   const ListDecorator = entityService.getListDecorator();
   const customComponent = (column as ScalarProperty).component;
@@ -66,6 +70,16 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
         </Fade>
       );
     } else if (row[`${columnName}Link`]) {
+
+      const routeExists = matchRoutes(
+        routes,
+        row[`${columnName}Link`]
+      );
+
+      if (!routeExists) {
+        return value;
+      }
+
       response = (
         <StyledTableRowFkLink to={row[`${columnName}Link`]}>
           {value}

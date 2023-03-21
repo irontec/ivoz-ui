@@ -40,13 +40,13 @@ const Form = (props: EntityFormProps): JSX.Element => {
             md: 12,
             lg: 6,
             xl: 4,
-          }
+          },
         },
         'desktopLicences',
         'mobileLicences',
         'language',
         'cardDav',
-        'madeUpErrorField'
+        'madeUpErrorField',
       ],
     },
     {

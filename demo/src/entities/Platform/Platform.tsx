@@ -62,9 +62,9 @@ const properties: PlatformProperties = {
     helpText: _('Make sure it does not expire'),
   },
   features: {
-    label: _('Feature', {count: 2}),
+    label: _('Feature', { count: 2 }),
     $ref: '#/definitions/Feature',
-  }
+  },
 };
 
 const platform: EntityInterface = {

@@ -1,8 +1,6 @@
 import { Action, action, computed, Computed, Thunk, thunk } from 'easy-peasy';
-import {
-  CriteriaFilterValue,
-  CriteriaFilterValues,
-} from '../components/List/Filter/ContentFilter';
+import { CriteriaFilterValues, CriteriaFilterValue } from '../components/List/Filter/ContentFilterDialog';
+
 
 type DirectionType = 'asc' | 'desc';
 

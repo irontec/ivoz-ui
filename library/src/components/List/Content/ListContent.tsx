@@ -5,7 +5,6 @@ import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef } from 'react';
 import { PathMatch } from 'react-router-dom';
-import EntityInterface from '../../../entities/EntityInterface';
 import { RouteMapItem } from '../../../router/routeMapParser';
 import EntityService from '../../../services/entity/EntityService';
 import ContentCard from './Card/ContentCard';

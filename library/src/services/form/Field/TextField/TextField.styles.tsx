@@ -41,3 +41,14 @@ export const StyledMultilangTextField = styled(StyledTextField)(() => {
     },
   };
 });
+
+
+export const StyledSearchTextField = styled(TextField)(({ theme }) => {
+  return {
+    width: 250,
+    marginTop: '0px',
+    '&.changed > label': {
+      color: theme.palette.info.main,
+    },
+  };
+});

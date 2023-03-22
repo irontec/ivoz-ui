@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropdownObjectChoices } from 'services/form/Field/Dropdown';
+import { DropdownObjectChoices } from '../../services/form/Field/Dropdown/Dropdown';
 import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import { PropertyCustomFunctionComponent } from '../form/Field/CustomComponentWrapper';
 

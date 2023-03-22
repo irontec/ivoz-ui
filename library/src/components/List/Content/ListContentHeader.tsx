@@ -5,11 +5,12 @@ import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
+import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 import { useStoreState } from 'store';
-import { ContentFilter } from '../../../components/List/Filter/ContentFilter';
 import { MultiSelectFunctionComponent } from '../../../router';
 import EntityService from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
+import { ContentFilterDialog } from '../Filter/ContentFilterDialog';
 import DeleteRowsButton from './CTA/DeleteRowsButton';
 import { StyledActionButtonContainer, StyledLink } from './ListContent.styles';
 
@@ -41,11 +42,8 @@ const ListContentHeader = (
 
   const entity = entityService.getEntity();
   const acl = entityService.getAcls();
-  const [showFilters, setShowFilters] = useState(false);
-  const handleFiltersClose = () => {
-    setShowFilters(false);
-  };
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const rows = useStoreState((state) => state.list.rows);
 
   const multiselectActions = Object.values(entity.customActions)
@@ -54,27 +52,50 @@ const ListContentHeader = (
   const multiselect =
     entityService.getAcls().delete === true || multiselectActions.length > 0;
 
-  const filterButtonHandler = () => {
-    setShowFilters(!showFilters);
+  const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
   };
 
   return (
     <React.Fragment>
       <StyledActionButtonContainer ref={ref}>
         <Box className='buttons'>
-          <input type='text' />
+          <StyledSearchTextField
+            name='fast_search'
+            type='text'
+            error={false}
+            errorMsg=''
+            inputProps={{}}
+            InputProps={{
+              startAdornment: <SearchIcon />,
+            }}
+            placeholder="Search"
+            hasChanged={false}
+            onChange={({ target }) => {
+              console.log(target.value);
+            }}
+          />
           <Tooltip title={_('Search')} arrow>
-            <Fab
+            <Button
               color='secondary'
               size='small'
-              variant='extended'
-              onClick={filterButtonHandler}
+              variant='contained'
+              onClick={handleOpenMenu}
             >
               <SearchIcon />
-            </Fab>
+            </Button>
           </Tooltip>
+          <ContentFilterDialog
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
+            entityService={entityService}
+            path={path}
+            preloadData={preloadData}
+            ignoreColumn={ignoreColumn}
+            cancelToken={cancelToken}
+            match={match}
+          />
         </Box>
-
         <Box className='buttons'>
           {multiselect &&
             multiselectActions.map((Action, key) => {
@@ -124,17 +145,6 @@ const ListContentHeader = (
           )}
         </Box>
       </StyledActionButtonContainer>
-
-      <ContentFilter
-        entityService={entityService}
-        open={showFilters}
-        handleClose={handleFiltersClose}
-        path={path}
-        preloadData={preloadData}
-        ignoreColumn={ignoreColumn}
-        cancelToken={cancelToken}
-        match={match}
-      />
     </React.Fragment>
   );
 };

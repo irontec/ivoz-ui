@@ -6,6 +6,7 @@ import Login from 'components/Login';
 import { useEffect } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { useStoreActions, useStoreState } from 'store';
+import addCustomRoutes from './addCustomRoutes';
 import AppRouteContentWrapper from './AppRouteContentWrapper';
 import getEntityMap from './EntityMap';
 export interface AppRoutesProps {
@@ -34,7 +35,10 @@ export default function AppRoutes(props: AppRoutesProps): React.ReactNode {
     },
   ];
 
-  const routeSpecs = parseRoutes(apiSpec, entityMap);
+  const routeSpecs = addCustomRoutes(
+    parseRoutes(apiSpec, entityMap)
+  );
+
   routeSpecs.map((route: RouteSpec) => {
     routes.push({
       path: route.path,

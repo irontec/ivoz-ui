@@ -3,8 +3,14 @@ import Dropdown, {
   DropdownChoices,
   DropdownArrayChoices,
   DropdownArrayChoice,
+  SelectProps,
 } from './Dropdown';
 
 export { StyledDropdown, Dropdown };
 
-export type { DropdownChoices, DropdownArrayChoices, DropdownArrayChoice };
+export type {
+  SelectProps,
+  DropdownChoices,
+  DropdownArrayChoices,
+  DropdownArrayChoice,
+};

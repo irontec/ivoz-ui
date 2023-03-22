@@ -109,7 +109,7 @@ const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(
   }
 
   if (!isEntityItem(item)) {
-    throw 'unkown item type';
+    throw 'unknown item type';
   }
 
   if (item.children && item.children.length) {

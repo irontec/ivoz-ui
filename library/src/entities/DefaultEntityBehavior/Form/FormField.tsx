@@ -2,7 +2,7 @@ import React from 'react';
 import { Grid } from '@mui/material';
 import { VisualToggleStates } from '../../../services/entity/EntityService';
 import FormFieldFactory from '../../../services/form/FormFieldFactory';
-import { isPropertyScalar } from '../../../services/api/ParsedApiSpecInterface';
+import { isPropertyEmbeddable } from '../../../services/api/ParsedApiSpecInterface';
 import {
   FkChoices,
   ReadOnlyProperties,
@@ -90,7 +90,7 @@ const FormFieldMemo = React.memo(
       return false;
     }
 
-    if (isPropertyScalar(column) && column.multilang === true) {
+    if (isPropertyEmbeddable(column) && column.multilang === true) {
       return false;
     }
 

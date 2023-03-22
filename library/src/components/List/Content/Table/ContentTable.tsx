@@ -1,5 +1,5 @@
 import { Table, TableBody, TableRow } from '@mui/material';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import EntityService from 'services/entity/EntityService';
 import { useStoreState } from 'store';
 import {
@@ -41,10 +41,12 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const rows = useStoreState((state) => state.list.rows);
 
-  if (currentQueryString !== window.location.search) {
-    setCurrentQueryString(window.location.search);
-    setSelectedValues([]);
-  }
+  useEffect(() => {
+    if (currentQueryString !== window.location.search) {
+      setCurrentQueryString(window.location.search);
+      setSelectedValues([]);
+    }
+  }, [currentQueryString, window.location.search]);
 
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;

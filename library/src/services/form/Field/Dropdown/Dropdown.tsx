@@ -61,14 +61,13 @@ const Dropdown = (props: SelectProps): JSX.Element => {
   } = props;
 
   const labelId = `${name}-label`;
-
   const labelClassName = hasChanged ? 'changed' : '';
 
+  const [prevChoices, setPrevChoices] = useState<DropdownChoices>();
   const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>([]);
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setReady(true);
+    setPrevChoices(choices);
 
     if (Array.isArray(choices)) {
       setArrayChoices(choices);
@@ -82,6 +81,8 @@ const Dropdown = (props: SelectProps): JSX.Element => {
     setArrayChoices(arrayValue);
   }, [choices]);
 
+  const ready = choices === prevChoices;
+
   return (
     <FormControl fullWidth={true} error={error} className={className}>
       <label htmlFor={name} id={labelId} className={labelClassName}>
@@ -93,37 +94,32 @@ const Dropdown = (props: SelectProps): JSX.Element => {
           </StyledHelpTextTooltip>
         )}
       </label>
-      {ready && (
-        <Select
-          value={value}
-          disabled={disabled}
-          onChange={onChange}
-          onBlur={onBlur}
-          displayEmpty={true}
-          variant='outlined'
-          input={
-            <OutlinedInput
-              name={name}
-              type='text'
-              label={label}
-              notched={false}
-            />
-          }
-        >
-          {arrayChoices
-            .filter(({ label }) => label)
-            .map((arrayChoice, key: number) => {
-              return (
-                <MenuItem
-                  value={arrayChoice.id}
-                  key={`${arrayChoice.id}-${key}`}
-                >
-                  {arrayChoice.label}
-                </MenuItem>
-              );
-            })}
-        </Select>
-      )}
+      <Select
+        value={ready ? value : ''}
+        disabled={disabled}
+        onChange={onChange}
+        onBlur={onBlur}
+        displayEmpty={true}
+        variant='outlined'
+        input={
+          <OutlinedInput
+            name={name}
+            type='text'
+            label={label}
+            notched={false}
+          />
+        }
+      >
+        {arrayChoices
+          .filter(({ label }) => label)
+          .map((arrayChoice, key: number) => {
+            return (
+              <MenuItem value={arrayChoice.id} key={`${arrayChoice.id}-${key}`}>
+                {arrayChoice.label}
+              </MenuItem>
+            );
+          })}
+      </Select>
       {error && errorMsg && <FormHelperText>{errorMsg}</FormHelperText>}
     </FormControl>
   );

@@ -62,6 +62,16 @@ export const stringToCriteria = (uri = ''): CriteriaFilterValues => {
       continue;
     }
 
+    if (matches[0] === `${matches[1]}[]`) {
+      criteria.push({
+        name: matches[1],
+        type: 'in',
+        value: value,
+      });
+
+      continue;
+    }
+
     if (matches[1] === 'exists') {
       criteria.push({
         name: matches[2],

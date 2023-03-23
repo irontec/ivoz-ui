@@ -10,10 +10,11 @@ import _ from '../../../../services/translations/translate';
 interface DeleteRowButtonProps {
   row: any;
   entityService: EntityService;
+  variant?: 'icon' | 'text';
 }
 
 const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
-  const { row, entityService } = props;
+  const { row, entityService, variant = 'icon' } = props;
   const location = useLocation();
   const [showDelete, setShowDelete] = useState<boolean>(false);
   const handleHideDelete = (): void => {
@@ -52,11 +53,21 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
 
   return (
     <>
-      <Tooltip title={_('Delete')} placement='bottom' enterTouchDelay={0} arrow>
-        <a>
-          <StyledDeleteIcon onClick={() => setShowDelete(true)} />
-        </a>
-      </Tooltip>
+      {variant === 'icon' && (
+        <Tooltip
+          title={_('Delete')}
+          placement='bottom'
+          enterTouchDelay={0}
+          arrow
+        >
+          <a>
+            <StyledDeleteIcon onClick={() => setShowDelete(true)} />
+          </a>
+        </Tooltip>
+      )}
+      {variant === 'text' && (
+        <a onClick={() => setShowDelete(true)}>{_('Delete')}</a>
+      )}
       <ConfirmDialog
         text={`You are about to remove ${iden}`}
         open={showDelete}

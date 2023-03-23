@@ -5,10 +5,12 @@ import { memo, useEffect, useState } from 'react';
 import { NullablePropertyFkChoices } from '../../../../entities';
 import {
   isPropertyFk,
-  PropertyList
+  PropertyList,
 } from '../../../../services/api/ParsedApiSpecInterface';
 import {
-  DropdownChoices, SelectProps, StyledDropdown
+  DropdownChoices,
+  SelectProps,
+  StyledDropdown,
 } from '../../../../services/form/Field/Dropdown';
 import { StyledTextField } from '../../../../services/form/Field/TextField';
 import _ from '../../../../services/translations/translate';
@@ -17,7 +19,7 @@ import FilterIconFactory from '../icons/FilterIconFactory';
 import {
   StyledRowActionItem,
   StyledRowContainer,
-  StyledRowItem
+  StyledRowItem,
 } from './ContentFilterSelector.styles';
 
 export interface ContentFilterRowProps {
@@ -87,16 +89,13 @@ export default function ContentFilterRow(
 
   const updateCriteria = () => {
     setRow(idx, name, type, value);
-  }
+  };
   useEffect(() => {
-    const timeOutId = setTimeout(
-      () => {
-        if (!isLast) {
-          updateCriteria();
-        }
-      },
-      250
-    );
+    const timeOutId = setTimeout(() => {
+      if (!isLast) {
+        updateCriteria();
+      }
+    }, 250);
     return () => clearTimeout(timeOutId);
   }, [name, type, value, isLast]);
 
@@ -175,10 +174,7 @@ export default function ContentFilterRow(
       </StyledRowItem>
       <StyledRowActionItem>
         {isLast && (
-          <Button
-            variant='contained'
-            onClick={updateCriteria}
-          >
+          <Button variant='contained' onClick={updateCriteria}>
             <AddIcon />
           </Button>
         )}

@@ -69,7 +69,7 @@ const ListContentHeader = (
             InputProps={{
               startAdornment: <SearchIcon />,
             }}
-            placeholder="Search"
+            placeholder='Search'
             hasChanged={false}
             onChange={({ target }) => {
               console.log(target.value);

@@ -5,13 +5,13 @@ import {
   FkProperty,
   isPropertyFk,
   PropertySpec,
-  ScalarProperty
+  ScalarProperty,
 } from '../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../services/entity/EntityService';
 import {
   StyledCheckBoxIcon,
   StyledCheckBoxOutlineBlankIcon,
-  StyledTableRowFkLink
+  StyledTableRowFkLink,
 } from './Table/ContentTable.styles';
 
 interface ListContentValueProps {
@@ -70,11 +70,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
         </Fade>
       );
     } else if (row[`${columnName}Link`]) {
-
-      const routeExists = matchRoutes(
-        routes,
-        row[`${columnName}Link`]
-      );
+      const routeExists = matchRoutes(routes, row[`${columnName}Link`]);
 
       if (!routeExists) {
         return value;

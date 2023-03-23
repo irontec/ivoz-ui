@@ -21,7 +21,7 @@ import { useStoreActions } from 'store';
 import Client from '../Client';
 
 const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row } = props;
+  const { row, variant = 'icon' } = props;
 
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
@@ -66,13 +66,20 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
 
   return (
     <>
-      <Tooltip
-        title={_('Sync client')}
-        placement='bottom-start'
-        enterTouchDelay={0}
-      >
-        <CloudSyncIcon onClick={handleClickOpen} />
-      </Tooltip>
+      {variant === 'text' && (
+        <span onClick={handleClickOpen}>
+          {_('Sync client')}
+        </span>
+      )}
+      {variant === 'icon' && (
+        <Tooltip
+          title={_('Sync client')}
+          placement='bottom-start'
+          enterTouchDelay={0}
+        >
+          <CloudSyncIcon onClick={handleClickOpen} />
+        </Tooltip>
+      )}
       <Dialog open={open} aria-labelledby='Syncing client'>
         <DialogTitle id='alert-dialog-title'>
           Syncing client <strong>{row.iden}</strong>

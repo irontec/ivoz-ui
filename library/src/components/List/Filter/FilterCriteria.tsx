@@ -6,7 +6,7 @@ import EntityService from '../../../services/entity/EntityService';
 import { DropdownObjectChoices } from '../../../services/form/Field/Dropdown/Dropdown';
 import {
   CriteriaFilterValue,
-  CriteriaFilterValues
+  CriteriaFilterValues,
 } from './ContentFilterDialog';
 import { StyledChip } from './FilterCriteria.styles';
 import { getFilterLabel } from './icons/FilterIconFactory';

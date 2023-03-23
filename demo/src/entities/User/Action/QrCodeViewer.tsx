@@ -19,11 +19,15 @@ import { QrCode2 } from '@mui/icons-material';
 import { useStoreActions, useStoreState } from 'store';
 
 const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row } = props;
+  const { row, variant='icon' } = props;
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
   const [authType, setAuthType] = useState<string | undefined>();
+
+  const disabled = authType !== 'password'
+    ? true
+    : false;
 
   const [img, setImg] = useState<string>();
 
@@ -56,6 +60,11 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   }, [parentClient]);
 
   const handleClickOpen = () => {
+
+    if (disabled) {
+      return;
+    }
+
     apiDownload({
       path: entities.User.path + `/${row.id}/login_qr`,
       params: {},
@@ -86,15 +95,20 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
     setErrorMsg(undefined);
   };
 
-  if (authType !== 'password') {
-    return null;
-  }
-
   return (
     <>
-      <Tooltip title={_('QrCode')} placement='bottom' enterTouchDelay={0}>
-        <QrCode2 onClick={handleClickOpen} />
-      </Tooltip>
+      {variant === 'text' && (
+        <span className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
+          {_('QrCode')}
+        </span>
+      )}
+      {variant === 'icon' && (
+        <a className={disabled ? 'disabled' : ''}>
+          <Tooltip title={_('QrCode')} placement='bottom' enterTouchDelay={0}>
+            <QrCode2 onClick={handleClickOpen} />
+          </Tooltip>
+        </a>
+      )}
       {open && (
         <Dialog
           open={open}

@@ -26,11 +26,13 @@ interface SendEmailProps {
   children: JSX.Element;
   targetId: string;
   open: boolean;
+  variant?: 'text' | 'icon';
   setOpen: (open: boolean) => void;
+  disabled: boolean;
 }
 
 const SendEmail = (props: SendEmailProps) => {
-  const { style, error, children, targetId } = props;
+  const { style, error, children, targetId, variant='icon', disabled } = props;
   const { open, setOpen } = props;
 
   const apiPost = useStoreActions((actions) => {
@@ -38,6 +40,9 @@ const SendEmail = (props: SendEmailProps) => {
   });
 
   const handleClickOpen = () => {
+    if (disabled) {
+      return;
+    }
     setOpen(true);
   };
 
@@ -57,15 +62,18 @@ const SendEmail = (props: SendEmailProps) => {
 
   return (
     <>
-      <span style={style} onClick={handleClickOpen}>
-        <Tooltip
-          title={_('Send email')}
-          placement='bottom-start'
-          enterTouchDelay={0}
-        >
-          <EmailIcon />
-        </Tooltip>
-      </span>
+      <a className={disabled ? 'disabled' : ''} style={style} onClick={handleClickOpen}>
+        {variant === 'text' && _('Send email')}
+        {variant === 'icon' && (
+          <Tooltip
+            title={_('Send email')}
+            placement='bottom-start'
+            enterTouchDelay={0}
+          >
+              <EmailIcon />
+          </Tooltip>
+        )}
+      </a>
       {open && (
         <Dialog
           open={open}
@@ -106,15 +114,16 @@ const SendEmailWrapper: ActionFunctionComponent = (
 ) => {
   const [open, setOpen] = useState(false);
 
+  let disabled = false;
   if (isSingleRowAction(props)) {
     const { row } = props;
 
     if (row.enabled === 'no') {
-      return null;
+      disabled = true;
     }
 
     if (!row.email) {
-      return null;
+      let disabled = false;
     }
 
     const targetId = row.id;
@@ -122,6 +131,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
 
     return (
       <SendEmail
+        disabled={disabled}
         style={{}}
         error={error}
         targetId={targetId}
@@ -156,6 +166,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
 
     return (
       <SendEmail
+        disabled={disabled}
         style={style}
         error={error}
         targetId={targetId}

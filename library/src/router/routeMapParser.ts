@@ -23,6 +23,7 @@ export interface ActionItemProps {
   row: Record<string, any>;
   entityService: EntityService;
   match: PathMatch;
+  variant?: 'icon' | 'text';
 }
 
 export interface MultiSelectActionItemProps {
@@ -30,6 +31,7 @@ export interface MultiSelectActionItemProps {
   selectedValues: Array<string>;
   entityService: EntityService;
   style: Record<string, string | number>;
+  variant?: 'icon' | 'text';
 }
 
 export type CustomActionProps = ActionItemProps | MultiSelectActionItemProps;

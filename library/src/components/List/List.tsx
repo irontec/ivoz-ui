@@ -12,7 +12,7 @@ import EntityService from '../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../store';
 import ErrorMessage from '../shared/ErrorMessage';
 import ListContent from './Content/ListContent';
-import { CriteriaFilterValues } from './Filter/ContentFilter';
+import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import Pagination from './Pagination';
 import useQueryStringParams from './useQueryStringParams';

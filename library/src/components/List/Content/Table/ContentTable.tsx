@@ -6,7 +6,6 @@ import {
   MultiSelectFunctionComponent,
   RouteMapItem,
 } from '../../../../router/routeMapParser';
-import DeleteRowButton from '../CTA/DeleteRowButton';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
@@ -123,27 +122,30 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                 );
               })}
               <StyledActionsTableCell key='actions'>
-                {acl.update && (
-                  <ChildDecorator routeMapItem={updateRouteMapItem} row={row}>
-                    <EditRowButton row={row} path={path} />
-                  </ChildDecorator>
-                )}
-                {acl.detail && !acl.update && (
-                  <ChildDecorator routeMapItem={detailMapItem} row={row}>
-                    <ViewRowButton row={row} path={path} />
-                  </ChildDecorator>
-                )}
                 <ChildEntityLinks
                   childEntities={childEntities}
                   entityService={entityService}
                   row={row}
+                  detail={
+                    acl.detail &&
+                    !acl.update && (
+                      <ChildDecorator routeMapItem={detailMapItem} row={row}>
+                        <ViewRowButton row={row} path={path} />
+                      </ChildDecorator>
+                    )
+                  }
+                  edit={
+                    acl.update && (
+                      <ChildDecorator
+                        routeMapItem={updateRouteMapItem}
+                        row={row}
+                      >
+                        <EditRowButton row={row} path={path} />
+                      </ChildDecorator>
+                    )
+                  }
+                  deleteMapItem={acl.delete && deleteMapItem}
                 />
-                &nbsp;
-                {acl.delete && (
-                  <ChildDecorator routeMapItem={deleteMapItem} row={row}>
-                    <DeleteRowButton row={row} entityService={entityService} />
-                  </ChildDecorator>
-                )}
               </StyledActionsTableCell>
             </TableRow>
           );

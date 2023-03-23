@@ -141,7 +141,7 @@ export default function ContentFilterSelector(
         />
         <StyledLastRowContainer>
           <StyledRowItem>
-            <a href="#" onClick={resetCriteria}>
+            <a href='#' onClick={resetCriteria}>
               {_('Clear all filters')}
             </a>
           </StyledRowItem>

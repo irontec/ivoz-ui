@@ -18,7 +18,7 @@ import { useStoreActions } from 'store';
 import Client from '../Client';
 
 const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row } = props;
+  const { row, variant='icon' } = props;
 
   const [open, setOpen] = useState(false);
   const apiPost = useStoreActions((actions) => {
@@ -49,13 +49,21 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
 
   return (
     <>
-      <Tooltip
-        title={_('Send email')}
-        placement='bottom-start'
-        enterTouchDelay={0}
-      >
-        <EmailIcon onClick={handleClickOpen} />
-      </Tooltip>
+      {variant === 'text' && (
+        <span onClick={handleClickOpen}>
+          {_('Send email')}
+        </span>
+      )}
+      {variant === 'icon' && (
+        <Tooltip
+          title={_('Send email')}
+          placement='bottom-start'
+          enterTouchDelay={0}
+        >
+          <EmailIcon onClick={handleClickOpen} />
+        </Tooltip>
+      )}
+
       <Dialog
         open={open}
         onClose={handleClose}

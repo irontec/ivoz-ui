@@ -28,7 +28,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps
 ) => {
-  const { selectedValues, style } = props;
+  const { selectedValues, style, variant='icon' } = props;
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -83,35 +83,41 @@ const UpdateLicenses: ActionFunctionComponent = (
   };
 
   if (isSingleRowAction(props)) {
-    return null;
+    return (
+      <span className='display-none'></span>
+    );
   }
 
   return (
     <>
       <span style={style} onClick={handleClickOpen}>
-        <Tooltip
-          title={_('Change Licences')}
-          placement='bottom'
-          enterTouchDelay={0}
-        >
-          <ReceiptLongIcon />
-        </Tooltip>
+        {variant === 'text' && (
+          <span onClick={handleClickOpen}>
+            {_('Change Licences')}
+          </span>
+        )}
+        {variant === 'icon' && (
+          <Tooltip
+            title={_('Change Licences')}
+            placement='bottom'
+            enterTouchDelay={0}
+          >
+            <ReceiptLongIcon />
+          </Tooltip>
+        )}
       </span>
       {open && (
         <Dialog
           open={open}
           onClose={handleClose}
           keepMounted
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
         >
-          <DialogTitle id='alert-dialog-title'>Change licence to:</DialogTitle>
+          <DialogTitle>Change licence to:</DialogTitle>
           <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
+            <DialogContentText>
               {!error && (
                 <FormControl sx={{ margin: 1, minWidth: 120 }}>
                   <Select
-                    id='demo-simple-select'
                     value={licensesValue}
                     onChange={handleChange}
                   >

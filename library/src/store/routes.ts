@@ -14,7 +14,9 @@ export type RoutesStore = RoutesState & RoutesActions;
 const routes: RoutesStore = {
   routes: [],
   setRoutes: action<RoutesState, RouteObject[]>((state, routes) => {
-    const simplifiedRoutes = routes.map((item) => ({path: item.path} as RouteObject));
+    const simplifiedRoutes = routes.map(
+      (item) => ({ path: item.path } as RouteObject)
+    );
     state.routes = simplifiedRoutes;
   }),
 };

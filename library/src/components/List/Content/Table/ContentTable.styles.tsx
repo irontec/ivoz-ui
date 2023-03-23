@@ -35,12 +35,15 @@ export const StyledTableRowCta = styled(TableRowLink)(() => {
 
 export const StyledTableRowCustomCta = styled('span')(() => {
   return {
+    '& > *': {
+      marginRight: '5px',
+    },
     '& > a': {
       ...linkSharedStyles,
       textDecoration: 'none',
     },
-    '& > *': {
-      marginRight: '5px',
+    '& .disabled': {
+      color: '#aaa',
     },
   };
 });

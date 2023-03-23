@@ -19,7 +19,7 @@ import { useStoreActions } from 'store';
 import User from '../User';
 
 const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row } = props;
+  const { row, variant='icon' } = props;
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -71,9 +71,16 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
 
   return (
     <>
-      <Tooltip title={_('Provision')} placement='bottom' enterTouchDelay={0}>
-        <ContactPageIcon onClick={handleClickOpen} />
-      </Tooltip>
+      {variant === 'text' && (
+        <span onClick={handleClickOpen}>
+          {_('Provision')}
+        </span>
+      )}
+      {variant === 'icon' && (
+        <Tooltip title={_('Provision')} placement='bottom' enterTouchDelay={0}>
+          <ContactPageIcon onClick={handleClickOpen} />
+        </Tooltip>
+      )}
       {open && (
         <Dialog
           open={open}

@@ -5,13 +5,13 @@ import {
   FkProperty,
   isPropertyFk,
   PropertySpec,
-  ScalarProperty
+  ScalarProperty,
 } from '../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../services/entity/EntityService';
 import {
   StyledCheckBoxIcon,
   StyledCheckBoxOutlineBlankIcon,
-  StyledTableRowFkLink
+  StyledTableRowFkLink,
 } from './Table/ContentTable.styles';
 
 interface ListContentValueProps {

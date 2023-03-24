@@ -1,18 +1,19 @@
-import QueueIcon from '@mui/icons-material/Queue';
+import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
-import { Box, Button, Fab, Tooltip } from '@mui/material';
+import { Box, Button, Tooltip } from '@mui/material';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
-import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 import { useStoreState } from 'store';
 import { MultiSelectFunctionComponent } from '../../../router';
 import EntityService from '../../../services/entity/EntityService';
+import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 import _ from '../../../services/translations/translate';
 import { ContentFilterDialog } from '../Filter/ContentFilterDialog';
 import DeleteRowsButton from './CTA/DeleteRowsButton';
 import { StyledActionButtonContainer, StyledLink } from './ListContent.styles';
+import { MultiselectMoreChildEntityLinks } from './Shared/MultiselectMoreChildEntityLinks';
 
 interface ListContentProps {
   path: string;
@@ -51,6 +52,11 @@ const ListContentHeader = (
     .map((item) => item.action as MultiSelectFunctionComponent);
   const multiselect =
     entityService.getAcls().delete === true || multiselectActions.length > 0;
+
+  let multiselectActionNum = multiselectActions.length;
+  if (acl.delete) {
+    multiselectActionNum++;
+  }
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -98,20 +104,15 @@ const ListContentHeader = (
         </Box>
         <Box className='buttons'>
           {multiselect &&
+            multiselectActionNum < 2 &&
             multiselectActions.map((Action, key) => {
               return (
                 <Button
                   key={key}
                   variant='contained'
                   disabled={selectedValues.length < 1}
-                  sx={{
-                    verticalAlign: 'inherit',
-                    marginLeft: '10px',
-                    padding: 0,
-                  }}
                 >
                   <Action
-                    style={{ padding: '6px 18px 0' }}
                     rows={rows}
                     selectedValues={selectedValues}
                     entityService={entityService}
@@ -119,27 +120,35 @@ const ListContentHeader = (
                 </Button>
               );
             })}
-          <Button
-            variant='contained'
-            disabled={selectedValues.length < 1}
-            sx={{
-              verticalAlign: 'inherit',
-              marginLeft: '10px',
-              padding: 0,
-              paddingTop: 0.5,
-            }}
-          >
-            <DeleteRowsButton
+          {multiselect && multiselectActionNum > 1 && (
+            <MultiselectMoreChildEntityLinks
+              childActions={multiselectActions}
               selectedValues={selectedValues}
+              rows={rows}
               entityService={entityService}
+              deleteMapItem={
+                acl.delete && {
+                  entity,
+                  route: `${entity.path}/:id`,
+                }
+              }
             />
-          </Button>
+          )}
+          {acl.delete && multiselectActionNum < 2 && (
+            <Button variant='contained' disabled={selectedValues.length < 1}>
+              <DeleteRowsButton
+                selectedValues={selectedValues}
+                entityService={entityService}
+              />
+            </Button>
+          )}
           {acl.create && (
             <StyledLink to={`${location.pathname}/create`}>
               <Tooltip title='Add' enterTouchDelay={0} arrow>
-                <Fab color='secondary' size='small' variant='extended'>
-                  <QueueIcon />
-                </Fab>
+                <Button variant='contained'>
+                  <AddIcon />
+                  {_('Add')}
+                </Button>
               </Tooltip>
             </StyledLink>
           )}

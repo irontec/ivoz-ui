@@ -17,14 +17,14 @@ const currentLanguage =
 
 const theme = createTheme(
   {
-    palette: {
-      primary: {
-        main: '#0277bd',
-      },
-      secondary: {
-        main: '#e53935',
-      },
-    },
+    // palette: {
+    //   primary: {
+    //     main: '#ff664a',
+    //   },
+    //   secondary: {
+    //     main: '#86daf2',
+    //   },
+    // },
   },
   locales[currentLanguage]
 );

@@ -14,6 +14,7 @@ import {
 } from 'react';
 import { StyledHelpTextTooltip } from '../Shared/HelpText.styles';
 
+import './Dropdown.scoped.scss';
 export type DropdownArrayChoice = {
   label: string | React.ReactElement<any>;
   id: string | number;
@@ -84,12 +85,21 @@ const Dropdown = (props: SelectProps): JSX.Element => {
   const ready = choices === prevChoices;
 
   return (
-    <FormControl fullWidth={true} error={error} className={className}>
+    <FormControl
+      fullWidth={true}
+      error={error}
+      className={'dropdown ' + className}
+    >
       <label htmlFor={name} id={labelId} className={labelClassName}>
         {label}
         {required && '*'}
         {helperText && (
-          <StyledHelpTextTooltip title={helperText} placement='top' arrow>
+          <StyledHelpTextTooltip
+            title={helperText}
+            placement='top'
+            arrow
+            className='help-tooltip'
+          >
             <HelpOutlineIcon />
           </StyledHelpTextTooltip>
         )}
@@ -101,6 +111,7 @@ const Dropdown = (props: SelectProps): JSX.Element => {
         onBlur={onBlur}
         displayEmpty={true}
         variant='outlined'
+        className='select'
         input={
           <OutlinedInput
             name={name}

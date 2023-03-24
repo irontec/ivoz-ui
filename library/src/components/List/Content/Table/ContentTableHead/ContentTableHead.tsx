@@ -1,11 +1,14 @@
-import { TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
+import { TableHead, TableRow, TableSortLabel } from '@mui/material';
+import { CriteriaFilterValue } from '../../../../../components/List/Filter/ContentFilterDialog';
 import { isPropertyFk } from '../../../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../../../store';
 import { ROUTE_ORDER_KEY } from '../../../../../store/route';
-import { CriteriaFilterValue } from '../../../Filter/ContentFilter';
 import { handleMultiselectChangeType } from '../hook/useMultiselectState';
-import { StyledTableSortLabelVisuallyHidden } from './ContentTableHead.styles';
+import {
+  StyledTableCell,
+  StyledTableSortLabelVisuallyHidden,
+} from './ContentTableHead.styles';
 
 interface ContentTableHead {
   entityService: EntityService;
@@ -41,9 +44,6 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
   };
 
   let selectableIdx = 0;
-  const styles = {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.5)',
-  };
 
   return (
     <TableHead>
@@ -55,12 +55,11 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
           }
 
           return (
-            <TableCell
+            <StyledTableCell
               key={key}
               align='left'
               padding='normal'
               sortDirection={order?.name === key ? direction : false}
-              sx={styles}
             >
               {idx === selectableIdx && multiselect && (
                 <input
@@ -97,15 +96,14 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
                   ) : null}
                 </>
               )}
-            </TableCell>
+            </StyledTableCell>
           );
         })}
-        <TableCell
+        <StyledTableCell
           key={'empty slot'}
           align='left'
           padding='normal'
-          sx={styles}
-        ></TableCell>
+        ></StyledTableCell>
       </TableRow>
     </TableHead>
   );

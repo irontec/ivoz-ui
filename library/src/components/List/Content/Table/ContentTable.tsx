@@ -1,4 +1,4 @@
-import { Table, TableBody, TableRow } from '@mui/material';
+import { TableBody, TableRow } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import EntityService from 'services/entity/EntityService';
 import { useStoreState } from 'store';
@@ -9,7 +9,7 @@ import {
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import { StyledActionsTableCell } from './ContentTable.styles';
+import { StyledActionsTableCell, StyledTable } from './ContentTable.styles';
 import { TableColumnMemo } from './ContentTableColumn';
 import ContentTableHead from './ContentTableHead';
 import { handleMultiselectChangeType } from './hook/useMultiselectState';
@@ -86,7 +86,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
   );
 
   return (
-    <Table size='medium' sx={{ tableLayout: 'fixed' }}>
+    <StyledTable size='medium'>
       <ContentTableHead
         entityService={entityService}
         ignoreColumn={ignoreColumn}
@@ -151,7 +151,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
           );
         })}
       </TableBody>
-    </Table>
+    </StyledTable>
   );
 };
 

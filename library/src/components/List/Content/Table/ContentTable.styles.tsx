@@ -1,4 +1,4 @@
-import { TableCell, TableCellProps } from '@mui/material';
+import { Table, TableCell, TableCellProps } from '@mui/material';
 import { styled } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
@@ -102,6 +102,12 @@ export const StyledCheckBoxOutlineBlankIcon = styled(CheckBoxOutlineBlankIcon)(
 interface TableCellPropsWithKey extends TableCellProps {
   key: string | number;
 }
+
+export const StyledTable = styled(Table)(() => {
+  return {
+    tableLayout: 'fixed',
+  };
+});
 
 export const StyledTableCell = styled((props: TableCellPropsWithKey) => {
   const { children, className, key, ...rest } = props;

@@ -35,9 +35,7 @@ export default function AppRoutes(props: AppRoutesProps): React.ReactNode {
     },
   ];
 
-  const routeSpecs = addCustomRoutes(
-    parseRoutes(apiSpec, entityMap)
-  );
+  const routeSpecs = addCustomRoutes(parseRoutes(apiSpec, entityMap));
 
   routeSpecs.map((route: RouteSpec) => {
     routes.push({

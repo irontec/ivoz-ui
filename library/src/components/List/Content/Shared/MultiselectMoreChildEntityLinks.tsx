@@ -24,7 +24,7 @@ export const MultiselectMoreChildEntityLinks = (
     <MoreChildEntityLinksWrapper>
       {childActions.map((Action, key: number) => {
         return (
-          <MenuItem key={key}>
+          <MenuItem key={key} disabled={selectedValues.length === 0}>
             <Action
               rows={rows}
               selectedValues={selectedValues}
@@ -35,7 +35,7 @@ export const MultiselectMoreChildEntityLinks = (
         );
       })}
       {deleteMapItem && (
-        <MenuItem>
+        <MenuItem disabled={selectedValues.length === 0}>
           <DeleteRowsButton
             selectedValues={selectedValues}
             entityService={entityService}

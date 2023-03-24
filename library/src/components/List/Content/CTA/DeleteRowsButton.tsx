@@ -10,12 +10,24 @@ import _ from '../../../../services/translations/translate';
 interface DeleteRowsButtonProps {
   entityService: EntityService;
   selectedValues: Array<string | number>;
+  variant?: 'icon' | 'text';
 }
 
 const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
-  const { entityService, selectedValues } = props;
+  const { entityService, selectedValues, variant = 'icon' } = props;
+  const disabled = selectedValues.length === 0;
+
   const location = useLocation();
   const [showDelete, setShowDelete] = useState<boolean>(false);
+
+  const handleShowDelete = () => {
+    if (disabled) {
+      return;
+    }
+
+    setShowDelete(true);
+  };
+
   const handleHideDelete = (): void => {
     setShowDelete(false);
   };
@@ -54,11 +66,27 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
     }
   };
 
+  if (variant === 'text') {
+    return (
+      <>
+        <a className={disabled ? 'disabled' : ''} onClick={handleShowDelete}>
+          {_('Delete')}
+        </a>
+        <ConfirmDialog
+          text={`${selectedValues.length} elements will be removed. Are you sure?`}
+          open={showDelete}
+          handleClose={handleHideDelete}
+          handleApply={handleDelete}
+        />
+      </>
+    );
+  }
+
   return (
     <>
       <Tooltip title={_('Delete')} placement='bottom' enterTouchDelay={0} arrow>
-        <a>
-          <DeleteIcon onClick={() => setShowDelete(true)} />
+        <a onClick={handleShowDelete}>
+          <DeleteIcon />
         </a>
       </Tooltip>
       <ConfirmDialog

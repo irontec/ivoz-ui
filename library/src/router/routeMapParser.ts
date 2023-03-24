@@ -30,7 +30,6 @@ export interface MultiSelectActionItemProps {
   rows: Array<Record<string, any>>;
   selectedValues: Array<string>;
   entityService: EntityService;
-  style: Record<string, string | number>;
   variant?: 'icon' | 'text';
 }
 

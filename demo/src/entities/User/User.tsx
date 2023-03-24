@@ -106,7 +106,7 @@ const user: EntityInterface = {
   title: 'Users',
   path: '/users',
   defaultOrderBy: '',
-  toStr: (row: any) => row.id,
+  toStr: (row: any) => row.iden,
   properties,
   columns: ['client', 'iden', 'enabled', 'email', 'birthDate'],
   customActions: Actions,

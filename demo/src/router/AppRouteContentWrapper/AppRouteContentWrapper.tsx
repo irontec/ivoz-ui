@@ -20,12 +20,8 @@ export default function AppRouteContentWrapper(
           <Menu routeMap={routeMap} />
         </Box>
         <Box component='main' sx={{ display: 'block', padding: 3 }}>
-          <Box>
-            {loggedIn && <Header routeMap={routeMap} />}
-          </Box>
-          <Box>
-            {children}
-          </Box>
+          <Box>{loggedIn && <Header routeMap={routeMap} />}</Box>
+          <Box>{children}</Box>
         </Box>
       </Box>
       <Box>

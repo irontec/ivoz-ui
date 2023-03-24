@@ -67,9 +67,7 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
   return (
     <>
       {variant === 'text' && (
-        <span onClick={handleClickOpen}>
-          {_('Sync client')}
-        </span>
+        <span onClick={handleClickOpen}>{_('Sync client')}</span>
       )}
       {variant === 'icon' && (
         <Tooltip

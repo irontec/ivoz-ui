@@ -28,7 +28,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps
 ) => {
-  const { selectedValues, style, variant='icon' } = props;
+  const { selectedValues = [], variant = 'icon' } = props;
+  const disabled = selectedValues.length === 0;
+
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -46,6 +48,10 @@ const UpdateLicenses: ActionFunctionComponent = (
   };
 
   const handleClickOpen = () => {
+    if (disabled) {
+      return;
+    }
+
     setOpen(true);
   };
 
@@ -83,18 +89,14 @@ const UpdateLicenses: ActionFunctionComponent = (
   };
 
   if (isSingleRowAction(props)) {
-    return (
-      <span className='display-none'></span>
-    );
+    return <span className='display-none'></span>;
   }
 
   return (
     <>
-      <span style={style} onClick={handleClickOpen}>
+      <span className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
         {variant === 'text' && (
-          <span onClick={handleClickOpen}>
-            {_('Change Licences')}
-          </span>
+          <span onClick={handleClickOpen}>{_('Change Licences')}</span>
         )}
         {variant === 'icon' && (
           <Tooltip
@@ -107,20 +109,13 @@ const UpdateLicenses: ActionFunctionComponent = (
         )}
       </span>
       {open && (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          keepMounted
-        >
+        <Dialog open={open} onClose={handleClose} keepMounted>
           <DialogTitle>Change licence to:</DialogTitle>
           <DialogContent>
             <DialogContentText>
               {!error && (
                 <FormControl sx={{ margin: 1, minWidth: 120 }}>
-                  <Select
-                    value={licensesValue}
-                    onChange={handleChange}
-                  >
+                  <Select value={licensesValue} onChange={handleChange}>
                     <MenuItem value={'no'}>None</MenuItem>
                     <MenuItem value={'desktop'}>Desktop</MenuItem>
                     <MenuItem value={'mobile'}>Mobile</MenuItem>

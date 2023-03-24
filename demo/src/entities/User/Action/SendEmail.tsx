@@ -21,7 +21,6 @@ import User from '../User';
 import { UserPropertiesList, UserPropertyList } from '../UserProperties';
 
 interface SendEmailProps {
-  style: Record<string, string | number>;
   error: boolean;
   children: JSX.Element;
   targetId: string;
@@ -32,7 +31,7 @@ interface SendEmailProps {
 }
 
 const SendEmail = (props: SendEmailProps) => {
-  const { style, error, children, targetId, variant='icon', disabled } = props;
+  const { error, children, targetId, variant = 'icon', disabled } = props;
   const { open, setOpen } = props;
 
   const apiPost = useStoreActions((actions) => {
@@ -62,7 +61,7 @@ const SendEmail = (props: SendEmailProps) => {
 
   return (
     <>
-      <a className={disabled ? 'disabled' : ''} style={style} onClick={handleClickOpen}>
+      <a className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
         {variant === 'text' && _('Send email')}
         {variant === 'icon' && (
           <Tooltip
@@ -70,7 +69,7 @@ const SendEmail = (props: SendEmailProps) => {
             placement='bottom-start'
             enterTouchDelay={0}
           >
-              <EmailIcon />
+            <EmailIcon />
           </Tooltip>
         )}
       </a>
@@ -112,6 +111,7 @@ const SendEmail = (props: SendEmailProps) => {
 const SendEmailWrapper: ActionFunctionComponent = (
   props: CustomActionProps
 ) => {
+  const { variant } = props;
   const [open, setOpen] = useState(false);
 
   let disabled = false;
@@ -123,7 +123,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
     }
 
     if (!row.email) {
-      let disabled = false;
+      const disabled = false;
     }
 
     const targetId = row.id;
@@ -132,7 +132,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
     return (
       <SendEmail
         disabled={disabled}
-        style={{}}
+        variant={variant}
         error={error}
         targetId={targetId}
         open={open}
@@ -145,7 +145,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
       </SendEmail>
     );
   } else if (isMultiSelectAction(props)) {
-    const { rows, selectedValues, style } = props;
+    const { rows, selectedValues } = props;
 
     const selectedUsers = selectedValues.map((id: string) => {
       return (rows as UserPropertiesList).find(
@@ -166,8 +166,8 @@ const SendEmailWrapper: ActionFunctionComponent = (
 
     return (
       <SendEmail
-        disabled={disabled}
-        style={style}
+        disabled={disabled || selectedUsers.length == 0}
+        variant={variant}
         error={error}
         targetId={targetId}
         open={open}

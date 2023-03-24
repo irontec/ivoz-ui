@@ -15,7 +15,7 @@ const Blank: EntityInterface = {
     detail: false,
     update: false,
     delete: false,
-  }
+  },
 };
 
 export default Blank;

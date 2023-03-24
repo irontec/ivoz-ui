@@ -56,7 +56,7 @@ const getEntityMap = (): RouteMap => {
         },
         {
           entity: entities.Language,
-        }
+        },
       ],
     },
   ];

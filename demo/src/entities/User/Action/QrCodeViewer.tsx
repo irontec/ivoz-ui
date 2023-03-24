@@ -19,15 +19,13 @@ import { QrCode2 } from '@mui/icons-material';
 import { useStoreActions, useStoreState } from 'store';
 
 const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row, variant='icon' } = props;
+  const { row, variant = 'icon' } = props;
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
   const [authType, setAuthType] = useState<string | undefined>();
 
-  const disabled = authType !== 'password'
-    ? true
-    : false;
+  const disabled = authType !== 'password' ? true : false;
 
   const [img, setImg] = useState<string>();
 
@@ -60,7 +58,6 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   }, [parentClient]);
 
   const handleClickOpen = () => {
-
     if (disabled) {
       return;
     }

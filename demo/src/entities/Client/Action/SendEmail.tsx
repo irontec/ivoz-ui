@@ -18,7 +18,7 @@ import { useStoreActions } from 'store';
 import Client from '../Client';
 
 const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row, variant='icon' } = props;
+  const { row, variant = 'icon' } = props;
 
   const [open, setOpen] = useState(false);
   const apiPost = useStoreActions((actions) => {
@@ -50,9 +50,7 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
   return (
     <>
       {variant === 'text' && (
-        <span onClick={handleClickOpen}>
-          {_('Send email')}
-        </span>
+        <span onClick={handleClickOpen}>{_('Send email')}</span>
       )}
       {variant === 'icon' && (
         <Tooltip

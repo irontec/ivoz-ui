@@ -4,18 +4,13 @@ import { TextField } from './TextField';
 export const StyledTextField = styled(TextField)(({ theme }) => {
   return {
     marginTop: '0px',
-    '&.changed > label': {
-      color: theme.palette.info.main,
-    },
   };
 });
 
 export const StyledAutocompleteTextField = styled(TextField)(({ theme }) => {
   return {
     marginTop: '0px',
-    '&.changed > label': {
-      color: theme.palette.info.main,
-    },
+
     '& div.MuiInputBase-root': {
       flexWrap: 'wrap',
     },

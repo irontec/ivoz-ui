@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Language } from 'store/i18n';
 import StyledMenu from './styles/Menu.styles';
+import StyledToggleButton from './styles/ToggleButton.styles';
 import { TranslateButton } from './TranslateButton';
 
 interface LanguageSelectorProps {
@@ -57,13 +58,9 @@ export default function LanguageSelector(
           exclusive
         >
           {languages?.map((lng, idx) => (
-            <ToggleButton
-              key={idx}
-              sx={{ border: 'none', textTransform: 'none' }}
-              value={lng.locale}
-            >
+            <StyledToggleButton key={idx} value={lng.locale}>
               {lng.name}
-            </ToggleButton>
+            </StyledToggleButton>
           ))}
         </ToggleButtonGroup>
       </StyledMenu>

@@ -1,6 +1,7 @@
 import react from "@vitejs/plugin-react";
-import { defineConfig, loadEnv } from "vite";
+import { defineConfig, loadEnv, PluginOption } from "vite";
 import { createHtmlPlugin } from 'vite-plugin-html'
+import { reactScopedCssPlugin } from 'rollup-plugin-react-scoped-css'
 const path = require('path')
 
 export default ({ mode }) => {
@@ -23,6 +24,7 @@ export default ({ mode }) => {
                     }
                   }
             }),
+            reactScopedCssPlugin() as unknown as PluginOption,
         ],
         server: {
             host: true,

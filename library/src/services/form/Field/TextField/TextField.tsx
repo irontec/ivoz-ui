@@ -6,7 +6,7 @@ import {
   TextFieldProps as MuiTextFieldProps,
 } from '@mui/material';
 import { StyledHelpTextTooltip } from '../Shared/HelpText.styles';
-import './TextField.scss';
+import './TextField.scoped.scss';
 
 export type TextFieldProps = MuiTextFieldProps & {
   hasChanged: boolean;

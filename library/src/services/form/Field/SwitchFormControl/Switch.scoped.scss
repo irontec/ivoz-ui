@@ -1,0 +1,38 @@
+.switch {
+  user-select: none;
+  margin-top: 32px;
+
+  &::v-deep {
+    .MuiSwitch-root {
+      padding: 6px;
+    }
+
+    .MuiSwitch-switchBase {
+      &:hover {
+        background: none;
+      }
+
+      &.Mui-checked {
+      }
+    }
+
+    .MuiSwitch-thumb {
+      background-color: white;
+    }
+
+    .Mui-checked + .MuiSwitch-track {
+      --bg-color: var(--color-primary);
+    }
+
+    .MuiSwitch-track {
+      --bg-color: #e0e1e2;
+      background-color: var(--bg-color);
+      opacity: 1;
+      border-radius: 100vw;
+    }
+
+    .MuiTouchRipple-root {
+      display: none;
+    }
+  }
+}

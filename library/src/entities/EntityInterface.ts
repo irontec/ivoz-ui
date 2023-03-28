@@ -127,4 +127,5 @@ export default interface EntityInterface {
   defaultOrderBy: string;
   defaultOrderDirection: OrderDirection;
   icon: React.FunctionComponent;
+  deleteDoubleCheck?: boolean;
 }

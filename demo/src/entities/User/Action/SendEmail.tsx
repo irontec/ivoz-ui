@@ -123,7 +123,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
     }
 
     if (!row.email) {
-      const disabled = false;
+      disabled = false;
     }
 
     const targetId = row.id;

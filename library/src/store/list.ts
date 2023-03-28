@@ -2,12 +2,14 @@ import { Action, action, Thunk, thunk } from 'easy-peasy';
 import { EntityValues } from '../services/entity/EntityService';
 
 export interface ListState {
+  reloadTimestamp: number;
   parentRow: EntityValues | undefined;
   rows: Array<EntityValues>;
   headers: Record<string, string>;
 }
 
 interface ListActions {
+  reload: Action<ListState>;
   setParentRow: Action<ListState, undefined | EntityValues>;
   setRows: Action<ListState, Array<EntityValues>>;
   setHeaders: Action<ListState, Record<string, string>>;
@@ -17,11 +19,16 @@ interface ListActions {
 export type ListStore = ListState & ListActions;
 
 const list: ListStore = {
+  reloadTimestamp: 0,
   parentRow: undefined,
   rows: [],
   headers: {},
 
   // actions
+  reload: action<ListState>((state) => {
+    state.reloadTimestamp = Date.now();
+  }),
+
   setParentRow: action<ListState, undefined | EntityValues>((state, row) => {
     state.parentRow = row;
   }),

@@ -35,6 +35,7 @@ const List = function (props: ListProps) {
 
   const currentRoute = findRoute(routeMap, match);
 
+  const reloadTimestamp = useStoreState((store) => store.list.reloadTimestamp);
   const resetList = useStoreActions((actions: any) => {
     return actions.list.reset;
   });
@@ -256,6 +257,7 @@ const List = function (props: ListProps) {
     filterByStr,
     cancelToken,
     mounted,
+    reloadTimestamp,
   ]);
 
   if (prevPath !== path) {

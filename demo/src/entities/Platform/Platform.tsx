@@ -81,6 +81,7 @@ const platform: EntityInterface = {
   columns: ['name', 'type', 'features'],
   selectOptions,
   Form,
+  deleteDoubleCheck: true,
 };
 
 export default platform;

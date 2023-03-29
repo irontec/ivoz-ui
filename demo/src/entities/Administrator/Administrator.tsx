@@ -5,7 +5,7 @@ import defaultEntityBehavior, {
   MarshallerValues,
 } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
 import { AdministratorProperties } from './AdministratorProperties';
-import Form from './Form';
+
 import { EntityValues } from '@irontec/ivoz-ui/services/entity/EntityService';
 import { PartialPropertyList } from '@irontec/ivoz-ui';
 
@@ -44,7 +44,10 @@ const administrator: EntityInterface = {
   path: '/administrators',
   properties,
   toStr: (row: EntityValues) => row?.username as string | '',
-  Form,
+  Form: async () => {
+    const module = await import('./Form');
+    return module.default;
+  },
   marshaller: (
     values: MarshallerValues,
     properties: PartialPropertyList

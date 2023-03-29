@@ -5,7 +5,9 @@ const modules = import.meta.glob(
   [
     './*/*.tsx',
     '!./*/foreignKeyGetter.tsx',
+    '!./*/ForeignKeyGetter.tsx',
     '!./*/foreignKeyResolver.tsx',
+    '!./*/ForeignKeyResolver.tsx',
     '!./*/Form.tsx',
     '!./*/View.tsx',
     '!./*/*Properties.tsx',

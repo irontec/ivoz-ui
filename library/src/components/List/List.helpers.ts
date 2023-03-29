@@ -1,8 +1,8 @@
 /* eslint-disable no-script-url */
 
 import queryString from 'query-string';
-import { CriteriaFilterValues } from './Filter/ContentFilter';
 import { KeyValList } from '../../services/api/ParsedApiSpecInterface';
+import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { SearchFilterType } from './Filter/icons/FilterIconFactory';
 
 export const criteriaToArray = (where: CriteriaFilterValues): Array<string> => {

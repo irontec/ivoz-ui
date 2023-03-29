@@ -1,4 +1,5 @@
 import {
+  EmbeddableProperty,
   isPropertyScalar,
   PropertyList,
   ScalarProperty,
@@ -33,7 +34,7 @@ const validationErrosToJsxErrorList = (
       embeddable &&
       properties[nameSegments[0]] &&
       isPropertyScalar(properties[nameSegments[0]]) &&
-      (properties[nameSegments[0]] as ScalarProperty).multilang;
+      (properties[nameSegments[0]] as EmbeddableProperty).multilang;
 
     const property = multilang ? properties[nameSegments[0]] : properties[idx];
 

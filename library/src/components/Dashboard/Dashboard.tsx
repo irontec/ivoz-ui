@@ -1,5 +1,5 @@
 import { Grid, styled } from '@mui/material';
-import { RouteMap, RouteMapBlock } from '../../router/routeMapParser';
+import { isRouteMapBlock, RouteMap } from '../../router/routeMapParser';
 import DashboardBlock from './DashboardBlock';
 
 export interface DashboardProps {
@@ -12,7 +12,11 @@ const Dashboard = (props: DashboardProps) => {
 
   return (
     <Grid container spacing={3} className={className}>
-      {routeMap.map((routeMapBlock: RouteMapBlock, key: number) => {
+      {routeMap.map((routeMapBlock, key) => {
+        if (!isRouteMapBlock(routeMapBlock)) {
+          return null;
+        }
+
         return <DashboardBlock key={key} routeMapBlock={routeMapBlock} />;
       })}
     </Grid>

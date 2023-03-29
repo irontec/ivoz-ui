@@ -63,20 +63,22 @@ export const autoSelectOptions = (
     }
 
     promises.push(
-      entity.selectOptions({
-        callback: (options: any) => {
-          for (const k in fkProperties) {
-            if (skip.includes(k)) {
-              continue;
-            }
+      entity.selectOptions().then((selectOptions) =>
+        selectOptions({
+          callback: (options: any) => {
+            for (const k in fkProperties) {
+              if (skip.includes(k)) {
+                continue;
+              }
 
-            if (fkProperties[k].$ref === ref) {
-              response[k] = options;
+              if (fkProperties[k].$ref === ref) {
+                response[k] = options;
+              }
             }
-          }
-        },
-        cancelToken,
-      })
+          },
+          cancelToken,
+        })
+      )
     );
   }
 

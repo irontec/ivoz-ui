@@ -21,7 +21,7 @@ type ListProps = {
   path: string;
   routeMap: RouteMap;
   entityService: EntityService;
-  foreignKeyResolver: foreignKeyResolverType;
+  foreignKeyResolver: () => Promise<foreignKeyResolverType>;
 };
 
 const List = function (props: ListProps) {
@@ -227,22 +227,24 @@ const List = function (props: ListProps) {
         }
 
         setRows(data);
-        foreignKeyResolver({
-          data,
-          allowLinks: true,
-          entityService,
-          cancelToken,
-        }).then((data: any) => {
-          if (!mounted) {
-            return;
-          }
+        foreignKeyResolver().then((foreignKeyResolver) => {
+          foreignKeyResolver({
+            data,
+            allowLinks: true,
+            entityService,
+            cancelToken,
+          }).then((data: any) => {
+            if (!mounted) {
+              return;
+            }
 
-          const fixedData = [];
-          for (const idx in data) {
-            fixedData.push(data[idx]);
-          }
+            const fixedData = [];
+            for (const idx in data) {
+              fixedData.push(data[idx]);
+            }
 
-          setRows(fixedData);
+            setRows(fixedData);
+          });
         });
       },
     });

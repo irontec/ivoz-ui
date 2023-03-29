@@ -10,15 +10,25 @@ import EntityService, { EntityValues } from '../services/entity/EntityService';
 import { getMarshallerWhiteList } from './form.helper';
 import { useStoreActions } from '../store';
 import ErrorBoundary from './ErrorBoundary';
+import { useEffect, useState } from 'react';
 
 type CreateProps = EntityInterface & {
   entityService: EntityService;
   routeMap: RouteMap;
-  Form: EntityFormType;
+  Form: () => Promise<EntityFormType>;
 };
 
 const Create = (props: CreateProps) => {
   const { marshaller, unmarshaller, path, routeMap, entityService } = props;
+
+  const { Form: EntityFormLoader } = props;
+  const [EntityForm, setEntityForm] = useState<EntityFormType | null>(null);
+
+  useEffect(() => {
+    EntityFormLoader().then((Form) => {
+      setEntityForm(() => Form);
+    });
+  }, []);
 
   const location = useLocation();
   const match = useCurrentPathMatch();
@@ -35,7 +45,6 @@ const Create = (props: CreateProps) => {
     parentPath = parentPath.replace(`:${idx}`, params[idx] as string);
   }
 
-  const { Form: EntityForm } = props;
   const apiPost = useStoreActions((actions) => actions.api.post);
   const [, cancelToken] = useCancelToken();
 
@@ -91,6 +100,10 @@ const Create = (props: CreateProps) => {
       }
     } catch {}
   };
+
+  if (!EntityForm) {
+    return null;
+  }
 
   return (
     <ErrorBoundary>

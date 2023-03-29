@@ -1,15 +1,15 @@
-import { StyledDropdown } from '../../../form/Field/Dropdown';
 import {
   FormOnChangeEvent,
   PropertyFkChoices,
 } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { ScalarProperty } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
-import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
+import { Dropdown } from '../../../form/Field/Dropdown';
 import {
   DropdownChoices,
   DropdownObjectChoices,
 } from '../../../form/Field/Dropdown/Dropdown';
+import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
 
 type DropdownFactoryPropsType = {
   fld: string;
@@ -71,7 +71,7 @@ export const DropdownFactory = (
   }
 
   return (
-    <StyledDropdown
+    <Dropdown
       name={fld}
       label={property.label}
       value={booleanValue}

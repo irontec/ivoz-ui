@@ -1,10 +1,10 @@
 import { LinearProgress } from '@mui/material';
-import { StyledAutocomplete } from '../../Field/Autocomplete';
-import { StyledLinearProgressContainer } from '../FormFieldFactory.styles';
+import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { PropertySpec } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
-import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
+import { Autocomplete } from '../../Field/Autocomplete';
 import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
+import { StyledLinearProgressContainer } from '../FormFieldFactory.styles';
 
 type AutocompleteFactoryPropsType = {
   fld: string;
@@ -61,7 +61,7 @@ export const AutocompleteFactory = (
   }
 
   return (
-    <StyledAutocomplete
+    <Autocomplete
       name={fld}
       label={property.label}
       value={value}

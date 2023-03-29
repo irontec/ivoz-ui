@@ -1,5 +1,5 @@
 import { FormControlLabel, Switch } from '@mui/material';
-import { StyledSwitchFormControl } from '../../../form/Field/SwitchFormControl';
+import { SwitchFormControl } from '../../../form/Field/SwitchFormControl';
 import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { ScalarProperty } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
@@ -30,7 +30,7 @@ export const SwitchFactory = (props: SwitchFactoryPropsType): JSX.Element => {
   const checked = Array.isArray(value) ? value.includes('1') : Boolean(value);
 
   return (
-    <StyledSwitchFormControl hasChanged={hasChanged}>
+    <SwitchFormControl hasChanged={hasChanged}>
       <FormControlLabel
         disabled={disabled}
         control={
@@ -44,6 +44,6 @@ export const SwitchFactory = (props: SwitchFactoryPropsType): JSX.Element => {
         }
         label={property.label}
       />
-    </StyledSwitchFormControl>
+    </SwitchFormControl>
   );
 };

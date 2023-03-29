@@ -6,6 +6,7 @@ import SaveButton from '../../../components/shared/Button/SaveButton';
 import ErrorMessage from '../../../components/shared/ErrorMessage';
 import {
   DropdownChoices,
+  EmbeddableProperty,
   ScalarEntityValue,
   ScalarProperty,
   useFormikType,
@@ -114,7 +115,7 @@ const Form: EntityFormType = (props) => {
 
   const mlSubproperties: string[] = [];
   for (const fld of fields) {
-    if ((allProperties[fld] as ScalarProperty)?.multilang) {
+    if ((allProperties[fld] as EmbeddableProperty)?.multilang) {
       for (const propertyName in allProperties) {
         if (propertyName.indexOf(`${fld}.`) === 0) {
           mlSubproperties.push(propertyName);

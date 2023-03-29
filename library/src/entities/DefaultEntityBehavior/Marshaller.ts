@@ -3,6 +3,7 @@ import {
   PropertySpec,
   isPropertyScalar,
   isPropertyFk,
+  isPropertyEmbeddable,
 } from '../../services/api/ParsedApiSpecInterface';
 
 export type MarshallerValues = { [key: string]: any };
@@ -51,7 +52,7 @@ const marshaller = (
       continue;
     }
 
-    if (isPropertyScalar(property) && property.multilang === true) {
+    if (isPropertyEmbeddable(property) && property.multilang === true) {
       continue;
     }
 

@@ -3,10 +3,8 @@ import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavi
 import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import { FeatureProperties, FeaturePropertyList } from './FeatureProperties';
 import { getI18n } from 'react-i18next';
-import selectOptions from './SelectOptions';
-import Form from './Form';
+import { FeatureProperties, FeaturePropertyList } from './FeatureProperties';
 
 const properties: FeatureProperties = {
   iden: {
@@ -30,8 +28,14 @@ const Feature: EntityInterface = {
     return name[language];
   },
   properties,
-  selectOptions,
-  Form,
+  selectOptions: async () => {
+    const module = await import('./SelectOptions');
+    return module.default;
+  },
+  Form: async () => {
+    const module = await import('./Form');
+    return module.default;
+  },
 };
 
 export default Feature;

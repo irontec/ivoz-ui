@@ -3,9 +3,8 @@ import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavi
 import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import { LanguageProperties, LanguagePropertyList } from './LanguageProperties';
-import selectOptions from './SelectOptions';
 import { getI18n } from 'react-i18next';
+import { LanguageProperties, LanguagePropertyList } from './LanguageProperties';
 
 const properties: LanguageProperties = {
   iden: {
@@ -32,7 +31,10 @@ const Language: EntityInterface = {
     return name[language];
   },
   properties,
-  selectOptions,
+  selectOptions: async () => {
+    const module = await import('./SelectOptions');
+    return module.default;
+  },
 };
 
 export default Language;

@@ -1,11 +1,9 @@
-import CastleIcon from '@mui/icons-material/Castle';
-import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
 import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import selectOptions from './SelectOptions';
-import Form from './Form';
-import { PlatformProperties, PlatformPropertyList } from './PlatformProperties';
+import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import { EntityValue } from '@irontec/ivoz-ui/services';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import CastleIcon from '@mui/icons-material/Castle';
+import { PlatformProperties, PlatformPropertyList } from './PlatformProperties';
 
 const properties: PlatformProperties = {
   name: {
@@ -79,8 +77,14 @@ const platform: EntityInterface = {
   toStr: (row: PlatformPropertyList<EntityValue>) => row.name as string,
   properties,
   columns: ['name', 'type', 'features'],
-  selectOptions,
-  Form,
+  selectOptions: async () => {
+    const module = await import('./SelectOptions');
+    return module.default;
+  },
+  Form: async () => {
+    const module = await import('./Form');
+    return module.default;
+  },
   deleteDoubleCheck: true,
 };
 

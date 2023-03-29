@@ -4,16 +4,16 @@ import EntityInterface, { ViewType } from '../entities/EntityInterface';
 import EntityService from '../services/entity/EntityService';
 import withRowData from './withRowData';
 
-type ViewComponentProps = {
+type DetailComponentProps = {
   entityService: EntityService;
   row: any;
   View: () => Promise<ViewType>;
 } & Pick<EntityInterface, 'foreignKeyResolver'> &
   Pick<FormProps, 'groups'>;
 
-type ViewComponentType = FunctionComponent<ViewComponentProps>;
+type DetailComponentType = FunctionComponent<DetailComponentProps>;
 
-const View: ViewComponentType = (props) => {
+const Detail: DetailComponentType = (props) => {
   const {
     View: EntityViewLoader,
     row,
@@ -53,4 +53,4 @@ const View: ViewComponentType = (props) => {
   return <EntityView {...props} row={parsedData} />;
 };
 
-export default withRowData(View as FunctionComponent);
+export default withRowData(Detail as FunctionComponent);

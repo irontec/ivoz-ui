@@ -27,7 +27,7 @@ const foreignKeyResolver: foreignKeyResolverType = async function ({
       dataPreprocesor: async (rows) => {
         for (const idx in data) {
           const platform = (rows as PlatformPropertiesList).find(
-            (row: any) => row.id === data[idx].platform
+            (row) => row.id === data[idx].platform
           );
           data[idx].platformType = platform?.type;
         }

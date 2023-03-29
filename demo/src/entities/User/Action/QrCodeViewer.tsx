@@ -66,7 +66,7 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
       path: entities.User.path + `/${row.id}/login_qr`,
       params: {},
       handleErrors: false,
-      successCallback: async (data: any) => {
+      successCallback: async (data) => {
         blobToBase64(data as Blob)
           .then((img) => {
             setImg(img as string);

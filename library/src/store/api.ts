@@ -48,7 +48,7 @@ interface requestParms {
 interface apiGetRequestParams extends requestParms {
   params: KeyValList;
   successCallback: (
-    data: Record<string, any> | Array<Record<string, any>>,
+    data: Record<string, any> | Array<Record<string, any>> | Blob,
     headers: Record<string, any>
   ) => Promise<any>;
 }

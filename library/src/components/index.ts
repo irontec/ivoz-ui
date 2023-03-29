@@ -3,5 +3,5 @@ export { default as Dasboard } from './Dashboard';
 export { default as Create } from './Create';
 export { default as Edit } from './Edit';
 export { default as List } from './List/List';
-export { default as View } from './View';
+export { default as Detail } from './Detail';
 export * from './layout';

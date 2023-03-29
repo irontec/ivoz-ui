@@ -15,19 +15,7 @@ import App from './App';
 const currentLanguage =
   i18n.language.substring(0, 2) === 'es' ? 'esES' : 'enUS';
 
-const theme = createTheme(
-  {
-    // palette: {
-    //   primary: {
-    //     main: '#ff664a',
-    //   },
-    //   secondary: {
-    //     main: '#86daf2',
-    //   },
-    // },
-  },
-  locales[currentLanguage]
-);
+const theme = createTheme(locales[currentLanguage]);
 
 const container = document.getElementById('root');
 const root = createRoot(container as any);

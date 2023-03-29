@@ -10,7 +10,7 @@ import {
 import {
   DropdownChoices,
   SelectProps,
-  StyledDropdown,
+  Dropdown,
 } from '../../../../services/form/Field/Dropdown';
 import { StyledTextField } from '../../../../services/form/Field/TextField';
 import _ from '../../../../services/translations/translate';
@@ -35,7 +35,7 @@ export interface ContentFilterRowProps {
 }
 
 const StyledDropdownMemo = memo(
-  StyledDropdown,
+  Dropdown,
   (prev: SelectProps, next: SelectProps) => {
     return prev.value === next.value;
   }
@@ -155,7 +155,7 @@ export default function ContentFilterRow(
           />
         )}
         {type !== 'exists' && enumValue && (
-          <StyledDropdown
+          <Dropdown
             name='value'
             label=''
             value={value}

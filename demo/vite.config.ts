@@ -54,5 +54,31 @@ export default ({ mode }) => {
         define: {
             "process.env.BASE_URL": `"${base}"`
         },
+        build: {
+            rollupOptions: {
+                output: {
+                    manualChunks: (id, { getModuleInfo, getModuleIds }) => {
+
+                        if (id.includes('/ivoz-ui/library/')) {
+                            return 'ivoz-ui';
+                        }
+
+                        if (id.includes('/node_modules/')) {
+                            return 'vendor';
+                        }
+
+                        if (
+                            id.includes('ForeignKeyResolver.ts')
+                            || id.includes('ForeignKeyGetter.ts')
+                            || id.includes('Form.ts')
+                            || id.includes('SelectOptions.ts')
+                            || id.includes('/SelectOptions/')
+                        ) {
+                            return 'entity-modules';
+                        }
+                    },
+                }
+            }
+        },
     })
 }

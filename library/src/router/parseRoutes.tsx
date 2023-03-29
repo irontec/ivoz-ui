@@ -1,4 +1,4 @@
-import { List, Create, Edit, View } from '../components';
+import { List, Create, Edit, Detail } from '../components';
 import ParsedApiSpecInterface from '../services/api/ParsedApiSpecInterface';
 import EntityService from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
@@ -80,7 +80,7 @@ const parseRouteMapItems = (
         key: `${iden}-detailed`,
         path: `${route}/:id/detailed`,
         entity: entity,
-        component: View,
+        component: Detail,
       });
     }
 

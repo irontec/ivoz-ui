@@ -1,13 +1,11 @@
-import StyledDropdown from './Dropdown.styles';
 import Dropdown, {
-  DropdownChoices,
-  DropdownArrayChoices,
   DropdownArrayChoice,
+  DropdownArrayChoices,
+  DropdownChoices,
   SelectProps,
 } from './Dropdown';
 
-export { StyledDropdown, Dropdown };
-
+export { Dropdown };
 export type {
   SelectProps,
   DropdownChoices,

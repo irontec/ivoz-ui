@@ -1,38 +1,38 @@
+import { CancelToken } from 'axios';
 import * as React from 'react';
 import { EntityValues } from '../services/entity/EntityService';
 import { StoreContainer } from '../store';
 import {
+  ChildDecoratorProps,
   ChildDecoratorType,
-  OrderDirection,
   EntityAclType,
   FetchFksCallback,
-  ChildDecoratorProps,
+  OrderDirection,
 } from './EntityInterface';
-import { CancelToken } from 'axios';
 
-import validator from './DefaultEntityBehavior/Validator';
+import { EntityItem, isEntityItem } from '../router';
+import autoForeignKeyResolver from './DefaultEntityBehavior/AutoForeignKeyResolver';
+import autoSelectOptions from './DefaultEntityBehavior/AutoSelectOptions';
+import filterFieldsetGroups, {
+  FieldsetGroups,
+} from './DefaultEntityBehavior/FilterFieldsetGroups';
+import foreignKeyGetter from './DefaultEntityBehavior/ForeignKeyGetter';
+import foreignKeyResolver from './DefaultEntityBehavior/ForeignKeyResolver';
+import {
+  EntityFormProps,
+  EntityFormType,
+  FkChoices,
+  Form,
+  NullablePropertyFkChoices,
+  PropertyFkChoices,
+} from './DefaultEntityBehavior/Form/index';
+import ListDecorator from './DefaultEntityBehavior/ListDecorator';
 import marshaller, {
   MarshallerValues,
 } from './DefaultEntityBehavior/Marshaller';
 import unmarshaller from './DefaultEntityBehavior/Unmarshaller';
-import autoForeignKeyResolver from './DefaultEntityBehavior/AutoForeignKeyResolver';
-import autoSelectOptions from './DefaultEntityBehavior/AutoSelectOptions';
-import ListDecorator from './DefaultEntityBehavior/ListDecorator';
-import foreignKeyResolver from './DefaultEntityBehavior/ForeignKeyResolver';
-import foreignKeyGetter from './DefaultEntityBehavior/ForeignKeyGetter';
-import filterFieldsetGroups, {
-  FieldsetGroups,
-} from './DefaultEntityBehavior/FilterFieldsetGroups';
-import {
-  Form,
-  PropertyFkChoices,
-  EntityFormType,
-  FkChoices,
-  NullablePropertyFkChoices,
-  EntityFormProps,
-} from './DefaultEntityBehavior/Form/index';
+import validator from './DefaultEntityBehavior/Validator';
 import View from './DefaultEntityBehavior/View';
-import { EntityItem, isEntityItem } from '../router';
 
 export const initialValues = {};
 
@@ -97,14 +97,21 @@ const fetchFks = (
     cancelToken,
   });
 };
+export type fetchFksType = typeof fetchFks;
 
 const DefaultEntityBehavior = {
   initialValues,
   validator,
   marshaller,
   unmarshaller,
-  foreignKeyResolver,
-  foreignKeyGetter,
+  foreignKeyResolver: async () => {
+    const module = await import('./DefaultEntityBehavior/ForeignKeyResolver');
+    return module.default;
+  },
+  foreignKeyGetter: async () => {
+    const module = await import('./DefaultEntityBehavior/ForeignKeyGetter');
+    return module.default;
+  },
   columns,
   properties,
   acl,
@@ -114,8 +121,14 @@ const DefaultEntityBehavior = {
   toStr: (row: EntityValues): string => {
     return (row.id as string) || '[*]';
   },
-  Form,
-  View,
+  Form: async () => {
+    const module = await import('./DefaultEntityBehavior/Form/Form');
+    return module.Form;
+  },
+  View: async () => {
+    const module = await import('./DefaultEntityBehavior/View');
+    return module.default;
+  },
   fetchFks,
   defaultOrderBy: 'id',
   defaultOrderDirection: OrderDirection.asc,
@@ -133,8 +146,8 @@ export {
   foreignKeyGetter,
   filterFieldsetGroups,
   Form,
+  View,
 };
-
 export type {
   PropertyFkChoices,
   EntityFormType,

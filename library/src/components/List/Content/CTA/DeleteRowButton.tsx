@@ -33,12 +33,10 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
 
     event.preventDefault();
     try {
-      const resp = await apiDelete(
-        {
-          path: path.replace('{id}', row.id),
-          successCallback: async () => {}
-        }
-      );
+      const resp = await apiDelete({
+        path: path.replace('{id}', row.id),
+        successCallback: async () => {},
+      });
 
       if (resp !== undefined) {
         reloadPage();
@@ -69,9 +67,11 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
         <a onClick={() => setShowDelete(true)}>{_('Delete')}</a>
       )}
       <ConfirmDialog
-        text={(
-          <span>You are about to remove <strong>{iden}</strong></span>
-        )}
+        text={
+          <span>
+            You are about to remove <strong>{iden}</strong>
+          </span>
+        }
         open={showDelete}
         doubleCheck={entity.deleteDoubleCheck || false}
         doubleCheckExpectedStr={iden}

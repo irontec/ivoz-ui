@@ -87,7 +87,7 @@ const Password: AcrobitsPasswordType | SipPasswordType = (
     return <>{values[columnName]}</>;
   }
 
-  const inputProps: any = {};
+  const inputProps: Record<string, number | string> = {};
   if (isPropertyScalar(property) && property.maxLength) {
     inputProps.maxLength = property.maxLength;
   }

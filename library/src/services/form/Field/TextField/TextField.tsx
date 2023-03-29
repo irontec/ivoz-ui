@@ -6,6 +6,7 @@ import {
   TextFieldProps as MuiTextFieldProps,
 } from '@mui/material';
 import { StyledHelpTextTooltip } from '../Shared/HelpText.styles';
+import './TextField.scoped.scss';
 
 export type TextFieldProps = MuiTextFieldProps & {
   hasChanged: boolean;
@@ -52,14 +53,19 @@ export const TextField = (props: TextFieldProps) => {
       variant='standard'
       fullWidth={true}
       error={error}
-      className={className}
+      className={'text-field ' + className}
     >
       {label && (
         <label htmlFor={name} id={labelId}>
           {label}
           {required && '*'}
           {helperText && (
-            <StyledHelpTextTooltip title={helperText} placement='top' arrow>
+            <StyledHelpTextTooltip
+              title={helperText}
+              placement='top'
+              arrow
+              className='help-tooltip'
+            >
               <HelpOutlineIcon />
             </StyledHelpTextTooltip>
           )}
@@ -79,14 +85,16 @@ export const TextField = (props: TextFieldProps) => {
         onChange={onChange}
         onBlur={onBlur}
         error={error}
-        className={className}
+        className='input-field'
         margin={margin}
         inputProps={inputProps}
         startAdornment={InputProps?.startAdornment}
         endAdornment={InputProps?.endAdornment}
         inputRef={inputRef}
       />
-      {error && errorMsg && <FormHelperText>{errorMsg}</FormHelperText>}
+      {error && errorMsg && (
+        <FormHelperText className='helper-error'>{errorMsg}</FormHelperText>
+      )}
     </FormControl>
   );
 };

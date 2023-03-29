@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'PublicSans';
+  src: url('/src/assets/fonts/PublicSans.ttf') format('truetype');
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'PublicSans';
+  src: url('/src/assets/fonts/PublicSans-Italic.ttf') format('truetype');
+  font-style: italic;
+}
+
+body {
+  font-family: 'PublicSans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

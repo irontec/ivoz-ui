@@ -14,6 +14,7 @@ import {
   DropdownChoices,
 } from '../Dropdown';
 import { StyledAutocompleteTextField } from '../TextField';
+import './Autocomplete.scoped.scss';
 
 export interface AutocompleteProps {
   className?: string;
@@ -181,7 +182,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
 
   return (
     <MuiAutocomplete
-      className={className}
+      className={'autocomplete ' + className}
       value={autocompleteValue}
       multiple={multiple}
       disabled={disabled}
@@ -194,7 +195,12 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
       filterSelectedOptions
       renderInput={renderInput}
       renderOption={(props, option) => (
-        <Box component='li' data-value={option.id} {...props}>
+        <Box
+          component='li'
+          className='autocomplete-option'
+          data-value={option.id}
+          {...props}
+        >
           {option.label}
         </Box>
       )}

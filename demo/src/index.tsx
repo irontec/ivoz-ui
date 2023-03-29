@@ -9,25 +9,13 @@ import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from 'easy-peasy';
 import store from 'store';
 import i18n from './i18n';
-import './index.scss';
+import './sass/main.scss';
 import App from './App';
 
 const currentLanguage =
   i18n.language.substring(0, 2) === 'es' ? 'esES' : 'enUS';
 
-const theme = createTheme(
-  {
-    palette: {
-      primary: {
-        main: '#0277bd',
-      },
-      secondary: {
-        main: '#e53935',
-      },
-    },
-  },
-  locales[currentLanguage]
-);
+const theme = createTheme(locales[currentLanguage]);
 
 const container = document.getElementById('root');
 const root = createRoot(container as any);

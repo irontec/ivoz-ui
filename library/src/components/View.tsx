@@ -1,37 +1,56 @@
-import { useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
+import { FormProps } from '../entities/DefaultEntityBehavior/Form/Form';
+import EntityInterface, { ViewType } from '../entities/EntityInterface';
 import EntityService from '../services/entity/EntityService';
-import EntityInterface from '../entities/EntityInterface';
 import withRowData from './withRowData';
 
-interface ViewProps extends EntityInterface {
+type ViewComponentProps = {
   entityService: EntityService;
   row: any;
-  View: any;
-}
+  View: () => Promise<ViewType>;
+} & Pick<EntityInterface, 'foreignKeyResolver'> &
+  Pick<FormProps, 'groups'>;
 
-const View: any = (props: ViewProps) => {
-  const { View: EntityView, row, entityService, foreignKeyResolver } = props;
+type ViewComponentType = FunctionComponent<ViewComponentProps>;
+
+const View: ViewComponentType = (props) => {
+  const {
+    View: EntityViewLoader,
+    row,
+    entityService,
+    foreignKeyResolver: foreignKeyResolverLoader,
+  } = props;
   const [parsedData, setParsedData] = useState<any>({});
   const [foreignKeysResolved, setForeignKeysResolved] =
     useState<boolean>(false);
 
+  const [EntityView, setEntityView] = useState<ViewType | null>(null);
+
+  useEffect(() => {
+    EntityViewLoader().then((View) => {
+      setEntityView(() => View);
+    });
+  }, []);
+
   // flat detailed model
-  foreignKeyResolver({ data: row, allowLinks: true, entityService }).then(
-    (data: any) => {
-      setParsedData(data);
-      setForeignKeysResolved(true);
-    }
+  foreignKeyResolverLoader().then((foreignKeyResolver) =>
+    foreignKeyResolver({ data: row, allowLinks: true, entityService }).then(
+      (data) => {
+        setParsedData(data);
+        setForeignKeysResolved(true);
+      }
+    )
   );
 
   if (!foreignKeysResolved) {
     return null;
   }
 
-  return (
-    <div>
-      <EntityView {...props} row={parsedData} />
-    </div>
-  );
+  if (!EntityView) {
+    return null;
+  }
+
+  return <EntityView {...props} row={parsedData} />;
 };
 
-export default withRowData(View);
+export default withRowData(View as FunctionComponent);

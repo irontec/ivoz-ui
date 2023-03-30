@@ -7,7 +7,7 @@ import { UserPropertyList } from './UserProperties';
 export const foreignKeyGetter: ForeignKeyGetterType = async ({
   cancelToken,
   entityService,
-}): Promise<any> => {
+}) => {
   const response: UserPropertyList<unknown> = {};
 
   const promises = autoSelectOptions({

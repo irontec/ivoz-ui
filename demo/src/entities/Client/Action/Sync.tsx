@@ -55,7 +55,7 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
       .then(() => {
         setDone(true);
       })
-      .catch((error: any) => {
+      .catch((error: { statusText: string; status: number }) => {
         setErrorMsg(`${error.statusText} (${error.status})`);
         setError(true);
       });

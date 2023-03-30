@@ -117,7 +117,7 @@ const Password: AcrobitsPasswordType | SipPasswordType = (
   };
 
   const hasChanged =
-    formik.initialValues[columnName] != formik.values[columnName];
+    formik.initialValues[columnName] !== formik.values[columnName];
 
   return (
     <div>

@@ -14,7 +14,7 @@ const RemoteIdSelectOptions: SelectOptionsType<CustomProps> = (
 ): Promise<unknown> => {
   const platformId = customProps?.platformId;
 
-  const params: Record<string, any> = {
+  const params: Record<string, unknown> = {
     _platformId: platformId,
   };
 

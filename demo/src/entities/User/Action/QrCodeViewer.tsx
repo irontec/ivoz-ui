@@ -78,7 +78,7 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
             setError(true);
           });
       },
-    }).catch((error: any) => {
+    }).catch((error: { statusText: string; status: number }) => {
       setErrorMsg(`${error.statusText} (${error.status})`);
       setError(true);
     });

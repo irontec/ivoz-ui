@@ -65,7 +65,7 @@ const RemoteId: RouteTypeProps = (props): JSX.Element | null => {
       return;
     }
 
-    const targetPbx = remotePbxs.find((row) => row.id == remoteId);
+    const targetPbx = remotePbxs.find((row) => row.id === remoteId);
     if (!targetPbx) {
       setFieldValue('domain', '');
 

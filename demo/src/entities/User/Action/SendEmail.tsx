@@ -164,11 +164,11 @@ const SendEmailWrapper: ActionFunctionComponent = (
     const targetId = (validSelectedUsers as Array<UserPropertyList<string>>)
       .map((user) => user?.id)
       .join(';');
-    const error = validSelectedUsers.length == 0;
+    const error = validSelectedUsers.length === 0;
 
     return (
       <SendEmail
-        disabled={disabled || selectedUsers.length == 0}
+        disabled={disabled || selectedUsers.length === 0}
         variant={variant}
         error={error}
         targetId={targetId}

@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import store, { useStoreActions, useStoreState } from 'store';
 
 import { StyledAppApiLoading, StyledAppFlexDiv } from './App.styles';
-import AppRoutes from './router/AppRoutes';
+import AppRoutesGuard from './router/AppRoutesGuard';
 import { languagesList } from './translations/languages';
 
 export default function App(): JSX.Element {
@@ -46,7 +46,7 @@ export default function App(): JSX.Element {
       <CssBaseline />
       <StyledAppFlexDiv>
         <BrowserRouter basename={baseUrl}>
-          <AppRoutes apiSpec={apiSpec} />
+          <AppRoutesGuard apiSpec={apiSpec} />
         </BrowserRouter>
       </StyledAppFlexDiv>
     </LocalizationProvider>

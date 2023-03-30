@@ -7,10 +7,13 @@ import { ClientPropertyList } from '../../Client/ClientProperties';
 import Platform from '../../Platform/Platform';
 import { PlatformPropertyList } from '../../Platform/PlatformProperties';
 
+type ClientPlatformType = { id: number };
+
 const useParents = (clientId: number) => {
-  const [parent, setParent] = useState<ClientPropertyList<any> | null>(null);
+  const [parent, setParent] =
+    useState<ClientPropertyList<ClientPlatformType> | null>(null);
   const [grandParent, setGrandParent] =
-    useState<PlatformPropertyList<any> | null>(null);
+    useState<PlatformPropertyList<unknown> | null>(null);
 
   const [, cancelToken] = useCancelToken();
   const apiGet = useStoreActions((actions) => {
@@ -22,7 +25,7 @@ const useParents = (clientId: number) => {
       path: `${Client.path}/${clientId}`,
       params: {},
       successCallback: async (client) => {
-        setParent(client);
+        setParent(client as PlatformPropertyList<ClientPlatformType>);
       },
       cancelToken,
     });
@@ -37,7 +40,7 @@ const useParents = (clientId: number) => {
       path: `${Platform.path}/${parent.platform.id}`,
       params: {},
       successCallback: async (platform) => {
-        setGrandParent(platform);
+        setGrandParent(platform as PlatformPropertyList<unknown>);
       },
       cancelToken,
     });

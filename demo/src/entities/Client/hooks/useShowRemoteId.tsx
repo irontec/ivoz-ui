@@ -17,7 +17,7 @@ const useShowRemoteId = (props: useShowRemoteIdProps): boolean => {
   const { create, filterBy, formik, match } = props;
 
   const platformId = filterBy
-    ? (match.params as any).parent_id_1
+    ? (match.params as Record<string, unknown>).parent_id_1
     : formik.values.platform;
 
   const hasPlatformId = platformId !== '';
@@ -41,8 +41,10 @@ const useShowRemoteId = (props: useShowRemoteIdProps): boolean => {
       params: {
         _properties: ['type'],
       },
-      successCallback: async (data: PlatformPropertyList<string>) => {
-        setIsRemotePlatform(data.type !== 'other');
+      successCallback: async (data) => {
+        setIsRemotePlatform(
+          (data as PlatformPropertyList<string>).type !== 'other'
+        );
       },
     });
   }, [platformId, create, hasPlatformId, apiGet, setIsRemotePlatform]);

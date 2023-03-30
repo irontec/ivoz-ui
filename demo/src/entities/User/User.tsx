@@ -85,16 +85,16 @@ const marshaller = (
   values: MarshallerValues,
   properties: PartialPropertyList
 ): MarshallerValues => {
-  values = defaultEntityBehavior.marshaller(values, properties);
-  if (values.enabled === 'no') {
-    delete values.acrobitsPassword;
+  const marshalledValues = defaultEntityBehavior.marshaller(values, properties);
+  if (marshalledValues.enabled === 'no') {
+    delete marshalledValues.acrobitsPassword;
   }
 
   if (properties.acrobitsPassword.required === false) {
-    delete values.acrobitsPassword;
+    delete marshalledValues.acrobitsPassword;
   }
 
-  return values;
+  return marshalledValues;
 };
 
 const user: EntityInterface = {
@@ -104,7 +104,7 @@ const user: EntityInterface = {
   title: 'Users',
   path: '/users',
   defaultOrderBy: '',
-  toStr: (row: any) => row.iden,
+  toStr: (row) => row.iden as string,
   properties,
   columns: ['client', 'iden', 'enabled', 'email', 'birthDate'],
   customActions: Actions,

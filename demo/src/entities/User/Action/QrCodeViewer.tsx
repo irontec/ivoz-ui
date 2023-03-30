@@ -1,4 +1,11 @@
 import {
+  ActionFunctionComponent,
+  ActionItemProps,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import { QrCode2 } from '@mui/icons-material';
+import ErrorIcon from '@mui/icons-material/Error';
+import {
   Button,
   Dialog,
   DialogActions,
@@ -8,14 +15,7 @@ import {
   ImageListItem,
   Tooltip,
 } from '@mui/material';
-import ErrorIcon from '@mui/icons-material/Error';
 import { useEffect, useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  ActionItemProps,
-} from '@irontec/ivoz-ui/router/routeMapParser';
-import { QrCode2 } from '@mui/icons-material';
 import { useStoreActions, useStoreState } from 'store';
 
 const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
@@ -63,7 +63,7 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
     }
 
     apiDownload({
-      path: entities.User.path + `/${row.id}/login_qr`,
+      path: `${entities.User.path}/${row.id}/login_qr`,
       params: {},
       handleErrors: false,
       successCallback: async (data) => {

@@ -1,7 +1,8 @@
-import { PathMatch } from 'react-router-dom';
 import { useFormikType } from '@irontec/ivoz-ui';
 import { useEffect, useState } from 'react';
+import { PathMatch } from 'react-router-dom';
 import { useStoreActions } from 'store';
+
 import Platform from '../../Platform/Platform';
 import { PlatformPropertyList } from '../../Platform/PlatformProperties';
 
@@ -36,7 +37,7 @@ const useShowRemoteId = (props: useShowRemoteIdProps): boolean => {
     }
 
     apiGet({
-      path: Platform.path + `/${platformId}`,
+      path: `${Platform.path}/${platformId}`,
       params: {
         _properties: ['type'],
       },

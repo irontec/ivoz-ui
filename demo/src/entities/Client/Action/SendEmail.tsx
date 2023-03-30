@@ -1,3 +1,8 @@
+import {
+  ActionFunctionComponent,
+  ActionItemProps,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
 import EmailIcon from '@mui/icons-material/Email';
 import {
   Button,
@@ -9,12 +14,8 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  ActionItemProps,
-} from '@irontec/ivoz-ui/router/routeMapParser';
 import { useStoreActions } from 'store';
+
 import Client from '../Client';
 
 const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
@@ -39,7 +40,7 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
 
   const handleSend = () => {
     apiPost({
-      path: Client.path + `/${row.id}/notify_credentials`,
+      path: `${Client.path}/${row.id}/notify_credentials`,
       values: {},
       contentType: 'text/plain',
     }).then(() => {

@@ -1,13 +1,13 @@
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
+import { PartialPropertyList } from '@irontec/ivoz-ui';
 import defaultEntityBehavior, {
   MarshallerValues,
 } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import { AdministratorProperties } from './AdministratorProperties';
-
+import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import { EntityValues } from '@irontec/ivoz-ui/services/entity/EntityService';
-import { PartialPropertyList } from '@irontec/ivoz-ui';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
+import { AdministratorProperties } from './AdministratorProperties';
 
 const properties: AdministratorProperties = {
   username: {
@@ -46,6 +46,7 @@ const administrator: EntityInterface = {
   toStr: (row: EntityValues) => row?.username as string | '',
   Form: async () => {
     const module = await import('./Form');
+
     return module.default;
   },
   marshaller: (

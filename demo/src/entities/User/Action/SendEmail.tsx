@@ -1,3 +1,10 @@
+import {
+  ActionFunctionComponent,
+  CustomActionProps,
+  isMultiSelectAction,
+  isSingleRowAction,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
 import EmailIcon from '@mui/icons-material/Email';
 import {
   Button,
@@ -9,14 +16,8 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  CustomActionProps,
-  isSingleRowAction,
-  isMultiSelectAction,
-} from '@irontec/ivoz-ui/router/routeMapParser';
 import { useStoreActions } from 'store';
+
 import User from '../User';
 import { UserPropertiesList, UserPropertyList } from '../UserProperties';
 
@@ -51,7 +52,7 @@ const SendEmail = (props: SendEmailProps) => {
 
   const handleSend = () => {
     apiPost({
-      path: User.path + `/${targetId}/notify_credentials`,
+      path: `${User.path}/${targetId}/notify_credentials`,
       values: {},
       contentType: 'text/plain',
     }).then(() => {
@@ -144,7 +145,8 @@ const SendEmailWrapper: ActionFunctionComponent = (
         </DialogContentText>
       </SendEmail>
     );
-  } else if (isMultiSelectAction(props)) {
+  }
+  if (isMultiSelectAction(props)) {
     const { rows, selectedValues } = props;
 
     const selectedUsers = selectedValues.map((id: string) => {
@@ -193,7 +195,12 @@ const SendEmailWrapper: ActionFunctionComponent = (
             })}
           </span>
           {skipped > 0 && (
-            <span style={{ display: 'block', marginTop: '10px' }}>
+            <span
+              style={{
+                display: 'block',
+                marginTop: '10px',
+              }}
+            >
               <strong>{skipped} skipped user(s)</strong> (not enabled or no
               email address).
             </span>

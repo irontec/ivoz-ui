@@ -6,9 +6,11 @@ import Login from 'components/Login';
 import { useEffect } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { useStoreActions, useStoreState } from 'store';
+
 import addCustomRoutes from './addCustomRoutes';
 import AppRouteContentWrapper from './AppRouteContentWrapper';
 import getEntityMap from './EntityMap';
+
 export interface AppRoutesProps {
   apiSpec: ParsedApiSpecInterface;
 }

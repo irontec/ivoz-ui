@@ -1,6 +1,11 @@
+import {
+  ActionFunctionComponent,
+  ActionItemProps,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
 import CloudSyncIcon from '@mui/icons-material/CloudSync';
-import ErrorIcon from '@mui/icons-material/Error';
 import DoneAllIcon from '@mui/icons-material/DoneAll';
+import ErrorIcon from '@mui/icons-material/Error';
 import {
   Button,
   Dialog,
@@ -12,12 +17,8 @@ import {
 } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  ActionItemProps,
-} from '@irontec/ivoz-ui/router/routeMapParser';
 import { useStoreActions } from 'store';
+
 import Client from '../Client';
 
 const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
@@ -46,7 +47,7 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
 
   const sendRequest = () => {
     apiPost({
-      path: Client.path + `/${row.id}/sync`,
+      path: `${Client.path}/${row.id}/sync`,
       values: {},
       contentType: 'text/plain',
       silenceErrors: true,
@@ -85,7 +86,9 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
         <DialogContent>
           <DialogContentText
             id='alert-dialog-description'
-            sx={{ textAlign: 'center' }}
+            sx={{
+              textAlign: 'center',
+            }}
           >
             {!error && !done && (
               <span>

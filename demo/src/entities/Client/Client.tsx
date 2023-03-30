@@ -3,6 +3,7 @@ import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import { EntityValue } from '@irontec/ivoz-ui/services';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import ApartmentIcon from '@mui/icons-material/Apartment';
+
 import Actions from './Action';
 import { ClientProperties, ClientPropertyList } from './ClientProperties';
 import RemoteId from './Field/RemoteId';
@@ -124,18 +125,22 @@ const client: EntityInterface = {
   customActions: Actions,
   selectOptions: async () => {
     const module = await import('./SelectOptions');
+
     return module.default;
   },
   foreignKeyResolver: async () => {
     const module = await import('./ForeignKeyResolver');
+
     return module.default;
   },
   foreignKeyGetter: async () => {
     const module = await import('./ForeignKeyGetter');
+
     return module.foreignKeyGetter;
   },
   Form: async () => {
     const module = await import('./Form');
+
     return module.default;
   },
 };

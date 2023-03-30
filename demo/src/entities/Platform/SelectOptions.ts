@@ -1,6 +1,7 @@
 import { DropdownChoices } from '@irontec/ivoz-ui';
 import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
 import { SelectOptionsType } from '@irontec/ivoz-ui/entities/EntityInterface';
+
 import platform from './Platform';
 
 const PlatformSelectOptions: SelectOptionsType = ({
@@ -8,7 +9,7 @@ const PlatformSelectOptions: SelectOptionsType = ({
   cancelToken,
 }): Promise<unknown> => {
   return defaultEntityBehavior.fetchFks(
-    platform.path + '?_order[name]=ASC',
+    `${platform.path}?_order[name]=ASC`,
     ['id', 'name'],
     (data) => {
       const options: DropdownChoices = [];

@@ -1,7 +1,8 @@
-import { ForeignKeyGetterType } from '@irontec/ivoz-ui/entities/EntityInterface';
 import { autoSelectOptions } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import { ClientPropertyList } from './ClientProperties';
+import { ForeignKeyGetterType } from '@irontec/ivoz-ui/entities/EntityInterface';
+
 import entities from '../index';
+import { ClientPropertyList } from './ClientProperties';
 
 export const foreignKeyGetter: ForeignKeyGetterType = async ({
   cancelToken,

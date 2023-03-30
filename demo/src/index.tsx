@@ -1,16 +1,18 @@
-import { createRoot } from 'react-dom/client';
+import './sass/main.scss';
+
 import {
-  ThemeProvider,
   createTheme,
   StyledEngineProvider,
+  ThemeProvider,
 } from '@mui/material';
 import * as locales from '@mui/material/locale';
-import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from 'easy-peasy';
+import { createRoot } from 'react-dom/client';
 import store from 'store';
-import i18n from './i18n';
-import './sass/main.scss';
+
 import App from './App';
+import i18n from './i18n';
+import reportWebVitals from './reportWebVitals';
 
 const currentLanguage =
   i18n.language.substring(0, 2) === 'es' ? 'esES' : 'enUS';
@@ -21,7 +23,9 @@ const container = document.getElementById('root');
 const root = createRoot(container as any);
 
 //@see https://github.com/ctrlplusb/easy-peasy/issues/741
-type Props = StoreProvider['props'] & { children: React.ReactNode };
+type Props = StoreProvider['props'] & {
+  children: React.ReactNode;
+};
 const StoreProviderOverride =
   StoreProvider as unknown as React.ComponentType<Props>;
 

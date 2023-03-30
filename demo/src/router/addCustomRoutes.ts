@@ -1,4 +1,5 @@
 import { RouteSpec } from '@irontec/ivoz-ui';
+
 import BlankComponent from '../components/Blank';
 import BlankComponent2 from '../components/Blank2';
 

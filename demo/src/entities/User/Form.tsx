@@ -7,6 +7,7 @@ import {
 import { Form as DefaultEntityForm } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Form';
 import { useFormHandler } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Form/useFormHandler';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
+
 import { foreignKeyGetter } from './ForeignKeyGetter';
 import useParents from './hook/useParents';
 
@@ -37,7 +38,9 @@ const Form = (props: EntityFormProps): JSX.Element | null => {
 
   const ldapLogin = parentRow !== null && parentRow.authType === 'ldap';
   if (ldapLogin) {
-    const newProperties = { ...entityService.getProperties() };
+    const newProperties = {
+      ...entityService.getProperties(),
+    };
     newProperties.acrobitsPassword = {
       ...newProperties.acrobitsPassword,
       required: false,

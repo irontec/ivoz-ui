@@ -1,8 +1,9 @@
 import { CustomActionsType } from '@irontec/ivoz-ui/entities/EntityInterface';
-import SendEmail from './SendEmail';
+
 import Provision from './ProvisionViewer';
-import UpdateLicenses from './UpdateLicenses';
 import QrCode from './QrCodeViewer';
+import SendEmail from './SendEmail';
+import UpdateLicenses from './UpdateLicenses';
 
 const customAction: CustomActionsType = {
   SendEmail: {

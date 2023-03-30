@@ -6,6 +6,7 @@ import EntityInterface, {
 } from '@irontec/ivoz-ui/entities/EntityInterface';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import PersonIcon from '@mui/icons-material/Person';
+
 import Actions from './Action';
 import Password from './Field/Password';
 import { UserProperties } from './UserProperties';
@@ -109,14 +110,17 @@ const user: EntityInterface = {
   customActions: Actions,
   foreignKeyResolver: async () => {
     const module = await import('./ForeignKeyResolver');
+
     return module.default;
   },
   foreignKeyGetter: async () => {
     const module = await import('./ForeignKeyGetter');
+
     return module.foreignKeyGetter;
   },
   Form: async () => {
     const module = await import('./Form');
+
     return module.default;
   },
   validator,

@@ -15,7 +15,13 @@ export default function Login(props: LoginProps): JSX.Element | null {
   const location = useLocation();
   const navigate = useNavigate();
   const qsArgs = queryString.parse(location.search);
-  const { target, token }: { target?: string; token?: string } = qsArgs;
+  const {
+    target,
+    token,
+  }: {
+    target?: string;
+    token?: string;
+  } = qsArgs;
 
   const loggedIn = useStoreState((state) => state.auth.loggedIn);
 
@@ -32,6 +38,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
         .then((success: boolean) => {
           if (!success) {
             console.error('Unable to echange token');
+
             return;
           }
 
@@ -43,6 +50,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
         .catch((err: string) => {
           console.error(err);
         });
+
       return;
     }
   }, [target, token, exchangeToken, navigate, location.pathname]);

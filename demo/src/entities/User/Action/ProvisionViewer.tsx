@@ -1,4 +1,11 @@
 import {
+  ActionFunctionComponent,
+  ActionItemProps,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
+import ErrorIcon from '@mui/icons-material/Error';
+import {
   Button,
   Dialog,
   DialogActions,
@@ -7,15 +14,9 @@ import {
   DialogTitle,
   Tooltip,
 } from '@mui/material';
-import ErrorIcon from '@mui/icons-material/Error';
 import { useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  ActionItemProps,
-} from '@irontec/ivoz-ui/router/routeMapParser';
-import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { useStoreActions } from 'store';
+
 import User from '../User';
 
 const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
@@ -34,7 +35,7 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
 
   const handleClickOpen = () => {
     apiGet({
-      path: User.path + `/${row.id}`,
+      path: `${User.path}/${row.id}`,
       params: {},
       successCallback: async (user) => {
         const formData = {

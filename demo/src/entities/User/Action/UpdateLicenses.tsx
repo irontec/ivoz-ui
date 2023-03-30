@@ -3,6 +3,9 @@ import {
   isSingleRowAction,
   MultiSelectActionItemProps,
 } from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import ErrorIcon from '@mui/icons-material/Error';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import {
   Button,
   Dialog,
@@ -17,13 +20,11 @@ import {
   SelectChangeEvent,
   Tooltip,
 } from '@mui/material';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import ErrorIcon from '@mui/icons-material/Error';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
+
 import user from '../User';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps
@@ -61,9 +62,9 @@ const UpdateLicenses: ActionFunctionComponent = (
   };
 
   const handleUpdate = () => {
-    const path =
-      user.path +
-      `/${selectedValues.join(';')}/switch_licenses?type=${licensesValue}`;
+    const path = `${user.path}/${selectedValues.join(
+      ';'
+    )}/switch_licenses?type=${licensesValue}`;
     const resp = apiPost({
       path,
       values: {},
@@ -114,7 +115,12 @@ const UpdateLicenses: ActionFunctionComponent = (
           <DialogContent>
             <DialogContentText>
               {!error && (
-                <FormControl sx={{ margin: 1, minWidth: 120 }}>
+                <FormControl
+                  sx={{
+                    margin: 1,
+                    minWidth: 120,
+                  }}
+                >
                   <Select value={licensesValue} onChange={handleChange}>
                     <MenuItem value={'no'}>None</MenuItem>
                     <MenuItem value={'desktop'}>Desktop</MenuItem>
@@ -128,7 +134,11 @@ const UpdateLicenses: ActionFunctionComponent = (
               )}
               {error && (
                 <span>
-                  <ErrorIcon sx={{ verticalAlign: 'bottom' }} />
+                  <ErrorIcon
+                    sx={{
+                      verticalAlign: 'bottom',
+                    }}
+                  />
                   {errorMsg ?? 'There was a problem'}
                 </span>
               )}

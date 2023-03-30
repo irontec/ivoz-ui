@@ -5,9 +5,10 @@ import {
   PropertyCustomFunctionComponentProps,
   StyledTextField,
 } from '@irontec/ivoz-ui';
-import { InputAdornment, styled, Tooltip } from '@mui/material';
-import { UserPropertyList } from '../UserProperties';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { InputAdornment, styled, Tooltip } from '@mui/material';
+
+import { UserPropertyList } from '../UserProperties';
 
 type UserValues = UserPropertyList<string | number>;
 type AcrobitsPasswordType = PropertyCustomFunctionComponent<

@@ -1,12 +1,13 @@
-import { LinearProgress, CssBaseline } from '@mui/material';
+import { StoreContainer } from '@irontec/ivoz-ui';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { BrowserRouter } from 'react-router-dom';
-import { StyledAppApiLoading, StyledAppFlexDiv } from './App.styles';
-import store, { useStoreActions, useStoreState } from 'store';
-import AppRoutes from './router/AppRoutes';
+import { CssBaseline, LinearProgress } from '@mui/material';
 import { useEffect } from 'react';
-import { StoreContainer } from '@irontec/ivoz-ui';
+import { BrowserRouter } from 'react-router-dom';
+import store, { useStoreActions, useStoreState } from 'store';
+
+import { StyledAppApiLoading, StyledAppFlexDiv } from './App.styles';
+import AppRoutes from './router/AppRoutes';
 import { languagesList } from './translations/languages';
 
 export default function App(): JSX.Element {

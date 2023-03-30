@@ -8,8 +8,9 @@ import {
   PropertyCustomFunctionComponent,
   PropertyCustomFunctionComponentProps,
 } from '@irontec/ivoz-ui/services/form/Field/CustomComponentWrapper';
-import { useEffect, useState } from 'react';
 import { FormikHelpers } from 'formik';
+import { useEffect, useState } from 'react';
+
 import { ClientPropertiesList, ClientPropertyList } from '../ClientProperties';
 import { RemoteIdSelectOptions } from '../SelectOptions';
 
@@ -67,6 +68,7 @@ const RemoteId: RouteTypeProps = (props): JSX.Element | null => {
     const targetPbx = remotePbxs.find((row) => row.id == remoteId);
     if (!targetPbx) {
       setFieldValue('domain', '');
+
       return;
     }
 
@@ -86,7 +88,9 @@ const RemoteId: RouteTypeProps = (props): JSX.Element | null => {
 
   const { readOnly } = props;
 
-  const modifiedProperty = { ...property } as ScalarProperty;
+  const modifiedProperty = {
+    ...property,
+  } as ScalarProperty;
   delete modifiedProperty.component;
 
   if (!localChoices) {
@@ -99,6 +103,7 @@ const RemoteId: RouteTypeProps = (props): JSX.Element | null => {
   }
 
   modifiedProperty.enum = localChoices;
+
   return formFieldFactory.getInputField(
     _columnName,
     modifiedProperty,

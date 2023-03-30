@@ -4,6 +4,7 @@ import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { getI18n } from 'react-i18next';
+
 import { LanguageProperties, LanguagePropertyList } from './LanguageProperties';
 
 const properties: LanguageProperties = {
@@ -28,11 +29,13 @@ const Language: EntityInterface = {
   toStr: (row: LanguagePropertyList<EntityValues>) => {
     const language = getI18n().language.substring(0, 2);
     const name = row.name as Record<string, string>;
+
     return name[language];
   },
   properties,
   selectOptions: async () => {
     const module = await import('./SelectOptions');
+
     return module.default;
   },
 };

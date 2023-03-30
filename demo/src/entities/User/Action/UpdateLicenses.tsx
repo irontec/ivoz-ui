@@ -81,12 +81,18 @@ const UpdateLicenses: ActionFunctionComponent = (
           });
         }
       })
-      .catch((error: any) => {
-        const errorMsg =
-          error?.data?.detail ?? `${error.statusText} (${error.status})`;
-        setErrorMsg(errorMsg);
-        setError(true);
-      });
+      .catch(
+        (error: {
+          statusText: string;
+          status: number;
+          data?: Record<string, string>;
+        }) => {
+          const errorMsg =
+            error?.data?.detail ?? `${error.statusText} (${error.status})`;
+          setErrorMsg(errorMsg);
+          setError(true);
+        }
+      );
   };
 
   if (isSingleRowAction(props)) {

@@ -20,7 +20,7 @@ const currentLanguage =
 const theme = createTheme(locales[currentLanguage]);
 
 const container = document.getElementById('root');
-const root = createRoot(container as any);
+const root = createRoot(container as Element);
 
 //@see https://github.com/ctrlplusb/easy-peasy/issues/741
 type Props = StoreProvider['props'] & {

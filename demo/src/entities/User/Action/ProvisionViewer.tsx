@@ -49,10 +49,10 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           contentType: 'application/x-www-form-urlencoded',
           silenceErrors: true,
         })
-          .then((data: any) => {
+          .then((data: { data: string }) => {
             setProvision(data.data);
           })
-          .catch((error: any) => {
+          .catch((error: { statusText: string; status: number }) => {
             setErrorMsg(`${error.statusText} (${error.status})`);
             setError(true);
           });

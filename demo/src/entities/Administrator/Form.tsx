@@ -13,7 +13,7 @@ const Form = (props: EntityFormProps): JSX.Element => {
     },
     {
       legend: _('Additional info'),
-      fields: ['name', 'lastname', 'email', 'avatar'],
+      fields: ['name', 'lastname', 'email', 'avatar', 'greeting'],
     },
   ];
 

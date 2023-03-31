@@ -1,6 +1,7 @@
-import { Footer, Header, Menu } from '@irontec/ivoz-ui/components/layout';
+import { Header, Menu } from '@irontec/ivoz-ui/components/layout';
 import { RouteMap } from '@irontec/ivoz-ui/router/routeMapParser';
 import { Box } from '@mui/material';
+import 'AppRouteContentWrapper.scoped.scss';
 
 interface AppRouteContentProps {
   routeMap: RouteMap;
@@ -15,31 +16,16 @@ export default function AppRouteContentWrapper(
 
   return (
     <>
-      <Box
-        sx={{
-          display: 'flex',
-        }}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-          }}
-        >
+      <Box className='app-wrapper'>
+        <Box className='menu'>
           <Menu routeMap={routeMap} />
         </Box>
-        <Box
-          component='main'
-          sx={{
-            display: 'block',
-            padding: 3,
-          }}
-        >
-          <Box>{loggedIn && <Header routeMap={routeMap} />}</Box>
-          <Box>{children}</Box>
+        <Box component='main'>
+          <Box component='header' className='breadcrumb'>
+            {loggedIn && <Header routeMap={routeMap} />}
+          </Box>
+          <Box className='route-content'>{children}</Box>
         </Box>
-      </Box>
-      <Box>
-        <Footer />
       </Box>
     </>
   );

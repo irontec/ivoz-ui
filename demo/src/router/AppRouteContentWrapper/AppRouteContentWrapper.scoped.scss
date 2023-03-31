@@ -1,0 +1,35 @@
+.app-wrapper {
+  height: 100vh;
+
+  background-color: var(--color-background);
+  background-image: url('./../../assets/img/bg-noise.png');
+
+  display: flex;
+}
+
+header.breadcrumb {
+  // padding-block: var(--spacing-md);
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xl);
+  flex: 1;
+
+  overflow: auto;
+
+  padding-inline: var(--spacing-xxl);
+  padding-block: var(--spacing-lg);
+}
+
+.menu {
+  background-color: var(--color-elevated-background);
+}
+
+.route-content {
+  padding: var(--spacing-md);
+  background-color: var(--color-elevated-background);
+  box-shadow: var(--elevation-1);
+  border-radius: var(--radius-lg);
+}

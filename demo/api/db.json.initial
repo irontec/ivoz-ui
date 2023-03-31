@@ -12,6 +12,11 @@
         "fileSize": 9914567,
         "mimeType": "image/jpeg"
       },
+      "greeting": {
+        "baseName": "example.mp3",
+        "fileSize": 764176,
+        "mimeType": "audio/mpeg3"
+      },
       "id": 1
     }
   ],

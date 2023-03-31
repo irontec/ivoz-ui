@@ -452,6 +452,37 @@
         ]
       }
     },
+    "/administrator/{id}/greeting": {
+      "get": {
+        "produces": [
+          "application/octet-stream"
+        ],
+        "responses": {
+          "200": {
+            "description": "#/definitions/Administrator_Greeting",
+            "schema": {
+              "type": "file"
+            }
+          },
+          "404": {
+            "description": "Resource not found"
+          }
+        },
+        "tags": [
+          "Domain"
+        ],
+        "operationId": "/administrator_greetingAdministratorItem",
+        "summary": "Retrieves a Administrator resource.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ]
+      }
+    },
     "/clients": {
       "get": {
         "produces": [
@@ -3382,6 +3413,9 @@
         "avatar": {
           "$ref": "#/definitions/Administrator_Avatar"
         },
+        "greeting": {
+          "$ref": "#/definitions/Administrator_Greeting"
+        },
         "id": {
           "description": "",
           "type": "integer",
@@ -3407,6 +3441,9 @@
         },
         "avatar": {
           "$ref": "#/definitions/Administrator_Avatar"
+        },
+        "greeting": {
+          "$ref": "#/definitions/Administrator_Greeting"
         },
         "id": {
           "description": "",
@@ -3441,6 +3478,9 @@
         "avatar": {
           "$ref": "#/definitions/Administrator_Avatar"
         },
+        "greeting": {
+          "$ref": "#/definitions/Administrator_Greeting"
+        },
         "active": {
           "default": 1,
           "description": "",
@@ -3465,6 +3505,26 @@
       }
     },
     "Administrator_Avatar": {
+      "type": "object",
+      "properties": {
+        "fileSize": {
+          "minimum": 0,
+          "description": "",
+          "type": "integer"
+        },
+        "mimeType": {
+          "maxLength": 80,
+          "description": "",
+          "type": "string"
+        },
+        "baseName": {
+          "maxLength": 255,
+          "description": "",
+          "type": "string"
+        }
+      }
+    },
+    "Administrator_Greeting": {
       "type": "object",
       "properties": {
         "fileSize": {

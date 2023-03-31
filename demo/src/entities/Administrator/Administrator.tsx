@@ -34,6 +34,10 @@ const properties: AdministratorProperties = {
     label: _('Logo'),
     type: 'file',
   },
+  greeting: {
+    label: _('Greeting'),
+    type: 'file',
+  },
 };
 
 const administrator: EntityInterface = {

@@ -82,6 +82,16 @@ server.get('/administrator/:id/avatar', (req, res) => {
     res.end(apiSpec, 'binary');
 });
 
+server.get('/administrator/:id/greeting', (req, res) => {
+    const mp3 = fs.readFileSync(
+        path.join(__dirname, 'assets/example.mp3'),
+        { flag: 'r' }
+    );
+
+    res.contentType('audio/mpeg3');
+    res.end(mp3, 'binary');
+});
+
 // To handle POST, PUT and PATCH you need to use a body-parser
 // You can use the one used by JSON Server
 server.use(jsonServer.bodyParser)

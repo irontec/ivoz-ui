@@ -109,6 +109,7 @@ server.use((req, res, next) => {
     }
 
     next();
+    res.append('x-total-items', 10);
 })
 server.use(router);
 

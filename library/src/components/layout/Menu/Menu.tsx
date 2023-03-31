@@ -1,13 +1,15 @@
 import { useMediaQuery, useTheme } from '@mui/material';
 import {
   EntityItem,
-  isEntityItem,
   RouteMap,
   RouteMapItem,
+  isEntityItem,
 } from '../../../router/routeMapParser';
 import { StyledDivider, StyledHomeIcon, StyledMenuList } from './Menu.styles';
 import MenuBlock from './MenuBlock';
+import { StyledMenuHeader } from './MenuHeader.styles';
 import MenuListItem from './MenuListItem';
+import { useStoreState } from 'store';
 
 interface menuProps {
   routeMap: RouteMap;
@@ -18,13 +20,15 @@ export default function Menu(props: menuProps): JSX.Element | null {
 
   const theme = useTheme();
   const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const menuVariant = useStoreState((state) => state.menu.variant);
 
   if (!bigScreen) {
     return null;
   }
 
   return (
-    <StyledMenuList>
+    <StyledMenuList className={menuVariant}>
+      <StyledMenuHeader />
       <MenuListItem path='/' icon={<StyledHomeIcon />} text={'Dashboard'} />
       <StyledDivider />
       {routeMap.map((routeMapBlock, key: number) => {

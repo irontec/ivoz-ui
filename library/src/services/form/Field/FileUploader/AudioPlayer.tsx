@@ -36,7 +36,5 @@ export const AudioPlayer = (props: AudioPlayerProps): JSX.Element | null => {
     });
   }
 
-  return (
-    <ReactAudioPlayer src={audioSrc} controls={true} />
-  );
+  return <ReactAudioPlayer src={audioSrc} controls={true} />;
 };

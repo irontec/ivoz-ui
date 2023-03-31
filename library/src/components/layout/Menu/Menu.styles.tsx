@@ -14,6 +14,9 @@ export const StyledMenuList = styled(List)(() => {
   return {
     width: '100%',
     maxWidth: 360,
+    '&.colapsed': {
+      border: '1px solid red',
+    },
   };
 });
 

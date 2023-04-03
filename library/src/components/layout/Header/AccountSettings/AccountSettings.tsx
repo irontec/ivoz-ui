@@ -1,8 +1,8 @@
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { MenuItem, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useStoreActions } from 'store';
-import { StyledButton } from '../styles';
+import { LightButton } from '../../../../components/shared/Button/Button.styles';
 import { StyledMenu } from './styles/Menu.styles';
 
 interface AccountSettingsProps {
@@ -32,9 +32,9 @@ export default function AccountSettings(
   return (
     <>
       <Tooltip title='Open settings'>
-        <StyledButton onClick={handleOpenUserMenu}>
-          {customAvatar || <ManageAccountsIcon />}
-        </StyledButton>
+        <LightButton onClick={handleOpenUserMenu}>
+          {customAvatar || <SettingsOutlinedIcon />}
+        </LightButton>
       </Tooltip>
       <StyledMenu
         id='menu-appbar'

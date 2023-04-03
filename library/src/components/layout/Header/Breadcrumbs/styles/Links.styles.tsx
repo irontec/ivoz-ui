@@ -1,11 +1,10 @@
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 import { styled, Typography } from '@mui/material';
 import HistoryTrackerLink from '../../../../shared/HistoryTrackerLink';
-
 const linkStyles = {
   textDecoration: 'none',
   display: 'flex',
-  color: 'black',
+  color: 'currentColor',
 };
 
 interface StyledCollapsedBreadcrumbsLinkProps {
@@ -17,6 +16,7 @@ interface StyledCollapsedBreadcrumbsLinkProps {
 export const StyledCollapsedBreadcrumbsLink = styled(
   (props: StyledCollapsedBreadcrumbsLinkProps) => {
     const { className, children, to, ...rest } = props;
+
     return (
       <HistoryTrackerLink className={className} to={to} {...rest}>
         {children}
@@ -55,7 +55,7 @@ interface StyledCollapsedBreadcrumbsNavigateNextIconProps {
 export const StyledCollapsedBreadcrumbsNavigateNextIcon = styled(
   (props: StyledCollapsedBreadcrumbsNavigateNextIconProps) => {
     const { className } = props;
-    return <NavigateNextIcon fontSize='small' className={className} />;
+    return <NavigateNextRoundedIcon fontSize='small' className={className} />;
   }
 )(() => {
   return {

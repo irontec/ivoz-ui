@@ -21,6 +21,8 @@
   --color-title: #282828;
   --color-text: #65676e;
 
+  --color-button: #edeeef;
+
   /** TEXT **/
 
   --font-size-primary-title: 20px;
@@ -49,4 +51,8 @@
   /** SHADOWS **/
 
   --elevation-1: 0px 0px 5px #a5a5a51f;
+
+  /** TRANSITION **/
+
+  --transition-all-1: all 150ms ease-in;
 }

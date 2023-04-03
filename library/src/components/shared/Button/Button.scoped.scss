@@ -1,0 +1,19 @@
+.light,
+.primary {
+  min-width: auto;
+  padding: var(--spacing-sm);
+  height: fit-content;
+  border-radius: var(--radius-md);
+}
+
+.light {
+  background: var(--color-button);
+  color: var(--color-text);
+
+  &:active,
+  &:hover {
+    background: var(--color-elevated-background);
+    color: var(--color-primary);
+    box-shadow: 0px 0px 7px #1111111a;
+  }
+}

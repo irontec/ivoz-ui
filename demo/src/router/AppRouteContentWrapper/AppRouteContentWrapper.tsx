@@ -1,7 +1,8 @@
+import 'AppRouteContentWrapper.scoped.scss';
+
 import { Header, Menu } from '@irontec/ivoz-ui/components/layout';
 import { RouteMap } from '@irontec/ivoz-ui/router/routeMapParser';
 import { Box } from '@mui/material';
-import 'AppRouteContentWrapper.scoped.scss';
 
 interface AppRouteContentProps {
   routeMap: RouteMap;

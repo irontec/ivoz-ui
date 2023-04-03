@@ -1,10 +1,20 @@
-import { Box, MenuItem, Typography } from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import {
+  Box,
+  Button,
+  MenuItem,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material';
+import { LightButton } from '../../../components/shared/Button/Button.styles';
 import { RouteMap } from '../../../router/routeMapParser';
-import { useStoreActions, useStoreState } from '../../../store';
+import { useStoreActions } from '../../../store';
 import AccountSettings from './AccountSettings/AccountSettings';
 import Breadcrumbs from './Breadcrumbs';
-import LanguageSelector from './LanguageSelector/LanguageSelector';
-import { StyledMenuContainer } from './styles/MenuContainer.styles';
+import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
+import './Header.scoped.scss';
 
 interface headerProps {
   routeMap: RouteMap;
@@ -18,21 +28,43 @@ export default function Header(props: headerProps): JSX.Element {
   const handleLogout = () => {
     resetAuth();
   };
-  const languages = useStoreState((state) => state.i18n.languages);
+
+  const theme = useTheme();
+  const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <StyledMenuContainer>
-      <Breadcrumbs routeMap={routeMap} />
-      <Box>
-        {languages && <LanguageSelector languages={languages} />}
-        <AccountSettings customAvatar={customAvatar}>
-          {children || (
-            <MenuItem key='logout' onClick={handleLogout}>
-              <Typography textAlign='center'>Logout</Typography>
-            </MenuItem>
-          )}
-        </AccountSettings>
+    <Box className='menu-container'>
+      <Box className='start'>
+        {desktop ? (
+          <Breadcrumbs routeMap={routeMap} />
+        ) : (
+          <a className='back-mobile'>
+            <NavigateBeforeRoundedIcon /> Breadcrumb movil
+          </a>
+        )}
       </Box>
-    </StyledMenuContainer>
+
+      <Box className='end'>
+        {desktop ? (
+          <>
+            <AccountSettings customAvatar={customAvatar}>
+              {children || (
+                <MenuItem key='logout' onClick={handleLogout}>
+                  <Typography textAlign='center'>Logout</Typography>
+                </MenuItem>
+              )}
+            </AccountSettings>
+
+            <Tooltip title='Account'>
+              <Box className='account'>AL</Box>
+            </Tooltip>
+          </>
+        ) : (
+          <LightButton>
+            <MenuIcon />
+          </LightButton>
+        )}
+      </Box>
+    </Box>
   );
 }

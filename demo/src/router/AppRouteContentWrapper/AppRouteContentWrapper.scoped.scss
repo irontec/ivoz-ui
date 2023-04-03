@@ -1,3 +1,5 @@
+@use './../../sass/abstracts/mixins' as *;
+
 .app-wrapper {
   height: 100vh;
 
@@ -5,10 +7,6 @@
   background-image: url('./../../assets/img/bg-noise.png');
 
   display: flex;
-}
-
-header.breadcrumb {
-  // padding-block: var(--spacing-md);
 }
 
 main {
@@ -19,8 +17,14 @@ main {
 
   overflow: auto;
 
-  padding-inline: var(--spacing-xxl);
-  padding-block: var(--spacing-lg);
+  padding: var(--spacing-md);
+
+  transition: var(--transition-all-1);
+
+  @include min-width(sm) {
+    padding-inline: var(--spacing-xxl);
+    padding-block: var(--spacing-lg);
+  }
 }
 
 .menu {

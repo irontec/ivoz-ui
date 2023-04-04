@@ -1,4 +1,5 @@
-import Button, { ButtonProps } from '@mui/material/Button';
+import { ButtonProps } from '@mui/material/Button';
+import Button from './Button';
 import './Button.scoped.scss';
 
 const StyledButton = (props: ButtonProps) => {

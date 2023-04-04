@@ -35,9 +35,9 @@ export default function Header(props: headerProps): JSX.Element {
   return (
     <Box className='menu-container'>
       <Box className='start'>
-        {desktop ? (
-          <Breadcrumbs routeMap={routeMap} />
-        ) : (
+        {desktop && <Breadcrumbs routeMap={routeMap} />}
+
+        {!desktop && (
           <a className='back-mobile'>
             <NavigateBeforeRoundedIcon /> Breadcrumb movil
           </a>
@@ -45,7 +45,7 @@ export default function Header(props: headerProps): JSX.Element {
       </Box>
 
       <Box className='end'>
-        {desktop ? (
+        {desktop && (
           <>
             <AccountSettings customAvatar={customAvatar}>
               {children || (
@@ -59,7 +59,9 @@ export default function Header(props: headerProps): JSX.Element {
               <Box className='account'>AL</Box>
             </Tooltip>
           </>
-        ) : (
+        )}
+
+        {!desktop && (
           <LightButton>
             <MenuIcon />
           </LightButton>

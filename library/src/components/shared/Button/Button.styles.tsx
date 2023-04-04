@@ -8,7 +8,7 @@ const StyledButton = (props: ButtonProps) => {
   return <Button {...rest}>{children}</Button>;
 };
 
-type ButtonPropsType = {
+type ButtonPropsType = Omit<ButtonProps, 'className'> & {
   children: React.ReactNode;
   size?: 'big' | 'small';
 };

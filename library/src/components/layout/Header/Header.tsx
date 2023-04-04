@@ -32,12 +32,15 @@ export default function Header(props: headerProps): JSX.Element {
   const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
+  if (!desktop) {
+  }
+
   return (
     <Box className='menu-container'>
       <Box className='start'>
-        {desktop && <Breadcrumbs routeMap={routeMap} />}
+        <Breadcrumbs desktop={desktop} routeMap={routeMap} />
 
-        {!desktop && (
+        {false && (
           <a className='back-mobile'>
             <NavigateBeforeRoundedIcon /> Breadcrumb movil
           </a>

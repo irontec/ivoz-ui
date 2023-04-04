@@ -32,9 +32,9 @@ export default function AccountSettings(
   return (
     <>
       <Tooltip title='Open settings'>
-        <LightButton onClick={handleOpenUserMenu}>
-          {customAvatar || <SettingsOutlinedIcon />}
-        </LightButton>
+        <div onClick={handleOpenUserMenu}>
+          <LightButton>{customAvatar || <SettingsOutlinedIcon />}</LightButton>
+        </div>
       </Tooltip>
       <StyledMenu
         id='menu-appbar'

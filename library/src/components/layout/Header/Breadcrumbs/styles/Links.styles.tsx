@@ -9,7 +9,7 @@ const linkStyles = {
 
 interface StyledCollapsedBreadcrumbsLinkProps {
   className?: string;
-  children: string | JSX.Element;
+  children: React.ReactNode | JSX.Element;
   to: string;
 }
 

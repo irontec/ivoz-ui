@@ -6,6 +6,7 @@ import api, { ApiStore } from './api';
 import route, { RouteStore } from './route';
 import routes, { RoutesStore } from './routes';
 import list, { ListStore } from './list';
+import form, { FormStore } from './form';
 import menu, { MenuStore } from './menu';
 import entities, { EntitiesStore } from './entities';
 import i18n, { LanguagesStore } from './i18n';
@@ -17,6 +18,7 @@ export interface IvozStore {
   route: RouteStore;
   routes: RoutesStore;
   list: ListStore;
+  form: FormStore;
   menu: MenuStore;
   entities: EntitiesStore;
   i18n: LanguagesStore;
@@ -29,6 +31,7 @@ export const storeModel: IvozStore = {
   route,
   routes,
   list,
+  form,
   menu,
   entities,
   i18n,

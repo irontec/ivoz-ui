@@ -1,3 +1,4 @@
+import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 import { filterRouteMapPath } from '../../../../router/findRoute';
@@ -12,16 +13,34 @@ import {
   StyledCollapsedBreadcrumbsNavigateNextIcon,
   StyledCollapsedBreadcrumbsTypography,
 } from './styles/Links.styles';
+import { PathMatch } from 'react-router-dom';
+import { useStoreState } from 'store';
 
 type BreadcrumbsProps = {
   routeMap: RouteMap;
+  desktop: boolean;
 };
 
-const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
-  const { routeMap } = props;
+const getEntityItemLink = (
+  routeItem: EntityItem,
+  match: PathMatch<string>
+): string => {
+  let to = routeItem.route || '/';
+  for (const idx in match.params) {
+    const val = match.params[idx] as string;
+    to = to.replace(`:${idx}`, val);
+  }
+
+  return to;
+};
+
+const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
+  const { routeMap, desktop = true } = props;
 
   const match = useCurrentPathMatch();
   const filteredRouteMapPath = filterRouteMapPath(routeMap, match);
+
+  const formRow = useStoreState((state) => state.form.row);
 
   const routeItems: Array<EntityItem> = filteredRouteMapPath?.entity
     ? [
@@ -44,13 +63,39 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
   }
 
   const lastPathSegment = match.pathname.split('/').pop() as string;
-  const appendSegment = ['create', 'detailed', 'update'].includes(
-    lastPathSegment
-  );
+  const showEntityToStr = ['detailed', 'update'].includes(lastPathSegment);
 
-  const translatedLastPathSegment = appendSegment
-    ? _(lastPathSegment[0].toUpperCase() + lastPathSegment.substring(1))
-    : false;
+  const lastRouteItem = routeItems[routeItems.length - 1];
+  const entity = lastRouteItem ? lastRouteItem.entity : undefined;
+
+  const appendOnEdit =
+    showEntityToStr && entity && formRow ? entity.toStr(formRow) : '';
+
+  const appendOnNew = lastPathSegment === 'create' ? _('New') : '';
+
+  const appendSegment = appendOnEdit || appendOnNew;
+
+  if (routeItems.length === 0) {
+    return null;
+  }
+
+  if (!desktop) {
+    let routeItem = routeItems.pop() as EntityItem;
+    const title = routeItem.entity.title;
+
+    if (routeItem.route === match.pattern.path && routeItems.length > 0) {
+      routeItem = routeItems.pop() as EntityItem;
+    }
+
+    const to =
+      routeItems.length > 0 ? getEntityItemLink(routeItem, match) : '/';
+
+    return (
+      <StyledCollapsedBreadcrumbsLink className='back-mobile' to={to}>
+        <NavigateBeforeRoundedIcon /> {appendSegment || title}
+      </StyledCollapsedBreadcrumbsLink>
+    );
+  }
 
   return (
     <MuiBreadcrumbs
@@ -58,11 +103,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
       aria-label='breadcrumb'
     >
       {routeItems.map((routeItem, key: number) => {
-        let to = routeItem.route || '/';
-        for (const idx in match.params) {
-          const val = match.params[idx] as string;
-          to = to.replace(`:${idx}`, val);
-        }
+        const to = getEntityItemLink(routeItem, match);
 
         return (
           <StyledCollapsedBreadcrumbsLink to={to} key={key}>
@@ -70,9 +111,9 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element => {
           </StyledCollapsedBreadcrumbsLink>
         );
       })}
-      {translatedLastPathSegment && (
+      {appendSegment && (
         <StyledCollapsedBreadcrumbsTypography>
-          {translatedLastPathSegment}
+          {appendSegment}
         </StyledCollapsedBreadcrumbsTypography>
       )}
     </MuiBreadcrumbs>

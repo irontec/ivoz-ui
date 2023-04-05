@@ -1,4 +1,5 @@
 import { useStoreState } from 'store';
+import { Fragment } from 'react';
 import {
   EntityItem,
   RouteMap,
@@ -38,12 +39,12 @@ export default function Menu(props: menuProps): JSX.Element | null {
         }
 
         return (
-          <>
+          <Fragment key={key}>
             <StyledDivider />
-            <div key={key}>
+            <div>
               <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
             </div>
-          </>
+          </Fragment>
         );
       })}
     </StyledMenuList>

@@ -69,9 +69,25 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
     }
   };
 
+  let selected = false;
+  for (const item of children) {
+    if (isActionItem(item)) {
+      continue;
+    }
+
+    const path = item.route;
+
+    selected =
+      location.pathname === path || location.pathname.indexOf(`${path}/`) === 0;
+
+    if (selected) {
+      break;
+    }
+  }
+
   return (
     <>
-      <ListItemButton onClick={handleClick}>
+      <ListItemButton selected={selected} onClick={handleClick}>
         <ListItemIcon>
           <SettingsIcon />
         </ListItemIcon>
@@ -79,7 +95,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
       </ListItemButton>
       <Collapse in={open} timeout='auto' unmountOnExit>
         <List component='div' disablePadding>
-          {(children || []).map((item: RouteMapItem, key: number) => {
+          {children.map((item: RouteMapItem, key: number) => {
             if (isActionItem(item)) {
               return null;
             }

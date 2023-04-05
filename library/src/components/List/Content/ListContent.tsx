@@ -74,6 +74,8 @@ const ListContent = (
       {!bigScreen && (
         <Box>
           <ContentCard
+            selectedValues={selectedValues}
+            handleChange={handleChange}
             entityService={entityService}
             ignoreColumn={ignoreColumn}
             path={path}

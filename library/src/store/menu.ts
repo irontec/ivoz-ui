@@ -17,7 +17,7 @@ interface MenuActions {
 export type MenuStore = MenuState & MenuActions;
 
 const menu: MenuStore = {
-  hidden: false,
+  hidden: true,
   variant: 'expanded',
   selected: undefined,
 

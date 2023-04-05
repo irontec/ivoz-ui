@@ -1,52 +1,27 @@
-import { useStoreState } from 'store';
-import { Fragment } from 'react';
-import {
-  EntityItem,
-  RouteMap,
-  RouteMapItem,
-  isEntityItem,
-} from '../../../router/routeMapParser';
-import { StyledDivider, StyledHomeIcon, StyledMenuList } from './Menu.styles';
-import MenuBlock from './MenuBlock';
-import MenuHeader from './MenuHeader';
-import MenuListItem from './MenuListItem';
-interface menuProps {
-  routeMap: RouteMap;
-}
+import { Drawer, useMediaQuery, useTheme } from '@mui/material';
+import MenuContent, { MenuContentProps } from './MenuContent';
+import { useStoreState, useStoreActions } from 'store';
 
-export default function Menu(props: menuProps): JSX.Element | null {
-  const { routeMap } = props;
+export default function Menu(props: MenuContentProps): JSX.Element | null {
+  const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
+  const hidden = useStoreState((state) => state.menu.hidden);
+  const toggleVisibility = useStoreActions(
+    (actions) => actions.menu.toggleVisibility
+  );
 
-  const menuVariant = useStoreState((state) => state.menu.variant);
+  if (desktop) {
+    return <MenuContent {...props} />;
+  }
 
   return (
-    <StyledMenuList className={`sidemenu ${menuVariant}`}>
-      <MenuHeader />
-      <MenuListItem path='/' icon={<StyledHomeIcon />} text={'Dashboard'} />
-      <StyledDivider />
-      {routeMap.map((routeMapBlock, key: number) => {
-        if (isEntityItem(routeMapBlock as RouteMapItem)) {
-          const entity = (routeMapBlock as EntityItem).entity;
-
-          return (
-            <MenuListItem
-              key={key}
-              path={entity.localPath || entity.path}
-              icon={<entity.icon />}
-              text={entity.title}
-            />
-          );
-        }
-
-        return (
-          <Fragment key={key}>
-            <StyledDivider />
-            <div>
-              <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
-            </div>
-          </Fragment>
-        );
-      })}
-    </StyledMenuList>
+    <Drawer
+      anchor='left'
+      open={!hidden}
+      onClose={() => {
+        toggleVisibility();
+      }}
+    >
+      <MenuContent {...props} />
+    </Drawer>
   );
 }

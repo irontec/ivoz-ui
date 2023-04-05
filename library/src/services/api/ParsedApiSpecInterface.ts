@@ -83,7 +83,7 @@ export interface ScalarProperty {
 
 export interface EmbeddableProperty {
   type?: PropertyType;
-  accept?: 'audio/*' | 'video/*' | 'image/*' | string,
+  accept?: 'audio/*' | 'video/*' | 'image/*' | string;
   $ref: string;
   preferredFilter?: SearchFilterType;
   readOnly?: boolean;

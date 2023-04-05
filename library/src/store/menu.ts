@@ -1,11 +1,14 @@
 import { Action, action } from 'easy-peasy';
 
 export interface MenuState {
+  hidden: boolean; // mobile only
   variant: 'collapsed' | 'expanded';
-  open: number | string | undefined;
+  selected: number | string | undefined;
 }
 
 interface MenuActions {
+  hide: Action<MenuState>;
+  toggleVisibility: Action<MenuState>;
   toggleVariant: Action<MenuState>;
   expand: Action<MenuState, number | string>;
   collapse: Action<MenuState>;
@@ -14,10 +17,19 @@ interface MenuActions {
 export type MenuStore = MenuState & MenuActions;
 
 const menu: MenuStore = {
+  hidden: false,
   variant: 'expanded',
-  open: undefined,
+  selected: undefined,
 
   // actions
+  hide: action<MenuState>((state) => {
+    state.hidden = true;
+  }),
+
+  toggleVisibility: action<MenuState>((state) => {
+    state.hidden = !state.hidden;
+  }),
+
   toggleVariant: action<MenuState>((state) => {
     if (state.variant === 'expanded') {
       state.variant = 'collapsed';
@@ -28,11 +40,11 @@ const menu: MenuStore = {
   }),
 
   collapse: action<MenuState>((state) => {
-    state.open = undefined;
+    state.selected = undefined;
   }),
 
   expand: action<MenuState, number | string>((state, menuKey) => {
-    state.open = menuKey;
+    state.selected = menuKey;
   }),
 };
 

@@ -1,14 +1,14 @@
 import { Action, action } from 'easy-peasy';
 
 export interface MenuState {
-  variant: 'colapsed' | 'expanded';
+  variant: 'collapsed' | 'expanded';
   open: number | string | undefined;
 }
 
 interface MenuActions {
   toggleVariant: Action<MenuState>;
   expand: Action<MenuState, number | string>;
-  colapse: Action<MenuState>;
+  collapse: Action<MenuState>;
 }
 
 export type MenuStore = MenuState & MenuActions;
@@ -20,14 +20,14 @@ const menu: MenuStore = {
   // actions
   toggleVariant: action<MenuState>((state) => {
     if (state.variant === 'expanded') {
-      state.variant = 'colapsed';
+      state.variant = 'collapsed';
 
       return;
     }
     state.variant = 'expanded';
   }),
 
-  colapse: action<MenuState>((state) => {
+  collapse: action<MenuState>((state) => {
     state.open = undefined;
   }),
 

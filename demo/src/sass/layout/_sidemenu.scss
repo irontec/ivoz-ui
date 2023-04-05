@@ -1,0 +1,114 @@
+@use './../../sass/abstracts/mixins' as *;
+
+.sidemenu {
+  background-color: var(--color-elevated-background);
+  width: 300px;
+  color: var(--color-text);
+  z-index: 2;
+  transition: var(--transition-all-1);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  box-shadow: var(--elevation-sidemenu);
+
+  overflow: hidden;
+
+  &.collapsed {
+    width: 90px;
+
+    .menu-header {
+      img {
+        height: 0px;
+      }
+
+      button {
+        margin-right: 9px;
+      }
+    }
+
+    .MuiListItemText-root {
+      width: 0;
+      overflow: hidden;
+    }
+  }
+
+  .menu-header {
+    padding: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+
+    img {
+      transition: var(--transition-all-1);
+      height: 40px;
+    }
+  }
+
+  > .MuiListItemButton-root,
+  > div > .MuiListItemButton-root {
+    background: none;
+    padding-block: var(--spacing-xs);
+    padding-inline-start: var(--spacing-xl);
+    flex-grow: 0;
+    span {
+      font-size: 1rem;
+    }
+  }
+
+  > .MuiListItemButton-root.Mui-selected,
+  > div:has(.Mui-selected) > .MuiListItemButton-root {
+    color: var(--color-primary);
+    position: relative;
+
+    &::after {
+      content: '';
+      width: 10px;
+      height: 100%;
+      background: currentColor;
+      position: absolute;
+      right: 0;
+      border-radius: var(--radius-md) 0 0 var(--radius-md);
+    }
+
+    &:hover {
+      background: none;
+    }
+
+    .MuiTypography-root {
+      font-weight: bold;
+    }
+  }
+
+  > div > .MuiCollapse-vertical {
+    border-inline-start: 1px solid var(--color-border);
+    margin-inline-start: var(--spacing-xxl);
+
+    padding-inline-end: var(--spacing-md);
+    padding-inline-start: var(--spacing-xxl);
+  }
+
+  .MuiCollapse-vertical {
+    .MuiListItemIcon-root {
+      display: none;
+    }
+
+    .MuiListItemButton-root {
+      border-radius: var(--radius-md);
+      background: none;
+      margin-block: var(--spacing-sm);
+    }
+
+    .Mui-selected {
+      color: var(--color-primary);
+      background-color: rgba(var(--color-primary-rgb), 0.1);
+    }
+  }
+
+  .Mui-selected .MuiTypography-root {
+    font-weight: bold;
+  }
+
+  .MuiListItemIcon-root {
+    color: currentColor;
+  }
+}

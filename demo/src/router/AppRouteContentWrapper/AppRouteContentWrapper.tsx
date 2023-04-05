@@ -2,7 +2,7 @@ import 'AppRouteContentWrapper.scoped.scss';
 
 import { Header, Menu } from '@irontec/ivoz-ui/components/layout';
 import { RouteMap } from '@irontec/ivoz-ui/router/routeMapParser';
-import { Box } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 
 interface AppRouteContentProps {
   routeMap: RouteMap;
@@ -15,12 +15,12 @@ export default function AppRouteContentWrapper(
 ): JSX.Element {
   const { loggedIn, routeMap, children } = props;
 
+  const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
+
   return (
     <>
       <Box className='app-wrapper'>
-        <Box className='menu'>
-          <Menu routeMap={routeMap} />
-        </Box>
+        {desktop && <Menu routeMap={routeMap} />}
         <Box component='main'>
           <Box component='header' className='breadcrumb'>
             {loggedIn && <Header routeMap={routeMap} />}

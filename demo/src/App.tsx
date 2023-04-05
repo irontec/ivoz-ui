@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import store, { useStoreActions, useStoreState } from 'store';
 
-import { StyledAppApiLoading, StyledAppFlexDiv } from './App.styles';
+import { StyledAppApiLoading } from './App.styles';
 import AppRoutesGuard from './router/AppRoutesGuard';
 import { languagesList } from './translations/languages';
 
@@ -44,11 +44,11 @@ export default function App(): JSX.Element {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <CssBaseline />
-      <StyledAppFlexDiv>
+      <div>
         <BrowserRouter basename={baseUrl}>
           <AppRoutesGuard apiSpec={apiSpec} />
         </BrowserRouter>
-      </StyledAppFlexDiv>
+      </div>
     </LocalizationProvider>
   );
 }

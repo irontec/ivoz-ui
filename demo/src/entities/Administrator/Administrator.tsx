@@ -33,12 +33,12 @@ const properties: AdministratorProperties = {
   avatar: {
     label: _('Logo'),
     type: 'file',
-    accept: 'image/*'
+    accept: 'image/*',
   },
   greeting: {
     label: _('Greeting'),
     type: 'file',
-    accept: '.mp3, audio/*'
+    accept: '.mp3, audio/*',
   },
 };
 

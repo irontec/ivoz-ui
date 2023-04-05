@@ -15,12 +15,10 @@ export default function AppRouteContentWrapper(
 ): JSX.Element {
   const { loggedIn, routeMap, children } = props;
 
-  const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
-
   return (
     <>
       <Box className='app-wrapper'>
-        {desktop && <Menu routeMap={routeMap} />}
+        <Menu routeMap={routeMap} />
         <Box component='main'>
           <Box component='header' className='breadcrumb'>
             {loggedIn && <Header routeMap={routeMap} />}

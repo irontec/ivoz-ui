@@ -25,8 +25,8 @@ interface menuBlockProps {
 export default function MenuBlock(props: menuBlockProps): JSX.Element {
   const { routeMapBlock, idx } = props;
 
-  const openIdx = useStoreState((store) => store.menu.open);
-  const open = openIdx === idx;
+  const selectedIdx = useStoreState((store) => store.menu.selected);
+  const open = selectedIdx === idx;
   const collapseMenu = useStoreActions((actions) => actions.menu.collapse);
   const expandMenu = useStoreActions((actions) => actions.menu.expand);
 

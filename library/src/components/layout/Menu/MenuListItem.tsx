@@ -1,5 +1,6 @@
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useStoreActions } from 'store';
 
 type MenuListItemProps = {
   path: string;
@@ -13,6 +14,7 @@ export default function MenuListItem(
 ): JSX.Element | null {
   const { path, icon, text, className } = props;
   const navigate = useNavigate();
+  const hideMenu = useStoreActions((actions) => actions.menu.hide);
 
   const selected =
     location.pathname === path || location.pathname.indexOf(`${path}/`) === 0;
@@ -23,6 +25,7 @@ export default function MenuListItem(
       dense={true}
       selected={selected}
       onClick={() => {
+        hideMenu();
         navigate(path, {
           state: {
             referrer: location.pathname,

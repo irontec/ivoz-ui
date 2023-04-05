@@ -25,6 +25,9 @@ interface headerProps {
 export default function Header(props: headerProps): JSX.Element {
   const { routeMap, children, customAvatar } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
+  const toggleVisibility = useStoreActions(
+    (actions) => actions.menu.toggleVisibility
+  );
   const handleLogout = () => {
     resetAuth();
   };
@@ -39,12 +42,6 @@ export default function Header(props: headerProps): JSX.Element {
     <Box className='menu-container'>
       <Box className='start'>
         <Breadcrumbs desktop={desktop} routeMap={routeMap} />
-
-        {false && (
-          <a className='back-mobile'>
-            <NavigateBeforeRoundedIcon /> Breadcrumb movil
-          </a>
-        )}
       </Box>
 
       <Box className='end'>
@@ -65,7 +62,11 @@ export default function Header(props: headerProps): JSX.Element {
         )}
 
         {!desktop && (
-          <LightButton>
+          <LightButton
+            onClick={() => {
+              toggleVisibility();
+            }}
+          >
             <MenuIcon />
           </LightButton>
         )}

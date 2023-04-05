@@ -35,7 +35,7 @@ interface ChangeEventValues {
 
 interface FileUploaderProps<T> extends PropertyCustomFunctionComponentProps<T> {
   downloadPath: string | null;
-  accept?: string,
+  accept?: string;
 }
 
 type FileUploaderPropsType = FileUploaderProps<{ [k: string]: FileProps }>;
@@ -43,8 +43,15 @@ type FileUploaderPropsType = FileUploaderProps<{ [k: string]: FileProps }>;
 const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
   props
 ): JSX.Element => {
-  const { _columnName, accept, values, downloadPath, disabled, changeHandler, onBlur } =
-    props;
+  const {
+    _columnName,
+    accept,
+    values,
+    downloadPath,
+    disabled,
+    changeHandler,
+    onBlur,
+  } = props;
 
   const fileValue = values[_columnName] as FileProps;
 

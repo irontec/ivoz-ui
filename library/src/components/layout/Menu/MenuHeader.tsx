@@ -1,6 +1,6 @@
 import DehazeIcon from '@mui/icons-material/Dehaze';
-import { Button } from '@mui/material';
 import { useStoreActions } from 'store';
+import { LightButton } from '../../../components/shared/Button/Button.styles';
 
 export interface MenuHeaderProps {
   className?: string;
@@ -18,11 +18,12 @@ export default function MenuHeader(props: MenuHeaderProps): JSX.Element | null {
   };
 
   return (
-    <div className={className}>
-      <p>Logo</p>
-      <Button variant='contained' onClick={onClickHandler}>
+    <div className='menu-header'>
+      <img src='./logo.svg' />
+
+      <LightButton onClick={onClickHandler}>
         <DehazeIcon />
-      </Button>
+      </LightButton>
     </div>
   );
 }

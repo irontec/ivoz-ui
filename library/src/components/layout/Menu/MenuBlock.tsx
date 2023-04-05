@@ -10,13 +10,12 @@ import { useEffect } from 'react';
 import { useStoreActions, useStoreState } from 'store';
 import {
   EntityItem,
-  isActionItem,
-  isEntityItem,
   RouteMapBlock,
   RouteMapItem,
+  isActionItem,
+  isEntityItem,
 } from '../../../router/routeMapParser';
 import MenuListItem from './MenuListItem';
-import { StyledMenuListSubItem } from './MenuListItem.styles';
 
 interface menuBlockProps {
   routeMapBlock: RouteMapItem | RouteMapBlock;
@@ -28,7 +27,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
 
   const openIdx = useStoreState((store) => store.menu.open);
   const open = openIdx === idx;
-  const colapseMenu = useStoreActions((actions) => actions.menu.colapse);
+  const collapseMenu = useStoreActions((actions) => actions.menu.collapse);
   const expandMenu = useStoreActions((actions) => actions.menu.expand);
 
   const { label, children } = routeMapBlock as RouteMapBlock;
@@ -64,7 +63,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
 
   const handleClick = () => {
     if (open) {
-      colapseMenu();
+      collapseMenu();
     } else {
       expandMenu(idx);
     }
@@ -96,7 +95,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
             }
 
             return (
-              <StyledMenuListSubItem
+              <MenuListItem
                 key={key}
                 path={route}
                 icon={<entity.icon />}

@@ -1,4 +1,4 @@
-import { useMediaQuery, useTheme } from '@mui/material';
+import { useStoreState } from 'store';
 import {
   EntityItem,
   RouteMap,
@@ -7,10 +7,8 @@ import {
 } from '../../../router/routeMapParser';
 import { StyledDivider, StyledHomeIcon, StyledMenuList } from './Menu.styles';
 import MenuBlock from './MenuBlock';
-import { StyledMenuHeader } from './MenuHeader.styles';
+import MenuHeader from './MenuHeader';
 import MenuListItem from './MenuListItem';
-import { useStoreState } from 'store';
-
 interface menuProps {
   routeMap: RouteMap;
 }
@@ -18,17 +16,11 @@ interface menuProps {
 export default function Menu(props: menuProps): JSX.Element | null {
   const { routeMap } = props;
 
-  const theme = useTheme();
-  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
   const menuVariant = useStoreState((state) => state.menu.variant);
 
-  if (!bigScreen) {
-    return null;
-  }
-
   return (
-    <StyledMenuList className={menuVariant}>
-      <StyledMenuHeader />
+    <StyledMenuList className={`sidemenu ${menuVariant}`}>
+      <MenuHeader />
       <MenuListItem path='/' icon={<StyledHomeIcon />} text={'Dashboard'} />
       <StyledDivider />
       {routeMap.map((routeMapBlock, key: number) => {
@@ -46,10 +38,12 @@ export default function Menu(props: menuProps): JSX.Element | null {
         }
 
         return (
-          <div key={key}>
+          <>
             <StyledDivider />
-            <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
-          </div>
+            <div key={key}>
+              <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
+            </div>
+          </>
         );
       })}
     </StyledMenuList>

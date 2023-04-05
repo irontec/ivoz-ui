@@ -37,10 +37,12 @@ export const FileUploadFactory = (
   const downloadPath = paths.length
     ? paths.pop().replace('{id}', formik.values.id)
     : null;
+  const accept = property.accept;
 
   return (
     <FileUploader
-      property={property as FkProperty}
+      property={property}
+      accept={accept}
       _columnName={fld}
       readOnly={disabled}
       disabled={disabled}

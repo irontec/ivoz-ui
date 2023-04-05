@@ -1,104 +1,50 @@
-import { CardContent, Typography } from '@mui/material';
 import { useStoreState } from 'store';
 import { RouteMapItem } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
-import DeleteRowButton from '../CTA/DeleteRowButton';
-import EditRowButton from '../CTA/EditRowButton';
-import ViewRowButton from '../CTA/ViewRowButton';
-import ListContentValue from '../ListContentValue';
-import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import {
-  StyledCardActions,
-  StyledCard,
-  StyledCardContainer,
-} from './ContentCard.styles';
+import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
+import ContentCardBody from './ContentCardBody';
 
 interface ContentCardProps {
   childEntities: Array<RouteMapItem>;
   entityService: EntityService;
   ignoreColumn: string | undefined;
+  selectedValues: string[];
+  handleChange: handleMultiselectChangeType;
   path: string;
 }
 
 const ContentCard = (props: ContentCardProps): JSX.Element => {
-  const { childEntities, entityService, path, ignoreColumn } = props;
+  const {
+    childEntities,
+    entityService,
+    path,
+    ignoreColumn,
+    selectedValues,
+    handleChange,
+  } = props;
 
   const rows = useStoreState((state) => state.list.rows);
 
-  const entity = entityService.getEntity();
-  const ChildDecorator = entity.ChildDecorator;
-
   const columns = entityService.getCollectionColumns();
-  const acl = entityService.getAcls();
-
-  const updateRouteMapItem: RouteMapItem = {
-    entity,
-    route: `${entity.path}/:id/update`,
-  };
-
-  const detailMapItem: RouteMapItem = {
-    entity,
-    route: `${entity.path}/:id/detailed`,
-  };
-
-  const deleteMapItem: RouteMapItem = {
-    entity,
-    route: `${entity.path}/:id`,
-  };
+  const visibleColumns = Object.fromEntries(
+    Object.entries(columns).filter(([key]) => key !== ignoreColumn)
+  );
 
   return (
     <>
-      {rows.map((row: any, rKey: any) => {
+      {rows.map((row, key) => {
         return (
-          <StyledCard key={rKey}>
-            <CardContent>
-              {Object.keys(columns).map((key: string) => {
-                if (key === ignoreColumn) {
-                  return null;
-                }
-                const column = columns[key];
-
-                return (
-                  <Typography key={key}>
-                    <strong>{column.label}:</strong>
-                    &nbsp;
-                    <ListContentValue
-                      columnName={key}
-                      column={column}
-                      row={row}
-                      entityService={entityService}
-                    />
-                  </Typography>
-                );
-              })}
-            </CardContent>
-            <StyledCardActions>
-              <StyledCardContainer>
-                {acl.update && (
-                  <ChildDecorator routeMapItem={updateRouteMapItem} row={row}>
-                    <EditRowButton row={row} path={path} />
-                  </ChildDecorator>
-                )}
-                {acl.detail && !acl.update && (
-                  <ChildDecorator routeMapItem={detailMapItem} row={row}>
-                    <ViewRowButton row={row} path={path} />
-                  </ChildDecorator>
-                )}
-                {acl.delete && (
-                  <ChildDecorator routeMapItem={deleteMapItem} row={row}>
-                    <DeleteRowButton row={row} entityService={entityService} />
-                  </ChildDecorator>
-                )}
-              </StyledCardContainer>
-              <StyledCardContainer>
-                <ChildEntityLinks
-                  childEntities={childEntities}
-                  entityService={entityService}
-                  row={row}
-                />
-              </StyledCardContainer>
-            </StyledCardActions>
-          </StyledCard>
+          <ContentCardBody
+            key={key}
+            childEntities={childEntities}
+            entityService={entityService}
+            ignoreColumn={ignoreColumn}
+            selectedValues={selectedValues}
+            handleChange={handleChange}
+            path={path}
+            visibleColumns={visibleColumns}
+            row={row}
+          />
         );
       })}
     </>

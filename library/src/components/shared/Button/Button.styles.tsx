@@ -14,9 +14,13 @@ type ButtonPropsType = Omit<ButtonProps, 'className'> & {
 };
 
 export const LightButton = (props: ButtonPropsType): JSX.Element => {
-  const { children, size } = props;
+  const { children, size, ...rest } = props;
 
-  return <StyledButton className={`light ${size}`}>{children}</StyledButton>;
+  return (
+    <StyledButton className={`light ${size}`} {...rest}>
+      {children}
+    </StyledButton>
+  );
 };
 
 export const PrimaryButton = (props: ButtonPropsType): JSX.Element => {

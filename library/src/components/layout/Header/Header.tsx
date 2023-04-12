@@ -1,9 +1,7 @@
 import MenuIcon from '@mui/icons-material/Menu';
 import {
   Box,
-  Button,
   MenuItem,
-  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -11,19 +9,18 @@ import {
 import { LightButton } from '../../../components/shared/Button/Button.styles';
 import { RouteMap } from '../../../router/routeMapParser';
 import { useStoreActions } from '../../../store';
-import AccountSettings from './AccountSettings/AccountSettings';
+import Settings from './Settings/Settings';
+import Avatar from './Avatar/Avatar';
 import Breadcrumbs from './Breadcrumbs';
-import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import './Header.scoped.scss';
 
 interface headerProps {
   routeMap: RouteMap;
   children?: React.ReactNode;
-  customAvatar?: JSX.Element;
 }
 
 export default function Header(props: headerProps): JSX.Element {
-  const { routeMap, children, customAvatar } = props;
+  const { routeMap, children } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const toggleVisibility = useStoreActions(
     (actions) => actions.menu.toggleVisibility
@@ -35,9 +32,6 @@ export default function Header(props: headerProps): JSX.Element {
   const theme = useTheme();
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
-  if (!desktop) {
-  }
-
   return (
     <Box className='menu-container'>
       <Box className='start'>
@@ -47,17 +41,13 @@ export default function Header(props: headerProps): JSX.Element {
       <Box className='end'>
         {desktop && (
           <>
-            <AccountSettings customAvatar={customAvatar}>
-              {children || (
-                <MenuItem key='logout' onClick={handleLogout}>
-                  <Typography textAlign='center'>Logout</Typography>
-                </MenuItem>
-              )}
-            </AccountSettings>
+            <Settings />
 
-            <Tooltip title='Account'>
-              <Box className='account'>AL</Box>
-            </Tooltip>
+            <Avatar>
+              <MenuItem key='logout' onClick={handleLogout}>
+                <Typography textAlign='center'>Logout</Typography>
+              </MenuItem>
+            </Avatar>
           </>
         )}
 

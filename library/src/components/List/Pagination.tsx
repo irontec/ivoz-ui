@@ -19,14 +19,11 @@ export default function Pagination(
 
   const loading = useStoreState((state) => state.api.loading);
   const itemsPerPage = useStoreState((state) => state.route.itemsPerPage);
-
   const headers = useStoreState((state) => state.list.headers);
+  const page = useStoreState((state) => state.route.page);
+  const i18n = getI18n();
 
   const recordCount = parseInt(headers['x-total-items'] ?? 0, 10);
-
-  const page = useStoreState((state) => state.route.page);
-
-  const i18n = getI18n();
   const locale = i18n.language.replace('-', '');
 
   const replaceInQueryStringCriteria = useStoreActions((actions) => {

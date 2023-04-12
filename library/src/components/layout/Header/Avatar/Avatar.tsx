@@ -1,19 +1,16 @@
-import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
-import { MenuItem, Tooltip, Typography } from '@mui/material';
+import { Box, MenuItem, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useStoreActions } from 'store';
-import { LightButton } from '../../../../components/shared/Button/Button.styles';
-import { StyledMenu } from './styles/Menu.styles';
+import { StyledMenu } from '../Settings/styles/Menu.styles';
+import _ from '../../../../services/translations/translate';
+import './Avatar.scoped.scss';
 
-interface AccountSettingsProps {
+interface AvatarProps {
   children?: React.ReactNode;
-  customAvatar?: JSX.Element;
 }
 
-export default function AccountSettings(
-  props: AccountSettingsProps
-): JSX.Element {
-  const { children, customAvatar } = props;
+export default function Avatar(props: AvatarProps): JSX.Element {
+  const { children } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const handleLogout = () => {
     resetAuth();
@@ -31,13 +28,12 @@ export default function AccountSettings(
 
   return (
     <>
-      <Tooltip title='Open settings'>
-        <div onClick={handleOpenUserMenu}>
-          <LightButton>{customAvatar || <SettingsOutlinedIcon />}</LightButton>
-        </div>
+      <Tooltip title={_('Account settings')}>
+        <Box onClick={handleOpenUserMenu} className='account'>
+          AL
+        </Box>
       </Tooltip>
       <StyledMenu
-        id='menu-appbar'
         anchorEl={anchorElUser}
         anchorOrigin={{
           vertical: 'top',
@@ -53,7 +49,7 @@ export default function AccountSettings(
       >
         {children || (
           <MenuItem key='logout' onClick={handleLogout}>
-            <Typography textAlign='center'>Logout</Typography>
+            <Typography textAlign='center'>{_('Logout')}</Typography>
           </MenuItem>
         )}
       </StyledMenu>

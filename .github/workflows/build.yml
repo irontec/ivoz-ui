@@ -24,3 +24,10 @@ jobs:
       with:
         cmd: build
         dir: 'library'
+    - uses: borales/actions-yarn@v4
+      with:
+        cmd: lint
+        dir: 'library'
+    - name: Check file changes
+      run: |
+        git diff --exit-code

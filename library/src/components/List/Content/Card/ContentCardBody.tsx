@@ -106,6 +106,8 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
                 entityService={entityService}
                 selectedValues={selectedValues}
                 handleMultiselectChange={handleChange}
+                expanded={false}
+                setExpanded={() => {}}
               />
             );
           })}

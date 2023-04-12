@@ -9,18 +9,6 @@
     gap: var(--spacing-md);
     align-items: center;
   }
-  .account {
-    --size: 46px;
-    background-color: var(--color-title);
-    color: white;
-    font-size: var(--font-size-secondary-title);
-    border-radius: 50%;
-    font-weight: bold;
-    display: grid;
-    place-items: center;
-    width: var(--size);
-    height: var(--size);
-  }
 
   &::v-deep {
     .MuiBreadcrumbs-li:last-child {

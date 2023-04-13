@@ -14,6 +14,8 @@ import {
 import MenuBlock from './MenuBlock';
 import MenuHeader from './MenuHeader';
 import MenuListItem from './MenuListItem';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import Logo from './Logo';
 
 export interface MenuContentProps {
   routeMap: RouteMap;
@@ -24,7 +26,13 @@ export default function MenuContent(
 ): JSX.Element | null {
   const { routeMap } = props;
 
-  const menuVariant = useStoreState((state) => state.menu.variant);
+  let menuVariant = useStoreState((state) => state.menu.variant);
+
+  const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
+
+  if (!desktop) {
+    menuVariant = 'expanded';
+  }
 
   return (
     <StyledMenuList className={`sidemenu ${menuVariant}`}>
@@ -54,6 +62,10 @@ export default function MenuContent(
           </Fragment>
         );
       })}
+
+      <Box className='logo'>
+        <Logo></Logo>
+      </Box>
     </StyledMenuList>
   );
 }

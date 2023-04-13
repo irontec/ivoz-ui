@@ -14,24 +14,7 @@
 
   overflow: hidden;
 
-  &.collapsed {
-    width: 90px;
-
-    .menu-header {
-      img {
-        height: 0px;
-      }
-
-      button {
-        margin-right: 9px;
-      }
-    }
-
-    .MuiListItemText-root {
-      width: 0;
-      overflow: hidden;
-    }
-  }
+  height: 100%;
 
   .menu-header {
     padding: var(--spacing-md);
@@ -81,15 +64,21 @@
 
   > div > .MuiCollapse-vertical {
     border-inline-start: 1px solid var(--color-border);
-    margin-inline-start: var(--spacing-xxl);
+    margin-inline-start: 44px;
 
     padding-inline-end: var(--spacing-md);
     padding-inline-start: var(--spacing-xxl);
+
+    transition: var(--transition-all-1) !important;
   }
 
   .MuiCollapse-vertical {
     .MuiListItemIcon-root {
       display: none;
+    }
+
+    .MuiListItemText-root {
+      transition: var(--transition-all-1);
     }
 
     .MuiListItemButton-root {
@@ -110,5 +99,67 @@
 
   .MuiListItemIcon-root {
     color: currentColor;
+  }
+
+  .logo {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--spacing-md);
+    color: #bebebe;
+
+    svg {
+      height: 12px;
+    }
+  }
+
+  &.collapsed {
+    width: 90px;
+
+    .menu-header {
+      img {
+        height: 0px;
+      }
+
+      button {
+        margin-right: 9px;
+      }
+    }
+
+    .MuiCollapse-vertical {
+      .MuiButtonBase-root {
+        justify-content: center;
+      }
+      .MuiListItemIcon-root {
+        display: block;
+        opacity: 0.7;
+
+        min-width: auto;
+        margin-block: 4px;
+
+        line-height: 1;
+        svg {
+          font-size: 18px;
+        }
+      }
+
+      .MuiListItemText-root {
+        opacity: 0;
+        display: none;
+      }
+    }
+
+    > div > .MuiCollapse-vertical {
+      border-inline-start: 0px solid transparent;
+      margin-inline-start: 0;
+
+      padding-inline-end: var(--spacing-md);
+      padding-inline-start: var(--spacing-md);
+    }
+
+    .MuiListItemText-root {
+      width: 0;
+      overflow: hidden;
+    }
   }
 }

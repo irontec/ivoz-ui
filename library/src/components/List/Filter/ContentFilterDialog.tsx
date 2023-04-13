@@ -1,10 +1,10 @@
-import { Menu } from '@mui/material';
+import { Menu, useMediaQuery, useTheme } from '@mui/material';
 import { CancelToken } from 'axios';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
 import EntityService from '../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../store';
-import StyledContentFilterSelector from './ContentFilterSelector/ContentFilterSelector.styles';
+import ContentFilterSelector from './ContentFilterSelector/ContentFilterSelector';
 import { FilterCriteria } from './FilterCriteria';
 import { SearchFilterType } from './icons/FilterIconFactory';
 
@@ -48,6 +48,7 @@ export function ContentFilterDialog(
     return actions.route.setQueryStringCriteria;
   });
 
+  const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
   const [loading, setLoading] = useState<boolean>(true);
   const [foreignEntities, setForeignEntities] = useState<any>({});
   const [criteria, setCriteria] =
@@ -107,7 +108,7 @@ export function ContentFilterDialog(
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <StyledContentFilterSelector
+        <ContentFilterSelector
           entityService={entityService}
           fkChoices={foreignEntities}
           ignoreColumn={ignoreColumn}
@@ -116,12 +117,14 @@ export function ContentFilterDialog(
           close={handleClose}
         />
       </Menu>
-      <FilterCriteria
-        entityService={entityService}
-        fkChoices={foreignEntities}
-        removeFilter={removeFilter}
-        path={path}
-      />
+      {!mobile && (
+        <FilterCriteria
+          entityService={entityService}
+          fkChoices={foreignEntities}
+          removeFilter={removeFilter}
+          path={path}
+        />
+      )}
     </>
   );
 }

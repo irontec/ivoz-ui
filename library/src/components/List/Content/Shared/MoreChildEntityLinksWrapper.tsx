@@ -1,17 +1,17 @@
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import { Button } from '@mui/material';
 import React from 'react';
+import { LightButton } from '../../../../components/shared/Button/Button.styles';
 import { StyledMenu } from '../../../shared/Menu/Menu.styles';
-import { StyledTableRowCustomCta } from '../Table/ContentTable.styles';
 
 interface MoreChildEntityLinksProps {
   children: React.ReactNode;
+  disabled: boolean;
 }
 
 export const MoreChildEntityLinksWrapper = (
   props: MoreChildEntityLinksProps
 ) => {
-  const { children } = props;
+  const { children, disabled } = props;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -24,26 +24,24 @@ export const MoreChildEntityLinksWrapper = (
 
   return (
     <>
-      <Button variant='contained'>
-        <StyledTableRowCustomCta onClick={handleClick}>
-          <MoreHorizIcon />
-        </StyledTableRowCustomCta>
-        <StyledMenu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'right',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
-          }}
-        >
-          {children}
-        </StyledMenu>
-      </Button>
+      <LightButton onClick={handleClick} disabled={disabled}>
+        <MoreHorizIcon />
+      </LightButton>
+      <StyledMenu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        {children}
+      </StyledMenu>
     </>
   );
 };

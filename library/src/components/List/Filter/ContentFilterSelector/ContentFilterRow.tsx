@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Button } from '@mui/material';
+import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
 import { NullablePropertyFkChoices } from '../../../../entities';
 import {
@@ -17,11 +17,11 @@ import _ from '../../../../services/translations/translate';
 import { CriteriaFilterValue } from '../ContentFilterDialog';
 import FilterIconFactory from '../icons/FilterIconFactory';
 import {
-  StyledRowActionItem,
-  StyledRowContainer,
-  StyledRowItem,
-} from './ContentFilterSelector.styles';
-
+  LightButton,
+  OutlinedButton,
+  TonedButton,
+} from '../../../../components/shared/Button/Button.styles';
+import './ContentFilter.scoped.scss';
 export interface ContentFilterRowProps {
   idx: number;
   filters: { [key: string]: Array<string> };
@@ -99,96 +99,91 @@ export default function ContentFilterRow(
     return () => clearTimeout(timeOutId);
   }, [name, type, value, isLast]);
 
+  const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
+
   return (
-    <StyledRowContainer>
-      <StyledRowItem>
-        <StyledDropdownMemo
-          name='name'
+    <Box className='content-filter-row'>
+      <StyledDropdownMemo
+        name='name'
+        label=''
+        value={name}
+        required={false}
+        disabled={false}
+        onChange={({ target }) => {
+          const val = target.value;
+          setName(val);
+          setType(filters[val][0]);
+          setValue('');
+        }}
+        onBlur={() => {}}
+        choices={fieldNames}
+        error={false}
+        errorMsg=''
+        hasChanged={false}
+      />
+      <StyledDropdownMemo
+        name='type'
+        label=''
+        value={type}
+        required={false}
+        disabled={false}
+        onChange={({ target }) => {
+          setType(target.value);
+        }}
+        onBlur={() => {}}
+        choices={filterChoices}
+        error={false}
+        errorMsg=''
+        hasChanged={false}
+      />
+      {type !== 'exists' && !enumValue && (
+        <StyledTextField
+          name='value'
+          value={value}
+          type='text'
+          error={false}
+          errorMsg=''
+          inputProps={{}}
+          InputProps={{}}
+          hasChanged={false}
+          onChange={({ target }) => {
+            setValue(target.value);
+          }}
+        />
+      )}
+      {type !== 'exists' && enumValue && (
+        <Dropdown
+          name='value'
           label=''
-          value={name}
+          value={value}
           required={false}
           disabled={false}
           onChange={({ target }) => {
-            const val = target.value;
-            setName(val);
-            setType(filters[val][0]);
-            setValue('');
+            setValue(target.value);
           }}
           onBlur={() => {}}
-          choices={fieldNames}
+          choices={enumValue as DropdownChoices}
           error={false}
           errorMsg=''
           hasChanged={false}
         />
-      </StyledRowItem>
-      <StyledRowItem>
-        <StyledDropdownMemo
-          name='type'
-          label=''
-          value={type}
-          required={false}
-          disabled={false}
-          onChange={({ target }) => {
-            setType(target.value);
+      )}
+      {isLast && (
+        <TonedButton onClick={updateCriteria}>
+          <AddIcon />
+
+          {mobile && _('Add')}
+        </TonedButton>
+      )}
+      {!isLast && (
+        <LightButton
+          onClick={() => {
+            removeRow(idx);
           }}
-          onBlur={() => {}}
-          choices={filterChoices}
-          error={false}
-          errorMsg=''
-          hasChanged={false}
-        />
-      </StyledRowItem>
-      <StyledRowItem>
-        {type !== 'exists' && !enumValue && (
-          <StyledTextField
-            name='value'
-            value={value}
-            type='text'
-            error={false}
-            errorMsg=''
-            inputProps={{}}
-            InputProps={{}}
-            hasChanged={false}
-            onChange={({ target }) => {
-              setValue(target.value);
-            }}
-          />
-        )}
-        {type !== 'exists' && enumValue && (
-          <Dropdown
-            name='value'
-            label=''
-            value={value}
-            required={false}
-            disabled={false}
-            onChange={({ target }) => {
-              setValue(target.value);
-            }}
-            onBlur={() => {}}
-            choices={enumValue as DropdownChoices}
-            error={false}
-            errorMsg=''
-            hasChanged={false}
-          />
-        )}
-      </StyledRowItem>
-      <StyledRowActionItem>
-        {isLast && (
-          <Button variant='contained' onClick={updateCriteria}>
-            <AddIcon />
-          </Button>
-        )}
-        {!isLast && (
-          <Button
-            variant='contained'
-            onClick={() => {
-              removeRow(idx);
-            }}
-          >
-            <DeleteOutlineIcon />
-          </Button>
-        )}
-      </StyledRowActionItem>
-    </StyledRowContainer>
+        >
+          <DeleteOutlineIcon />
+        </LightButton>
+      )}
+    </Box>
   );
 }

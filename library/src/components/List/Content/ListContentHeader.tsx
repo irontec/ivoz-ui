@@ -1,11 +1,16 @@
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
+import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
 import { Box, Button, Tooltip } from '@mui/material';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
+import {
+  SolidButton,
+  TonedButton,
+} from '../../../components/shared/Button/Button.styles';
 import { MultiSelectFunctionComponent } from '../../../router';
 import EntityService from '../../../services/entity/EntityService';
 import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
@@ -14,6 +19,8 @@ import { ContentFilterDialog } from '../Filter/ContentFilterDialog';
 import DeleteRowsButton from './CTA/DeleteRowsButton';
 import { StyledActionButtonContainer, StyledLink } from './ListContent.styles';
 import { MultiselectMoreChildEntityLinks } from './Shared/MultiselectMoreChildEntityLinks';
+
+import 'ListContent.scoped.scss';
 
 interface ListContentProps {
   path: string;
@@ -24,6 +31,7 @@ interface ListContentProps {
   match: PathMatch;
   location: Location<Record<string, string> | undefined>;
   selectedValues: string[];
+  mobile?: boolean;
 }
 
 const ListContentHeader = (
@@ -39,6 +47,7 @@ const ListContentHeader = (
     match,
     location,
     selectedValues,
+    mobile,
   } = props;
 
   const entity = entityService.getEntity();
@@ -63,34 +72,29 @@ const ListContentHeader = (
   };
 
   return (
-    <React.Fragment>
-      <StyledActionButtonContainer ref={ref}>
-        <Box className='buttons'>
-          <StyledSearchTextField
-            name='fast_search'
-            type='text'
-            error={false}
-            errorMsg=''
-            inputProps={{}}
-            InputProps={{
-              startAdornment: <SearchIcon />,
-            }}
-            placeholder='Search'
-            hasChanged={false}
-            onChange={({ target }) => {
-              console.log(target.value);
-            }}
-          />
-          <Tooltip title={_('Search')} arrow>
-            <Button
-              color='secondary'
-              size='small'
-              variant='contained'
-              onClick={handleOpenMenu}
-            >
-              <SearchIcon />
-            </Button>
-          </Tooltip>
+    <StyledActionButtonContainer ref={ref} className={'list-content-header'}>
+      <Box className='buttons start'>
+        <StyledSearchTextField
+          name='fast_search'
+          type='text'
+          error={false}
+          errorMsg=''
+          inputProps={{}}
+          InputProps={{
+            startAdornment: <SearchIcon />,
+          }}
+          placeholder='Search'
+          hasChanged={false}
+          onChange={({ target }) => {
+            console.log(target.value);
+          }}
+        />
+        <Tooltip title={_('Search')} arrow>
+          <TonedButton onClick={handleOpenMenu}>
+            <TuneRoundedIcon />
+          </TonedButton>
+        </Tooltip>
+        <Box className='filter-chips'>
           <ContentFilterDialog
             anchorEl={anchorEl}
             setAnchorEl={setAnchorEl}
@@ -102,59 +106,57 @@ const ListContentHeader = (
             match={match}
           />
         </Box>
-        <Box className='buttons'>
-          {multiselect &&
-            multiselectActionNum < 2 &&
-            multiselectActions.map((Action, key) => {
-              return (
-                <Button
-                  key={key}
-                  variant='contained'
-                  disabled={selectedValues.length < 1}
-                >
-                  <Action
-                    rows={rows}
-                    selectedValues={selectedValues}
-                    entityService={entityService}
-                  />
-                </Button>
-              );
-            })}
-          {multiselect && multiselectActionNum > 1 && (
-            <MultiselectMoreChildEntityLinks
-              childActions={multiselectActions}
-              selectedValues={selectedValues}
-              rows={rows}
-              entityService={entityService}
-              deleteMapItem={
-                acl.delete && {
-                  entity,
-                  route: `${entity.path}/:id`,
-                }
+      </Box>
+      <Box className='buttons end'>
+        {multiselect &&
+          multiselectActionNum < 2 &&
+          multiselectActions.map((Action, key) => {
+            return (
+              <Button
+                key={key}
+                variant='contained'
+                disabled={selectedValues.length < 1}
+              >
+                <Action
+                  rows={rows}
+                  selectedValues={selectedValues}
+                  entityService={entityService}
+                />
+              </Button>
+            );
+          })}
+        {multiselect && multiselectActionNum > 1 && (
+          <MultiselectMoreChildEntityLinks
+            childActions={multiselectActions}
+            selectedValues={selectedValues}
+            rows={rows}
+            entityService={entityService}
+            deleteMapItem={
+              acl.delete && {
+                entity,
+                route: `${entity.path}/:id`,
               }
-            />
-          )}
-          {acl.delete && multiselectActionNum < 2 && (
-            <Button variant='contained' disabled={selectedValues.length < 1}>
-              <DeleteRowsButton
-                selectedValues={selectedValues}
-                entityService={entityService}
-              />
-            </Button>
-          )}
-          {acl.create && (
-            <StyledLink to={`${location.pathname}/create`}>
-              <Tooltip title='Add' enterTouchDelay={0} arrow>
-                <Button variant='contained'>
-                  <AddIcon />
-                  {_('Add')}
-                </Button>
-              </Tooltip>
-            </StyledLink>
-          )}
-        </Box>
-      </StyledActionButtonContainer>
-    </React.Fragment>
+            }
+          />
+        )}
+        {acl.delete && multiselectActionNum < 2 && (
+          <DeleteRowsButton
+            selectedValues={selectedValues}
+            entityService={entityService}
+          />
+        )}
+        {acl.create && (
+          <StyledLink to={`${location.pathname}/create`}>
+            <Tooltip title='Add' enterTouchDelay={0} arrow>
+              <SolidButton>
+                <AddIcon />
+                {!mobile && _('Add')}
+              </SolidButton>
+            </Tooltip>
+          </StyledLink>
+        )}
+      </Box>
+    </StyledActionButtonContainer>
   );
 };
 

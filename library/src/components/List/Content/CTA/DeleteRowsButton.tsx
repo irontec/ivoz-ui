@@ -5,6 +5,7 @@ import EntityService from '../../../../services/entity/EntityService';
 import _ from '../../../../services/translations/translate';
 import { useStoreActions } from '../../../../store';
 import ConfirmDialog from '../../../shared/ConfirmDialog';
+import { LightButton } from '../../../../components/shared/Button/Button.styles';
 
 interface DeleteRowsButtonProps {
   entityService: EntityService;
@@ -63,29 +64,28 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
     }
   };
 
-  if (variant === 'text') {
-    return (
-      <>
+  return (
+    <>
+      {variant === 'text' && (
         <a className={disabled ? 'disabled' : ''} onClick={handleShowDelete}>
           {_('Delete')}
         </a>
-        <ConfirmDialog
-          text={`${selectedValues.length} elements will be removed. Are you sure?`}
-          open={showDelete}
-          handleClose={handleHideDelete}
-          handleApply={handleDelete}
-        />
-      </>
-    );
-  }
-
-  return (
-    <>
-      <Tooltip title={_('Delete')} placement='bottom' enterTouchDelay={0} arrow>
-        <a onClick={handleShowDelete}>
-          <DeleteIcon />
-        </a>
-      </Tooltip>
+      )}
+      {variant === 'icon' && (
+        <Tooltip
+          title={_('Delete')}
+          placement='bottom'
+          enterTouchDelay={0}
+          arrow
+        >
+          <LightButton
+            onClick={handleShowDelete}
+            disabled={selectedValues.length < 1}
+          >
+            <DeleteIcon />
+          </LightButton>
+        </Tooltip>
+      )}
       <ConfirmDialog
         text={`${selectedValues.length} elements will be removed. Are you sure?`}
         open={showDelete}

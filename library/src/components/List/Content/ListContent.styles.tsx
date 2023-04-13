@@ -12,7 +12,8 @@ export const StyledActionButtonContainer = styled('div')(() => {
     '& > .buttons': {
       textAlign: 'end',
       '& button': {
-        margin: '0 0 5px 5px',
+        height: '40px',
+        minWidth: '40px',
       },
     },
   };

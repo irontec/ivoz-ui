@@ -143,14 +143,6 @@ export default function ContentFilterSelector(
           setRow={setRow}
           removeRow={removeRow}
         />
-        {/* {mobile && (
-          <FilterCriteria
-            entityService={entityService}
-            fkChoices={foreignEntities}
-            removeFilter={removeFilter}
-            path={path}
-          />
-        )} */}
       </Box>
       <Box className='actions'>
         <Box>

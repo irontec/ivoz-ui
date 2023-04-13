@@ -90,20 +90,23 @@ const Dropdown = (props: SelectProps): JSX.Element => {
       error={error}
       className={'dropdown ' + className}
     >
-      <label htmlFor={name} id={labelId} className={labelClassName}>
-        {label}
-        {required && '*'}
-        {helperText && (
-          <StyledHelpTextTooltip
-            title={helperText}
-            placement='top'
-            arrow
-            className='help-tooltip'
-          >
-            <HelpOutlineIcon />
-          </StyledHelpTextTooltip>
-        )}
-      </label>
+      {label && (
+        <label htmlFor={name} id={labelId} className={labelClassName}>
+          {label}
+          {required && '*'}
+          {helperText && (
+            <StyledHelpTextTooltip
+              title={helperText}
+              placement='top'
+              arrow
+              className='help-tooltip'
+            >
+              <HelpOutlineIcon />
+            </StyledHelpTextTooltip>
+          )}
+        </label>
+      )}
+
       <Select
         value={ready ? value : ''}
         disabled={disabled}

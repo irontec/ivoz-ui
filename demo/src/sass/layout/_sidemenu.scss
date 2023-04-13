@@ -1,7 +1,7 @@
 @use './../../sass/abstracts/mixins' as *;
 
 .sidemenu {
-  background-color: var(--color-elevated-background);
+  background-color: var(--color-background-elevated);
   width: 300px;
   color: var(--color-text);
   z-index: 2;
@@ -89,7 +89,7 @@
 
     .Mui-selected {
       color: var(--color-primary);
-      background-color: rgba(var(--color-primary-rgb), 0.1);
+      background-color: var(--color-primary-bg-toned);
     }
   }
 

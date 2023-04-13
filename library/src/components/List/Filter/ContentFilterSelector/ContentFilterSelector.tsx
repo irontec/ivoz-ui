@@ -1,4 +1,4 @@
-import { Button } from '@mui/material';
+import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
 import { MouseEventHandler, useState } from 'react';
 import { useStoreState } from 'store';
 import { NullablePropertyFkChoices } from '../../../../entities/DefaultEntityBehavior';
@@ -8,12 +8,12 @@ import { DropdownChoices } from '../../../../services/form/Field/Dropdown';
 import _ from '../../../../services/translations/translate';
 import { CriteriaFilterValues } from '../ContentFilterDialog';
 import ContentFilterRow from './ContentFilterRow';
+import './ContentFilter.scoped.scss';
 import {
-  StyledContainer,
-  StyledLastRowContainer,
-  StyledRowContainer,
-  StyledRowItem,
-} from './ContentFilterSelector.styles';
+  OutlinedButton,
+  SolidButton,
+} from '../../../../components/shared/Button/Button.styles';
+import { FilterCriteria } from '../FilterCriteria';
 
 export interface ContentFilterRowProps {
   entityService: EntityService;
@@ -104,25 +104,29 @@ export default function ContentFilterSelector(
     setCriteria([]);
   };
 
+  const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
+
   return (
     <form className={className}>
-      <StyledContainer>
-        {criteria.map((row, idx) => {
-          return (
-            <ContentFilterRow
-              key={idx}
-              idx={idx}
-              filters={filters}
-              row={row}
-              columns={columns}
-              fkChoices={fkChoices}
-              fieldNames={fieldNames}
-              isLast={false}
-              setRow={setRow}
-              removeRow={removeRow}
-            />
-          );
-        })}
+      <Box className='filters'>
+        <div>SelectFields</div>
+        {!mobile &&
+          criteria.map((row, idx) => {
+            return (
+              <ContentFilterRow
+                key={idx}
+                idx={idx}
+                filters={filters}
+                row={row}
+                columns={columns}
+                fkChoices={fkChoices}
+                fieldNames={fieldNames}
+                isLast={false}
+                setRow={setRow}
+                removeRow={removeRow}
+              />
+            );
+          })}
         <ContentFilterRow
           key={criteria.length}
           idx={criteria.length}
@@ -139,27 +143,35 @@ export default function ContentFilterSelector(
           setRow={setRow}
           removeRow={removeRow}
         />
-        <StyledLastRowContainer>
-          <StyledRowItem>
-            <a href='#' onClick={resetCriteria}>
-              {_('Clear all filters')}
-            </a>
-          </StyledRowItem>
-          <StyledRowItem>
-            <Button variant='contained' onClick={close}>
-              {_('Cancel')}
-            </Button>
-            <Button
-              variant='contained'
-              onClick={() => {
-                commitCriteria(criteria);
-              }}
-            >
-              {_('Apply')}
-            </Button>
-          </StyledRowItem>
-        </StyledLastRowContainer>
-      </StyledContainer>
+        {/* {mobile && (
+          <FilterCriteria
+            entityService={entityService}
+            fkChoices={foreignEntities}
+            removeFilter={removeFilter}
+            path={path}
+          />
+        )} */}
+      </Box>
+      <Box className='actions'>
+        <Box>
+          <a href='#' onClick={resetCriteria} className='link'>
+            {_('Clear all filters')}
+          </a>
+        </Box>
+        <Box className='buttons'>
+          <OutlinedButton variant='contained' onClick={close}>
+            {_('Cancel')}
+          </OutlinedButton>
+          <SolidButton
+            variant='contained'
+            onClick={() => {
+              commitCriteria(criteria);
+            }}
+          >
+            {_('Apply')}
+          </SolidButton>
+        </Box>
+      </Box>
     </form>
   );
 }

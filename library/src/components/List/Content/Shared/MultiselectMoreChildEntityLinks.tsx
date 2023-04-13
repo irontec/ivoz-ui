@@ -19,12 +19,12 @@ export const MultiselectMoreChildEntityLinks = (
 ) => {
   const { childActions, rows, entityService, deleteMapItem, selectedValues } =
     props;
-
+  const disabled = selectedValues.length === 0;
   return (
-    <MoreChildEntityLinksWrapper>
+    <MoreChildEntityLinksWrapper disabled={disabled}>
       {childActions.map((Action, key: number) => {
         return (
-          <MenuItem key={key} disabled={selectedValues.length === 0}>
+          <MenuItem key={key} disabled={disabled}>
             <Action
               rows={rows}
               selectedValues={selectedValues}
@@ -35,7 +35,7 @@ export const MultiselectMoreChildEntityLinks = (
         );
       })}
       {deleteMapItem && (
-        <MenuItem disabled={selectedValues.length === 0}>
+        <MenuItem disabled={disabled}>
           <DeleteRowsButton
             selectedValues={selectedValues}
             entityService={entityService}

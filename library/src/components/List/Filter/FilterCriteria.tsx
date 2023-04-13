@@ -1,4 +1,5 @@
-import { Tooltip } from '@mui/material';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { Chip, Tooltip } from '@mui/material';
 import { useStoreState } from 'store';
 import { NullablePropertyFkChoices } from '../../../entities/DefaultEntityBehavior';
 import { isPropertyFk } from '../../../services/api/ParsedApiSpecInterface';
@@ -8,7 +9,6 @@ import {
   CriteriaFilterValue,
   CriteriaFilterValues,
 } from './ContentFilterDialog';
-import { StyledChip } from './FilterCriteria.styles';
 import { getFilterLabel } from './icons/FilterIconFactory';
 
 interface FilterCriteriaProps {
@@ -61,14 +61,13 @@ export function FilterCriteria(props: FilterCriteriaProps): JSX.Element | null {
 
         return (
           <Tooltip key={idx} title={tooltipTitle}>
-            <span>
-              <StyledChip
-                label={fieldStr}
-                onDelete={() => {
-                  removeFilter(idx);
-                }}
-              />
-            </span>
+            <Chip
+              label={fieldStr}
+              onDelete={() => {
+                removeFilter(idx);
+              }}
+              deleteIcon={<CloseRoundedIcon />}
+            />
           </Tooltip>
         );
       })}

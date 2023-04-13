@@ -18,7 +18,7 @@
     border: 1px solid var(--color-border);
     transition: var(--transition);
     padding: 0;
-    min-height: 50px;
+    min-height: 40px;
     overflow: hidden;
 
     &::v-deep {
@@ -30,7 +30,7 @@
       textarea {
         font-size: var(--font-size-text);
         color: var(--color-text);
-        padding-block: 14px;
+        padding-block: 10px;
         padding-inline-start: var(--spacing-md);
         max-height: 20px;
       }

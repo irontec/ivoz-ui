@@ -23,7 +23,8 @@ export default function AppRouteContentWrapper(
           <Box component='header' className='breadcrumb'>
             {loggedIn && <Header routeMap={routeMap} />}
           </Box>
-          <Box className='route-content'>{children}</Box>
+
+          <Box component='section'>{children}</Box>
         </Box>
       </Box>
     </>

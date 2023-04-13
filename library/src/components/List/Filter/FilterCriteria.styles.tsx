@@ -17,7 +17,7 @@ _Chip.displayName = '_Chip';
 
 export const StyledChip = styled(_Chip)(() => {
   return {
-    margin: '0 5px 5px',
+    // margin: '0 5px 5px',
   };
 });
 

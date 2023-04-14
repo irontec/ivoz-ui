@@ -71,6 +71,7 @@ const properties: PlatformProperties = {
 const platform: EntityInterface = {
   ...defaultEntityBehavior,
   icon: CastleIcon,
+  link: 'https://halliday-test.irontec.com/doc/en/administration_portal/platform/brands.html',
   iden: 'Platform',
   title: 'Platforms',
   path: '/platforms',

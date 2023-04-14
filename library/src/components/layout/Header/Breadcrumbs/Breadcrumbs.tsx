@@ -1,5 +1,8 @@
+import InsertLinkIcon from '@mui/icons-material/InsertLink';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
 import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
+import { PathMatch } from 'react-router-dom';
+import { useStoreState } from 'store';
 import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 import { filterRouteMapPath } from '../../../../router/findRoute';
 import {
@@ -13,8 +16,6 @@ import {
   StyledCollapsedBreadcrumbsNavigateNextIcon,
   StyledCollapsedBreadcrumbsTypography,
 } from './styles/Links.styles';
-import { PathMatch } from 'react-router-dom';
-import { useStoreState } from 'store';
 
 type BreadcrumbsProps = {
   routeMap: RouteMap;
@@ -104,11 +105,20 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
     >
       {routeItems.map((routeItem, key: number) => {
         const to = getEntityItemLink(routeItem, match);
+        const entity = routeItem.entity;
+        const isLast = key+1 === routeItems.length;
 
         return (
-          <StyledCollapsedBreadcrumbsLink to={to} key={key}>
-            {routeItem.entity.title}
-          </StyledCollapsedBreadcrumbsLink>
+          <span key={key}>
+            <StyledCollapsedBreadcrumbsLink to={to}>
+              {entity.title}
+            </StyledCollapsedBreadcrumbsLink>
+            {isLast && entity.link && !appendSegment && (
+              <a target="_blank" href={entity.link}>
+                <InsertLinkIcon />
+              </a>
+            )}
+          </span>
         );
       })}
       {appendSegment && (

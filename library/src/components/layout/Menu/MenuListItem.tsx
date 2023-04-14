@@ -1,6 +1,8 @@
-import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
+import { MenuListItemIcon } from './MenuListItemIcon';
 
 type MenuListItemProps = {
   path: string;
@@ -38,7 +40,14 @@ export default function MenuListItem(
         });
       }}
     >
-      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemIcon>
+        <Tooltip
+          title={text as string}
+          placement='bottom-start'
+        >
+          <MenuListItemIcon icon={icon} />
+        </Tooltip>
+      </ListItemIcon>
       <ListItemText primary={text} />
     </ListItemButton>
   );

@@ -21,10 +21,15 @@ export default function MenuListItem(
 
   return (
     <ListItemButton
+      component='a'
+      href={path}
       className={className}
       dense={true}
       selected={selected}
-      onClick={() => {
+      onClick={(e) => {
+        e.stopPropagation();
+        e.preventDefault();
+
         hideMenu();
         navigate(path, {
           state: {

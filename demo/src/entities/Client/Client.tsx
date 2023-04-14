@@ -109,6 +109,7 @@ const properties: ClientProperties = {
 const client: EntityInterface = {
   ...defaultEntityBehavior,
   icon: ApartmentIcon,
+  link: 'https://halliday-test.irontec.com/doc/en/administration_portal/client/vpbx/index.html',
   iden: 'Client',
   title: 'Clients',
   path: '/clients',

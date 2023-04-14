@@ -100,6 +100,7 @@ const marshaller = (
 const user: EntityInterface = {
   ...defaultEntityBehavior,
   icon: PersonIcon,
+  link: 'https://halliday-test.irontec.com/doc/en/administration_portal/client/vpbx/users.html',
   iden: 'User',
   title: 'Users',
   path: '/users',

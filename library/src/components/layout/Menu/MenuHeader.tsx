@@ -2,6 +2,7 @@ import DehazeIcon from '@mui/icons-material/Dehaze';
 import { useStoreActions } from 'store';
 import { LightButton } from '../../../components/shared/Button/Button.styles';
 import { useMediaQuery, useTheme } from '@mui/material';
+import Avatar from '../Header/Avatar/Avatar';
 
 export default function MenuHeader(): JSX.Element {
   const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
@@ -21,6 +22,10 @@ export default function MenuHeader(): JSX.Element {
         <LightButton onClick={onClickHandler}>
           <DehazeIcon />
         </LightButton>
+      )}
+
+      {!desktop && (
+        <Avatar />
       )}
     </div>
   );

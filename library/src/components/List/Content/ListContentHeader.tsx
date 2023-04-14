@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import SearchIcon from '@mui/icons-material/Search';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
-import { Box, Button, Tooltip } from '@mui/material';
+import { Badge, Box, Button, Tooltip, useMediaQuery, useTheme } from '@mui/material';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
@@ -71,6 +71,10 @@ const ListContentHeader = (
     setAnchorEl(event.currentTarget);
   };
 
+  const queryStringCriteria = useStoreState(
+    (state) => state.route.queryStringCriteria
+  );
+
   return (
     <StyledActionButtonContainer ref={ref} className={'list-content-header'}>
       <Box className='buttons start'>
@@ -89,10 +93,12 @@ const ListContentHeader = (
             console.log(target.value);
           }}
         />
-        <Tooltip title={_('Search')} arrow>
-          <TonedButton onClick={handleOpenMenu}>
-            <TuneRoundedIcon />
-          </TonedButton>
+        <Tooltip title={_('Advanced search')} arrow>
+          <Badge color="error" variant="dot" invisible={!mobile || queryStringCriteria.length == 0}>
+            <TonedButton onClick={handleOpenMenu}>
+              <TuneRoundedIcon />
+            </TonedButton>
+          </Badge>
         </Tooltip>
         <Box className='filter-chips'>
           <ContentFilterDialog

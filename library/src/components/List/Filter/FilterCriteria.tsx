@@ -16,13 +16,14 @@ interface FilterCriteriaProps {
   fkChoices: { [fldName: string]: NullablePropertyFkChoices };
   path: string;
   removeFilter: (index: number) => void;
+  criteriaOverride?: CriteriaFilterValues;
 }
 
 export function FilterCriteria(props: FilterCriteriaProps): JSX.Element | null {
-  const { entityService, fkChoices, removeFilter } = props;
+  const { entityService, fkChoices, removeFilter, criteriaOverride } = props;
   const columns = entityService.getCollectionParamList();
 
-  const criteria: CriteriaFilterValues = useStoreState(
+  const criteria: CriteriaFilterValues = criteriaOverride || useStoreState(
     (state) => state.route.queryStringCriteria
   );
 

@@ -1,19 +1,19 @@
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { MouseEventHandler, useState } from 'react';
 import { useStoreState } from 'store';
+import {
+  OutlinedButton,
+  SolidButton,
+} from '../../../../components/shared/Button/Button.styles';
 import { NullablePropertyFkChoices } from '../../../../entities/DefaultEntityBehavior';
 import { isPropertyScalar } from '../../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../../services/entity/EntityService';
 import { DropdownChoices } from '../../../../services/form/Field/Dropdown';
 import _ from '../../../../services/translations/translate';
 import { CriteriaFilterValues } from '../ContentFilterDialog';
-import ContentFilterRow from './ContentFilterRow';
-import './ContentFilter.scoped.scss';
-import {
-  OutlinedButton,
-  SolidButton,
-} from '../../../../components/shared/Button/Button.styles';
 import { FilterCriteria } from '../FilterCriteria';
+import './ContentFilter.scoped.scss';
+import ContentFilterRow from './ContentFilterRow';
 
 export interface ContentFilterRowProps {
   entityService: EntityService;
@@ -109,7 +109,7 @@ export default function ContentFilterSelector(
   return (
     <form className={className}>
       <Box className='filters'>
-        <div>SelectFields</div>
+        <div>{_('Select Fields')}</div>
         {!mobile &&
           criteria.map((row, idx) => {
             return (
@@ -126,7 +126,8 @@ export default function ContentFilterSelector(
                 removeRow={removeRow}
               />
             );
-          })}
+          })
+        }
         <ContentFilterRow
           key={criteria.length}
           idx={criteria.length}
@@ -144,6 +145,17 @@ export default function ContentFilterSelector(
           removeRow={removeRow}
         />
       </Box>
+      {mobile && (
+        <Box>
+          <FilterCriteria
+            entityService={entityService}
+            fkChoices={fkChoices}
+            removeFilter={removeRow}
+            path={path}
+            criteriaOverride={criteria}
+          />
+        </Box>
+      )}
       <Box className='actions'>
         <Box>
           <a href='#' onClick={resetCriteria} className='link'>

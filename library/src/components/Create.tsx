@@ -39,6 +39,15 @@ const Create = (props: CreateProps) => {
   const filterBy = parentRoute?.filterBy;
   const fixedValues = parentRoute?.fixedValues;
   const filterValues = parentRoute?.filterValues;
+  const sanitizedInitialFilterValues =  Object.fromEntries(
+      Object.entries(filterValues || {})
+        .filter(
+          ([key, value]) => {
+            return key.indexOf('[') === -1
+              && !Array.isArray(value);
+          }
+        )
+  );
 
   let parentPath = parentRoute?.route || '';
   for (const idx in params) {
@@ -53,6 +62,8 @@ const Create = (props: CreateProps) => {
   let initialValues: EntityValues = {
     ...entityService.getDefultValues(),
     ...props.initialValues,
+    ...fixedValues,
+    ...sanitizedInitialFilterValues,
   };
 
   for (const idx in properties) {

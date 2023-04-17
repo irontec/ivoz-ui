@@ -3,7 +3,7 @@ import hoistStatics from 'hoist-non-react-statics';
 import { useStoreActions } from '../store';
 import EntityService from '../services/entity/EntityService';
 import useCancelToken from '../hooks/useCancelToken';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 const withRowData = (
   Component: FunctionComponent | ComponentClass
@@ -12,6 +12,7 @@ const withRowData = (
   const C: any = (props: any): JSX.Element | null => {
     const { entityService }: { entityService: EntityService } = props;
 
+    const location = useLocation();
     const params = useParams();
     const entityId = params.id as string;
 
@@ -22,6 +23,13 @@ const withRowData = (
       return actions.api.get;
     });
     const [, cancelToken] = useCancelToken();
+
+    useEffect(
+      () => {
+        setLoading(true);
+      },
+      [location, setLoading]
+    );
 
     useEffect(() => {
       const mounted = true;

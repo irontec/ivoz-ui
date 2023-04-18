@@ -1,10 +1,9 @@
-import { LinearProgress } from '@mui/material';
+import { Skeleton } from '@mui/material';
 import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { PropertySpec } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
 import { Autocomplete } from '../../Field/Autocomplete';
 import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
-import { StyledLinearProgressContainer } from '../FormFieldFactory.styles';
 
 type AutocompleteFactoryPropsType = {
   fld: string;
@@ -40,9 +39,10 @@ export const AutocompleteFactory = (
 
   if (!choices) {
     return (
-      <StyledLinearProgressContainer>
-        <LinearProgress />
-      </StyledLinearProgressContainer>
+      <>
+        <Skeleton width="50%" />
+        <Skeleton variant="rectangular" height={42} />
+      </>
     );
   }
 

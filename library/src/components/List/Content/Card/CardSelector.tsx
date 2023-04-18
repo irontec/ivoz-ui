@@ -1,4 +1,7 @@
+import { Checkbox } from '@mui/material';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
+
+import './ContentCard.scoped.scss';
 
 interface CardSelectorProps {
   row: Record<string, any>;
@@ -17,13 +20,5 @@ export const CardSelector = (props: CardSelectorProps) => {
     return null;
   }
 
-  return (
-    <input
-      type='checkbox'
-      style={{ verticalAlign: 'bottom', marginRight: '10px' }}
-      name={row.id}
-      checked={checked}
-      onChange={handleChange}
-    />
-  );
+  return <Checkbox name={row.id} checked={checked} onChange={handleChange} />;
 };

@@ -59,3 +59,10 @@
     background: var(--color-border);
   }
 }
+
+.card {
+  padding-bottom: 0;
+  @include max-width(md) {
+    padding-block: 0;
+  }
+}

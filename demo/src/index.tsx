@@ -1,4 +1,4 @@
-import './sass/main.scss';
+import './index.scss';
 
 import {
   createTheme,
@@ -17,7 +17,21 @@ import reportWebVitals from './reportWebVitals';
 const currentLanguage =
   i18n.language.substring(0, 2) === 'es' ? 'esES' : 'enUS';
 
-const theme = createTheme(locales[currentLanguage]);
+const computedStyle = getComputedStyle(document.documentElement);
+const colorPrimary = computedStyle.getPropertyValue('--color-primary').trim();
+const colorSecondary = computedStyle.getPropertyValue('--color-secondary').trim();
+
+const theme = createTheme({
+  ...locales[currentLanguage],
+  palette: {
+    primary: {
+      main: colorPrimary,
+    },
+    secondary: {
+      main: colorSecondary,
+    },
+  },
+});
 
 const container = document.getElementById('root');
 const root = createRoot(container as Element);

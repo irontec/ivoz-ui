@@ -42,7 +42,7 @@ class ErrorBoundary extends Component<Props, State> {
 
     return (
       <Grid item {...size} sx={{ paddingTop: '50px!important' }} id='error'>
-        <LinearProgress color={'secondary'} />
+        <LinearProgress color={'error'} />
         &nbsp;
       </Grid>
     );

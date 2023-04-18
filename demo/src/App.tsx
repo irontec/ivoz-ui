@@ -1,6 +1,6 @@
 import { StoreContainer } from '@irontec/ivoz-ui';
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { CssBaseline, LinearProgress } from '@mui/material';
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';

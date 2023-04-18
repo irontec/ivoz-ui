@@ -1,4 +1,4 @@
-import { styled, TableCell } from '@mui/material';
+import { styled } from '@mui/material';
 
 export const StyledTableSortLabelVisuallyHidden = styled('span')(() => {
   return {
@@ -11,11 +11,5 @@ export const StyledTableSortLabelVisuallyHidden = styled('span')(() => {
     position: 'absolute',
     top: 20,
     width: 1,
-  };
-});
-
-export const StyledTableCell = styled(TableCell)(() => {
-  return {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.5)',
   };
 });

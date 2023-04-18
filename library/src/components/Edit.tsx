@@ -11,6 +11,7 @@ import { useStoreActions } from '../store';
 import ErrorBoundary from './ErrorBoundary';
 import { getMarshallerWhiteList } from './form.helper';
 import withRowData from './withRowData';
+import { Box } from '@mui/material';
 
 type EditProps = EntityInterface & {
   entityService: EntityService;
@@ -101,18 +102,20 @@ const Edit: any = (props: EditProps) => {
   }
 
   return (
-    <ErrorBoundary>
-      <EntityForm
-        {...props}
-        initialValues={initialValues}
-        filterBy={filterBy}
-        fixedValues={fixedValues}
-        filterValues={filterValues}
-        onSubmit={onSubmit}
-        edit={true}
-        match={match}
-      />
-    </ErrorBoundary>
+    <Box className='card'>
+      <ErrorBoundary>
+        <EntityForm
+          {...props}
+          initialValues={initialValues}
+          filterBy={filterBy}
+          fixedValues={fixedValues}
+          filterValues={filterValues}
+          onSubmit={onSubmit}
+          edit={true}
+          match={match}
+        />
+      </ErrorBoundary>
+    </Box>
   );
 };
 

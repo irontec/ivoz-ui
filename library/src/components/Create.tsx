@@ -11,6 +11,7 @@ import { getMarshallerWhiteList } from './form.helper';
 import { useStoreActions } from '../store';
 import ErrorBoundary from './ErrorBoundary';
 import { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 
 type CreateProps = EntityInterface & {
   entityService: EntityService;
@@ -117,19 +118,21 @@ const Create = (props: CreateProps) => {
   }
 
   return (
-    <ErrorBoundary>
-      <EntityForm
-        {...props}
-        filterBy={filterBy}
-        fixedValues={fixedValues}
-        filterValues={filterValues}
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-        entityService={entityService}
-        create={true}
-        match={match}
-      />
-    </ErrorBoundary>
+    <Box className='card'>
+      <ErrorBoundary>
+        <EntityForm
+          {...props}
+          filterBy={filterBy}
+          fixedValues={fixedValues}
+          filterValues={filterValues}
+          initialValues={initialValues}
+          onSubmit={onSubmit}
+          entityService={entityService}
+          create={true}
+          match={match}
+        />
+      </ErrorBoundary>
+    </Box>
   );
 };
 

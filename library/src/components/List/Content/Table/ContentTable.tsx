@@ -1,4 +1,4 @@
-import { TableBody, TableRow } from '@mui/material';
+import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import EntityService from 'services/entity/EntityService';
 import { useStoreState } from 'store';
@@ -13,6 +13,8 @@ import { StyledActionsTableCell, StyledTable } from './ContentTable.styles';
 import { TableColumnMemo } from './ContentTableColumn';
 import ContentTableHead from './ContentTableHead';
 import { handleMultiselectChangeType } from './hook/useMultiselectState';
+
+import './ContentTable.scoped.scss';
 
 interface ContentTableProps {
   childEntities: Array<RouteMapItem>;
@@ -97,9 +99,19 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
         {rows.map((row: any, key: any) => {
           const acl = entityService.getAcls();
           let selectableIdx = 0;
+          const checked = selectedValues.indexOf(row.id.toString()) > -1;
 
           return (
-            <TableRow hover key={key}>
+            <TableRow key={key}>
+              {multiselect && (
+                <TableCell>
+                  <Checkbox
+                    name={row.id}
+                    checked={checked}
+                    onChange={handleChange}
+                  />
+                </TableCell>
+              )}
               {Object.keys(columns).map((columnKey: string, idx: number) => {
                 if (columnKey === ignoreColumn) {
                   selectableIdx++;
@@ -115,13 +127,10 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     column={column}
                     row={row}
                     entityService={entityService}
-                    selectable={multiselect && idx === selectableIdx}
-                    selectedValues={selectedValues}
-                    handleChange={handleChange}
                   />
                 );
               })}
-              <StyledActionsTableCell key='actions'>
+              <StyledActionsTableCell key='actions' className='actions-cell'>
                 <ChildEntityLinks
                   childEntities={childEntities}
                   entityService={entityService}

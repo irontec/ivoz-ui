@@ -1,14 +1,17 @@
-import { TableHead, TableRow, TableSortLabel } from '@mui/material';
+import {
+  Checkbox,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from '@mui/material';
 import { CriteriaFilterValue } from '../../../../../components/List/Filter/ContentFilterDialog';
 import { isPropertyFk } from '../../../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../../../store';
 import { ROUTE_ORDER_KEY } from '../../../../../store/route';
 import { handleMultiselectChangeType } from '../hook/useMultiselectState';
-import {
-  StyledTableCell,
-  StyledTableSortLabelVisuallyHidden,
-} from './ContentTableHead.styles';
+import { StyledTableSortLabelVisuallyHidden } from './ContentTableHead.styles';
 
 interface ContentTableHead {
   entityService: EntityService;
@@ -48,6 +51,11 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
   return (
     <TableHead>
       <TableRow>
+        {multiselect && (
+          <TableCell>
+            <Checkbox onChange={selectAll} />
+          </TableCell>)
+        }
         {Object.keys(columns).map((key: string, idx: number) => {
           if (key === ignoreColumn) {
             selectableIdx++;
@@ -55,19 +63,12 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
           }
 
           return (
-            <StyledTableCell
+            <TableCell
               key={key}
               align='left'
               padding='normal'
               sortDirection={order?.name === key ? direction : false}
             >
-              {idx === selectableIdx && multiselect && (
-                <input
-                  type='checkbox'
-                  style={{ marginRight: '10px', verticalAlign: 'middle' }}
-                  onChange={selectAll}
-                />
-              )}
               {!isPropertyFk(columns[key]) && (
                 <TableSortLabel
                   active={order?.name === key}
@@ -96,14 +97,10 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
                   ) : null}
                 </>
               )}
-            </StyledTableCell>
+            </TableCell>
           );
         })}
-        <StyledTableCell
-          key={'empty slot'}
-          align='left'
-          padding='normal'
-        ></StyledTableCell>
+        <TableCell key={'empty slot'} align='left' padding='normal'></TableCell>
       </TableRow>
     </TableHead>
   );

@@ -16,6 +16,10 @@ import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import Pagination from './Pagination';
 import useQueryStringParams from './useQueryStringParams';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import _ from '../../services/translations/translate';
+
+import './List.scoped.scss';
 
 type ListProps = {
   path: string;
@@ -262,6 +266,8 @@ const List = function (props: ListProps) {
     reloadTimestamp,
   ]);
 
+  const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
+
   if (prevPath !== path) {
     return null;
   }
@@ -282,7 +288,16 @@ const List = function (props: ListProps) {
         match={match}
         location={location}
       />
-      <Pagination listRef={listRef} />
+      <Box component={'footer'}>
+        {mobile && (
+          <a href='' className='link'>
+            {_('Select all')}
+          </a>
+        )}
+        <Box className='pagination'>
+          <Pagination listRef={listRef} />
+        </Box>
+      </Box>
       {reqError && <ErrorMessage message={reqError} />}
     </ErrorBoundary>
   );

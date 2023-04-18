@@ -1,0 +1,34 @@
+@use './../../sass/abstracts/mixins' as *;
+
+footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline-start: var(--spacing-md);
+}
+
+.pagination {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+::v-deep {
+  .MuiTablePagination-root {
+    @include max-width(md) {
+      .MuiTablePagination-toolbar {
+        padding: 0;
+      }
+      .MuiTablePagination-selectLabel {
+        display: none;
+      }
+
+      .MuiInputBase-root {
+        margin-inline-end: var(--spacing-sm);
+      }
+      .MuiTablePagination-actions {
+        margin: 0;
+      }
+    }
+  }
+}

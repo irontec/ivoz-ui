@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { PropertySpec } from '../../../../services';
 import EntityService, {
   EntityValues,
@@ -7,6 +7,8 @@ import EntityService, {
 import ListContentValue from '../ListContentValue';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
 import { CardSelector } from './CardSelector';
+
+import './ContentCard.scoped.scss';
 
 interface ContentCardProps {
   columnName: string;
@@ -40,7 +42,7 @@ const ContentCardRow = (props: ContentCardProps): JSX.Element => {
   };
 
   return (
-    <div>
+    <Box>
       {multiselect && isFirstRow && (
         <CardSelector
           row={row}
@@ -49,9 +51,8 @@ const ContentCardRow = (props: ContentCardProps): JSX.Element => {
           handleChange={handleMultiselectChange}
         />
       )}
-      <Typography>
-        <strong>{column.label}:</strong>
-        &nbsp;
+      <Typography onClick={toggleExpanded}>
+        <span>{column.label}:</span>
         <ListContentValue
           columnName={columnName}
           column={column}
@@ -59,12 +60,8 @@ const ContentCardRow = (props: ContentCardProps): JSX.Element => {
           entityService={entityService}
         />
       </Typography>
-      {isFirstRow && (
-        <div onClick={toggleExpanded}>
-          <ExpandMoreIcon />
-        </div>
-      )}
-    </div>
+      {isFirstRow && <ExpandMoreIcon onClick={toggleExpanded} />}
+    </Box>
   );
 };
 

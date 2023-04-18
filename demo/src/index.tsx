@@ -38,6 +38,11 @@ const theme = createTheme({
       contrastText: colorContrastText,
     },
   },
+  typography: {
+    allVariants: {
+      fontFamily: ['PublicSans', 'Roboto', 'Arial', 'sans-serif'].join(','),
+    },
+  },
 });
 
 const container = document.getElementById('root');

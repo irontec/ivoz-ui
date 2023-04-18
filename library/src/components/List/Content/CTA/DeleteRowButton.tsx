@@ -5,6 +5,7 @@ import EntityService from '../../../../services/entity/EntityService';
 import _ from '../../../../services/translations/translate';
 import { useStoreActions } from '../../../../store';
 import { StyledDeleteIcon } from '../Table/ContentTable.styles';
+import { LightButton } from '../../../../components/shared/Button/Button.styles';
 
 interface DeleteRowButtonProps {
   row: any;
@@ -58,9 +59,9 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
           enterTouchDelay={0}
           arrow
         >
-          <a>
+          <LightButton>
             <StyledDeleteIcon onClick={() => setShowDelete(true)} />
-          </a>
+          </LightButton>
         </Tooltip>
       )}
       {variant === 'text' && (

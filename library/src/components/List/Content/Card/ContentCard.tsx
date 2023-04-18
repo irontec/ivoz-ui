@@ -4,6 +4,8 @@ import EntityService from '../../../../services/entity/EntityService';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
 import ContentCardBody from './ContentCardBody';
 
+import './ContentCard.scoped.scss';
+
 interface ContentCardProps {
   childEntities: Array<RouteMapItem>;
   entityService: EntityService;

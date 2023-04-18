@@ -1,4 +1,4 @@
-import { Collapse } from '@mui/material';
+import { Box, Collapse } from '@mui/material';
 import { useState } from 'react';
 import {
   MultiSelectFunctionComponent,
@@ -10,13 +10,9 @@ import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
-import StyledCardContent from './CardContent.styles';
-import {
-  StyledCard,
-  StyledCardActions,
-  StyledCardContainer,
-} from './ContentCard.styles';
 import ContentCardRow from './ContentCardRow';
+
+import './ContentCard.scoped.scss';
 
 interface ContentCardProps {
   childEntities: Array<RouteMapItem>;
@@ -77,68 +73,64 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
   delete localVisibleColumns[firstColumnName];
 
   return (
-    <StyledCard>
-      <StyledCardContent>
-        <ContentCardRow
-          columnName={firstColumnName}
-          multiselect={multiselect}
-          isFirstRow={true}
-          column={firstColumn}
-          row={row}
-          entityService={entityService}
-          selectedValues={selectedValues}
-          handleMultiselectChange={handleChange}
-          expanded={open}
-          setExpanded={setOpen}
-        />
-        <Collapse in={open} timeout='auto' unmountOnExit>
-          {visibleColumnNames.map((key: string, idx: number) => {
-            const column = visibleColumns[key];
+    <Box className='card-row'>
+      <ContentCardRow
+        columnName={firstColumnName}
+        multiselect={multiselect}
+        isFirstRow={true}
+        column={firstColumn}
+        row={row}
+        entityService={entityService}
+        selectedValues={selectedValues}
+        handleMultiselectChange={handleChange}
+        expanded={open}
+        setExpanded={setOpen}
+      />
+      <Collapse in={open} timeout='auto' unmountOnExit>
+        {visibleColumnNames.map((key: string, idx: number) => {
+          const column = visibleColumns[key];
 
-            return (
-              <ContentCardRow
-                key={idx}
-                columnName={key}
-                multiselect={multiselect}
-                isFirstRow={false}
-                column={column}
-                row={row}
-                entityService={entityService}
-                selectedValues={selectedValues}
-                handleMultiselectChange={handleChange}
-                expanded={false}
-                setExpanded={() => {}}
-              />
-            );
-          })}
-          <StyledCardActions>
-            <StyledCardContainer>
-              <ChildEntityLinks
-                childEntities={childEntities}
-                entityService={entityService}
-                row={row}
-                detail={
-                  acl.detail &&
-                  !acl.update && (
-                    <ChildDecorator routeMapItem={detailMapItem} row={row}>
-                      <ViewRowButton row={row} path={path} />
-                    </ChildDecorator>
-                  )
-                }
-                edit={
-                  acl.update && (
-                    <ChildDecorator routeMapItem={updateRouteMapItem} row={row}>
-                      <EditRowButton row={row} path={path} />
-                    </ChildDecorator>
-                  )
-                }
-                deleteMapItem={acl.delete && deleteMapItem}
-              />
-            </StyledCardContainer>
-          </StyledCardActions>
-        </Collapse>
-      </StyledCardContent>
-    </StyledCard>
+          return (
+            <ContentCardRow
+              key={idx}
+              columnName={key}
+              multiselect={multiselect}
+              isFirstRow={false}
+              column={column}
+              row={row}
+              entityService={entityService}
+              selectedValues={selectedValues}
+              handleMultiselectChange={handleChange}
+              expanded={false}
+              setExpanded={() => {}}
+            />
+          );
+        })}
+        <Box className='actions'>
+          <ChildEntityLinks
+            childEntities={childEntities}
+            entityService={entityService}
+            row={row}
+            detail={
+              acl.detail &&
+              !acl.update && (
+                <ChildDecorator routeMapItem={detailMapItem} row={row}>
+                  <ViewRowButton row={row} path={path} />
+                </ChildDecorator>
+              )
+            }
+            edit={
+              acl.update && (
+                <ChildDecorator routeMapItem={updateRouteMapItem} row={row}>
+                  <EditRowButton row={row} path={path} />
+                </ChildDecorator>
+              )
+            }
+            deleteMapItem={acl.delete && deleteMapItem}
+          />
+        </Box>
+      </Collapse>
+    </Box>
   );
 };
 

@@ -1,0 +1,6 @@
+.MuiCheckbox-root {
+  color: var(--color-border);
+  &.Mui-checked {
+    color: var(--color-primary);
+  }
+}

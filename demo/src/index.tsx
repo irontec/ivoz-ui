@@ -39,19 +39,12 @@ const theme = createTheme({
 const container = document.getElementById('root');
 const root = createRoot(container as Element);
 
-//@see https://github.com/ctrlplusb/easy-peasy/issues/741
-type Props = StoreProvider['props'] & {
-  children: React.ReactNode;
-};
-const StoreProviderOverride =
-  StoreProvider as unknown as React.ComponentType<Props>;
-
 root.render(
   <StyledEngineProvider injectFirst>
     <ThemeProvider theme={theme}>
-      <StoreProviderOverride store={store}>
+      <StoreProvider store={store}>
         <App />
-      </StoreProviderOverride>
+      </StoreProvider>
     </ThemeProvider>
   </StyledEngineProvider>
 );

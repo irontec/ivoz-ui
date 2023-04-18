@@ -3,6 +3,7 @@ import { FormProps } from '../entities/DefaultEntityBehavior/Form/Form';
 import EntityInterface, { ViewType } from '../entities/EntityInterface';
 import EntityService from '../services/entity/EntityService';
 import withRowData from './withRowData';
+import { Box } from '@mui/material';
 
 type DetailComponentProps = {
   entityService: EntityService;
@@ -50,7 +51,11 @@ const Detail: DetailComponentType = (props) => {
     return null;
   }
 
-  return <EntityView {...props} row={parsedData} />;
+  return (
+    <Box className='card'>
+      <EntityView {...props} row={parsedData} />
+    </Box>
+  );
 };
 
 export default withRowData(Detail as FunctionComponent);

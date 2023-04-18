@@ -19,9 +19,3 @@ export const StyledFilterDialogTypography = styled(
     flex: 1,
   };
 });
-
-export const StyledLinearProgressContainer = styled('div')(() => {
-  return {
-    paddingTop: '52px',
-  };
-});

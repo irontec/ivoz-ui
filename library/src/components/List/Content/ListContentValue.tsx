@@ -1,4 +1,4 @@
-import { Fade, LinearProgress } from '@mui/material';
+import { Fade, Skeleton } from '@mui/material';
 import { matchRoutes } from 'react-router-dom';
 import { useStoreState } from 'store';
 import {
@@ -72,7 +72,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
           }}
           unmountOnExit
         >
-          <LinearProgress color='inherit' />
+          <Skeleton variant="text" />
         </Fade>
       );
     } else if (row[`${columnName}Link`]) {

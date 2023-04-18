@@ -6,8 +6,8 @@ import { useEffect, useMemo } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { useStoreActions } from 'store';
 
+import AppRouteContentWrapper from '@irontec/ivoz-ui/components/AppRouteContentWrapper';
 import addCustomRoutes from './addCustomRoutes';
-import AppRouteContentWrapper from './AppRouteContentWrapper';
 import getEntityMap from './EntityMap';
 
 export interface AppRoutesProps {

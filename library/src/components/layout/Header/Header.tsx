@@ -9,18 +9,17 @@ import {
 import { LightButton } from '../../../components/shared/Button/Button.styles';
 import { RouteMap } from '../../../router/routeMapParser';
 import { useStoreActions } from '../../../store';
-import Settings from './Settings/Settings';
 import Avatar from './Avatar/Avatar';
 import Breadcrumbs from './Breadcrumbs';
 import './Header.scoped.scss';
+import Settings from './Settings/Settings';
 
 interface headerProps {
   routeMap: RouteMap;
-  children?: React.ReactNode;
 }
 
 export default function Header(props: headerProps): JSX.Element {
-  const { routeMap, children } = props;
+  const { routeMap } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const toggleVisibility = useStoreActions(
     (actions) => actions.menu.toggleVisibility

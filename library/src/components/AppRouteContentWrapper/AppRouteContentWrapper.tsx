@@ -1,8 +1,9 @@
 import 'AppRouteContentWrapper.scoped.scss';
 
-import { Header, Menu } from '@irontec/ivoz-ui/components/layout';
-import { RouteMap } from '@irontec/ivoz-ui/router/routeMapParser';
 import { Box } from '@mui/material';
+import { RouteMap } from '../../router/routeMapParser';
+import { Header, Menu } from '../layout';
+import Loading from '../layout/Loading/Loading';
 
 interface AppRouteContentProps {
   routeMap: RouteMap;
@@ -17,6 +18,7 @@ export default function AppRouteContentWrapper(
 
   return (
     <>
+      <Loading />
       <Box className='app-wrapper'>
         <Menu routeMap={routeMap} />
         <Box component='main'>

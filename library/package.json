@@ -36,9 +36,9 @@
     "@mui/x-date-pickers": "^6.2.0",
     "@mui/material": "^5.12.1",
     "easy-peasy": "^5.2.0",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.4.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.10.0"
   },
   "dependencies": {
     "@date-io/date-fns": "^2.10.8",
@@ -84,9 +84,9 @@
     "eslint-plugin-react": "^7.30.0",
     "eslint-plugin-react-hooks": "^4.5.0",
     "prettier": "^2.6.2",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
-    "react-router-dom": "^6.4.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.10.0",
     "rollup-plugin-react-scoped-css": "^0.8.2",
     "tslint": "^6.1.3"
   }

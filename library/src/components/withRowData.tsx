@@ -32,12 +32,9 @@ const withRowData = (
     });
     const [, cancelToken] = useCancelToken();
 
-    useEffect(
-      () => {
-        setLoading(true);
-      },
-      [location, setLoading]
-    );
+    useEffect(() => {
+      setLoading(true);
+    }, [location, setLoading]);
 
     useEffect(() => {
       resetFormRow();

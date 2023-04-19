@@ -5,15 +5,15 @@ import EntityInterface, {
   OrderDirection,
 } from '../../entities/EntityInterface';
 import {
-  ActionsSpec,
-  PropertyList,
   ActionModelList,
-  ScalarProperty,
   ActionModelSpec,
-  visualToggleList,
-  isPropertyFk,
+  ActionsSpec,
   FkProperty,
+  PropertyList,
+  ScalarProperty,
   fkPropertyList,
+  isPropertyFk,
+  visualToggleList,
 } from '../../services/api/ParsedApiSpecInterface';
 
 export type VisualToggleStates = { [key: string]: boolean };
@@ -94,9 +94,11 @@ export default class EntityService {
   public getColumns(): PropertyList {
     const response: PropertyList = {};
     const properties = this.entityConfig.properties;
-    const columns = this.entityConfig.columns.length
-      ? this.entityConfig.columns
-      : Object.keys(properties);
+
+    const columnNames = this.entityConfig.columns.map((column) => {
+      return typeof column === 'string' ? column : column.name;
+    });
+    const columns = columnNames.length ? columnNames : Object.keys(properties);
 
     for (const idx of columns) {
       if (!this.properties[idx] && !properties[idx]) {
@@ -126,8 +128,12 @@ export default class EntityService {
       collectionAction?.properties || {}
     );
     const response: PropertyList = {};
-    const restrictedColumns = this.entityConfig.columns.length
-      ? this.entityConfig.columns
+
+    const columnNames = this.entityConfig.columns.map((column) => {
+      return typeof column === 'string' ? column : column.name;
+    });
+    const restrictedColumns = columnNames.length
+      ? columnNames
       : collectionActionFields;
 
     for (const colName in allColumns) {
@@ -139,6 +145,21 @@ export default class EntityService {
     }
 
     return response;
+  }
+
+  public getColumnSize(columnName: string): number {
+    const columns = this.entityConfig.columns;
+    for (const column of columns) {
+      if (typeof column === 'string') {
+        continue;
+      }
+
+      if (column.name === columnName) {
+        return column.size;
+      }
+    }
+
+    return 1;
   }
 
   public getCollectionParamList(): PropertyList {

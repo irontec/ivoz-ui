@@ -5,13 +5,13 @@ import { StyledMenu } from '../../../shared/Menu/Menu.styles';
 
 interface MoreChildEntityLinksProps {
   children: React.ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export const MoreChildEntityLinksWrapper = (
   props: MoreChildEntityLinksProps
 ) => {
-  const { children, disabled } = props;
+  const { children, disabled = false } = props;
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);

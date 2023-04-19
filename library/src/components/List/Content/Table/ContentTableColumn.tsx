@@ -17,8 +17,10 @@ interface TableColumnProps {
 export const TableColumn = (props: TableColumnProps) => {
   const { columnName, column, row, entityService } = props;
 
+  const size = entityService.getColumnSize(columnName);
+
   return (
-    <StyledTableCell key={row.id}>
+    <StyledTableCell key={row.id} className={`size${size}`}>
       <ListContentValue
         columnName={columnName}
         column={column}

@@ -40,8 +40,8 @@ export const AutocompleteFactory = (
   if (!choices) {
     return (
       <>
-        <Skeleton width="50%" />
-        <Skeleton variant="rectangular" height={42} />
+        <Skeleton width='50%' />
+        <Skeleton variant='rectangular' height={42} />
       </>
     );
   }

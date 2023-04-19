@@ -24,9 +24,7 @@ export default function MenuHeader(): JSX.Element {
         </LightButton>
       )}
 
-      {!desktop && (
-        <Avatar />
-      )}
+      {!desktop && <Avatar />}
     </div>
   );
 }

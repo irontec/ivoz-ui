@@ -1,3 +1,4 @@
+import AppRouteContentWrapper from '@irontec/ivoz-ui/components/AppRouteContentWrapper';
 import Dashboard from '@irontec/ivoz-ui/components/Dashboard';
 import parseRoutes, { RouteSpec } from '@irontec/ivoz-ui/router/parseRoutes';
 import RouteContent from '@irontec/ivoz-ui/router/RouteContent';
@@ -6,7 +7,6 @@ import { useEffect, useMemo } from 'react';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import { useStoreActions } from 'store';
 
-import AppRouteContentWrapper from '@irontec/ivoz-ui/components/AppRouteContentWrapper';
 import addCustomRoutes from './addCustomRoutes';
 import getEntityMap from './EntityMap';
 

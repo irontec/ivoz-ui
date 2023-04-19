@@ -23,9 +23,9 @@ export function FilterCriteria(props: FilterCriteriaProps): JSX.Element | null {
   const { entityService, fkChoices, removeFilter, criteriaOverride } = props;
   const columns = entityService.getCollectionParamList();
 
-  const criteria: CriteriaFilterValues = criteriaOverride || useStoreState(
-    (state) => state.route.queryStringCriteria
-  );
+  const criteria: CriteriaFilterValues =
+    criteriaOverride ||
+    useStoreState((state) => state.route.queryStringCriteria);
 
   return (
     <>

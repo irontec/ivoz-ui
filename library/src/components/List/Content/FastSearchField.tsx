@@ -16,90 +16,74 @@ const FastSearchField = (
   props: FastSearchFieldProps,
   ref: ForwardedRef<any>
 ): JSX.Element => {
-  const {
-    path,
-    entityService,
-    ignoreColumn,
-  } = props;
+  const { path, entityService, ignoreColumn } = props;
 
-  const queryStringCriteria = useStoreState(state => [...state.route.queryStringCriteria]);
+  const queryStringCriteria = useStoreState((state) => [
+    ...state.route.queryStringCriteria,
+  ]);
   const setQueryStringCriteria = useStoreActions((actions) => {
     return actions.route.setQueryStringCriteria;
   });
 
   const columns = entityService.getCollectionColumns();
   const firstColumnKey = Object.keys(columns).find(
-    columnKey => columnKey !== ignoreColumn
+    (columnKey) => columnKey !== ignoreColumn
   ) as string;
 
-  const filters = entityService.getPropertyFilters(
-    firstColumnKey,
-    path
-  );
+  const filters = entityService.getPropertyFilters(firstColumnKey, path);
   const filter = filters[0];
 
-  const currentCriteria = queryStringCriteria.find(
-    (criteria) => {
-      return criteria.name === firstColumnKey && criteria.type === filter;
-    }
-  );
+  const currentCriteria = queryStringCriteria.find((criteria) => {
+    return criteria.name === firstColumnKey && criteria.type === filter;
+  });
   const [value, setValue] = useState(currentCriteria?.value || '');
 
-  const changeHandler:  React.ChangeEventHandler<HTMLInputElement> = ({ target }) => {
+  const changeHandler: React.ChangeEventHandler<HTMLInputElement> = ({
+    target,
+  }) => {
     const { value } = target;
     setValue(value);
   };
 
-  useEffect(
-    () => {
-      //reset value
-      setValue(currentCriteria?.value || '');
-    },
-    [currentCriteria]
-  );
+  useEffect(() => {
+    //reset value
+    setValue(currentCriteria?.value || '');
+  }, [currentCriteria]);
 
   useEffect(() => {
-    const timeOutId = setTimeout(
-      () => {
+    const timeOutId = setTimeout(() => {
+      if (currentCriteria) {
+        if (currentCriteria.value == value) {
+          return;
+        }
 
-        if (currentCriteria) {
-          if (currentCriteria.value == value) {
-            return;
-          }
-
-          if (value !== '') {
-            currentCriteria.value = value;
-          } else {
-            for (const idx in queryStringCriteria) {
-              if (queryStringCriteria[idx] === currentCriteria) {
-                queryStringCriteria.splice(
-                  parseInt(idx, 10),
-                  1
-                );
-                break;
-              }
+        if (value !== '') {
+          currentCriteria.value = value;
+        } else {
+          for (const idx in queryStringCriteria) {
+            if (queryStringCriteria[idx] === currentCriteria) {
+              queryStringCriteria.splice(parseInt(idx, 10), 1);
+              break;
             }
           }
-
-          setQueryStringCriteria(queryStringCriteria);
-
-          return;
         }
 
-        if (!value) {
-          return;
-        }
-
-        queryStringCriteria.push({
-          name: firstColumnKey,
-          type: filter,
-          value,
-        });
         setQueryStringCriteria(queryStringCriteria);
 
-      },
-      1000
-    );
+        return;
+      }
+
+      if (!value) {
+        return;
+      }
+
+      queryStringCriteria.push({
+        name: firstColumnKey,
+        type: filter,
+        value,
+      });
+      setQueryStringCriteria(queryStringCriteria);
+    }, 1000);
     return () => clearTimeout(timeOutId);
   }, [value, currentCriteria]);
 

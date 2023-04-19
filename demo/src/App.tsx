@@ -1,7 +1,7 @@
 import { StoreContainer } from '@irontec/ivoz-ui';
+import { CssBaseline, LinearProgress } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
-import { CssBaseline, LinearProgress } from '@mui/material';
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import store, { useStoreActions, useStoreState } from 'store';
@@ -19,12 +19,9 @@ export default function App(): JSX.Element {
   const authStore = useStoreActions((actions) => actions.auth);
   const token = useStoreState((actions) => actions.auth.token);
 
-  useEffect(
-    () => {
-      setLanguages(languagesList);
-    },
-    []
-  );
+  useEffect(() => {
+    setLanguages(languagesList);
+  }, []);
 
   useEffect(() => {
     apiSpecStore.setSessionStoragePrefix('demo-');

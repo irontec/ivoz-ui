@@ -1,4 +1,9 @@
-import { ListItemButton, ListItemIcon, ListItemText, Tooltip } from '@mui/material';
+import {
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Tooltip,
+} from '@mui/material';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
@@ -41,10 +46,7 @@ export default function MenuListItem(
       }}
     >
       <ListItemIcon>
-        <Tooltip
-          title={text as string}
-          placement='bottom-start'
-        >
+        <Tooltip title={text as string} placement='bottom-start'>
           <MenuListItemIcon icon={icon} />
         </Tooltip>
       </ListItemIcon>

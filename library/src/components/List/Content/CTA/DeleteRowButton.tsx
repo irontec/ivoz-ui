@@ -36,7 +36,6 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
     try {
       const resp = await apiDelete({
         path: path.replace('{id}', row.id),
-        successCallback: async () => {},
       });
 
       if (resp !== undefined) {

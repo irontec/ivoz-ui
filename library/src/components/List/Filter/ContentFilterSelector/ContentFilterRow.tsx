@@ -1,26 +1,25 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Box, Button, useMediaQuery, useTheme } from '@mui/material';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
+import {
+  LightButton,
+  TonedButton,
+} from '../../../../components/shared/Button/Button.styles';
 import { NullablePropertyFkChoices } from '../../../../entities';
 import {
-  isPropertyFk,
   PropertyList,
+  isPropertyFk,
 } from '../../../../services/api/ParsedApiSpecInterface';
 import {
+  Dropdown,
   DropdownChoices,
   SelectProps,
-  Dropdown,
 } from '../../../../services/form/Field/Dropdown';
 import { StyledTextField } from '../../../../services/form/Field/TextField';
 import _ from '../../../../services/translations/translate';
 import { CriteriaFilterValue } from '../ContentFilterDialog';
 import FilterIconFactory from '../icons/FilterIconFactory';
-import {
-  LightButton,
-  OutlinedButton,
-  TonedButton,
-} from '../../../../components/shared/Button/Button.styles';
 import './ContentFilter.scoped.scss';
 export interface ContentFilterRowProps {
   idx: number;
@@ -115,7 +114,9 @@ export default function ContentFilterRow(
           setType(filters[val][0]);
           setValue('');
         }}
-        onBlur={() => {}}
+        onBlur={() => {
+          /* noop */
+        }}
         choices={fieldNames}
         error={false}
         errorMsg=''
@@ -130,7 +131,9 @@ export default function ContentFilterRow(
         onChange={({ target }) => {
           setType(target.value);
         }}
-        onBlur={() => {}}
+        onBlur={() => {
+          /* noop */
+        }}
         choices={filterChoices}
         error={false}
         errorMsg=''
@@ -161,7 +164,9 @@ export default function ContentFilterRow(
           onChange={({ target }) => {
             setValue(target.value);
           }}
-          onBlur={() => {}}
+          onBlur={() => {
+            /* noop */
+          }}
           choices={enumValue as DropdownChoices}
           error={false}
           errorMsg=''

@@ -1,22 +1,21 @@
 import { CancelToken } from 'axios';
 import { useEffect, useState } from 'react';
-import { EntityValues } from '../services';
+import { useParams } from 'react-router-dom';
 import EntityInterface from '../entities/EntityInterface';
+import { EntityValues } from '../services';
 import { useStoreActions } from '../store';
 import useCancelToken from './useCancelToken';
-import { PathMatch, useParams } from 'react-router-dom';
 
 type useParentRowProps = {
   parentEntity: EntityInterface;
-  match: PathMatch;
   parentId?: string | number | undefined;
   cancelToken?: CancelToken;
 };
 
-const useParentRow = <T extends {} = EntityValues>(
+const useParentRow = <T extends Record<string, unknown> = EntityValues>(
   props: useParentRowProps
 ): T | null | undefined => {
-  const { parentEntity, match } = props;
+  const { parentEntity } = props;
   let { parentId } = props;
 
   const params = useParams();

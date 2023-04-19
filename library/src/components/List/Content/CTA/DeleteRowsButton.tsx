@@ -78,12 +78,14 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
           enterTouchDelay={0}
           arrow
         >
-          <LightButton
-            onClick={handleShowDelete}
-            disabled={selectedValues.length < 1}
-          >
-            <DeleteIcon />
-          </LightButton>
+          <span>
+            <LightButton
+              onClick={handleShowDelete}
+              disabled={selectedValues.length < 1}
+            >
+              <DeleteIcon />
+            </LightButton>
+          </span>
         </Tooltip>
       )}
       <ConfirmDialog

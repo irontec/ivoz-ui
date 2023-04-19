@@ -65,9 +65,7 @@ interface apiPutRequestParams extends requestParms {
   values: FormData | EntityValues;
 }
 
-interface apiDeleteRequestParams extends requestParms {
-  successCallback: () => Promise<any>;
-}
+type apiDeleteRequestParams = requestParms;
 
 interface ApiState {
   errorMsg: string | null;

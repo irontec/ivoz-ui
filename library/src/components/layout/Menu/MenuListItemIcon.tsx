@@ -10,3 +10,4 @@ export const MenuListItemIcon = React.forwardRef(
     );
   }
 );
+MenuListItemIcon.displayName = 'MenuListItemIcon';

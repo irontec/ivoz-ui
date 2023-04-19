@@ -3,15 +3,14 @@ import { useStoreState } from 'store';
 import { StyledLinearProgress } from './Loading.styles';
 
 type LoadingProps = {
-  transitionDelay?: string,
+  transitionDelay?: string;
 };
 
 type LoadingType = (props: LoadingProps) => JSX.Element;
 
-export const Loading:LoadingType = (props) => {
-
+export const Loading: LoadingType = (props) => {
   const loading = useStoreState((state) => state.api.loading);
-  const { transitionDelay = '800ms'} = props;
+  const { transitionDelay = '800ms' } = props;
 
   return (
     <Fade
@@ -24,6 +23,6 @@ export const Loading:LoadingType = (props) => {
       <StyledLinearProgress />
     </Fade>
   );
-}
+};
 
 export default Loading;

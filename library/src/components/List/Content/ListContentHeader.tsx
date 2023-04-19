@@ -83,7 +83,11 @@ const ListContentHeader = (
           ignoreColumn={ignoreColumn}
         />
         <Tooltip title={_('Advanced search')} arrow>
-          <Badge color="error" variant="dot" invisible={!mobile || queryStringCriteria.length == 0}>
+          <Badge
+            color='error'
+            variant='dot'
+            invisible={!mobile || queryStringCriteria.length == 0}
+          >
             <TonedButton onClick={handleOpenMenu}>
               <TuneRoundedIcon />
             </TonedButton>

@@ -1,13 +1,13 @@
 import { styled } from '@mui/material';
 import { TextField } from './TextField';
 
-export const StyledTextField = styled(TextField)(({ theme }) => {
+export const StyledTextField = styled(TextField)(() => {
   return {
     marginTop: '0px',
   };
 });
 
-export const StyledAutocompleteTextField = styled(TextField)(({ theme }) => {
+export const StyledAutocompleteTextField = styled(TextField)(() => {
   return {
     marginTop: '0px',
 

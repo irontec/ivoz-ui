@@ -69,7 +69,9 @@ export default function Settings(props: SettingsProps): JSX.Element {
                 i18n.changeLanguage(val);
                 navigate(0);
               }}
-              onBlur={() => {}}
+              onBlur={() => {
+                /* noop */
+              }}
               choices={choices}
               error={false}
               errorMsg={''}

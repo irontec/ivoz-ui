@@ -99,6 +99,11 @@ export enum OrderDirection {
 
 export type CustomActionsType = Record<string, ActionItem>;
 
+export type DetailedColumnSpec = {
+  name: string;
+  size: number;
+};
+
 export default interface EntityInterface {
   initialValues: any;
   validator: EntityValidator;
@@ -122,7 +127,7 @@ export default interface EntityInterface {
   title: string | JSX.Element;
   path: string;
   localPath?: string;
-  columns: Array<string>;
+  columns: Array<string | DetailedColumnSpec>;
   properties: PartialPropertyList;
   toStr: (row: EntityValues) => string;
   defaultOrderBy: string;

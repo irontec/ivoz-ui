@@ -40,8 +40,6 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
 
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
-
-  const columns = entityService.getCollectionColumns();
   const acl = entityService.getAcls();
 
   const multiselectActions = Object.values(entity.customActions)
@@ -102,7 +100,9 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
               selectedValues={selectedValues}
               handleMultiselectChange={handleChange}
               expanded={false}
-              setExpanded={() => {}}
+              setExpanded={() => {
+                /* noop */
+              }}
             />
           );
         })}

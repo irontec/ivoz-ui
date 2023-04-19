@@ -11,3 +11,4 @@ export const StyledLinearProgress = forwardRef((props, ref) => {
     />
   );
 });
+StyledLinearProgress.displayName = 'StyledLinearProgress';

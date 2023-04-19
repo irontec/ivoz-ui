@@ -19,8 +19,12 @@ const currentLanguage =
 
 const computedStyle = getComputedStyle(document.documentElement);
 const colorPrimary = computedStyle.getPropertyValue('--color-primary').trim();
-const colorSecondary = computedStyle.getPropertyValue('--color-secondary').trim();
-const colorContrastText = computedStyle.getPropertyValue('--color-button').trim();
+const colorSecondary = computedStyle
+  .getPropertyValue('--color-secondary')
+  .trim();
+const colorContrastText = computedStyle
+  .getPropertyValue('--color-button')
+  .trim();
 
 const theme = createTheme({
   ...locales[currentLanguage],

@@ -72,7 +72,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
           }}
           unmountOnExit
         >
-          <Skeleton variant="text" />
+          <Skeleton variant='text' />
         </Fade>
       );
     } else if (row[`${columnName}Link`]) {

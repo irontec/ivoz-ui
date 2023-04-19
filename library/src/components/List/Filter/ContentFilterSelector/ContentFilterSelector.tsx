@@ -126,8 +126,7 @@ export default function ContentFilterSelector(
                 removeRow={removeRow}
               />
             );
-          })
-        }
+          })}
         <ContentFilterRow
           key={criteria.length}
           idx={criteria.length}

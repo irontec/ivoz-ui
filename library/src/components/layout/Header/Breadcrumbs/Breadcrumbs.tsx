@@ -106,7 +106,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
       {routeItems.map((routeItem, key: number) => {
         const to = getEntityItemLink(routeItem, match);
         const entity = routeItem.entity;
-        const isLast = key+1 === routeItems.length;
+        const isLast = key + 1 === routeItems.length;
 
         return (
           <span key={key}>
@@ -114,7 +114,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
               {entity.title}
             </StyledCollapsedBreadcrumbsLink>
             {isLast && entity.link && !appendSegment && (
-              <a target="_blank" href={entity.link}>
+              <a target='_blank' href={entity.link} rel='noreferrer'>
                 <InsertLinkIcon />
               </a>
             )}

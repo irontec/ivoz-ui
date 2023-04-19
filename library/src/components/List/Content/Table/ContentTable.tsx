@@ -107,7 +107,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
               {multiselect && (
                 <TableCell>
                   <Checkbox
-                    name={row.id}
+                    name={`${row.id}`}
                     checked={checked}
                     onChange={handleChange}
                   />

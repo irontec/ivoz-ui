@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ReactAudioPlayer from 'react-audio-player';
 import { useStoreActions } from 'store';
 import { FileProps } from './FileUploader';
@@ -22,19 +22,26 @@ export const AudioPlayer = (props: AudioPlayerProps): JSX.Element | null => {
     return null;
   }
 
-  if (!audioSrc) {
-    downloadAction({
-      path: downloadPath,
-      params: {},
-      handleErrors: false,
-      successCallback: async (data) => {
-        const objectUrl = URL.createObjectURL(data as Blob);
-        setAudioSrc(objectUrl);
-      },
-    }).catch((error: { statusText: string; status: number }) => {
-      console.error(error);
-    });
-  }
+  useEffect(
+    () => {
+      if (audioSrc) {
+        return;
+      }
+
+      downloadAction({
+        path: downloadPath,
+        params: {},
+        handleErrors: false,
+        successCallback: async (data) => {
+          const objectUrl = URL.createObjectURL(data as Blob);
+          setAudioSrc(objectUrl);
+        },
+      }).catch((error: { statusText: string; status: number }) => {
+        console.error(error);
+      });
+    },
+    []
+  );
 
   return <ReactAudioPlayer src={audioSrc} controls={true} />;
 };

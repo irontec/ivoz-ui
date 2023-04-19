@@ -47,7 +47,6 @@ const Form = (props: EntityFormProps): JSX.Element => {
         'mobileLicences',
         'language',
         'cardDav',
-        'madeUpErrorField',
       ],
     },
     {

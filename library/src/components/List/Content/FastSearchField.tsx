@@ -101,6 +101,7 @@ const FastSearchField = (
       placeholder='Search'
       hasChanged={false}
       onChange={changeHandler}
+      ref={ref}
     />
   );
 };

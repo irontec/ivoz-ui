@@ -1,5 +1,5 @@
 import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
-import { EmbeddableProperty, FkProperty } from '../../../api';
+import { EmbeddableProperty } from '../../../api';
 import EntityService from '../../../entity/EntityService';
 import FileUploader from '../../../form/Field/FileUploader';
 import { useFormikType } from '../../../form/types';

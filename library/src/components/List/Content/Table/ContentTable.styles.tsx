@@ -31,14 +31,12 @@ export const StyledTableRowCta = styled(TableRowLinkButton)(() => {
 
 export const StyledTableRowCustomCta = LightButton;
 
-export const StyledTableRowEntityCta = styled(TableRowLinkButton)(
-  ({ theme }) => {
-    return {
-      ...linkSharedStyles,
-      textDecoration: 'none',
-    };
-  }
-);
+export const StyledTableRowEntityCta = styled(TableRowLinkButton)(() => {
+  return {
+    ...linkSharedStyles,
+    textDecoration: 'none',
+  };
+});
 
 export const StyledTableRowFkLink = styled((props: HistoryTrackerLinkProps) => {
   const { children, className, to } = props;

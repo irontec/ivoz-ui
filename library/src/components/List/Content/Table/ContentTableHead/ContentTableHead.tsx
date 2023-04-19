@@ -46,6 +46,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     setSort(property, isDesc ? 'asc' : 'desc');
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let selectableIdx = 0;
 
   return (
@@ -54,9 +55,9 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
         {multiselect && (
           <TableCell>
             <Checkbox onChange={selectAll} />
-          </TableCell>)
-        }
-        {Object.keys(columns).map((key: string, idx: number) => {
+          </TableCell>
+        )}
+        {Object.keys(columns).map((key: string) => {
           if (key === ignoreColumn) {
             selectableIdx++;
             return null;

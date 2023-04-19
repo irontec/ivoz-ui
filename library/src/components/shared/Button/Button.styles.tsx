@@ -14,56 +14,56 @@ const StyledButton = React.forwardRef(
     );
   }
 );
-
-type ButtonPropsType = Omit<ButtonProps, 'className'> & {
-  children: React.ReactNode;
-  size?: 'big' | 'small';
-};
+StyledButton.displayName = 'StyledButton';
 
 export const LightButton = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
     const { children, size, ...rest } = props;
 
     return (
-      <StyledButton {...rest} className={`light ${size}`}>
+      <StyledButton {...rest} ref={ref} className={`light ${size}`}>
         {children}
       </StyledButton>
     );
   }
 );
+LightButton.displayName = 'LightButton';
 
 export const TonedButton = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
     const { children, size, ...rest } = props;
 
     return (
-      <StyledButton {...rest} className={`toned ${size}`}>
+      <StyledButton {...rest} ref={ref} className={`toned ${size}`}>
         {children}
       </StyledButton>
     );
   }
 );
+TonedButton.displayName = 'TonedButton';
 
 export const OutlinedButton = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
     const { children, size, ...rest } = props;
 
     return (
-      <StyledButton {...rest} className={`outlined ${size}`}>
+      <StyledButton {...rest} ref={ref} className={`outlined ${size}`}>
         {children}
       </StyledButton>
     );
   }
 );
+OutlinedButton.displayName = 'OutlinedButton';
 
 export const SolidButton = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
     const { children, size, ...rest } = props;
 
     return (
-      <StyledButton {...rest} className={`solid ${size}`}>
+      <StyledButton {...rest} ref={ref} className={`solid ${size}`}>
         {children}
       </StyledButton>
     );
   }
 );
+SolidButton.displayName = 'SolidButton';

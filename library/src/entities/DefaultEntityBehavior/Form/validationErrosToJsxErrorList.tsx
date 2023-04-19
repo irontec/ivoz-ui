@@ -2,7 +2,6 @@ import {
   EmbeddableProperty,
   isPropertyScalar,
   PropertyList,
-  ScalarProperty,
   useFormikType,
 } from '../../../services';
 

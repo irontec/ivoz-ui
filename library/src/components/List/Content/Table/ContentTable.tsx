@@ -98,6 +98,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
       <TableBody>
         {rows.map((row: any, key: any) => {
           const acl = entityService.getAcls();
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           let selectableIdx = 0;
           const checked = selectedValues.indexOf(row.id.toString()) > -1;
 
@@ -112,7 +113,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                   />
                 </TableCell>
               )}
-              {Object.keys(columns).map((columnKey: string, idx: number) => {
+              {Object.keys(columns).map((columnKey: string) => {
                 if (columnKey === ignoreColumn) {
                   selectableIdx++;
                   return null;

@@ -8,8 +8,6 @@ import { useStoreState, useStoreActions } from '../../store';
 import { ROUTE_ITEMS_PER_PAGE_KEY, ROUTE_PAGE_KEY } from '../../store/route';
 import { CriteriaFilterValue } from './Filter/ContentFilterDialog';
 
-import './List.scoped.scss';
-
 interface ContentTablePaginationProps {
   listRef: RefObject<any>;
 }

@@ -33,6 +33,17 @@ const Language: EntityInterface = {
     return name[language];
   },
   properties,
+  columns: [
+    'id',
+    {
+      name: 'iden',
+      size: 2,
+    },
+    {
+      name: 'name',
+      size: 2,
+    },
+  ],
   selectOptions: async () => {
     const module = await import('./SelectOptions');
 

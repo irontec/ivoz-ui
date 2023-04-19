@@ -8,6 +8,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
 import { MenuListItemIcon } from './MenuListItemIcon';
+import { BaseSyntheticEvent } from 'react';
 
 type MenuListItemProps = {
   path: string;
@@ -33,9 +34,9 @@ export default function MenuListItem(
       className={className}
       dense={true}
       selected={selected}
-      onClick={(e) => {
-        e.stopPropagation();
-        e.preventDefault();
+      onClick={(e: BaseSyntheticEvent) => {
+        e?.stopPropagation();
+        e?.preventDefault();
 
         hideMenu();
         navigate(path, {

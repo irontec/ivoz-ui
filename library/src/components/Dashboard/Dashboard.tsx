@@ -1,4 +1,4 @@
-import { Grid, styled } from '@mui/material';
+import { Box, Grid, styled } from '@mui/material';
 import { isRouteMapBlock, RouteMap } from '../../router/routeMapParser';
 import DashboardBlock from './DashboardBlock';
 
@@ -11,15 +11,17 @@ const Dashboard = (props: DashboardProps) => {
   const { className, routeMap } = props;
 
   return (
-    <Grid container spacing={3} className={className}>
-      {routeMap.map((routeMapBlock, key) => {
-        if (!isRouteMapBlock(routeMapBlock)) {
-          return null;
-        }
+    <Box className='card'>
+      <Grid container spacing={3} className={className}>
+        {routeMap.map((routeMapBlock, key) => {
+          if (!isRouteMapBlock(routeMapBlock)) {
+            return null;
+          }
 
-        return <DashboardBlock key={key} routeMapBlock={routeMapBlock} />;
-      })}
-    </Grid>
+          return <DashboardBlock key={key} routeMapBlock={routeMapBlock} />;
+        })}
+      </Grid>
+    </Box>
   );
 };
 

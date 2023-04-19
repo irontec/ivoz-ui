@@ -1,7 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
-import SearchIcon from '@mui/icons-material/Search';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
-import { Badge, Box, Button, Tooltip, useMediaQuery, useTheme } from '@mui/material';
+import { Badge, Box, Button, Tooltip } from '@mui/material';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
@@ -13,7 +12,6 @@ import {
 } from '../../../components/shared/Button/Button.styles';
 import { MultiSelectFunctionComponent } from '../../../router';
 import EntityService from '../../../services/entity/EntityService';
-import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 import _ from '../../../services/translations/translate';
 import { ContentFilterDialog } from '../Filter/ContentFilterDialog';
 import DeleteRowsButton from './CTA/DeleteRowsButton';
@@ -21,6 +19,7 @@ import { StyledActionButtonContainer, StyledLink } from './ListContent.styles';
 import { MultiselectMoreChildEntityLinks } from './Shared/MultiselectMoreChildEntityLinks';
 
 import 'ListContent.scoped.scss';
+import FastSearchField from './FastSearchField';
 
 interface ListContentProps {
   path: string;
@@ -78,20 +77,10 @@ const ListContentHeader = (
   return (
     <StyledActionButtonContainer ref={ref} className={'list-content-header'}>
       <Box className='buttons start'>
-        <StyledSearchTextField
-          name='fast_search'
-          type='text'
-          error={false}
-          errorMsg=''
-          inputProps={{}}
-          InputProps={{
-            startAdornment: <SearchIcon />,
-          }}
-          placeholder='Search'
-          hasChanged={false}
-          onChange={({ target }) => {
-            console.log(target.value);
-          }}
+        <FastSearchField
+          path={path}
+          entityService={entityService}
+          ignoreColumn={ignoreColumn}
         />
         <Tooltip title={_('Advanced search')} arrow>
           <Badge color="error" variant="dot" invisible={!mobile || queryStringCriteria.length == 0}>

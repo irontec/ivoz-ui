@@ -51,10 +51,16 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
 
   let response = value;
   if (isFk) {
-    const emptyValue = !row[columnName] && !row[`${columnName}Id`];
+
+    const nullValue = row[columnName] === null;
+    const emptyValue = nullValue || !row[columnName] && !row[`${columnName}Id`];
     const preparedValue = Boolean(row[`${columnName}Id`]);
 
-    if (
+    if (nullValue) {
+      return (
+        <>{column.null}</>
+      );
+    } else if (
       loadingValue ||
       (!isMultiSelect && !emptyValue && !preparedValue && !customComponent)
     ) {
@@ -70,7 +76,6 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
         </Fade>
       );
     } else if (row[`${columnName}Link`]) {
-
       const routeExists = matchRoutes(
         routes,
         row[`${columnName}Link`]

@@ -1,19 +1,16 @@
+import { Box, Container } from '@mui/material';
 import { useFormik } from 'formik';
-import { Container } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useStoreActions, useStoreState } from 'store';
-import Title from '../../components/Title';
-import ErrorMessage from '../..//components/shared/ErrorMessage';
-import { useFormikType } from '../../services/form/types';
-import {
-  StyledLoginContainer,
-  StyledAvatar,
-  StyledForm,
-  StyledSubmitButton,
-} from './Login.styles';
-import { EntityValidator } from '../../entities/EntityInterface';
 import React from 'react';
+import { useStoreActions, useStoreState } from 'store';
+import ErrorMessage from '../..//components/shared/ErrorMessage';
+import Title from '../../components/Title';
+import { EntityValidator } from '../../entities/EntityInterface';
+import { useFormikType } from '../../services/form/types';
+import { StyledForm } from './Login.styles';
+
+import { SolidButton } from '../../components/shared/Button/Button.styles';
+import './Login.scoped.scss';
+import { TextField } from '../../services/form/Field';
 
 type marshallerValueType = {
   username: string;
@@ -65,47 +62,58 @@ export default function Login(props: LoginProps): JSX.Element | null {
       : apiErrorMsg;
 
   return (
-    <Container component='main' maxWidth='xs'>
-      <StyledLoginContainer>
-        <StyledForm onSubmit={formik.handleSubmit as React.FormEventHandler}>
-          <StyledAvatar>
-            <LockOutlinedIcon />
-          </StyledAvatar>
-          <Title>Login</Title>
+    <Container component='main'>
+      <Box className='logo-container'>
+        <img src='./logo.svg' className='logo' />
+      </Box>
+
+      <Box className='form-container'>
+        <StyledForm
+          onSubmit={formik.handleSubmit as React.FormEventHandler}
+          className='card'
+        >
+          <Title>Welcome back!</Title>
           <TextField
             name='username'
             type='text'
             label='Username'
+            placeholder='Your username'
             value={formik.values.username}
             onChange={formik.handleChange}
             error={formik.touched.username && Boolean(formik.errors.username)}
+            hasChanged={false}
+            inputProps={{}}
+            InputProps={{}}
+            errorMsg=''
             helperText={
               formik.touched.username &&
               (formik.errors.username as React.ReactNode)
             }
-            margin='normal'
-            required
-            fullWidth
           />
           <TextField
             name='password'
             type='password'
             label='Password'
+            placeholder='Typer your password'
+            errorMsg=''
             value={formik.values.password}
             onChange={formik.handleChange}
             error={formik.touched.password && Boolean(formik.errors.password)}
+            hasChanged={false}
+            inputProps={{}}
+            InputProps={{}}
             helperText={
               formik.touched.password &&
               (formik.errors.password as React.ReactNode)
             }
-            margin='normal'
-            required
-            fullWidth
           />
-          <StyledSubmitButton variant='contained'>Sign In</StyledSubmitButton>
+
+          <SolidButton type='submit' variant='contained'>
+            Sign In
+          </SolidButton>
           {apiErrorMsg && <ErrorMessage message={errorMsg || ''} />}
         </StyledForm>
-      </StyledLoginContainer>
+      </Box>
     </Container>
   );
 }

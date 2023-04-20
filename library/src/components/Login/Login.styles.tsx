@@ -1,14 +1,6 @@
 import { Avatar, Button } from '@mui/material';
 import { styled } from '@mui/material';
 
-export const StyledLoginContainer = styled('div')(({ theme }) => {
-  return {
-    marginTop: theme.spacing(2),
-    flexDirection: 'column',
-    textAlign: 'center',
-  };
-});
-
 export const StyledAvatar = styled(Avatar)(({ theme }) => {
   return {
     margin: theme.spacing(1) + ' auto',
@@ -28,10 +20,7 @@ export const StyledForm = styled((props: StyledFormProps) => {
     </form>
   );
 })(({ theme }) => {
-  return {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  };
+  return {};
 });
 
 interface StyledSubmitButton {

@@ -105,7 +105,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
           return (
             <TableRow key={key}>
               {multiselect && (
-                <TableCell className='checkbox-cell'>
+                <TableCell>
                   <Checkbox
                     name={row.id}
                     checked={checked}

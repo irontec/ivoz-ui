@@ -1,3 +1,3 @@
-import AppRouteContentWrapper from './AppRouteContentWrapper';
+import { StyledAppRouteContentWrapper } from './AppRouteContentWrapper.styles';
 
-export default AppRouteContentWrapper;
+export default StyledAppRouteContentWrapper;

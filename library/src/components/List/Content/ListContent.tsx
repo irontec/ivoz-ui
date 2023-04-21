@@ -1,7 +1,6 @@
 import { useTheme } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { Box } from '@mui/system';
-import 'ListContent.scoped.scss';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
 import { ForwardedRef, forwardRef } from 'react';
@@ -10,10 +9,10 @@ import { RouteMapItem } from '../../../router/routeMapParser';
 import EntityService from '../../../services/entity/EntityService';
 import ContentCard from './Card/ContentCard';
 import ListContentHeader from './ListContentHeader';
-import ContentTable from './Table/ContentTable';
+import { StyledContentTable } from './Table/ContentTable.styles';
 import useMultiselectState from './Table/hook/useMultiselectState';
 
-interface ListContentProps {
+export interface ListContentProps {
   childEntities: Array<RouteMapItem>;
   path: string;
   entityService: EntityService;
@@ -22,6 +21,7 @@ interface ListContentProps {
   cancelToken: CancelToken;
   match: PathMatch;
   location: Location<Record<string, string> | undefined>;
+  className?: string;
 }
 
 const ListContent = (
@@ -37,6 +37,7 @@ const ListContent = (
     cancelToken,
     match,
     location,
+    className,
   } = props;
 
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
@@ -45,7 +46,7 @@ const ListContent = (
     useMultiselectState();
 
   return (
-    <Box className='list-content'>
+    <Box className={className}>
       {mobile && (
         <ListContentHeader
           path={path}
@@ -77,7 +78,7 @@ const ListContent = (
 
         {!mobile && (
           <Box>
-            <ContentTable
+            <StyledContentTable
               entityService={entityService}
               ignoreColumn={ignoreColumn}
               path={path}

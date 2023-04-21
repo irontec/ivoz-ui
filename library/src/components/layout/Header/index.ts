@@ -1,3 +1,3 @@
-import Header from './Header';
+import { StyledHeader } from './Header.styles';
 
-export default Header;
+export default StyledHeader;

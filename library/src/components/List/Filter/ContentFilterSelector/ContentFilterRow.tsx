@@ -12,15 +12,15 @@ import {
   isPropertyFk,
 } from '../../../../services/api/ParsedApiSpecInterface';
 import {
-  Dropdown,
   DropdownChoices,
-  SelectProps,
+  SelectProps
 } from '../../../../services/form/Field/Dropdown';
-import { StyledTextField } from '../../../../services/form/Field/TextField';
+import { StyledDropdown } from '../../../../services/form/Field/Dropdown/Dropdown.styles';
+import { StyledTextField } from '../../../../services/form/Field/TextField/TextField.styles';
 import _ from '../../../../services/translations/translate';
 import { CriteriaFilterValue } from '../ContentFilterDialog';
 import FilterIconFactory from '../icons/FilterIconFactory';
-import './ContentFilter.scoped.scss';
+
 export interface ContentFilterRowProps {
   idx: number;
   filters: { [key: string]: Array<string> };
@@ -31,10 +31,11 @@ export interface ContentFilterRowProps {
   isLast: boolean;
   setRow: (idx: number, name: string, type: string, value: string) => void;
   removeRow: (idx: number) => void;
+  className?: string,
 }
 
 const StyledDropdownMemo = memo(
-  Dropdown,
+  StyledDropdown,
   (prev: SelectProps, next: SelectProps) => {
     return prev.value === next.value;
   }
@@ -53,6 +54,7 @@ export default function ContentFilterRow(
     isLast,
     setRow,
     removeRow,
+    className,
   } = props;
 
   const [name, setName] = useState(row.name);
@@ -101,7 +103,7 @@ export default function ContentFilterRow(
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
 
   return (
-    <Box className='content-filter-row'>
+    <Box className={className}>
       <StyledDropdownMemo
         name='name'
         label=''
@@ -155,7 +157,7 @@ export default function ContentFilterRow(
         />
       )}
       {type !== 'exists' && enumValue && (
-        <Dropdown
+        <StyledDropdown
           name='value'
           label=''
           value={value}

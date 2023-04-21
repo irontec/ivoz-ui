@@ -11,7 +11,7 @@ import { RouteMap } from '../../router/routeMapParser';
 import EntityService from '../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../store';
 import ErrorMessage from '../shared/ErrorMessage';
-import ListContent from './Content/ListContent';
+import { ListContent } from './Content/';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import Pagination from './Pagination';
@@ -19,17 +19,16 @@ import useQueryStringParams from './useQueryStringParams';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import _ from '../../services/translations/translate';
 
-import './List.scoped.scss';
-
 type ListProps = {
   path: string;
   routeMap: RouteMap;
   entityService: EntityService;
   foreignKeyResolver: () => Promise<foreignKeyResolverType>;
+  className?: string;
 };
 
 const List = function (props: ListProps) {
-  const { path, foreignKeyResolver, entityService, routeMap } = props;
+  const { path, foreignKeyResolver, entityService, routeMap, className } = props;
   const listRef = createRef();
 
   const location = useLocation();
@@ -277,29 +276,31 @@ const List = function (props: ListProps) {
   }
 
   return (
-    <ErrorBoundary>
-      <ListContent
-        childEntities={currentRoute?.children || []}
-        path={path}
-        ignoreColumn={filterBy[0]}
-        preloadData={currentQueryParams.length > 0}
-        entityService={entityService}
-        cancelToken={cancelToken}
-        match={match}
-        location={location}
-      />
-      <Box component={'footer'}>
-        {mobile && (
-          <a href='' className='link'>
-            {_('Select all')}
-          </a>
-        )}
-        <Box className='pagination'>
-          <Pagination listRef={listRef} />
+    <div className={className}>
+      <ErrorBoundary>
+        <ListContent
+          childEntities={currentRoute?.children || []}
+          path={path}
+          ignoreColumn={filterBy[0]}
+          preloadData={currentQueryParams.length > 0}
+          entityService={entityService}
+          cancelToken={cancelToken}
+          match={match}
+          location={location}
+        />
+        <Box component={'footer'}>
+          {mobile && (
+            <a href='' className='link'>
+              {_('Select all')}
+            </a>
+          )}
+          <Box className='pagination'>
+            <Pagination listRef={listRef} />
+          </Box>
         </Box>
-      </Box>
-      {reqError && <ErrorMessage message={reqError} />}
-    </ErrorBoundary>
+        {reqError && <ErrorMessage message={reqError} />}
+      </ErrorBoundary>
+    </div>
   );
 };
 

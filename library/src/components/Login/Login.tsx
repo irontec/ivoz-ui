@@ -9,7 +9,6 @@ import { useFormikType } from '../../services/form/types';
 import { StyledForm } from './Login.styles';
 
 import { SolidButton } from '../../components/shared/Button/Button.styles';
-import './Login.scoped.scss';
 import { TextField } from '../../services/form/Field';
 
 type marshallerValueType = {
@@ -17,14 +16,15 @@ type marshallerValueType = {
   password: string;
 };
 
-interface LoginProps {
+export interface LoginProps {
   unauthorizedCustomErrorMsg?: string;
   validator?: EntityValidator;
   marshaller?: (values: marshallerValueType) => Record<string, string>;
+  className?: string;
 }
 
 export default function Login(props: LoginProps): JSX.Element | null {
-  const { validator, marshaller, unauthorizedCustomErrorMsg } = props;
+  const { validator, marshaller, unauthorizedCustomErrorMsg, className } = props;
 
   const useRefreshToken = useStoreActions(
     (actions) => actions.auth.useRefreshToken
@@ -62,7 +62,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
       : apiErrorMsg;
 
   return (
-    <Container component='main'>
+    <Container className={className} component='main'>
       <Box className='logo-container'>
         <img src='./logo.svg' className='logo' />
       </Box>

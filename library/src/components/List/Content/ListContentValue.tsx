@@ -93,7 +93,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const prefix = column?.prefix || '';
 
   return (
-    <Box className='cell'>
+    <Box component='span' className='cell'>
       {prefix}
       {response}
     </Box>

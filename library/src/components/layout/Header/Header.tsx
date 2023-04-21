@@ -9,17 +9,17 @@ import {
 import { LightButton } from '../../../components/shared/Button/Button.styles';
 import { RouteMap } from '../../../router/routeMapParser';
 import { useStoreActions } from '../../../store';
-import Avatar from './Avatar/Avatar';
+import Avatar from './Avatar';
 import Breadcrumbs from './Breadcrumbs';
-import './Header.scoped.scss';
 import Settings from './Settings/Settings';
 
-interface headerProps {
+export interface headerProps {
   routeMap: RouteMap;
+  className?: string;
 }
 
 export default function Header(props: headerProps): JSX.Element {
-  const { routeMap } = props;
+  const { routeMap, className } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const toggleVisibility = useStoreActions(
     (actions) => actions.menu.toggleVisibility
@@ -32,7 +32,7 @@ export default function Header(props: headerProps): JSX.Element {
   const desktop = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <Box className='menu-container'>
+    <Box className={className}>
       <Box className='start'>
         <Breadcrumbs desktop={desktop} routeMap={routeMap} />
       </Box>

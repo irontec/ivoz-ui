@@ -3,13 +3,12 @@ import {
   StyledMultilangTextField,
   StyledAutocompleteTextField,
 } from './TextField.styles';
-import { TextField, TextFieldProps } from './TextField';
+import { TextFieldProps } from './TextField';
 
 export {
-  StyledTextField,
+  StyledTextField as TextField,
   StyledMultilangTextField as StyledSubTextField,
   StyledAutocompleteTextField,
-  TextField,
 };
 
 export type { TextFieldProps };

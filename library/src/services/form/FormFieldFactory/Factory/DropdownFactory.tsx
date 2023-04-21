@@ -4,11 +4,11 @@ import {
 } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { ScalarProperty } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
-import { Dropdown } from '../../../form/Field/Dropdown';
 import {
   DropdownChoices,
   DropdownObjectChoices,
 } from '../../../form/Field/Dropdown/Dropdown';
+import { StyledDropdown } from '../../../form/Field/Dropdown/Dropdown.styles';
 import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
 
 type DropdownFactoryPropsType = {
@@ -71,7 +71,7 @@ export const DropdownFactory = (
   }
 
   return (
-    <Dropdown
+    <StyledDropdown
       name={fld}
       label={property.label}
       value={booleanValue}

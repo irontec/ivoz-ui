@@ -3,7 +3,6 @@ import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import EntityService from '../../../services/entity/EntityService';
 import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 
-import 'ListContent.scoped.scss';
 import { useStoreActions, useStoreState } from 'store';
 
 interface FastSearchFieldProps {

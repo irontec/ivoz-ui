@@ -1,4 +1,4 @@
-import { Fade, Skeleton } from '@mui/material';
+import { Box, Fade, Skeleton } from '@mui/material';
 import { matchRoutes } from 'react-router-dom';
 import { useStoreState } from 'store';
 import {
@@ -102,10 +102,10 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const prefix = column?.prefix || '';
 
   return (
-    <>
+    <Box className='cell'>
       {prefix}
       {response}
-    </>
+    </Box>
   );
 };
 

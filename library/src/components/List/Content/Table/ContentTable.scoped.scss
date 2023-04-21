@@ -1,8 +1,13 @@
+table {
+  width: 100%;
+}
+
 ::v-deep {
   th {
     color: var(--color-text);
     font-weight: normal;
     font-size: 15px;
+    white-space: nowrap;
   }
 
   tbody {
@@ -15,14 +20,34 @@
     }
   }
 
+  th,
+  td {
+    &:nth-child(2n) {
+      width: 100%;
+    }
+  }
   .MuiTableCell-root {
     border: 0;
     padding: 8px;
+    padding-inline: var(--spacing-md);
   }
 
   .actions-cell {
     display: flex;
     gap: var(--spacing-sm);
-    flex-wrap: wrap;
+    width: auto;
+  }
+
+  .checkbox-cell {
+    width: 5%;
+  }
+
+  th,
+  td {
+    @for $i from 0 through 20 {
+      &.size-#{$i*5} {
+        width: #{$i * 5%};
+      }
+    }
   }
 }

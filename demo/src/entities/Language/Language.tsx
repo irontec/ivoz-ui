@@ -37,11 +37,11 @@ const Language: EntityInterface = {
     'id',
     {
       name: 'iden',
-      size: 2,
+      size: 50,
     },
     {
       name: 'name',
-      size: 2,
+      size: 50,
     },
   ],
   selectOptions: async () => {

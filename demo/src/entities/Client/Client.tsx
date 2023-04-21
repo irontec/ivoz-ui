@@ -117,11 +117,11 @@ const client: EntityInterface = {
   toStr: (row: ClientPropertyList<EntityValue>) => row.iden as string,
   properties,
   columns: [
-    'iden',
-    'platform',
-    'desktopLicences',
-    'mobileLicences',
-    'language',
+    { name: 'iden', size: 20 },
+    { name: 'platform', size: 20 },
+    { name: 'desktopLicences', size: 20 },
+    { name: 'mobileLicences', size: 20 },
+    { name: 'language', size: 20 },
   ],
   customActions: Actions,
   selectOptions: async () => {

@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
 import EntityService from '../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../store';
-import ContentFilterSelector from './ContentFilterSelector/ContentFilterSelector';
+import { StyledContentFilterSelector } from './ContentFilterSelector/ContentFilterSelector.styles';
 import { FilterCriteria } from './FilterCriteria';
 import { SearchFilterType } from './icons/FilterIconFactory';
 
@@ -108,7 +108,7 @@ export function ContentFilterDialog(
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <ContentFilterSelector
+        <StyledContentFilterSelector
           entityService={entityService}
           fkChoices={foreignEntities}
           ignoreColumn={ignoreColumn}

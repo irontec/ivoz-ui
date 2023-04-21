@@ -12,8 +12,7 @@ import { DropdownChoices } from '../../../../services/form/Field/Dropdown';
 import _ from '../../../../services/translations/translate';
 import { CriteriaFilterValues } from '../ContentFilterDialog';
 import { FilterCriteria } from '../FilterCriteria';
-import './ContentFilter.scoped.scss';
-import ContentFilterRow from './ContentFilterRow';
+import { StyledContentFilterRow } from './ContentFilterRow.styles';
 
 export interface ContentFilterRowProps {
   entityService: EntityService;
@@ -113,7 +112,7 @@ export default function ContentFilterSelector(
         {!mobile &&
           criteria.map((row, idx) => {
             return (
-              <ContentFilterRow
+              <StyledContentFilterRow
                 key={idx}
                 idx={idx}
                 filters={filters}
@@ -127,7 +126,7 @@ export default function ContentFilterSelector(
               />
             );
           })}
-        <ContentFilterRow
+        <StyledContentFilterRow
           key={criteria.length}
           idx={criteria.length}
           filters={filters}

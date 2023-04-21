@@ -3,7 +3,7 @@ import {
   isPropertyScalar,
   PropertyCustomFunctionComponent,
   PropertyCustomFunctionComponentProps,
-  StyledTextField,
+  TextField,
 } from '@irontec/ivoz-ui';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import { InputAdornment, styled, Tooltip } from '@mui/material';
@@ -121,7 +121,7 @@ const Password: AcrobitsPasswordType | SipPasswordType = (
 
   return (
     <div>
-      <StyledTextField
+      <TextField
         name={columnName}
         type='text'
         value={values[columnName]}

@@ -1,8 +1,6 @@
 import { Checkbox } from '@mui/material';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
 
-import './ContentCard.scoped.scss';
-
 interface CardSelectorProps {
   row: Record<string, any>;
   selectable: boolean;

@@ -8,8 +8,6 @@ import ListContentValue from '../ListContentValue';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
 import { CardSelector } from './CardSelector';
 
-import './ContentCard.scoped.scss';
-
 interface ContentCardProps {
   columnName: string;
   multiselect: boolean;

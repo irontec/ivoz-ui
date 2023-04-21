@@ -18,7 +18,6 @@ import DeleteRowsButton from './CTA/DeleteRowsButton';
 import { StyledActionButtonContainer, StyledLink } from './ListContent.styles';
 import { MultiselectMoreChildEntityLinks } from './Shared/MultiselectMoreChildEntityLinks';
 
-import 'ListContent.scoped.scss';
 import FastSearchField from './FastSearchField';
 
 interface ListContentProps {

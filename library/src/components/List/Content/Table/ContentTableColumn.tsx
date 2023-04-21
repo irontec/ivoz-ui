@@ -20,7 +20,7 @@ export const TableColumn = (props: TableColumnProps) => {
   const size = entityService.getColumnSize(columnName);
 
   return (
-    <StyledTableCell key={row.id} className={`size-${size}`}>
+    <StyledTableCell key={row.id} style={{width: `${size}%`}}>
       <ListContentValue
         columnName={columnName}
         column={column}

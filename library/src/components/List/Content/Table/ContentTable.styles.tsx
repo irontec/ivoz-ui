@@ -1,16 +1,52 @@
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Table, TableCell, TableCellProps, styled } from '@mui/material';
+import { Table, TableCell, TableCellProps, Theme, styled } from '@mui/material';
 import { forwardRef } from 'react';
 import { LightButton } from '../../../../components/shared/Button/Button.styles';
 import HistoryTrackerLink, {
   HistoryTrackerLinkProps,
 } from '../../../../components/shared/HistoryTrackerLink';
+import ContentTable from './ContentTable';
 
 const linkSharedStyles = {
   cursor: 'pointer',
 };
+
+
+export const StyledContentTable = styled(ContentTable)(
+  ({theme}: {theme: Theme}) => {
+    return {
+      width: '100%',
+
+      '& th': {
+        color: 'var(--color-text)',
+        fontWeight: 'normal',
+        fontSize: '15px',
+        whiteSpace: 'nowrap',
+      },
+      '& tbody': {
+        '& tr': {
+          borderTop: '1px solid var(--color-border)',
+        },
+        '& td': {
+          fontSize: '16px',
+        },
+      },
+      '& .MuiTableCell-root': {
+        border: 0,
+        padding: '8px',
+        paddingInline: 'var(--spacing-md)',
+      },
+      '& .actions-cell': {
+        display: 'flex',
+        gap: 'var(--spacing-sm)',
+        //flexWrap: 'wrap',
+        justifyContent: 'flex-end',
+      }
+    };
+  }
+);
 
 const TableRowLinkButton = forwardRef<any, any>((props, ref) => {
   const { children, className, to, ...rest } = props;

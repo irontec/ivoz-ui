@@ -1,3 +1,3 @@
-import Autocomplete from './Autocomplete';
+import { StyledAutocomplete } from './Autocomplete.styles';
 
-export { Autocomplete };
+export { StyledAutocomplete as Autocomplete };

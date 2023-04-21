@@ -2,9 +2,7 @@ import { useStoreState } from 'store';
 import { RouteMapItem } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
-import ContentCardBody from './ContentCardBody';
-
-import './ContentCard.scoped.scss';
+import { StyledContentCardBody } from './ContentCardBody.style';
 
 interface ContentCardProps {
   childEntities: Array<RouteMapItem>;
@@ -36,7 +34,7 @@ const ContentCard = (props: ContentCardProps): JSX.Element => {
     <>
       {rows.map((row, key) => {
         return (
-          <ContentCardBody
+          <StyledContentCardBody
             key={key}
             childEntities={childEntities}
             entityService={entityService}

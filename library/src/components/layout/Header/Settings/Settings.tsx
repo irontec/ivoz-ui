@@ -2,10 +2,10 @@ import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import { Paper, Popover, Tooltip } from '@mui/material';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dropdown } from '../../../../services';
+import { useNavigate } from 'react-router-dom';
+import { StyledDropdown } from '../../../../services/form/Field/Dropdown/Dropdown.styles';
 import { useStoreState } from '../../../../store';
 import { LightButton } from '../../../shared/Button/Button.styles';
-import { useNavigate } from 'react-router-dom';
 
 interface SettingsProps {
   children?: React.ReactNode;
@@ -58,7 +58,7 @@ export default function Settings(props: SettingsProps): JSX.Element {
       >
         {children || (
           <Paper sx={{ padding: '10px', minWidth: '300px' }}>
-            <Dropdown
+            <StyledDropdown
               name='language'
               label='Language'
               value={i18n.language}

@@ -1,23 +1,22 @@
-import 'AppRouteContentWrapper.scoped.scss';
-
 import { Box } from '@mui/material';
 import { RouteMap } from '../../router/routeMapParser';
 import { Header, Menu } from '../layout';
 import Loading from '../layout/Loading/Loading';
 
-interface AppRouteContentProps {
+export interface AppRouteContentProps {
   routeMap: RouteMap;
   loggedIn: boolean;
   children: JSX.Element;
+  className?: string;
 }
 
 export default function AppRouteContentWrapper(
   props: AppRouteContentProps
 ): JSX.Element {
-  const { loggedIn, routeMap, children } = props;
+  const { loggedIn, routeMap, children, className } = props;
 
   return (
-    <>
+    <div className={className}>
       <Loading />
       <Box className='app-wrapper'>
         <Menu routeMap={routeMap} />
@@ -29,6 +28,6 @@ export default function AppRouteContentWrapper(
           <Box component='section'>{children}</Box>
         </Box>
       </Box>
-    </>
+    </div>
   );
 }

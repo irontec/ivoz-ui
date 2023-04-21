@@ -14,7 +14,6 @@ import {
   DropdownChoices,
 } from '../Dropdown';
 import { StyledAutocompleteTextField } from '../TextField';
-import './Autocomplete.scoped.scss';
 
 export interface AutocompleteProps {
   className?: string;

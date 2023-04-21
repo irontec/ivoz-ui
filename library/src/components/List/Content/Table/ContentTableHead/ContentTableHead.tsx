@@ -53,7 +53,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     <TableHead>
       <TableRow>
         {multiselect && (
-          <TableCell>
+          <TableCell className='checkbox-cell'>
             <Checkbox onChange={selectAll} />
           </TableCell>
         )}
@@ -67,7 +67,6 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
             <TableCell
               key={key}
               align='left'
-              padding='normal'
               sortDirection={order?.name === key ? direction : false}
             >
               {!isPropertyFk(columns[key]) && (
@@ -101,7 +100,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
             </TableCell>
           );
         })}
-        <TableCell key={'empty slot'} align='left' padding='normal'></TableCell>
+        <TableCell key={'empty slot'} className='actions-cell'></TableCell>
       </TableRow>
     </TableHead>
   );

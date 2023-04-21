@@ -79,9 +79,9 @@ const platform: EntityInterface = {
   toStr: (row: PlatformPropertyList<EntityValue>) => row.name as string,
   properties,
   columns: [
-    { name: 'name', size: 30 },
-    { name: 'type', size: 30 },
-    { name: 'features', size: 30 },
+    { name: 'name', size: 33 },
+    { name: 'type', size: 33 },
+    { name: 'features', size: 34 },
   ],
   selectOptions: async () => {
     const module = await import('./SelectOptions');

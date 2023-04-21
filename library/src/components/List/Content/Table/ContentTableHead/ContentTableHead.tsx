@@ -53,7 +53,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     <TableHead>
       <TableRow>
         {multiselect && (
-          <TableCell className='checkbox-cell'>
+          <TableCell>
             <Checkbox onChange={selectAll} />
           </TableCell>
         )}

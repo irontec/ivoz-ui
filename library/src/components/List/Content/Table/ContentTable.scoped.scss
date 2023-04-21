@@ -20,12 +20,6 @@ table {
     }
   }
 
-  th,
-  td {
-    &:nth-child(2n) {
-      width: 100%;
-    }
-  }
   .MuiTableCell-root {
     border: 0;
     padding: 8px;
@@ -35,18 +29,14 @@ table {
   .actions-cell {
     display: flex;
     gap: var(--spacing-sm);
-    width: auto;
-  }
-
-  .checkbox-cell {
-    width: 5%;
+    justify-content: flex-end;
   }
 
   th,
   td {
-    @for $i from 0 through 20 {
-      &.size-#{$i*5} {
-        width: #{$i * 5%};
+    @for $i from 0 through 100 {
+      &.size-#{$i} {
+        width: #{$i * 1%};
       }
     }
   }

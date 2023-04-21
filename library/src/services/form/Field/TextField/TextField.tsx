@@ -6,13 +6,13 @@ import {
   TextFieldProps as MuiTextFieldProps,
 } from '@mui/material';
 import { StyledHelpTextTooltip } from '../Shared/HelpText.styles';
-import './TextField.scoped.scss';
 
 export type TextFieldProps = MuiTextFieldProps & {
   hasChanged: boolean;
   margin?: 'dense' | 'none';
   size?: 'small' | 'medium';
   errorMsg?: React.ReactNode;
+  className?: string;
 };
 
 export const TextField = (props: TextFieldProps) => {
@@ -53,7 +53,7 @@ export const TextField = (props: TextFieldProps) => {
       variant='standard'
       fullWidth={true}
       error={error}
-      className={'text-field ' + className}
+      className={className}
     >
       {label && (
         <label htmlFor={name} id={labelId}>

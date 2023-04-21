@@ -12,9 +12,7 @@ import ChildEntityLinks from '../Shared/ChildEntityLinks';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
 import ContentCardRow from './ContentCardRow';
 
-import './ContentCard.scoped.scss';
-
-interface ContentCardProps {
+export interface ContentCardProps {
   childEntities: Array<RouteMapItem>;
   entityService: EntityService;
   ignoreColumn: string | undefined;
@@ -23,6 +21,7 @@ interface ContentCardProps {
   path: string;
   visibleColumns: { [k: string]: PropertySpec };
   row: EntityValues;
+  className?: string;
 }
 
 const ContentCardBody = (props: ContentCardProps): JSX.Element => {
@@ -34,6 +33,7 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
     handleChange,
     childEntities,
     path,
+    className,
   } = props;
 
   const [open, setOpen] = useState(false);
@@ -71,7 +71,7 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
   delete localVisibleColumns[firstColumnName];
 
   return (
-    <Box className='card-row'>
+    <Box className={className}>
       <ContentCardRow
         columnName={firstColumnName}
         multiselect={multiselect}

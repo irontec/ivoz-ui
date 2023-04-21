@@ -1,5 +1,5 @@
 import { FormControl } from '@mui/material';
-import './Switch.scoped.scss';
+
 export interface StyledSwitchFormControlProps {
   children: React.ReactNode;
   className?: string;
@@ -13,7 +13,7 @@ export const SwitchFormControl = (props: StyledSwitchFormControlProps) => {
   }
 
   return (
-    <FormControl className={'switch ' + className} fullWidth={true}>
+    <FormControl className={className} fullWidth={true}>
       {children}
     </FormControl>
   );

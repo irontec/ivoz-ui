@@ -2,6 +2,7 @@ import './index.scss';
 
 import {
   createTheme,
+  Theme,
   StyledEngineProvider,
   ThemeProvider,
 } from '@mui/material';
@@ -26,7 +27,7 @@ const colorContrastText = computedStyle
   .getPropertyValue('--color-button')
   .trim();
 
-const theme = createTheme({
+const theme: Theme = createTheme({
   ...locales[currentLanguage],
   palette: {
     primary: {
@@ -43,7 +44,18 @@ const theme = createTheme({
       fontFamily: ['PublicSans', 'Roboto', 'Arial', 'sans-serif'].join(','),
     },
   },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  }
 });
+
+theme.breakpoints.not
 
 const container = document.getElementById('root');
 const root = createRoot(container as Element);

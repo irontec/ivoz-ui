@@ -17,7 +17,8 @@
     "url": "git+https://github.com/irontec/ivoz-ui.git"
   },
   "scripts": {
-    "build": "bin/tsc",
+    "build": "bin/build",
+    "build:scss": "sass --no-source-map src/ dist/",
     "watch": "bin/tsc --watch",
     "lint": "eslint --fix src --ext .js,.ts,.tsx",
     "lint:check": "prettier --check src/**/*.tsx src/**/*.ts src/**/*.js",
@@ -88,6 +89,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.10.0",
     "rollup-plugin-react-scoped-css": "^0.8.2",
+    "sass": "^1.59",
     "tslint": "^6.1.3"
   }
 }

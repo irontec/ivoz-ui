@@ -14,9 +14,7 @@ import { TableColumnMemo } from './ContentTableColumn';
 import ContentTableHead from './ContentTableHead';
 import { handleMultiselectChangeType } from './hook/useMultiselectState';
 
-import './ContentTable.scoped.scss';
-
-interface ContentTableProps {
+export interface ContentTableProps {
   childEntities: Array<RouteMapItem>;
   entityService: EntityService;
   ignoreColumn: string | undefined;
@@ -24,6 +22,7 @@ interface ContentTableProps {
   selectedValues: string[];
   handleChange: handleMultiselectChangeType;
   setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>;
+  className?: string;
 }
 
 const ContentTable = (props: ContentTableProps): JSX.Element => {
@@ -35,6 +34,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     selectedValues,
     handleChange,
     setSelectedValues,
+    className,
   } = props;
   const [currentQueryString, setCurrentQueryString] = useState(
     window.location.search
@@ -88,7 +88,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
   );
 
   return (
-    <StyledTable size='medium'>
+    <StyledTable size='medium' className={className}>
       <ContentTableHead
         entityService={entityService}
         ignoreColumn={ignoreColumn}

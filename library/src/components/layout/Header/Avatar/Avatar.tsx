@@ -3,14 +3,14 @@ import { useState } from 'react';
 import { useStoreActions } from 'store';
 import { StyledMenu } from '../Settings/styles/Menu.styles';
 import _ from '../../../../services/translations/translate';
-import './Avatar.scoped.scss';
 
-interface AvatarProps {
+export interface AvatarProps {
   children?: React.ReactNode;
+  className?: string;
 }
 
 export default function Avatar(props: AvatarProps): JSX.Element {
-  const { children } = props;
+  const { children, className } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
   const handleLogout = () => {
     resetAuth();
@@ -27,7 +27,7 @@ export default function Avatar(props: AvatarProps): JSX.Element {
   };
 
   return (
-    <>
+    <div className={className}>
       <Tooltip title={_('Account settings')}>
         <Box onClick={handleOpenUserMenu} className='account'>
           AL
@@ -53,6 +53,6 @@ export default function Avatar(props: AvatarProps): JSX.Element {
           </MenuItem>
         )}
       </StyledMenu>
-    </>
+    </div>
   );
 }

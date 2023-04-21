@@ -84,7 +84,7 @@ interface TableCellPropsWithKey extends TableCellProps {
 
 export const StyledTable = styled(Table)(() => {
   return {
-    tableLayout: 'fixed',
+    tableLayout: 'auto',
   };
 });
 

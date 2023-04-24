@@ -38,7 +38,7 @@ const ContentCardRow = (props: ContentCardProps): JSX.Element => {
   const toggleExpanded = () => {
     setExpanded(!expanded);
   };
-
+  const expandIconClass = expanded ? 'expanded' : '';
   return (
     <Box>
       {multiselect && isFirstRow && (
@@ -49,7 +49,7 @@ const ContentCardRow = (props: ContentCardProps): JSX.Element => {
           handleChange={handleMultiselectChange}
         />
       )}
-      <Typography onClick={toggleExpanded}>
+      <Typography onClick={toggleExpanded} sx={{ display: 'flex' }}>
         <span>{column.label}:</span>
         <ListContentValue
           columnName={columnName}
@@ -58,7 +58,9 @@ const ContentCardRow = (props: ContentCardProps): JSX.Element => {
           entityService={entityService}
         />
       </Typography>
-      {isFirstRow && <ExpandMoreIcon onClick={toggleExpanded} />}
+      {isFirstRow && (
+        <ExpandMoreIcon onClick={toggleExpanded} className={expandIconClass} />
+      )}
     </Box>
   );
 };

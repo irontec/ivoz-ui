@@ -109,13 +109,18 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
         const isLast = key + 1 === routeItems.length;
 
         return (
-          <span key={key}>
+          <span key={key} style={{ display: 'flex', gap: '12px' }}>
             <StyledCollapsedBreadcrumbsLink to={to}>
               {entity.title}
             </StyledCollapsedBreadcrumbsLink>
             {isLast && entity.link && !appendSegment && (
-              <a target='_blank' href={entity.link} rel='noreferrer'>
-                <InsertLinkIcon />
+              <a
+                target='_blank'
+                href={entity.link}
+                rel='noreferrer'
+                style={{ height: '24px' }}
+              >
+                <img src='assets/img/breadcrumb-link.svg' />
               </a>
             )}
           </span>

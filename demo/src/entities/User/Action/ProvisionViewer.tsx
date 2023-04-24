@@ -18,6 +18,8 @@ import { useState } from 'react';
 import { useStoreActions } from 'store';
 
 import User from '../User';
+import { SolidButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   const { row, variant = 'icon' } = props;
@@ -88,6 +90,8 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
+          <CloseRoundedIcon className='close-icon' onClick={handleClose} />
+          <img src='assets/img/qr-modal.svg' className='modal-icon' />
           <DialogTitle id='alert-dialog-title'>Provision User</DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
@@ -108,7 +112,9 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
+            <SolidButton onClick={handleClose} sx={{ width: '100%' }}>
+              Ok
+            </SolidButton>
           </DialogActions>
         </Dialog>
       )}

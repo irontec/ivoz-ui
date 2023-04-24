@@ -120,9 +120,7 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           <CloseRoundedIcon className='close-icon' onClick={handleClose} />
           <img src='assets/img/qr-modal.svg' className='modal-icon' />
 
-          <DialogTitle id='alert-dialog-title' sx={{ textAlign: 'center' }}>
-            QR Code
-          </DialogTitle>
+          <DialogTitle id='alert-dialog-title'>QR Code</DialogTitle>
           <DialogContent>
             <p>Scan the code to log in with user&apos;s credential.</p>
             <DialogContentText id='alert-dialog-description'>

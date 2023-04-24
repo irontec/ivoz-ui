@@ -15,4 +15,13 @@
     width: 50px;
     margin-inline: auto;
   }
+
+  h2 {
+    text-align: center;
+  }
+
+  pre {
+    background: var(--color-background);
+    padding: var(--spacing-md);
+  }
 }

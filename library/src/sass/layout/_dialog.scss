@@ -1,0 +1,18 @@
+.MuiDialog-paper {
+  padding: var(--spacing-xl);
+  border-radius: 12px;
+  position: relative;
+
+  .close-icon {
+    color: #b2b3b6;
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    cursor: pointer;
+  }
+
+  .modal-icon {
+    width: 50px;
+    margin-inline: auto;
+  }
+}

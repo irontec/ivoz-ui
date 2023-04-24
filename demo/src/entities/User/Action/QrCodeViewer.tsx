@@ -1,3 +1,4 @@
+import { SolidButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
   ActionFunctionComponent,
   ActionItemProps,
@@ -6,6 +7,7 @@ import _ from '@irontec/ivoz-ui/services/translations/translate';
 import { QrCode2 } from '@mui/icons-material';
 import ErrorIcon from '@mui/icons-material/Error';
 import {
+  Box,
   Button,
   Dialog,
   DialogActions,
@@ -17,6 +19,7 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from 'store';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   const { row, variant = 'icon' } = props;
@@ -114,11 +117,17 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
-          <DialogTitle id='alert-dialog-title'>QR Code</DialogTitle>
+          <CloseRoundedIcon className='close-icon' onClick={handleClose} />
+          <img src='assets/img/qr-modal.svg' className='modal-icon' />
+
+          <DialogTitle id='alert-dialog-title' sx={{ textAlign: 'center' }}>
+            QR Code
+          </DialogTitle>
           <DialogContent>
+            <p>Scan the code to log in with user&apos;s credential.</p>
             <DialogContentText id='alert-dialog-description'>
               {!error && (
-                <ImageListItem>
+                <ImageListItem sx={{ maxWidth: '200px', marginInline: 'auto' }}>
                   <img src={img} alt={'qr'} />
                 </ImageListItem>
               )}
@@ -134,7 +143,9 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
+            <SolidButton onClick={handleClose} sx={{ width: '100%' }}>
+              OK
+            </SolidButton>
           </DialogActions>
         </Dialog>
       )}

@@ -20,5 +20,7 @@ export const CardSelector = (props: CardSelectorProps) => {
     return null;
   }
 
-  return <Checkbox name={`${row.id}`} checked={checked} onChange={handleChange} />;
+  return (
+    <Checkbox name={`${row.id}`} checked={checked} onChange={handleChange} />
+  );
 };

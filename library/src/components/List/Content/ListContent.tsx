@@ -76,7 +76,7 @@ const ListContent = (
         )}
 
         {!mobile && (
-          <Box>
+          <Box sx={{ overflowX: 'auto' }}>
             <ContentTable
               entityService={entityService}
               ignoreColumn={ignoreColumn}

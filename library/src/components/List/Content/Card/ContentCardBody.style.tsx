@@ -21,6 +21,7 @@ export const StyledContentCardBody = styled(ContentCardBody)(
           whiteSpace: 'nowrap',
           fontSize: 'var(--font-size-text)',
           paddingBlock: 'var(--spacing-xs)',
+          alignItems: 'center',
           '& span': {
             color: 'var(--color-text)',
             marginInlineEnd: 'var(--spacing-xs)',
@@ -29,6 +30,12 @@ export const StyledContentCardBody = styled(ContentCardBody)(
         '& .MuiCheckbox-root': {
           padding: 0,
           marginInlineEnd: 'var(--spacing-md)',
+        }
+      },
+      '& svg': {
+        transition: 'var(--transition-all-1)',
+        '&.expanded': {
+          rotate: '-180deg',
         }
       },
       '& .MuiCollapse-vertical': {
@@ -42,7 +49,6 @@ export const StyledContentCardBody = styled(ContentCardBody)(
         flexWrap: 'wrap',
         paddingBlock: 'var(--spacing-sm)',
       }
-      
     }
   }
 );

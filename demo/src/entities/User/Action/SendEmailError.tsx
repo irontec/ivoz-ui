@@ -18,13 +18,10 @@ import {
 import { useState } from 'react';
 import { useStoreActions } from 'store';
 
-import {
-  OutlinedButton,
-  SolidButton,
-} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import User from '../User';
 import { UserPropertiesList, UserPropertyList } from '../UserProperties';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import { OutlinedButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 
 interface SendEmailProps {
   error: boolean;
@@ -36,7 +33,7 @@ interface SendEmailProps {
   disabled: boolean;
 }
 
-const SendEmail = (props: SendEmailProps) => {
+const SendEmailError = (props: SendEmailProps) => {
   const { error, children, targetId, variant = 'icon', disabled } = props;
   const { open, setOpen } = props;
 
@@ -68,10 +65,10 @@ const SendEmail = (props: SendEmailProps) => {
   return (
     <>
       <a className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
-        {variant === 'text' && _('Send email')}
+        {variant === 'text' && _('Send email error')}
         {variant === 'icon' && (
           <Tooltip
-            title={_('Send email')}
+            title={_('Send email error')}
             placement='bottom-start'
             enterTouchDelay={0}
           >
@@ -87,7 +84,7 @@ const SendEmail = (props: SendEmailProps) => {
           aria-describedby='alert-dialog-description'
         >
           <CloseRoundedIcon className='close-icon' onClick={handleClose} />
-          <img src='assets/img/send-dialog.svg' className='modal-icon' />
+          <img src='assets/img/error-dialog.svg' className='modal-icon' />
           <DialogTitle id='alert-dialog-title'>
             {'Send user credentials notification email?'}
           </DialogTitle>
@@ -100,13 +97,20 @@ const SendEmail = (props: SendEmailProps) => {
             {!error && children}
           </DialogContent>
           <DialogActions>
-            {error && <Button onClick={handleClose}>Close</Button>}
+            {error && (
+              <OutlinedButton
+                onClick={handleClose}
+                style={{ width: '50%', flexGrow: '0' }}
+              >
+                Close
+              </OutlinedButton>
+            )}
             {!error && (
               <>
-                <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
-                <SolidButton onClick={handleSend} autoFocus>
+                <Button onClick={handleClose}>Cancel</Button>
+                <Button onClick={handleSend} autoFocus>
                   Accept
-                </SolidButton>
+                </Button>
               </>
             )}
           </DialogActions>
@@ -135,10 +139,10 @@ const SendEmailWrapper: ActionFunctionComponent = (
     }
 
     const targetId = row.id;
-    const error = !targetId;
+    const error = true;
 
     return (
-      <SendEmail
+      <SendEmailError
         disabled={disabled}
         variant={variant}
         error={error}
@@ -150,7 +154,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
           You&apos;re about to send an email with credentials to user &nbsp;
           <strong>{row.iden}</strong>
         </DialogContentText>
-      </SendEmail>
+      </SendEmailError>
     );
   }
   if (isMultiSelectAction(props)) {
@@ -174,7 +178,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
     const error = validSelectedUsers.length === 0;
 
     return (
-      <SendEmail
+      <SendEmailError
         disabled={disabled || selectedUsers.length === 0}
         variant={variant}
         error={error}
@@ -213,7 +217,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
             </span>
           )}
         </DialogContentText>
-      </SendEmail>
+      </SendEmailError>
     );
   }
 

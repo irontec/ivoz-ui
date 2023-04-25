@@ -95,11 +95,7 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           <DialogTitle id='alert-dialog-title'>Provision User</DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              {!error && (
-                <div>
-                  <pre>{provision}</pre>
-                </div>
-              )}
+              {!error && <pre>{provision}</pre>}
               {error && (
                 <span>
                   <ErrorIcon />

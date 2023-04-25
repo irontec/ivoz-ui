@@ -1,7 +1,12 @@
 import { ButtonProps } from '@mui/material/Button';
-import Button from './Button';
 import React from 'react';
+import Button from './Button';
 import { styled } from '@mui/material';
+
+const sharedCssVariables = {
+  '--color': 'var(--color-primary)',
+  '--colorTonal': 'var(--color-primary-tonal)',
+};
 
 const sharedButtonStyles = {
   minWidth: 'auto',
@@ -10,6 +15,13 @@ const sharedButtonStyles = {
   borderRadius: 'var(--radius-md)',
   boxSizing: 'border-box',
   textTransform: 'capitalize',
+  '&.MuiButton-textError': {
+    '--color': 'var(--color-danger)',
+  },
+  '&.MuiButton-textSecondary': {
+    '--color': 'var(--color-secondary)',
+    '--colorTonal': 'var(--color-secondary-tonal)',
+  },
   '&:disabled': {
     background: '#edeeef',
     color: '#d1d1d3',
@@ -24,7 +36,7 @@ const StyledButton = React.forwardRef(
     const { children, ...rest } = props;
 
     return (
-      <Button {...rest} ref={ref}>
+      <Button {...rest} ref={ref} style={sharedCssVariables as React.CSSProperties}>
         {children}
       </Button>
     );
@@ -37,7 +49,7 @@ const LightButton = React.forwardRef(
     const { children, size, className, ...rest } = props;
 
     return (
-      <StyledButton {...rest} ref={ref} className={`${className} ${size}`}>
+      <StyledButton {...rest} ref={ref} className={`${className} ${size}`} style={sharedCssVariables as React.CSSProperties}>
         {children}
       </StyledButton>
     );
@@ -52,49 +64,29 @@ const StyledLightButton = styled(LightButton)(() => {
     color: 'var(--color-text)',
     '&:active, &:hover': {
       background: 'var(--color-background-elevated)',
-      color: 'var(--color-primary)',
+      color: 'var(--color)',
       boxShadow: '0px 0px 7px #1111111a',
     }
   };
 });
 
-const TonedButton = React.forwardRef(
-  (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
-    const { children, size, className, ...rest } = props;
+const TonalButton = {...LightButton} as React.ForwardRefExoticComponent<React.RefAttributes<any>>;
+TonalButton.displayName = 'TonalButton';
 
-    return (
-      <StyledButton {...rest} ref={ref} className={`${className} ${size}`}>
-        {children}
-      </StyledButton>
-    );
-  }
-);
-TonedButton.displayName = 'TonedButton';
-
-const StyledTonedButton = styled(TonedButton)(() => {
+const StyledTonalButton = styled(LightButton)(() => {
   return {
     ...sharedButtonStyles as any,
-    backgroundColor: 'var(--color-primary-bg-toned)',
-    color: 'var(--color-primary)',
+    backgroundColor: 'var(--colorTonal)',
+    color: 'var(--color)',
     '&:active, &:hover': {
-      backgroundColor: 'var(--color-primary)',
+      backgroundColor: 'var(--color)',
       color: 'var(--color-button)',
     }
   };
 });
 
 
-const OutlinedButton = React.forwardRef(
-  (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
-    const { children, size, className, ...rest } = props;
-
-    return (
-      <StyledButton {...rest} ref={ref} className={`${className} ${size}`}>
-        {children}
-      </StyledButton>
-    );
-  }
-);
+const OutlinedButton = {...LightButton} as React.ForwardRefExoticComponent<React.RefAttributes<any>>;;
 OutlinedButton.displayName = 'OutlinedButton';
 
 const StyledOutlinedButton = styled(OutlinedButton)(() => {
@@ -112,39 +104,27 @@ const StyledOutlinedButton = styled(OutlinedButton)(() => {
   };
 });
 
-
-const SolidButton = React.forwardRef(
-  (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
-    const { children, size, className, ...rest } = props;
-
-    return (
-      <StyledButton {...rest} ref={ref} className={`${className} ${size}`}>
-        {children}
-      </StyledButton>
-    );
-  }
-);
+const SolidButton = {...LightButton} as React.ForwardRefExoticComponent<React.RefAttributes<any>>;;
 SolidButton.displayName = 'SolidButton';
 
 const StyledSolidButton = styled(SolidButton)(() => {
   return {
     ...sharedButtonStyles as any,
-    backgroundColor: 'var(--color-primary)',
+    backgroundColor: 'var(--color)',
     color: 'var(--color-button)',
     boxShadow: '0px 0px transparent',
 
     '&:active, &:hover': {
-      backgroundColor: 'var(--color-primary)!important',
+      backgroundColor: 'var(--color)!important',
       color: 'var(--color-button)',
       boxShadow: '0px 3px 3px #51515159',
     }
   };
 });
 
-
 export {
   StyledLightButton as LightButton,
-  StyledTonedButton as TonedButton,
+  StyledTonalButton as TonalButton,
   StyledOutlinedButton as OutlinedButton,
   StyledSolidButton as SolidButton,
 };

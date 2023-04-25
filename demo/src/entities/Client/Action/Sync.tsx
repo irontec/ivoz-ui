@@ -18,8 +18,10 @@ import {
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import { useStoreActions } from 'store';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import Client from '../Client';
+import { OutlinedButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 
 const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
   const { row, variant = 'icon' } = props;
@@ -80,6 +82,8 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
         </Tooltip>
       )}
       <Dialog open={open} aria-labelledby='Syncing client'>
+        <CloseRoundedIcon className='close-icon' onClick={handleClose} />
+        <img src='assets/img/success-dialog.svg' className='modal-icon' />
         <DialogTitle id='alert-dialog-title'>
           Syncing client <strong>{row.iden}</strong>
         </DialogTitle>
@@ -95,13 +99,7 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
                 <CircularProgress />
               </span>
             )}
-            {!error && done && (
-              <span>
-                <DoneAllIcon />
-                <br />
-                Client successfully synced
-              </span>
-            )}
+            {!error && done && <span>Client successfully synced</span>}
             {error && (
               <span>
                 <ErrorIcon />
@@ -114,7 +112,12 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Close</Button>
+          <OutlinedButton
+            onClick={handleClose}
+            style={{ width: '50%', flexGrow: '0' }}
+          >
+            Close
+          </OutlinedButton>
         </DialogActions>
       </Dialog>
     </>

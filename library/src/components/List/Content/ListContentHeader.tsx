@@ -8,7 +8,7 @@ import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
 import {
   SolidButton,
-  TonedButton,
+  TonalButton,
 } from '../../../components/shared/Button/Button.styles';
 import { MultiSelectFunctionComponent } from '../../../router';
 import EntityService from '../../../services/entity/EntityService';
@@ -87,9 +87,9 @@ const ListContentHeader = (
             variant='dot'
             invisible={!mobile || queryStringCriteria.length == 0}
           >
-            <TonedButton onClick={handleOpenMenu}>
+            <TonalButton onClick={handleOpenMenu}>
               <TuneRoundedIcon />
-            </TonedButton>
+            </TonalButton>
           </Badge>
         </Tooltip>
         <Box className='filter-chips'>

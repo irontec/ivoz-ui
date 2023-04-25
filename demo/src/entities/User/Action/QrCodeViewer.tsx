@@ -120,9 +120,9 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           <CloseRoundedIcon className='close-icon' onClick={handleClose} />
           <img src='assets/img/qr-modal.svg' className='modal-icon' />
 
-          <DialogTitle id='alert-dialog-title'>QR Code</DialogTitle>
+          <DialogTitle id='alert-dialog-title'>{_('QR Code')}</DialogTitle>
           <DialogContent>
-            <p>Scan the code to log in with user&apos;s credential.</p>
+            <p>{_('Scan the code to log in with user&apos;s credential.')}</p>
             <DialogContentText id='alert-dialog-description'>
               {!error && (
                 <ImageListItem sx={{ maxWidth: '200px', marginInline: 'auto' }}>
@@ -141,9 +141,7 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <SolidButton onClick={handleClose} sx={{ width: '100%' }}>
-              OK
-            </SolidButton>
+            <SolidButton onClick={handleClose}>{_('OK')}</SolidButton>
           </DialogActions>
         </Dialog>
       )}

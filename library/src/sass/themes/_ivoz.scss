@@ -2,10 +2,11 @@
   /** COLORS **/
   --color-primary: #ff664a;
   --color-primary-rgb: 255, 102, 74;
-  --color-primary-bg-toned: #fff0ed;
+  --color-primary-tonal: #fff0ed;
 
   --color-secondary: #86daf2;
   --color-secondary-rgb: 134, 218, 242;
+  --color-secondary-tonal: hsl(193, 81%, 95%);
 
   --color-success: #58d9a2;
   --color-success-rgb: 88, 217, 162;
@@ -15,6 +16,7 @@
 
   --color-danger: #e54560;
   --color-danger-rgb: 229, 69, 96;
+  --color-danger-tonal: hsl(350, 75%, 78%);
 
   --color-background: #faf9fb;
   --color-background-elevated: white;

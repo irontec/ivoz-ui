@@ -14,6 +14,7 @@ import {
 } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
 import { MoreChildEntityLinks } from './MoreChildEntityLinks';
+import { LightButton } from '../../../../components/shared/Button/Button.styles';
 
 type ChildEntityLinksProps = {
   childEntities: Array<RouteMapItem>;

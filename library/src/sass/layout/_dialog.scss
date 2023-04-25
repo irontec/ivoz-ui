@@ -20,8 +20,22 @@
     text-align: center;
   }
 
+  .MuiDialogContent-root {
+    text-align: center;
+  }
+
   pre {
     background: var(--color-background);
     padding: var(--spacing-md);
+    text-align: initial;
+  }
+
+  .MuiDialogActions-root {
+    display: flex;
+    justify-content: center;
+
+    button {
+      flex-grow: 1;
+    }
   }
 }

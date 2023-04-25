@@ -1,7 +1,7 @@
 import { ButtonProps } from '@mui/material/Button';
+import React from 'react';
 import Button from './Button';
 import './Button.scoped.scss';
-import React from 'react';
 
 const StyledButton = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
@@ -29,18 +29,18 @@ export const LightButton = React.forwardRef(
 );
 LightButton.displayName = 'LightButton';
 
-export const TonedButton = React.forwardRef(
+export const TonalButton = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
     const { children, size, ...rest } = props;
 
     return (
-      <StyledButton {...rest} ref={ref} className={`toned ${size}`}>
+      <StyledButton {...rest} ref={ref} className={`tonal ${size}`}>
         {children}
       </StyledButton>
     );
   }
 );
-TonedButton.displayName = 'TonedButton';
+TonalButton.displayName = 'TonalButton';
 
 export const OutlinedButton = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {

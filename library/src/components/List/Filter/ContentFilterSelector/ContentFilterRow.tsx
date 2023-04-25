@@ -4,7 +4,7 @@ import { Box, useMediaQuery, useTheme } from '@mui/material';
 import { memo, useEffect, useState } from 'react';
 import {
   LightButton,
-  TonedButton,
+  TonalButton,
 } from '../../../../components/shared/Button/Button.styles';
 import { NullablePropertyFkChoices } from '../../../../entities';
 import {
@@ -176,11 +176,11 @@ export default function ContentFilterRow(
         />
       )}
       {isLast && (
-        <TonedButton onClick={updateCriteria}>
+        <TonalButton onClick={updateCriteria}>
           <AddIcon />
 
           {mobile && _('Add')}
-        </TonedButton>
+        </TonalButton>
       )}
       {!isLast && (
         <LightButton

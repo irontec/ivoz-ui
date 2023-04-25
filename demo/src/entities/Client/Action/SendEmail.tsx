@@ -59,7 +59,7 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
           placement='bottom-start'
           enterTouchDelay={0}
         >
-          <EmailIcon onClick={handleClickOpen} />
+          <EmailIcon onClick={handleClickOpen} color='primary' />
         </Tooltip>
       )}
 

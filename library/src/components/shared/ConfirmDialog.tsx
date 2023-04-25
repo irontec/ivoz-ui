@@ -1,4 +1,4 @@
-import Button from '@mui/material/Button';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -14,6 +14,7 @@ import React, {
 } from 'react';
 import { StyledSearchTextField } from '../../services/form/Field/TextField/TextField.styles';
 import _ from '../../services/translations/translate';
+import { OutlinedButton, SolidButton } from './Button/Button.styles';
 import { StyledDialogContentText } from './ConfirmDialog.styles';
 
 const Transition: ComponentType<any> = forwardRef(function (
@@ -63,6 +64,8 @@ export default function ConfirmDialog(props: ConfirmDialogProps): JSX.Element {
       aria-labelledby='alert-dialog-slide-title'
       aria-describedby='alert-dialog-slide-description'
     >
+      <CloseRoundedIcon className='close-icon' onClick={handleClose} />
+      <img src='assets/img/delete-dialog.svg' className='modal-icon' />
       <DialogTitle id='alert-dialog-slide-title'>
         {_('Remove element')}
       </DialogTitle>
@@ -87,10 +90,21 @@ export default function ConfirmDialog(props: ConfirmDialogProps): JSX.Element {
         )}
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>{_('Cancel')}</Button>
-        <Button disabled={!sumbitEnabled} onClick={handleApply}>
-          {_('Delete')}
-        </Button>
+        <OutlinedButton
+          onClick={handleClose}
+          sx={{ flexGrow: '1' }}
+          color='error'
+        >
+          {_('No, keep it')}
+        </OutlinedButton>
+        <SolidButton
+          disabled={!sumbitEnabled}
+          onClick={handleApply}
+          sx={{ flexGrow: '1' }}
+          color='error'
+        >
+          {_('Yes, delete it')}
+        </SolidButton>
       </DialogActions>
     </Dialog>
   );

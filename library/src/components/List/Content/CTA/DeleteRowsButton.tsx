@@ -6,6 +6,7 @@ import _ from '../../../../services/translations/translate';
 import { useStoreActions } from '../../../../store';
 import ConfirmDialog from '../../../shared/ConfirmDialog';
 import { LightButton } from '../../../../components/shared/Button/Button.styles';
+import { MoreMenuItem } from '../Shared/MoreChildEntityLinks';
 
 interface DeleteRowsButtonProps {
   entityService: EntityService;
@@ -67,9 +68,12 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
   return (
     <>
       {variant === 'text' && (
-        <a className={disabled ? 'disabled' : ''} onClick={handleShowDelete}>
+        <MoreMenuItem
+          className={disabled ? 'disabled' : ''}
+          onClick={handleShowDelete}
+        >
           {_('Delete')}
-        </a>
+        </MoreMenuItem>
       )}
       {variant === 'icon' && (
         <Tooltip

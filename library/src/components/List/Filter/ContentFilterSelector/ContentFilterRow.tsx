@@ -13,7 +13,7 @@ import {
 } from '../../../../services/api/ParsedApiSpecInterface';
 import {
   DropdownChoices,
-  SelectProps
+  SelectProps,
 } from '../../../../services/form/Field/Dropdown';
 import { StyledDropdown } from '../../../../services/form/Field/Dropdown/Dropdown.styles';
 import { StyledTextField } from '../../../../services/form/Field/TextField/TextField.styles';
@@ -31,7 +31,7 @@ export interface ContentFilterRowProps {
   isLast: boolean;
   setRow: (idx: number, name: string, type: string, value: string) => void;
   removeRow: (idx: number) => void;
-  className?: string,
+  className?: string;
 }
 
 const StyledDropdownMemo = memo(

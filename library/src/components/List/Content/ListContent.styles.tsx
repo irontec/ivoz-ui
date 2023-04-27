@@ -7,7 +7,7 @@ import { forwardRef } from 'react';
 import ListContent from './ListContent';
 
 export const StyledListContent = styled(ListContent)(
-  ({theme}: {theme: Theme}) => {
+  ({ theme }: { theme: Theme }) => {
     return {
       display: 'flex',
       flexDirection: 'column',
@@ -41,7 +41,7 @@ export const StyledListContent = styled(ListContent)(
         color: 'var(--color-text)',
         [theme.breakpoints.down('md')]: {
           background: 'var(--color-background-elevated)',
-        }
+        },
       },
 
       '.filter-chips': {
@@ -50,27 +50,27 @@ export const StyledListContent = styled(ListContent)(
         flexShrink: '1',
         overflow: 'auto',
         paddingBottom: '2px',
-      
+
         '&::-webkit-scrollbar': {
           height: '6px',
         },
-      
+
         '&::-webkit-scrollbar-thumb': {
           borderRadius: '6px',
           background: 'var(--color-button)',
         },
-      
+
         '&::-webkit-scrollbar-thumb:hover': {
           background: 'var(--color-border)',
-        }
+        },
       },
 
       '& .card': {
         paddingBottom: 0,
         [theme.breakpoints.down('md')]: {
           paddingBlock: 0,
-        }
-      }
+        },
+      },
     };
   }
 );

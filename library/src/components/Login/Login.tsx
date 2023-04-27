@@ -24,7 +24,8 @@ export interface LoginProps {
 }
 
 export default function Login(props: LoginProps): JSX.Element | null {
-  const { validator, marshaller, unauthorizedCustomErrorMsg, className } = props;
+  const { validator, marshaller, unauthorizedCustomErrorMsg, className } =
+    props;
 
   const useRefreshToken = useStoreActions(
     (actions) => actions.auth.useRefreshToken

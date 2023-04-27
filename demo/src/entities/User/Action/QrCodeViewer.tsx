@@ -1,3 +1,5 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
 import { SolidButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
   ActionFunctionComponent,
@@ -5,10 +7,9 @@ import {
 } from '@irontec/ivoz-ui/router/routeMapParser';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import { QrCode2 } from '@mui/icons-material';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ErrorIcon from '@mui/icons-material/Error';
 import {
-  Box,
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -19,7 +20,6 @@ import {
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useStoreActions, useStoreState } from 'store';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   const { row, variant = 'icon' } = props;
@@ -98,14 +98,19 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   return (
     <>
       {variant === 'text' && (
-        <span className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
+        <MoreMenuItem
+          className={disabled ? 'disabled' : ''}
+          onClick={handleClickOpen}
+        >
           {_('QrCode')}
-        </span>
+        </MoreMenuItem>
       )}
       {variant === 'icon' && (
         <a className={disabled ? 'disabled' : ''}>
           <Tooltip title={_('QrCode')} placement='bottom' enterTouchDelay={0}>
-            <QrCode2 onClick={handleClickOpen} />
+            <StyledTableRowCustomCta>
+              <QrCode2 onClick={handleClickOpen} />
+            </StyledTableRowCustomCta>
           </Tooltip>
         </a>
       )}

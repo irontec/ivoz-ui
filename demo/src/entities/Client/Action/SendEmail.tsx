@@ -1,3 +1,9 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import {
+  OutlinedButton,
+  SolidButton,
+} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
   ActionFunctionComponent,
   ActionItemProps,
@@ -5,7 +11,6 @@ import {
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import EmailIcon from '@mui/icons-material/Email';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -51,7 +56,7 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
   return (
     <>
       {variant === 'text' && (
-        <span onClick={handleClickOpen}>{_('Send email')}</span>
+        <MoreMenuItem onClick={handleClickOpen}>{_('Send email')}</MoreMenuItem>
       )}
       {variant === 'icon' && (
         <Tooltip
@@ -59,7 +64,9 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
           placement='bottom-start'
           enterTouchDelay={0}
         >
-          <EmailIcon onClick={handleClickOpen} color='primary' />
+          <StyledTableRowCustomCta>
+            <EmailIcon onClick={handleClickOpen} color='primary' />
+          </StyledTableRowCustomCta>
         </Tooltip>
       )}
 
@@ -79,10 +86,10 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSend} autoFocus>
-            Accept
-          </Button>
+          <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
+          <SolidButton onClick={handleSend} autoFocus>
+            Send
+          </SolidButton>
         </DialogActions>
       </Dialog>
     </>

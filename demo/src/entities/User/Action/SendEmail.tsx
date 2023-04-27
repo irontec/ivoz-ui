@@ -1,3 +1,9 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import {
+  OutlinedButton,
+  SolidButton,
+} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
   ActionFunctionComponent,
   CustomActionProps,
@@ -5,9 +11,9 @@ import {
   isSingleRowAction,
 } from '@irontec/ivoz-ui/router/routeMapParser';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import EmailIcon from '@mui/icons-material/Email';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,11 +24,6 @@ import {
 import { useState } from 'react';
 import { useStoreActions } from 'store';
 
-import {
-  OutlinedButton,
-  SolidButton,
-} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import User from '../User';
 import { UserPropertiesList, UserPropertyList } from '../UserProperties';
 
@@ -65,17 +66,23 @@ const SendEmail = (props: SendEmailProps) => {
     });
   };
 
+  const dialogIcon = error
+    ? 'assets/img/error-dialog.svg'
+    : 'assets/img/send-dialog.svg';
+
   return (
     <>
       <a className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
-        {variant === 'text' && _('Send email')}
+        {variant === 'text' && <MoreMenuItem>{_('Send email')}</MoreMenuItem>}
         {variant === 'icon' && (
           <Tooltip
             title={_('Send email')}
             placement='bottom-start'
             enterTouchDelay={0}
           >
-            <EmailIcon />
+            <StyledTableRowCustomCta>
+              <EmailIcon />
+            </StyledTableRowCustomCta>
           </Tooltip>
         )}
       </a>
@@ -87,7 +94,7 @@ const SendEmail = (props: SendEmailProps) => {
           aria-describedby='alert-dialog-description'
         >
           <CloseRoundedIcon className='close-icon' onClick={handleClose} />
-          <img src='assets/img/send-dialog.svg' className='modal-icon' />
+          <img src={dialogIcon} className='modal-icon' />
           <DialogTitle id='alert-dialog-title'>
             {'Send user credentials notification email?'}
           </DialogTitle>
@@ -100,12 +107,14 @@ const SendEmail = (props: SendEmailProps) => {
             {!error && children}
           </DialogContent>
           <DialogActions>
-            {error && <Button onClick={handleClose}>Close</Button>}
+            {error && (
+              <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
+            )}
             {!error && (
               <>
                 <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
                 <SolidButton onClick={handleSend} autoFocus>
-                  Accept
+                  Send
                 </SolidButton>
               </>
             )}
@@ -131,7 +140,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
     }
 
     if (!row.email) {
-      disabled = false;
+      disabled = true;
     }
 
     const targetId = row.id;
@@ -195,7 +204,9 @@ const SendEmailWrapper: ActionFunctionComponent = (
             {validSelectedUsers.map((user, idx) => {
               return (
                 <span key={idx}>
-                  <strong>{user?.iden}</strong>
+                  <strong>
+                    {user?.iden} ({user?.email})
+                  </strong>
                   <br />
                 </span>
               );

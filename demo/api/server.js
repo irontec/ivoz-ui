@@ -71,7 +71,7 @@ server.post('/users/:id/switch_licenses', (req, res) => {
     res.send(`{}`);
 });
 
-server.get('/administrator/:id/avatar', (req, res) => {
+server.get('/administrators/:id/avatar', (req, res) => {
     const apiSpec = fs.readFileSync(
         path.join(__dirname, 'assets/avatar.jpg'),
         { encoding: 'binary', flag: 'r' }
@@ -82,7 +82,11 @@ server.get('/administrator/:id/avatar', (req, res) => {
     res.end(apiSpec, 'binary');
 });
 
-server.get('/administrator/:id/greeting', (req, res) => {
+server.put('/administrators/:id', (req, res) => {
+    throw Error('Forbidden');
+});
+
+server.get('/administrators/:id/greeting', (req, res) => {
     const mp3 = fs.readFileSync(
         path.join(__dirname, 'assets/example.mp3'),
         { flag: 'r' }

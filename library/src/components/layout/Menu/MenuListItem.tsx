@@ -24,8 +24,12 @@ export default function MenuListItem(
   const navigate = useNavigate();
   const hideMenu = useStoreActions((actions) => actions.menu.hide);
 
+  const currentPath = location.href;
+  const baseHref = document.querySelector('base')?.href.slice(0, -1) || '';
+  const targetPath = baseHref + path;
+
   const selected =
-    location.pathname === path || location.pathname.indexOf(`${path}/`) === 0;
+  currentPath === targetPath || currentPath.indexOf(`${targetPath}/`) === 0;
 
   return (
     <ListItemButton

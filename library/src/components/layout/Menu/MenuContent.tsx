@@ -38,18 +38,20 @@ export default function MenuContent(
     <StyledMenuList className={`sidemenu ${menuVariant}`}>
       <MenuHeader />
       <MenuListItem path='/' icon={<StyledHomeIcon />} text={'Dashboard'} />
-      <StyledDivider />
       {routeMap.map((routeMapBlock, key: number) => {
         if (isEntityItem(routeMapBlock as RouteMapItem)) {
           const entity = (routeMapBlock as EntityItem).entity;
 
           return (
-            <MenuListItem
-              key={key}
-              path={entity.localPath || entity.path}
-              icon={<entity.icon />}
-              text={entity.title}
-            />
+            <Fragment key={key}>
+              <StyledDivider />
+              <MenuListItem
+                key={key}
+                path={entity.localPath || entity.path}
+                icon={<entity.icon />}
+                text={entity.title}
+              />
+            </Fragment>
           );
         }
 
@@ -64,7 +66,7 @@ export default function MenuContent(
       })}
 
       <Box className='logo'>
-        <Logo></Logo>
+        <Logo />
       </Box>
     </StyledMenuList>
   );

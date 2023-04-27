@@ -13,7 +13,7 @@ import {
 import { isRouteMapBlock, RouteMap } from '../../router/routeMapParser';
 import DashboardBlock from './DashboardBlock';
 
-import 'Dashboard.scoped.scss';
+//import 'Dashboard.scoped.scss';
 import {
   LightButton,
   SolidButton,

@@ -37,9 +37,12 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
     }
 
     const route = item.route;
+    const currentPath = location.href;
+    const baseHref = document.querySelector('base')?.href.slice(0, -1) || '';
+    const targetPath = baseHref + route;
+
     const match =
-      location.pathname === `${route}` ||
-      location.pathname.indexOf(`${route}/`) === 0;
+    currentPath === targetPath || currentPath.indexOf(`${targetPath}/`) === 0;
 
     return match;
   });

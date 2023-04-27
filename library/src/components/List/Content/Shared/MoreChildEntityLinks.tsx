@@ -77,15 +77,13 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
         );
       })}
       {deleteMapItem && (
-        <MenuItem>
-          <ChildDecorator routeMapItem={deleteMapItem} row={row}>
-            <DeleteRowButton
-              variant='text'
-              row={row}
-              entityService={entityService}
-            />
-          </ChildDecorator>
-        </MenuItem>
+        <ChildDecorator routeMapItem={deleteMapItem} row={row}>
+          <DeleteRowButton
+            variant='text'
+            row={row}
+            entityService={entityService}
+          />
+        </ChildDecorator>
       )}
     </MoreChildEntityLinksWrapper>
   );

@@ -1,57 +1,44 @@
-$breakpoint-xsmall: 0px;
-$breakpoint-small: 600px;
-$breakpoint-medium: 900px;
-$breakpoint-large: 1200px;
-$breakpoint-extra-large: 1536px;
+$breakpoints: (
+  xs: 0px,
+  sm: 600px,
+  md: 900px,
+  lg: 1200px,
+  xl: 1536px,
+);
 
-@mixin min-width($breakpoint) {
-  @if ($breakpoint == xs) {
-    @media (min-width: $breakpoint-xsmall) {
-      @content;
-    }
-  } @else if ($breakpoint == sm) {
-    @media (min-width: $breakpoint-small) {
-      @content;
-    }
-  } @else if ($breakpoint == md) {
-    @media (min-width: $breakpoint-medium) {
-      @content;
-    }
-  } @else if ($breakpoint == lg) {
-    @media (min-width: $breakpoint-large) {
-      @content;
-    }
-  } @else if ($breakpoint == xl) {
-    @media (min-width: $breakpoint-extra-large) {
+@mixin max-width($key) {
+  $size: map-get($breakpoints, $key);
+
+  @if ($size) {
+    @media only screen and (max-width: $size) {
       @content;
     }
   } @else {
-    @error "UNKNOWN MEDIA BREAKPOINT #{$breakpoint}";
+    @error "UNKNOWN MEDIA BREAKPOINT (#{$key}), ALLOWED: [xs, sm, md, lg, xl]";
   }
 }
 
-@mixin max-width($breakpoint) {
-  @if ($breakpoint == xs) {
-    @media (max-width: $breakpoint-xsmall) {
-      @content;
-    }
-  } @else if ($breakpoint == sm) {
-    @media (max-width: $breakpoint-small) {
-      @content;
-    }
-  } @else if ($breakpoint == md) {
-    @media (max-width: $breakpoint-medium) {
-      @content;
-    }
-  } @else if ($breakpoint == lg) {
-    @media (max-width: $breakpoint-large) {
-      @content;
-    }
-  } @else if ($breakpoint == xl) {
-    @media (max-width: $breakpoint-extra-large) {
+@mixin min-width($key) {
+  $size: map-get($breakpoints, $key);
+
+  @if ($size) {
+    @media only screen and (min-width: $size) {
       @content;
     }
   } @else {
-    @error "UNKNOWN MEDIA BREAKPOINT #{$breakpoint}";
+    @error "UNKNOWN MEDIA BREAKPOINT (#{$key}), ALLOWED: [xs, sm, md, lg, xl]";
+  }
+}
+
+@mixin min-max-width($key1, $key2) {
+  $min: map-get($breakpoints, $key1);
+  $max: map-get($breakpoints, $key2);
+
+  @if ($min && $max) {
+    @media only screen and (min-width: $min) and (max-width: $max) {
+      @content;
+    }
+  } @else {
+    @error "UNKNOWN MEDIA BREAKPOINT (#{$key1}, #{$key2}), ALLOWED: [xs, sm, md, lg, xl]";
   }
 }

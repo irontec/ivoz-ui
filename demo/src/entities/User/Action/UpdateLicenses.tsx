@@ -1,3 +1,5 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
 import {
   ActionFunctionComponent,
   isSingleRowAction,
@@ -103,7 +105,9 @@ const UpdateLicenses: ActionFunctionComponent = (
     <>
       <span className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
         {variant === 'text' && (
-          <span onClick={handleClickOpen}>{_('Change Licences')}</span>
+          <MoreMenuItem onClick={handleClickOpen}>
+            {_('Change Licences')}
+          </MoreMenuItem>
         )}
         {variant === 'icon' && (
           <Tooltip
@@ -111,7 +115,9 @@ const UpdateLicenses: ActionFunctionComponent = (
             placement='bottom'
             enterTouchDelay={0}
           >
-            <ReceiptLongIcon />
+            <StyledTableRowCustomCta>
+              <ReceiptLongIcon />
+            </StyledTableRowCustomCta>
           </Tooltip>
         )}
       </span>

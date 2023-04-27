@@ -28,7 +28,7 @@ const sharedButtonStyles = {
   },
   '& svg': {
     color: 'currentColor',
-  }
+  },
 };
 
 const StyledButton = React.forwardRef(
@@ -36,7 +36,11 @@ const StyledButton = React.forwardRef(
     const { children, ...rest } = props;
 
     return (
-      <Button {...rest} ref={ref} style={sharedCssVariables as React.CSSProperties}>
+      <Button
+        {...rest}
+        ref={ref}
+        style={sharedCssVariables as React.CSSProperties}
+      >
         {children}
       </Button>
     );
@@ -49,7 +53,12 @@ const LightButton = React.forwardRef(
     const { children, size, className, ...rest } = props;
 
     return (
-      <StyledButton {...rest} ref={ref} className={`${className} ${size}`} style={sharedCssVariables as React.CSSProperties}>
+      <StyledButton
+        {...rest}
+        ref={ref}
+        className={`${className} ${size}`}
+        style={sharedCssVariables as React.CSSProperties}
+      >
         {children}
       </StyledButton>
     );
@@ -59,57 +68,62 @@ LightButton.displayName = 'LightButton';
 
 const StyledLightButton = styled(LightButton)(() => {
   return {
-    ...sharedButtonStyles as any,
+    ...(sharedButtonStyles as any),
     background: 'var(--color-button)',
     color: 'var(--color-text)',
     '&:active, &:hover': {
       background: 'var(--color-background-elevated)',
       color: 'var(--color)',
       boxShadow: '0px 0px 7px #1111111a',
-    }
+    },
   };
 });
 
-const TonalButton = {...LightButton} as React.ForwardRefExoticComponent<React.RefAttributes<any>>;
+const TonalButton = { ...LightButton } as React.ForwardRefExoticComponent<
+  React.RefAttributes<any>
+>;
 TonalButton.displayName = 'TonalButton';
 
 const StyledTonalButton = styled(LightButton)(() => {
   return {
-    ...sharedButtonStyles as any,
+    ...(sharedButtonStyles as any),
     backgroundColor: 'var(--colorTonal)',
     color: 'var(--color)',
     '&:active, &:hover': {
       backgroundColor: 'var(--color)',
       color: 'var(--color-button)',
-    }
+    },
   };
 });
 
-
-const OutlinedButton = {...LightButton} as React.ForwardRefExoticComponent<React.RefAttributes<any>>;;
+const OutlinedButton = { ...LightButton } as React.ForwardRefExoticComponent<
+  React.RefAttributes<any>
+>;
 OutlinedButton.displayName = 'OutlinedButton';
 
 const StyledOutlinedButton = styled(OutlinedButton)(() => {
   return {
-    ...sharedButtonStyles as any,
+    ...(sharedButtonStyles as any),
     backgroundColor: 'transparent',
     color: 'var(--color-text)',
     border: '1px solid currentColor',
     boxShadow: '0px 0px transparent',
-  
+
     '&:active, &:hover': {
       background: 'transparent!important',
       boxShadow: '0px 3px 7px #51515159',
-    }
+    },
   };
 });
 
-const SolidButton = {...LightButton} as React.ForwardRefExoticComponent<React.RefAttributes<any>>;;
+const SolidButton = { ...LightButton } as React.ForwardRefExoticComponent<
+  React.RefAttributes<any>
+>;
 SolidButton.displayName = 'SolidButton';
 
 const StyledSolidButton = styled(SolidButton)(() => {
   return {
-    ...sharedButtonStyles as any,
+    ...(sharedButtonStyles as any),
     backgroundColor: 'var(--color)',
     color: 'var(--color-button)',
     boxShadow: '0px 0px transparent',
@@ -118,7 +132,7 @@ const StyledSolidButton = styled(SolidButton)(() => {
       backgroundColor: 'var(--color)!important',
       color: 'var(--color-button)',
       boxShadow: '0px 3px 3px #51515159',
-    }
+    },
   };
 });
 

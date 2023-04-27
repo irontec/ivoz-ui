@@ -21,6 +21,8 @@ interface MoreChildEntityLinksProps {
   deleteMapItem?: RouteMapItem | false;
 }
 
+export const MoreMenuItem = MenuItem;
+
 export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
   const { childEntities, row, entityService, deleteMapItem } = props;
 
@@ -36,14 +38,13 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           isSingleRowActionItem(routeMapItem, routeMapItem.action)
         ) {
           return (
-            <MenuItem key={key}>
-              <routeMapItem.action
-                match={match}
-                row={row}
-                entityService={entityService}
-                variant='text'
-              />
-            </MenuItem>
+            <routeMapItem.action
+              key={key}
+              match={match}
+              row={row}
+              entityService={entityService}
+              variant='text'
+            />
           );
         }
 
@@ -57,6 +58,9 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           id: `${row.id}`,
           params: match.params,
         });
+
+        console.log('title', title);
+        debugger;
 
         return (
           <MenuItem key={key}>

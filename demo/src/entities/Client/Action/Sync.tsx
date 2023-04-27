@@ -1,13 +1,15 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import { OutlinedButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
   ActionFunctionComponent,
   ActionItemProps,
 } from '@irontec/ivoz-ui/router/routeMapParser';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import CloudSyncIcon from '@mui/icons-material/CloudSync';
-import DoneAllIcon from '@mui/icons-material/DoneAll';
 import ErrorIcon from '@mui/icons-material/Error';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,10 +20,8 @@ import {
 import CircularProgress from '@mui/material/CircularProgress';
 import { useState } from 'react';
 import { useStoreActions } from 'store';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 import Client from '../Client';
-import { OutlinedButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 
 const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
   const { row, variant = 'icon' } = props;
@@ -70,7 +70,9 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
   return (
     <>
       {variant === 'text' && (
-        <span onClick={handleClickOpen}>{_('Sync client')}</span>
+        <MoreMenuItem onClick={handleClickOpen}>
+          {_('Sync client')}
+        </MoreMenuItem>
       )}
       {variant === 'icon' && (
         <Tooltip
@@ -78,7 +80,9 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
           placement='bottom-start'
           enterTouchDelay={0}
         >
-          <CloudSyncIcon onClick={handleClickOpen} />
+          <StyledTableRowCustomCta>
+            <CloudSyncIcon onClick={handleClickOpen} />
+          </StyledTableRowCustomCta>
         </Tooltip>
       )}
       <Dialog open={open} aria-labelledby='Syncing client'>

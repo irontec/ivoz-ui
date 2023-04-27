@@ -22,26 +22,23 @@ export const AudioPlayer = (props: AudioPlayerProps): JSX.Element | null => {
     return null;
   }
 
-  useEffect(
-    () => {
-      if (audioSrc) {
-        return;
-      }
+  useEffect(() => {
+    if (audioSrc) {
+      return;
+    }
 
-      downloadAction({
-        path: downloadPath,
-        params: {},
-        handleErrors: false,
-        successCallback: async (data) => {
-          const objectUrl = URL.createObjectURL(data as Blob);
-          setAudioSrc(objectUrl);
-        },
-      }).catch((error: { statusText: string; status: number }) => {
-        console.error(error);
-      });
-    },
-    []
-  );
+    downloadAction({
+      path: downloadPath,
+      params: {},
+      handleErrors: false,
+      successCallback: async (data) => {
+        const objectUrl = URL.createObjectURL(data as Blob);
+        setAudioSrc(objectUrl);
+      },
+    }).catch((error: { statusText: string; status: number }) => {
+      console.error(error);
+    });
+  }, []);
 
   return <ReactAudioPlayer src={audioSrc} controls={true} />;
 };

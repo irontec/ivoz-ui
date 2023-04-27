@@ -1,20 +1,16 @@
 import { Tooltip } from '@mui/material';
 import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 import {
-  isActionItem,
-  isSingleRowActionItem,
-  isEntityItem,
   RouteMapItem,
+  isActionItem,
+  isEntityItem,
+  isSingleRowActionItem,
 } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
 import DeleteRowButton from '../CTA/DeleteRowButton';
-import {
-  StyledTableRowCustomCta,
-  StyledTableRowEntityCta,
-} from '../Table/ContentTable.styles';
+import { StyledTableRowEntityCta } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
 import { MoreChildEntityLinks } from './MoreChildEntityLinks';
-import { LightButton } from '../../../../components/shared/Button/Button.styles';
 
 type ChildEntityLinksProps = {
   childEntities: Array<RouteMapItem>;
@@ -55,13 +51,12 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
           isSingleRowActionItem(routeMapItem, routeMapItem.action)
         ) {
           return (
-            <StyledTableRowCustomCta key={key}>
-              <routeMapItem.action
-                match={match}
-                row={row}
-                entityService={entityService}
-              />
-            </StyledTableRowCustomCta>
+            <routeMapItem.action
+              key={key}
+              match={match}
+              row={row}
+              entityService={entityService}
+            />
           );
         }
 

@@ -6,7 +6,7 @@ export const StyledLogin = styled(Login)(({ theme }) => {
   return {
     height: '100vh',
     backgroundColor: 'var(--color-background)',
-    backgroundImage: 'url(demo/src/assets/img/bg-noise.png)',
+    backgroundImage: 'url(/assets/img/bg-noise.png)',
     display: 'flex',
     flexDirection: 'column',
     padding: 'var(--spacing-lg) var(--spacing-xl)',
@@ -15,7 +15,7 @@ export const StyledLogin = styled(Login)(({ theme }) => {
     '& .logo-container': {
       [theme.breakpoints.down('md')]: {
         textAlign: 'center',
-      }
+      },
     },
     '& .logo': {
       width: '160px',
@@ -38,7 +38,7 @@ export const StyledLogin = styled(Login)(({ theme }) => {
         textAlign: 'center',
         fontSize: '24px',
         fontWeight: 'bold',
-      }
+      },
     },
     '& .password': {
       display: 'flex',
@@ -50,7 +50,7 @@ export const StyledLogin = styled(Login)(({ theme }) => {
     },
     '& .link': {
       textAlign: 'center',
-    }
+    },
   };
 });
 

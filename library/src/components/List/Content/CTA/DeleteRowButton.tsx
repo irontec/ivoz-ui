@@ -6,6 +6,7 @@ import _ from '../../../../services/translations/translate';
 import { useStoreActions } from '../../../../store';
 import { StyledDeleteIcon } from '../Table/ContentTable.styles';
 import { LightButton } from '../../../../components/shared/Button/Button.styles';
+import { MoreMenuItem } from '../Shared/MoreChildEntityLinks';
 
 interface DeleteRowButtonProps {
   row: any;
@@ -58,13 +59,15 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
           enterTouchDelay={0}
           arrow
         >
-          <LightButton>
-            <StyledDeleteIcon onClick={() => setShowDelete(true)} />
+          <LightButton onClick={() => setShowDelete(true)}>
+            <StyledDeleteIcon />
           </LightButton>
         </Tooltip>
       )}
       {variant === 'text' && (
-        <a onClick={() => setShowDelete(true)}>{_('Delete')}</a>
+        <MoreMenuItem onClick={() => setShowDelete(true)}>
+          {_('Delete')}
+        </MoreMenuItem>
       )}
       <ConfirmDialog
         text={

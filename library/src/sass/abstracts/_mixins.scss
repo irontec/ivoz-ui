@@ -34,7 +34,7 @@ $breakpoints: (
   $min: map-get($breakpoints, $key1);
   $max: map-get($breakpoints, $key2);
 
-  @if ($min && $max) {
+  @if ($min and $max) {
     @media only screen and (min-width: $min) and (max-width: $max) {
       @content;
     }

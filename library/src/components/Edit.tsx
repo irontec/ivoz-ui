@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import EntityInterface from '../entities/EntityInterface';
@@ -10,18 +11,26 @@ import { useStoreActions } from '../store';
 import ErrorBoundary from './ErrorBoundary';
 import { getMarshallerWhiteList } from './form.helper';
 import withRowData from './withRowData';
+import { Box } from '@mui/material';
 
 type EditProps = EntityInterface & {
   entityService: EntityService;
   routeMap: RouteMap;
   row: Record<string, any>;
-  Form: EntityFormType;
+  Form: () => Promise<EntityFormType>;
 };
 
 const Edit: any = (props: EditProps) => {
   const { marshaller, unmarshaller, row, routeMap, entityService } = props;
 
-  const { Form: EntityForm } = props;
+  const { Form: EntityFormLoader } = props;
+  const [EntityForm, setEntityForm] = useState<EntityFormType | null>(null);
+
+  useEffect(() => {
+    EntityFormLoader().then((Form) => {
+      setEntityForm(() => Form);
+    });
+  }, []);
 
   const location = useLocation();
   const match = useCurrentPathMatch();
@@ -88,19 +97,25 @@ const Edit: any = (props: EditProps) => {
     } catch {}
   };
 
+  if (!EntityForm) {
+    return null;
+  }
+
   return (
-    <ErrorBoundary>
-      <EntityForm
-        {...props}
-        initialValues={initialValues}
-        filterBy={filterBy}
-        fixedValues={fixedValues}
-        filterValues={filterValues}
-        onSubmit={onSubmit}
-        edit={true}
-        match={match}
-      />
-    </ErrorBoundary>
+    <Box className='card'>
+      <ErrorBoundary>
+        <EntityForm
+          {...props}
+          initialValues={initialValues}
+          filterBy={filterBy}
+          fixedValues={fixedValues}
+          filterValues={filterValues}
+          onSubmit={onSubmit}
+          edit={true}
+          match={match}
+        />
+      </ErrorBoundary>
+    </Box>
   );
 };
 

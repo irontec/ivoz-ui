@@ -1,6 +1,6 @@
 import { useState, useEffect, FunctionComponent, ComponentClass } from 'react';
 import hoistStatics from 'hoist-non-react-statics';
-import { useStoreActions } from '../store';
+import { useStoreActions, useStoreState } from '../store';
 import EntityService from '../services/entity/EntityService';
 import useCancelToken from '../hooks/useCancelToken';
 import { useLocation, useParams } from 'react-router-dom';
@@ -17,19 +17,32 @@ const withRowData = (
     const entityId = params.id as string;
 
     const [loading, setLoading] = useState(true);
-    const [row, setRow] = useState({});
+
+    const row = useStoreState((state) => state.form.row);
+
+    const resetFormRow = useStoreActions((actions) => {
+      return actions.form.reset;
+    });
+    const setFormRow = useStoreActions((actions) => {
+      return actions.form.setRow;
+    });
 
     const apiGet = useStoreActions((actions) => {
       return actions.api.get;
     });
     const [, cancelToken] = useCancelToken();
 
-    useEffect(
-      () => {
-        setLoading(true);
-      },
-      [location, setLoading]
-    );
+    useEffect(() => {
+      setLoading(true);
+    }, [location, setLoading]);
+
+    useEffect(() => {
+      resetFormRow();
+
+      return () => {
+        resetFormRow();
+      };
+    }, []);
 
     useEffect(() => {
       const mounted = true;
@@ -47,7 +60,7 @@ const withRowData = (
               return;
             }
 
-            setRow(data);
+            setFormRow(data);
             setLoading(false);
           },
           cancelToken,

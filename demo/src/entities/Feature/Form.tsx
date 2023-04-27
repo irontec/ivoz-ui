@@ -1,11 +1,10 @@
-import defaultEntityBehavior, {
+import {
   EntityFormProps,
   FieldsetGroups,
 } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
+import { Form as DefaultEntityForm } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Form';
 
 const Form = (props: EntityFormProps): JSX.Element => {
-  const DefaultEntityForm = defaultEntityBehavior.Form;
   const { edit } = props;
 
   const readOnly = {
@@ -15,7 +14,7 @@ const Form = (props: EntityFormProps): JSX.Element => {
   const groups: Array<FieldsetGroups | false> = [
     {
       legend: '',
-      fields: ['iden', 'name'],
+      fields: ['iden', 'name', 'madeUpErrorField'],
     },
   ];
 

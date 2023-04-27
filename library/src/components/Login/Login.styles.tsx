@@ -1,11 +1,56 @@
 import { Avatar, Button } from '@mui/material';
-import { styled } from '@mui/material';
+import Login from './Login';
+import { styled, Theme } from '@mui/material';
 
-export const StyledLoginContainer = styled('div')(({ theme }) => {
+export const StyledLogin = styled(Login)(({ theme }: { theme: Theme }) => {
   return {
-    marginTop: theme.spacing(2),
+    height: '100vh',
+    backgroundColor: 'var(--color-background)',
+    backgroundImage: 'url(/assets/img/bg-noise.png)',
+    display: 'flex',
     flexDirection: 'column',
-    textAlign: 'center',
+    padding: 'var(--spacing-lg) var(--spacing-xl)',
+    maxWidth: 'unset!important',
+
+    '& .logo-container': {
+      [theme.breakpoints.down('md')]: {
+        textAlign: 'center',
+      },
+    },
+    '& .logo': {
+      width: '160px',
+    },
+    '& .form-container': {
+      display: 'flex',
+      flexDirection: 'column',
+      flexGrow: 1,
+      justifyContent: 'center',
+    },
+    '& form': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 'var(--spacing-lg)',
+      width: '100%',
+      maxWidth: '420px',
+      margin: '0 auto',
+      padding: 'var(--spacing-xl)',
+      '& h2': {
+        textAlign: 'center',
+        fontSize: '24px',
+        fontWeight: 'bold',
+      },
+    },
+    '& .password': {
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    '& button': {
+      width: '100%',
+    },
+    '& .link': {
+      textAlign: 'center',
+    },
   };
 });
 
@@ -27,11 +72,8 @@ export const StyledForm = styled((props: StyledFormProps) => {
       {children}
     </form>
   );
-})(({ theme }) => {
-  return {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  };
+})(() => {
+  return {};
 });
 
 interface StyledSubmitButton {

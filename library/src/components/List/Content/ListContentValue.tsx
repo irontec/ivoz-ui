@@ -1,17 +1,17 @@
-import { Fade, LinearProgress } from '@mui/material';
+import { Box, Fade, Skeleton } from '@mui/material';
 import { matchRoutes } from 'react-router-dom';
 import { useStoreState } from 'store';
 import {
   FkProperty,
   isPropertyFk,
   PropertySpec,
-  ScalarProperty
+  ScalarProperty,
 } from '../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../services/entity/EntityService';
 import {
   StyledCheckBoxIcon,
   StyledCheckBoxOutlineBlankIcon,
-  StyledTableRowFkLink
+  StyledTableRowFkLink,
 } from './Table/ContentTable.styles';
 
 interface ListContentValueProps {
@@ -72,7 +72,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
           }}
           unmountOnExit
         >
-          <LinearProgress color='inherit' />
+          <Skeleton variant='text' />
         </Fade>
       );
     } else if (row[`${columnName}Link`]) {
@@ -102,10 +102,10 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const prefix = column?.prefix || '';
 
   return (
-    <>
+    <Box component='span' className='cell'>
       {prefix}
       {response}
-    </>
+    </Box>
   );
 };
 

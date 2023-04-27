@@ -20,7 +20,7 @@ const ViewRowButton = (props: EditRowButtonProps): JSX.Element => {
   });
 
   return (
-    <Tooltip title={_('View')} placement='bottom' enterTouchDelay={0}>
+    <Tooltip title={_('View')} placement='bottom' enterTouchDelay={0} arrow>
       <StyledTableRowCta to={`${link}/${row.id}/detailed`}>
         <PanoramaIcon />
       </StyledTableRowCta>

@@ -1,25 +1,39 @@
-import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { useStoreActions } from '../../../../store';
-import { Tooltip } from '@mui/material';
-import ConfirmDialog from '../../../shared/ConfirmDialog';
-import EntityService from '../../../../services/entity/EntityService';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Tooltip } from '@mui/material';
+import { useState } from 'react';
+import EntityService from '../../../../services/entity/EntityService';
 import _ from '../../../../services/translations/translate';
+import { useStoreActions } from '../../../../store';
+import ConfirmDialog from '../../../shared/ConfirmDialog';
+import { LightButton } from '../../../../components/shared/Button/Button.styles';
+import { MoreMenuItem } from '../Shared/MoreChildEntityLinks';
 
 interface DeleteRowsButtonProps {
   entityService: EntityService;
   selectedValues: Array<string | number>;
+  variant?: 'icon' | 'text';
 }
 
 const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
-  const { entityService, selectedValues } = props;
-  const location = useLocation();
+  const { entityService, selectedValues, variant = 'icon' } = props;
+  const disabled = selectedValues.length === 0;
+
   const [showDelete, setShowDelete] = useState<boolean>(false);
+
+  const handleShowDelete = () => {
+    if (disabled) {
+      return;
+    }
+
+    setShowDelete(true);
+  };
+
   const handleHideDelete = (): void => {
     setShowDelete(false);
   };
-  const navigate = useNavigate();
+  const reloadPage = useStoreActions((actions) => {
+    return actions.list.reload;
+  });
   const apiDelete = useStoreActions((actions: any) => {
     return actions.api.delete;
   });
@@ -43,11 +57,8 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
       });
 
       if (resp !== undefined) {
-        const navOptions = { replace: true, preventScrollReset: true };
-        navigate(`${location.pathname}/__reloading`, navOptions);
-        setTimeout(() => {
-          navigate(location.pathname, navOptions);
-        });
+        reloadPage();
+        setShowDelete(false);
       }
     } catch (error: unknown) {
       setShowDelete(false);
@@ -56,11 +67,31 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
 
   return (
     <>
-      <Tooltip title={_('Delete')} placement='bottom' enterTouchDelay={0}>
-        <a>
-          <DeleteIcon onClick={() => setShowDelete(true)} />
-        </a>
-      </Tooltip>
+      {variant === 'text' && (
+        <MoreMenuItem
+          className={disabled ? 'disabled' : ''}
+          onClick={handleShowDelete}
+        >
+          {_('Delete')}
+        </MoreMenuItem>
+      )}
+      {variant === 'icon' && (
+        <Tooltip
+          title={_('Delete')}
+          placement='bottom'
+          enterTouchDelay={0}
+          arrow
+        >
+          <span>
+            <LightButton
+              onClick={handleShowDelete}
+              disabled={selectedValues.length < 1}
+            >
+              <DeleteIcon />
+            </LightButton>
+          </span>
+        </Tooltip>
+      )}
       <ConfirmDialog
         text={`${selectedValues.length} elements will be removed. Are you sure?`}
         open={showDelete}

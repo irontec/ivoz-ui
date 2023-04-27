@@ -15,7 +15,7 @@ class ErrorBoundary extends Component<Props, State> {
     hasError: false,
   };
 
-  public static getDerivedStateFromError(_: Error): State {
+  public static getDerivedStateFromError(): State {
     // Update state so the next render will show the fallback UI.
     return { hasError: true };
   }
@@ -41,8 +41,8 @@ class ErrorBoundary extends Component<Props, State> {
     };
 
     return (
-      <Grid item {...size}>
-        <LinearProgress color={'secondary'} />
+      <Grid item {...size} sx={{ paddingTop: '50px!important' }} id='error'>
+        <LinearProgress color={'error'} />
         &nbsp;
       </Grid>
     );

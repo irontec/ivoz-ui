@@ -3,7 +3,7 @@
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 [ -x $(which yarn) ] && YARN=$(which yarn) || YARN=$(which yarnpkg)
 
-pushd "${SCRIPT_DIR}"/../library
+pushd "${SCRIPT_DIR}"/../
     # Install required dependencies
     $YARN install
 

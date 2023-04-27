@@ -1,8 +1,8 @@
 /* eslint-disable no-script-url */
 
 import queryString from 'query-string';
-import { CriteriaFilterValues } from './Filter/ContentFilter';
 import { KeyValList } from '../../services/api/ParsedApiSpecInterface';
+import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { SearchFilterType } from './Filter/icons/FilterIconFactory';
 
 export const criteriaToArray = (where: CriteriaFilterValues): Array<string> => {
@@ -58,6 +58,16 @@ export const stringToCriteria = (uri = ''): CriteriaFilterValues => {
           value: val,
         });
       }
+
+      continue;
+    }
+
+    if (matches[0] === `${matches[1]}[]`) {
+      criteria.push({
+        name: matches[1],
+        type: 'in',
+        value: value,
+      });
 
       continue;
     }

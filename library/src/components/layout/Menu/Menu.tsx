@@ -1,61 +1,27 @@
-import {
-  Box,
-  Divider,
-  Drawer,
-  Toolbar,
-  useTheme,
-  useMediaQuery,
-} from '@mui/material';
-import { RouteMap } from '../../../router/routeMapParser';
-import MenuBlock from './MenuBlock';
+import { Drawer, useMediaQuery, useTheme } from '@mui/material';
+import MenuContent, { MenuContentProps } from './MenuContent';
+import { useStoreState, useStoreActions } from 'store';
 
-interface menuProps {
-  routeMap: RouteMap;
-}
+export default function Menu(props: MenuContentProps): JSX.Element | null {
+  const desktop = useMediaQuery(useTheme().breakpoints.up('md'));
+  const hidden = useStoreState((state) => state.menu.hidden);
+  const toggleVisibility = useStoreActions(
+    (actions) => actions.menu.toggleVisibility
+  );
 
-export default function Menu(props: menuProps): JSX.Element | null {
-  const { routeMap } = props;
-
-  const theme = useTheme();
-  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
-
-  if (!bigScreen) {
-    return null;
+  if (desktop) {
+    return <MenuContent {...props} />;
   }
-
-  const width = 225;
 
   return (
     <Drawer
-      variant='permanent'
-      sx={{
-        width,
-        flexShrink: 0,
-        [`& .MuiDrawer-paper`]: {
-          width,
-          boxSizing: 'border-box',
-          borderRight: 'none',
-        },
+      anchor='left'
+      open={!hidden}
+      onClose={() => {
+        toggleVisibility();
       }}
     >
-      <Toolbar />
-      <Box sx={{ overflow: 'auto' }}>
-        {routeMap.map((routeMapBlock, key: number) => {
-          const lastItem = key === routeMap.length - 1;
-
-          const styles: Record<string, string> = { paddingLeft: '10px' };
-          if (key === 0) {
-            styles.marginTop = '23px';
-          }
-
-          return (
-            <div key={key} style={styles}>
-              <MenuBlock idx={key} routeMapBlock={routeMapBlock} />
-              {!lastItem && <Divider sx={{ width: '90%' }} />}
-            </div>
-          );
-        })}
-      </Box>
+      <MenuContent {...props} />
     </Drawer>
   );
 }

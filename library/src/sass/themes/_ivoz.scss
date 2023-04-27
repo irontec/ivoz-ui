@@ -1,0 +1,64 @@
+:root {
+  /** COLORS **/
+  --color-primary: #ff664a;
+  --color-primary-rgb: 255, 102, 74;
+  --color-primary-tonal: #fff0ed;
+
+  --color-secondary: #86daf2;
+  --color-secondary-rgb: 134, 218, 242;
+  --color-secondary-tonal: hsl(193, 81%, 95%);
+
+  --color-success: #58d9a2;
+  --color-success-rgb: 88, 217, 162;
+
+  --color-warning: #f8c14a;
+  --color-warning-rgb: 248, 193, 74;
+
+  --color-danger: #e54560;
+  --color-danger-rgb: 229, 69, 96;
+  --color-danger-tonal: hsl(350, 75%, 78%);
+
+  --color-background: #faf9fb;
+  --color-background-elevated: white;
+
+  --color-title: #282828;
+  --color-text: #65676e;
+
+  --color-button: #edeeef;
+
+  --color-border: #e3e5e6;
+
+  /** TEXT **/
+
+  --font-size-primary-title: 20px;
+  --font-size-secondary-title: 18px;
+
+  --font-size-subtitle: 16px;
+
+  --font-size-text: 14px;
+
+  --font-size-menu: 19px;
+  --font-size-submenu: 15px;
+  --font-size-input_label: 13px;
+
+  /** SPACING **/
+
+  --radius-md: 8px;
+  --radius-lg: 12px;
+
+  --spacing-xxl: 40px;
+  --spacing-xl: 32px;
+  --spacing-lg: 24px;
+  --spacing-md: 16px;
+  --spacing-sm: 8px;
+  --spacing-xs: 4px;
+
+  /** SHADOWS **/
+
+  --elevation-1: 0px 0px 5px #a5a5a51f;
+  --elevation-sidemenu: 3px 0px 3px #a5a5a51a;
+
+  /** TRANSITION **/
+
+  --transition-all-1: all 150ms ease-in;
+}

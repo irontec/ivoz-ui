@@ -13,6 +13,7 @@ export type AdministratorPropertyList<T> = {
   name?: T;
   lastname?: T;
   avatar?: T;
+  greeting?: T;
 };
 
 export type AdministratorProperties = AdministratorPropertyList<

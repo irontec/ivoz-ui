@@ -1,12 +1,13 @@
-import { ForeignKeyGetterType } from '@irontec/ivoz-ui/entities/EntityInterface';
 import { autoSelectOptions } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import { UserPropertyList } from './UserProperties';
+import { ForeignKeyGetterType } from '@irontec/ivoz-ui/entities/EntityInterface';
+
 import entities from '../index';
+import { UserPropertyList } from './UserProperties';
 
 export const foreignKeyGetter: ForeignKeyGetterType = async ({
   cancelToken,
   entityService,
-}): Promise<any> => {
+}) => {
   const response: UserPropertyList<unknown> = {};
 
   const promises = autoSelectOptions({

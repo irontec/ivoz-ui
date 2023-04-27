@@ -1,13 +1,15 @@
 import { Alert, AlertTitle } from '@mui/material';
-import { getMarshallerWhiteList } from '../../../components/form.helper';
 import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
+import ErrorBoundary from '../../../components/ErrorBoundary';
+import { getMarshallerWhiteList } from '../../../components/form.helper';
 import SaveButton from '../../../components/shared/Button/SaveButton';
 import ErrorMessage from '../../../components/shared/ErrorMessage';
+import { FilterValuesType } from '../../../router/routeMapParser';
 import {
   DropdownChoices,
+  EmbeddableProperty,
   ScalarEntityValue,
-  ScalarProperty,
   useFormikType,
 } from '../../../services';
 import EntityService, {
@@ -28,8 +30,6 @@ import filterFieldsetGroups, {
 import FormFieldMemo from './FormField';
 import { useFormHandler } from './useFormHandler';
 import { validationErrosToJsxErrorList } from './validationErrosToJsxErrorList';
-import ErrorBoundary from '../../../components/ErrorBoundary';
-import { FilterValuesType } from '../../../router/routeMapParser';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 export type PropertyFkChoices = DropdownChoices;
@@ -114,7 +114,7 @@ const Form: EntityFormType = (props) => {
 
   const mlSubproperties: string[] = [];
   for (const fld of fields) {
-    if ((allProperties[fld] as ScalarProperty)?.multilang) {
+    if ((allProperties[fld] as EmbeddableProperty)?.multilang) {
       for (const propertyName in allProperties) {
         if (propertyName.indexOf(`${fld}.`) === 0) {
           mlSubproperties.push(propertyName);

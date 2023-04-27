@@ -10,7 +10,7 @@ import EntityService, {
 } from '../services/entity/EntityService';
 import React from 'react';
 import { PathMatch } from 'react-router-dom';
-import { EntityFormProps } from './DefaultEntityBehavior';
+import { EntityFormProps, fetchFksType } from './DefaultEntityBehavior';
 import { ActionItem, RouteMapItem } from '../router/routeMapParser';
 import { DropdownChoices, EntityValue } from 'services';
 
@@ -79,8 +79,8 @@ export type EntityAclType = {
 
 export interface ViewProps {
   entityService: EntityService;
-  row: any;
-  groups: any;
+  row: EntityValues;
+  groups?: any;
 }
 export type ViewType = (props: ViewProps) => JSX.Element | null;
 
@@ -99,6 +99,11 @@ export enum OrderDirection {
 
 export type CustomActionsType = Record<string, ActionItem>;
 
+export type DetailedColumnSpec = {
+  name: string;
+  size: number;
+};
+
 export default interface EntityInterface {
   initialValues: any;
   validator: EntityValidator;
@@ -108,11 +113,12 @@ export default interface EntityInterface {
     whitelist?: string[]
   ) => any;
   unmarshaller: (T: any, properties: PartialPropertyList) => any;
-  foreignKeyResolver: foreignKeyResolverType;
-  foreignKeyGetter: ForeignKeyGetterType;
-  selectOptions?: SelectOptionsType;
-  Form: React.FunctionComponent<EntityFormProps>;
-  View: ViewType;
+  fetchFks: fetchFksType;
+  foreignKeyResolver: () => Promise<foreignKeyResolverType>;
+  foreignKeyGetter: () => Promise<ForeignKeyGetterType>;
+  selectOptions?: () => Promise<SelectOptionsType>;
+  Form: () => Promise<React.FunctionComponent<EntityFormProps>>;
+  View: () => Promise<ViewType>;
   ListDecorator: ListDecoratorType;
   ChildDecorator: ChildDecoratorType;
   customActions: CustomActionsType;
@@ -121,10 +127,12 @@ export default interface EntityInterface {
   title: string | JSX.Element;
   path: string;
   localPath?: string;
-  columns: Array<string>;
+  columns: Array<string | DetailedColumnSpec>;
   properties: PartialPropertyList;
   toStr: (row: EntityValues) => string;
   defaultOrderBy: string;
   defaultOrderDirection: OrderDirection;
   icon: React.FunctionComponent;
+  link?: string;
+  deleteDoubleCheck?: boolean;
 }

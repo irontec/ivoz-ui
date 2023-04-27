@@ -1,65 +1,79 @@
-import { TableCell, TableCellProps } from '@mui/material';
-import { styled } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { Table, TableCell, TableCellProps, styled } from '@mui/material';
 import { forwardRef } from 'react';
+import { LightButton } from '../../../../components/shared/Button/Button.styles';
 import HistoryTrackerLink, {
   HistoryTrackerLinkProps,
 } from '../../../../components/shared/HistoryTrackerLink';
+import ContentTable from './ContentTable';
 
 const linkSharedStyles = {
   cursor: 'pointer',
-  color: 'black',
 };
 
-const TableRowLink = forwardRef<any, any>((props, ref) => {
+export const StyledContentTable = styled(ContentTable)(() => {
+  return {
+    width: '100%',
+
+    '& th': {
+      color: 'var(--color-text)',
+      fontWeight: 'normal',
+      fontSize: '15px',
+      whiteSpace: 'nowrap',
+    },
+    '& tbody': {
+      '& tr': {
+        borderTop: '1px solid var(--color-border)',
+      },
+      '& td': {
+        fontSize: '16px',
+      },
+    },
+    '& .MuiTableCell-root': {
+      border: 0,
+      padding: '8px',
+      paddingInline: 'var(--spacing-md)',
+    },
+    '& .actions-cell': {
+      display: 'flex',
+      gap: 'var(--spacing-sm)',
+      justifyContent: 'flex-end',
+    },
+  };
+});
+
+const TableRowLinkButton = forwardRef<any, any>((props, ref) => {
   const { children, className, to, ...rest } = props;
   return (
     <HistoryTrackerLink {...rest} to={to} className={className} ref={ref}>
-      {children}
+      <LightButton>{children}</LightButton>
     </HistoryTrackerLink>
   );
 });
-TableRowLink.displayName = 'TableRowLink';
+TableRowLinkButton.displayName = 'TableRowLinkButton';
 
-export const StyledTableRowCta = styled(TableRowLink)(() => {
+export const StyledTableRowCta = styled(TableRowLinkButton)(() => {
   return {
     ...linkSharedStyles,
     textDecoration: 'none',
-    '& > *': {
-      marginRight: '5px',
-    },
   };
 });
 
-export const StyledTableRowCustomCta = styled('span')(() => {
-  return {
-    '& > a': {
-      ...linkSharedStyles,
-      textDecoration: 'none',
-    },
-    '& > *': {
-      marginRight: '5px',
-    },
-  };
-});
+export const StyledTableRowCustomCta = LightButton;
 
-export const StyledTableRowEntityCta = styled(TableRowLink)(({ theme }) => {
+export const StyledTableRowEntityCta = styled(TableRowLinkButton)(() => {
   return {
     ...linkSharedStyles,
     textDecoration: 'none',
-    color: theme.palette.primary.dark,
-    '& > *': {
-      marginLeft: '5px',
-    },
   };
 });
 
 export const StyledTableRowFkLink = styled((props: HistoryTrackerLinkProps) => {
   const { children, className, to } = props;
   return (
-    <HistoryTrackerLink to={to} className={className}>
+    <HistoryTrackerLink to={to} className={`link ${className}`}>
       {children}
     </HistoryTrackerLink>
   );
@@ -99,6 +113,12 @@ export const StyledCheckBoxOutlineBlankIcon = styled(CheckBoxOutlineBlankIcon)(
 interface TableCellPropsWithKey extends TableCellProps {
   key: string | number;
 }
+
+export const StyledTable = styled(Table)(() => {
+  return {
+    tableLayout: 'auto',
+  };
+});
 
 export const StyledTableCell = styled((props: TableCellPropsWithKey) => {
   const { children, className, key, ...rest } = props;

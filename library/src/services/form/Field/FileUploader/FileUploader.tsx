@@ -19,31 +19,41 @@ import { useStoreActions } from '../../../../store';
 import withCustomComponentWrapper, {
   PropertyCustomFunctionComponentProps,
 } from '../CustomComponentWrapper';
+import { AudioPlayer } from './AudioPlayer';
 
-interface fileProps {
+export interface FileProps {
   file?: File;
   baseName?: string;
   fileSize?: number;
+  mimeType?: string;
 }
 
 interface ChangeEventValues {
   name: string;
-  value: fileProps;
+  value: FileProps;
 }
 
 interface FileUploaderProps<T> extends PropertyCustomFunctionComponentProps<T> {
   downloadPath: string | null;
+  accept?: string;
 }
 
-type FileUploaderPropsType = FileUploaderProps<{ [k: string]: fileProps }>;
+type FileUploaderPropsType = FileUploaderProps<{ [k: string]: FileProps }>;
 
 const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
   props
 ): JSX.Element => {
-  const { _columnName, values, downloadPath, disabled, changeHandler, onBlur } =
-    props;
+  const {
+    _columnName,
+    accept,
+    values,
+    downloadPath,
+    disabled,
+    changeHandler,
+    onBlur,
+  } = props;
 
-  const fileValue = values[_columnName] as fileProps;
+  const fileValue = values[_columnName] as FileProps;
 
   if (!downloadPath) {
     console.error('Empty download path');
@@ -164,53 +174,57 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
   const fileSizeMb = Math.round(((fileSize || 0) / 1024 / 1024) * 10) / 10;
 
   return (
-    <StyledFileUploaderContainer
-      hover={hover}
-      onDrop={handleDrop}
-      onDragEnter={handleDragEnter}
-      onDragLeave={handleDragLeave}
-      onDragOver={handleDragOver}
-    >
-      <input
-        style={{ display: 'none' }}
-        id={id}
-        type='file'
-        onChange={(event) => {
-          const files = event.target.files || [];
-          const value = {
-            ...fileValue,
-            ...{ file: files[0] },
-          };
+    <>
+      <StyledFileUploaderContainer
+        hover={hover}
+        onDrop={handleDrop}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+      >
+        <input
+          style={{ display: 'none' }}
+          id={id}
+          type='file'
+          accept={accept}
+          onChange={(event) => {
+            const files = event.target.files || [];
+            const value = {
+              ...fileValue,
+              ...{ file: files[0] },
+            };
 
-          const changeEvent = {
-            target: {
-              name: _columnName,
-              value: value,
-            },
-          } as ChangeEvent<ChangeEventValues>;
+            const changeEvent = {
+              target: {
+                name: _columnName,
+                value: value,
+              },
+            } as ChangeEvent<ChangeEventValues>;
 
-          changeHandler(changeEvent);
-          onBlur(changeEvent as any);
-        }}
-      />
-      {!disabled && (
-        <StyledUploadButtonContainer>
-          <StyledUploadButtonLabel htmlFor={id}>
-            <Button variant='contained' component='span'>
-              <BackupIcon />
-            </Button>
-          </StyledUploadButtonLabel>
-        </StyledUploadButtonContainer>
-      )}
-      {fileName && (
-        <>
+            changeHandler(changeEvent);
+            onBlur(changeEvent as any);
+          }}
+        />
+        {!disabled && (
+          <StyledUploadButtonContainer>
+            <StyledUploadButtonLabel htmlFor={id}>
+              <Button variant='contained' component='span'>
+                <BackupIcon />
+              </Button>
+            </StyledUploadButtonLabel>
+          </StyledUploadButtonContainer>
+        )}
+        {fileName && (
           <StyledFileNameContainer className={disabled ? 'disabled' : ''}>
             {values.id && <StyledDownloadingIcon onClick={handleDownload} />}
             {fileName} ({fileSizeMb}MB)
           </StyledFileNameContainer>
-        </>
+        )}
+      </StyledFileUploaderContainer>
+      {fileName && (
+        <AudioPlayer downloadPath={downloadPath} metadata={fileValue} />
       )}
-    </StyledFileUploaderContainer>
+    </>
   );
 };
 

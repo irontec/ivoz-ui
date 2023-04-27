@@ -1,7 +1,8 @@
-import { PathMatch } from 'react-router-dom';
 import { useFormikType } from '@irontec/ivoz-ui';
 import { useEffect, useState } from 'react';
+import { PathMatch } from 'react-router-dom';
 import { useStoreActions } from 'store';
+
 import Platform from '../../Platform/Platform';
 import { PlatformPropertyList } from '../../Platform/PlatformProperties';
 
@@ -16,7 +17,7 @@ const useShowRemoteId = (props: useShowRemoteIdProps): boolean => {
   const { create, filterBy, formik, match } = props;
 
   const platformId = filterBy
-    ? (match.params as any).parent_id_1
+    ? (match.params as Record<string, unknown>).parent_id_1
     : formik.values.platform;
 
   const hasPlatformId = platformId !== '';
@@ -36,12 +37,14 @@ const useShowRemoteId = (props: useShowRemoteIdProps): boolean => {
     }
 
     apiGet({
-      path: Platform.path + `/${platformId}`,
+      path: `${Platform.path}/${platformId}`,
       params: {
         _properties: ['type'],
       },
-      successCallback: async (data: PlatformPropertyList<string>) => {
-        setIsRemotePlatform(data.type !== 'other');
+      successCallback: async (data) => {
+        setIsRemotePlatform(
+          (data as PlatformPropertyList<string>).type !== 'other'
+        );
       },
     });
   }, [platformId, create, hasPlatformId, apiGet, setIsRemotePlatform]);

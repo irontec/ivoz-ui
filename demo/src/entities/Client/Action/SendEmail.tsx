@@ -1,6 +1,16 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import {
+  OutlinedButton,
+  SolidButton,
+} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
+import {
+  ActionFunctionComponent,
+  ActionItemProps,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
 import EmailIcon from '@mui/icons-material/Email';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,16 +19,12 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  ActionItemProps,
-} from '@irontec/ivoz-ui/router/routeMapParser';
 import { useStoreActions } from 'store';
+
 import Client from '../Client';
 
 const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row } = props;
+  const { row, variant = 'icon' } = props;
 
   const [open, setOpen] = useState(false);
   const apiPost = useStoreActions((actions) => {
@@ -39,7 +45,7 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
 
   const handleSend = () => {
     apiPost({
-      path: Client.path + `/${row.id}/notify_credentials`,
+      path: `${Client.path}/${row.id}/notify_credentials`,
       values: {},
       contentType: 'text/plain',
     }).then(() => {
@@ -49,13 +55,21 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
 
   return (
     <>
-      <Tooltip
-        title={_('Send email')}
-        placement='bottom-start'
-        enterTouchDelay={0}
-      >
-        <EmailIcon onClick={handleClickOpen} />
-      </Tooltip>
+      {variant === 'text' && (
+        <MoreMenuItem onClick={handleClickOpen}>{_('Send email')}</MoreMenuItem>
+      )}
+      {variant === 'icon' && (
+        <Tooltip
+          title={_('Send email')}
+          placement='bottom-start'
+          enterTouchDelay={0}
+        >
+          <StyledTableRowCustomCta>
+            <EmailIcon onClick={handleClickOpen} color='primary' />
+          </StyledTableRowCustomCta>
+        </Tooltip>
+      )}
+
       <Dialog
         open={open}
         onClose={handleClose}
@@ -72,10 +86,10 @@ const SendEmail: ActionFunctionComponent = (props: ActionItemProps) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSend} autoFocus>
-            Accept
-          </Button>
+          <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
+          <SolidButton onClick={handleSend} autoFocus>
+            Send
+          </SolidButton>
         </DialogActions>
       </Dialog>
     </>

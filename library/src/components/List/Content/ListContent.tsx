@@ -3,16 +3,16 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Box } from '@mui/system';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
-import React, { ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, forwardRef } from 'react';
 import { PathMatch } from 'react-router-dom';
-import EntityInterface from '../../../entities/EntityInterface';
 import { RouteMapItem } from '../../../router/routeMapParser';
 import EntityService from '../../../services/entity/EntityService';
 import ContentCard from './Card/ContentCard';
 import ListContentHeader from './ListContentHeader';
-import ContentTable from './Table/ContentTable';
+import { StyledContentTable } from './Table/ContentTable.styles';
+import useMultiselectState from './Table/hook/useMultiselectState';
 
-interface ListContentProps {
+export interface ListContentProps {
   childEntities: Array<RouteMapItem>;
   path: string;
   entityService: EntityService;
@@ -21,7 +21,7 @@ interface ListContentProps {
   cancelToken: CancelToken;
   match: PathMatch;
   location: Location<Record<string, string> | undefined>;
-  parentEntity: EntityInterface | undefined;
+  className?: string;
 }
 
 const ListContent = (
@@ -37,46 +37,72 @@ const ListContent = (
     cancelToken,
     match,
     location,
-    parentEntity,
+    className,
   } = props;
 
-  const theme = useTheme();
-  const bigScreen = useMediaQuery(theme.breakpoints.up('md'));
+  const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
+
+  const [selectedValues, handleChange, setSelectedValues] =
+    useMultiselectState();
 
   return (
-    <React.Fragment>
-      <ListContentHeader
-        path={path}
-        entityService={entityService}
-        ignoreColumn={ignoreColumn}
-        preloadData={preloadData}
-        cancelToken={cancelToken}
-        match={match}
-        location={location}
-        parentEntity={parentEntity}
-      />
+    <Box className={className}>
+      {mobile && (
+        <ListContentHeader
+          path={path}
+          entityService={entityService}
+          ignoreColumn={ignoreColumn}
+          preloadData={preloadData}
+          cancelToken={cancelToken}
+          match={match}
+          location={location}
+          selectedValues={selectedValues}
+          ref={ref}
+          mobile={true}
+        />
+      )}
+      <Box className='card'>
+        {!mobile && (
+          <ListContentHeader
+            path={path}
+            entityService={entityService}
+            ignoreColumn={ignoreColumn}
+            preloadData={preloadData}
+            cancelToken={cancelToken}
+            match={match}
+            location={location}
+            selectedValues={selectedValues}
+            ref={ref}
+          />
+        )}
 
-      {bigScreen && (
-        <Box>
-          <ContentTable
-            entityService={entityService}
-            ignoreColumn={ignoreColumn}
-            path={path}
-            childEntities={childEntities}
-          />
-        </Box>
-      )}
-      {!bigScreen && (
-        <Box>
-          <ContentCard
-            entityService={entityService}
-            ignoreColumn={ignoreColumn}
-            path={path}
-            childEntities={childEntities}
-          />
-        </Box>
-      )}
-    </React.Fragment>
+        {!mobile && (
+          <Box sx={{ overflowX: 'auto' }}>
+            <StyledContentTable
+              entityService={entityService}
+              ignoreColumn={ignoreColumn}
+              path={path}
+              childEntities={childEntities}
+              selectedValues={selectedValues}
+              handleChange={handleChange}
+              setSelectedValues={setSelectedValues}
+            />
+          </Box>
+        )}
+        {mobile && (
+          <Box>
+            <ContentCard
+              selectedValues={selectedValues}
+              handleChange={handleChange}
+              entityService={entityService}
+              ignoreColumn={ignoreColumn}
+              path={path}
+              childEntities={childEntities}
+            />
+          </Box>
+        )}
+      </Box>
+    </Box>
   );
 };
 

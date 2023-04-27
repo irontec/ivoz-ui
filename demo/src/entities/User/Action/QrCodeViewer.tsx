@@ -1,5 +1,15 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import { SolidButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
-  Button,
+  ActionFunctionComponent,
+  ActionItemProps,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import { QrCode2 } from '@mui/icons-material';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ErrorIcon from '@mui/icons-material/Error';
+import {
   Dialog,
   DialogActions,
   DialogContent,
@@ -8,22 +18,17 @@ import {
   ImageListItem,
   Tooltip,
 } from '@mui/material';
-import ErrorIcon from '@mui/icons-material/Error';
 import { useEffect, useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  ActionItemProps,
-} from '@irontec/ivoz-ui/router/routeMapParser';
-import { QrCode2 } from '@mui/icons-material';
 import { useStoreActions, useStoreState } from 'store';
 
 const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row } = props;
+  const { row, variant = 'icon' } = props;
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | undefined>();
   const [authType, setAuthType] = useState<string | undefined>();
+
+  const disabled = authType !== 'password' ? true : false;
 
   const [img, setImg] = useState<string>();
 
@@ -56,11 +61,15 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   }, [parentClient]);
 
   const handleClickOpen = () => {
+    if (disabled) {
+      return;
+    }
+
     apiDownload({
-      path: entities.User.path + `/${row.id}/login_qr`,
+      path: `${entities.User.path}/${row.id}/login_qr`,
       params: {},
       handleErrors: false,
-      successCallback: async (data: any) => {
+      successCallback: async (data) => {
         blobToBase64(data as Blob)
           .then((img) => {
             setImg(img as string);
@@ -72,7 +81,7 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
             setError(true);
           });
       },
-    }).catch((error: any) => {
+    }).catch((error: { statusText: string; status: number }) => {
       setErrorMsg(`${error.statusText} (${error.status})`);
       setError(true);
     });
@@ -86,15 +95,25 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
     setErrorMsg(undefined);
   };
 
-  if (authType !== 'password') {
-    return null;
-  }
-
   return (
     <>
-      <Tooltip title={_('QrCode')} placement='bottom' enterTouchDelay={0}>
-        <QrCode2 onClick={handleClickOpen} />
-      </Tooltip>
+      {variant === 'text' && (
+        <MoreMenuItem
+          className={disabled ? 'disabled' : ''}
+          onClick={handleClickOpen}
+        >
+          {_('QrCode')}
+        </MoreMenuItem>
+      )}
+      {variant === 'icon' && (
+        <a className={disabled ? 'disabled' : ''}>
+          <Tooltip title={_('QrCode')} placement='bottom' enterTouchDelay={0}>
+            <StyledTableRowCustomCta>
+              <QrCode2 onClick={handleClickOpen} />
+            </StyledTableRowCustomCta>
+          </Tooltip>
+        </a>
+      )}
       {open && (
         <Dialog
           open={open}
@@ -103,11 +122,15 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
-          <DialogTitle id='alert-dialog-title'>QR Code</DialogTitle>
+          <CloseRoundedIcon className='close-icon' onClick={handleClose} />
+          <img src='assets/img/qr-modal.svg' className='modal-icon' />
+
+          <DialogTitle id='alert-dialog-title'>{_('QR Code')}</DialogTitle>
           <DialogContent>
+            <p>{_('Scan the code to log in with user&apos;s credential.')}</p>
             <DialogContentText id='alert-dialog-description'>
               {!error && (
-                <ImageListItem>
+                <ImageListItem sx={{ maxWidth: '200px', marginInline: 'auto' }}>
                   <img src={img} alt={'qr'} />
                 </ImageListItem>
               )}
@@ -123,7 +146,7 @@ const QrCodeViewer: ActionFunctionComponent = (props: ActionItemProps) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
+            <SolidButton onClick={handleClose}>{_('OK')}</SolidButton>
           </DialogActions>
         </Dialog>
       )}

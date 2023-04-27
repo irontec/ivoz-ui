@@ -1,0 +1,41 @@
+.MuiDialog-paper {
+  padding: var(--spacing-xl);
+  border-radius: 12px;
+  position: relative;
+
+  .close-icon {
+    color: #b2b3b6;
+    position: absolute;
+    top: var(--spacing-md);
+    right: var(--spacing-md);
+    cursor: pointer;
+  }
+
+  .modal-icon {
+    width: 50px;
+    margin-inline: auto;
+  }
+
+  h2 {
+    text-align: center;
+  }
+
+  .MuiDialogContent-root {
+    text-align: center;
+  }
+
+  pre {
+    background: var(--color-background);
+    padding: var(--spacing-md);
+    text-align: initial;
+  }
+
+  .MuiDialogActions-root {
+    display: flex;
+    justify-content: center;
+
+    button {
+      flex-grow: 1;
+    }
+  }
+}

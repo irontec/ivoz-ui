@@ -1,8 +1,13 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
 import {
   ActionFunctionComponent,
   isSingleRowAction,
   MultiSelectActionItemProps,
 } from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import ErrorIcon from '@mui/icons-material/Error';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import {
   Button,
   Dialog,
@@ -17,18 +22,18 @@ import {
   SelectChangeEvent,
   Tooltip,
 } from '@mui/material';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import ErrorIcon from '@mui/icons-material/Error';
-import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
+
 import user from '../User';
-import { useNavigate, useLocation } from 'react-router-dom';
 
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps
 ) => {
-  const { selectedValues, style } = props;
+  const { selectedValues = [], variant = 'icon' } = props;
+  const disabled = selectedValues.length === 0;
+
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -46,6 +51,10 @@ const UpdateLicenses: ActionFunctionComponent = (
   };
 
   const handleClickOpen = () => {
+    if (disabled) {
+      return;
+    }
+
     setOpen(true);
   };
 
@@ -55,9 +64,9 @@ const UpdateLicenses: ActionFunctionComponent = (
   };
 
   const handleUpdate = () => {
-    const path =
-      user.path +
-      `/${selectedValues.join(';')}/switch_licenses?type=${licensesValue}`;
+    const path = `${user.path}/${selectedValues.join(
+      ';'
+    )}/switch_licenses?type=${licensesValue}`;
     const resp = apiPost({
       path,
       values: {},
@@ -74,47 +83,57 @@ const UpdateLicenses: ActionFunctionComponent = (
           });
         }
       })
-      .catch((error: any) => {
-        const errorMsg =
-          error?.data?.detail ?? `${error.statusText} (${error.status})`;
-        setErrorMsg(errorMsg);
-        setError(true);
-      });
+      .catch(
+        (error: {
+          statusText: string;
+          status: number;
+          data?: Record<string, string>;
+        }) => {
+          const errorMsg =
+            error?.data?.detail ?? `${error.statusText} (${error.status})`;
+          setErrorMsg(errorMsg);
+          setError(true);
+        }
+      );
   };
 
   if (isSingleRowAction(props)) {
-    return null;
+    return <span className='display-none'></span>;
   }
 
   return (
     <>
-      <span style={style} onClick={handleClickOpen}>
-        <Tooltip
-          title={_('Change Licences')}
-          placement='bottom'
-          enterTouchDelay={0}
-        >
-          <ReceiptLongIcon />
-        </Tooltip>
+      <span className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
+        {variant === 'text' && (
+          <MoreMenuItem onClick={handleClickOpen}>
+            {_('Change Licences')}
+          </MoreMenuItem>
+        )}
+        {variant === 'icon' && (
+          <Tooltip
+            title={_('Change Licences')}
+            placement='bottom'
+            enterTouchDelay={0}
+          >
+            <StyledTableRowCustomCta>
+              <ReceiptLongIcon />
+            </StyledTableRowCustomCta>
+          </Tooltip>
+        )}
       </span>
       {open && (
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          keepMounted
-          aria-labelledby='alert-dialog-title'
-          aria-describedby='alert-dialog-description'
-        >
-          <DialogTitle id='alert-dialog-title'>Change licence to:</DialogTitle>
+        <Dialog open={open} onClose={handleClose} keepMounted>
+          <DialogTitle>Change licence to:</DialogTitle>
           <DialogContent>
-            <DialogContentText id='alert-dialog-description'>
+            <DialogContentText>
               {!error && (
-                <FormControl sx={{ margin: 1, minWidth: 120 }}>
-                  <Select
-                    id='demo-simple-select'
-                    value={licensesValue}
-                    onChange={handleChange}
-                  >
+                <FormControl
+                  sx={{
+                    margin: 1,
+                    minWidth: 120,
+                  }}
+                >
+                  <Select value={licensesValue} onChange={handleChange}>
                     <MenuItem value={'no'}>None</MenuItem>
                     <MenuItem value={'desktop'}>Desktop</MenuItem>
                     <MenuItem value={'mobile'}>Mobile</MenuItem>
@@ -127,7 +146,11 @@ const UpdateLicenses: ActionFunctionComponent = (
               )}
               {error && (
                 <span>
-                  <ErrorIcon sx={{ verticalAlign: 'bottom' }} />
+                  <ErrorIcon
+                    sx={{
+                      verticalAlign: 'bottom',
+                    }}
+                  />
                   {errorMsg ?? 'There was a problem'}
                 </span>
               )}

@@ -5,7 +5,9 @@ const modules = import.meta.glob(
   [
     './*/*.tsx',
     '!./*/foreignKeyGetter.tsx',
+    '!./*/ForeignKeyGetter.tsx',
     '!./*/foreignKeyResolver.tsx',
+    '!./*/ForeignKeyResolver.tsx',
     '!./*/Form.tsx',
     '!./*/View.tsx',
     '!./*/*Properties.tsx',
@@ -16,6 +18,7 @@ const entities: EntityList = {};
 
 const pathToEntityName = (path: string): string => {
   const fileName = path.split('/').pop() as string;
+
   return fileName.replace('.tsx', '');
 };
 

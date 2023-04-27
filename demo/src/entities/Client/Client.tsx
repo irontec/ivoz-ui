@@ -1,15 +1,12 @@
-import ApartmentIcon from '@mui/icons-material/Apartment';
-import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
 import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import selectOptions from './SelectOptions';
-import Form from './Form';
-import { foreignKeyGetter } from './ForeignKeyGetter';
-import { ClientProperties, ClientPropertyList } from './ClientProperties';
-import foreignKeyResolver from './ForeignKeyResolver';
-import RemoteId from './Field/RemoteId';
-import Actions from './Action';
+import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import { EntityValue } from '@irontec/ivoz-ui/services';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import ApartmentIcon from '@mui/icons-material/Apartment';
+
+import Actions from './Action';
+import { ClientProperties, ClientPropertyList } from './ClientProperties';
+import RemoteId from './Field/RemoteId';
 
 const properties: ClientProperties = {
   iden: {
@@ -26,7 +23,8 @@ const properties: ClientProperties = {
     ),
   },
   language: {
-    label: _('language'),
+    label: _('Language'),
+    helpText: 'Select one',
   },
   desktopLicences: {
     label: _('Desktop licences'),
@@ -111,6 +109,7 @@ const properties: ClientProperties = {
 const client: EntityInterface = {
   ...defaultEntityBehavior,
   icon: ApartmentIcon,
+  link: 'https://halliday-test.irontec.com/doc/en/administration_portal/client/vpbx/index.html',
   iden: 'Client',
   title: 'Clients',
   path: '/clients',
@@ -118,17 +117,33 @@ const client: EntityInterface = {
   toStr: (row: ClientPropertyList<EntityValue>) => row.iden as string,
   properties,
   columns: [
-    'iden',
-    'platform',
-    'desktopLicences',
-    'mobileLicences',
-    'language',
+    { name: 'iden', size: 20 },
+    { name: 'platform', size: 20 },
+    { name: 'desktopLicences', size: 20 },
+    { name: 'mobileLicences', size: 20 },
+    { name: 'language', size: 20 },
   ],
   customActions: Actions,
-  selectOptions,
-  foreignKeyResolver,
-  foreignKeyGetter,
-  Form,
+  selectOptions: async () => {
+    const module = await import('./SelectOptions');
+
+    return module.default;
+  },
+  foreignKeyResolver: async () => {
+    const module = await import('./ForeignKeyResolver');
+
+    return module.default;
+  },
+  foreignKeyGetter: async () => {
+    const module = await import('./ForeignKeyGetter');
+
+    return module.foreignKeyGetter;
+  },
+  Form: async () => {
+    const module = await import('./Form');
+
+    return module.default;
+  },
 };
 
 export default client;

@@ -1,7 +1,7 @@
 /* eslint-disable no-script-url */
 
 import { useState, useEffect } from 'react';
-import { CriteriaFilterValues } from './Filter/ContentFilter';
+import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, stringToCriteria } from './List.helpers';
 
 const useQueryStringParams = function (): Array<string> {

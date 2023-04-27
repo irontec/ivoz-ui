@@ -1,6 +1,19 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import {
+  OutlinedButton,
+  SolidButton,
+} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
+import {
+  ActionFunctionComponent,
+  CustomActionProps,
+  isMultiSelectAction,
+  isSingleRowAction,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import EmailIcon from '@mui/icons-material/Email';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -9,28 +22,23 @@ import {
   Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  CustomActionProps,
-  isSingleRowAction,
-  isMultiSelectAction,
-} from '@irontec/ivoz-ui/router/routeMapParser';
 import { useStoreActions } from 'store';
+
 import User from '../User';
 import { UserPropertiesList, UserPropertyList } from '../UserProperties';
 
 interface SendEmailProps {
-  style: Record<string, string | number>;
   error: boolean;
   children: JSX.Element;
   targetId: string;
   open: boolean;
+  variant?: 'text' | 'icon';
   setOpen: (open: boolean) => void;
+  disabled: boolean;
 }
 
 const SendEmail = (props: SendEmailProps) => {
-  const { style, error, children, targetId } = props;
+  const { error, children, targetId, variant = 'icon', disabled } = props;
   const { open, setOpen } = props;
 
   const apiPost = useStoreActions((actions) => {
@@ -38,6 +46,9 @@ const SendEmail = (props: SendEmailProps) => {
   });
 
   const handleClickOpen = () => {
+    if (disabled) {
+      return;
+    }
     setOpen(true);
   };
 
@@ -47,7 +58,7 @@ const SendEmail = (props: SendEmailProps) => {
 
   const handleSend = () => {
     apiPost({
-      path: User.path + `/${targetId}/notify_credentials`,
+      path: `${User.path}/${targetId}/notify_credentials`,
       values: {},
       contentType: 'text/plain',
     }).then(() => {
@@ -55,17 +66,26 @@ const SendEmail = (props: SendEmailProps) => {
     });
   };
 
+  const dialogIcon = error
+    ? 'assets/img/error-dialog.svg'
+    : 'assets/img/send-dialog.svg';
+
   return (
     <>
-      <span style={style} onClick={handleClickOpen}>
-        <Tooltip
-          title={_('Send email')}
-          placement='bottom-start'
-          enterTouchDelay={0}
-        >
-          <EmailIcon />
-        </Tooltip>
-      </span>
+      <a className={disabled ? 'disabled' : ''} onClick={handleClickOpen}>
+        {variant === 'text' && <MoreMenuItem>{_('Send email')}</MoreMenuItem>}
+        {variant === 'icon' && (
+          <Tooltip
+            title={_('Send email')}
+            placement='bottom-start'
+            enterTouchDelay={0}
+          >
+            <StyledTableRowCustomCta>
+              <EmailIcon />
+            </StyledTableRowCustomCta>
+          </Tooltip>
+        )}
+      </a>
       {open && (
         <Dialog
           open={open}
@@ -73,6 +93,8 @@ const SendEmail = (props: SendEmailProps) => {
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
+          <CloseRoundedIcon className='close-icon' onClick={handleClose} />
+          <img src={dialogIcon} className='modal-icon' />
           <DialogTitle id='alert-dialog-title'>
             {'Send user credentials notification email?'}
           </DialogTitle>
@@ -85,13 +107,15 @@ const SendEmail = (props: SendEmailProps) => {
             {!error && children}
           </DialogContent>
           <DialogActions>
-            {error && <Button onClick={handleClose}>Close</Button>}
+            {error && (
+              <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
+            )}
             {!error && (
               <>
-                <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleSend} autoFocus>
-                  Accept
-                </Button>
+                <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
+                <SolidButton onClick={handleSend} autoFocus>
+                  Send
+                </SolidButton>
               </>
             )}
           </DialogActions>
@@ -104,17 +128,19 @@ const SendEmail = (props: SendEmailProps) => {
 const SendEmailWrapper: ActionFunctionComponent = (
   props: CustomActionProps
 ) => {
+  const { variant } = props;
   const [open, setOpen] = useState(false);
 
+  let disabled = false;
   if (isSingleRowAction(props)) {
     const { row } = props;
 
     if (row.enabled === 'no') {
-      return null;
+      disabled = true;
     }
 
     if (!row.email) {
-      return null;
+      disabled = true;
     }
 
     const targetId = row.id;
@@ -122,7 +148,8 @@ const SendEmailWrapper: ActionFunctionComponent = (
 
     return (
       <SendEmail
-        style={{}}
+        disabled={disabled}
+        variant={variant}
         error={error}
         targetId={targetId}
         open={open}
@@ -134,8 +161,9 @@ const SendEmailWrapper: ActionFunctionComponent = (
         </DialogContentText>
       </SendEmail>
     );
-  } else if (isMultiSelectAction(props)) {
-    const { rows, selectedValues, style } = props;
+  }
+  if (isMultiSelectAction(props)) {
+    const { rows, selectedValues } = props;
 
     const selectedUsers = selectedValues.map((id: string) => {
       return (rows as UserPropertiesList).find(
@@ -152,11 +180,12 @@ const SendEmailWrapper: ActionFunctionComponent = (
     const targetId = (validSelectedUsers as Array<UserPropertyList<string>>)
       .map((user) => user?.id)
       .join(';');
-    const error = validSelectedUsers.length == 0;
+    const error = validSelectedUsers.length === 0;
 
     return (
       <SendEmail
-        style={style}
+        disabled={disabled || selectedUsers.length === 0}
+        variant={variant}
         error={error}
         targetId={targetId}
         open={open}
@@ -175,14 +204,21 @@ const SendEmailWrapper: ActionFunctionComponent = (
             {validSelectedUsers.map((user, idx) => {
               return (
                 <span key={idx}>
-                  <strong>{user?.iden}</strong>
+                  <strong>
+                    {user?.iden} ({user?.email})
+                  </strong>
                   <br />
                 </span>
               );
             })}
           </span>
           {skipped > 0 && (
-            <span style={{ display: 'block', marginTop: '10px' }}>
+            <span
+              style={{
+                display: 'block',
+                marginTop: '10px',
+              }}
+            >
               <strong>{skipped} skipped user(s)</strong> (not enabled or no
               email address).
             </span>

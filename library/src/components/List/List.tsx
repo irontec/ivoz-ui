@@ -1,31 +1,35 @@
 /* eslint-disable no-script-url */
 
-import { useState, useEffect, createRef } from 'react';
-import { useStoreActions, useStoreState } from '../../store';
+import { createRef, useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import ErrorBoundary from '../../components/ErrorBoundary';
+import { foreignKeyResolverType } from '../../entities/EntityInterface';
+import useCancelToken from '../../hooks/useCancelToken';
+import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
+import findRoute from '../../router/findRoute';
+import { RouteMap } from '../../router/routeMapParser';
 import EntityService from '../../services/entity/EntityService';
-import { CriteriaFilterValues } from './Filter/ContentFilter';
+import { useStoreActions, useStoreState } from '../../store';
+import ErrorMessage from '../shared/ErrorMessage';
+import { ListContent } from './Content/';
+import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
-import ListContent from './Content/ListContent';
 import Pagination from './Pagination';
 import useQueryStringParams from './useQueryStringParams';
-import useCancelToken from '../../hooks/useCancelToken';
-import { RouteMap } from '../../router/routeMapParser';
-import { foreignKeyResolverType } from '../../entities/EntityInterface';
-import findRoute, { findParentEntity } from '../../router/findRoute';
-import ErrorMessage from '../shared/ErrorMessage';
-import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
-import ErrorBoundary from '../../components/ErrorBoundary';
+import { Box, useMediaQuery, useTheme } from '@mui/material';
+import _ from '../../services/translations/translate';
 
 type ListProps = {
   path: string;
   routeMap: RouteMap;
   entityService: EntityService;
-  foreignKeyResolver: foreignKeyResolverType;
+  foreignKeyResolver: () => Promise<foreignKeyResolverType>;
+  className?: string;
 };
 
 const List = function (props: ListProps) {
-  const { path, foreignKeyResolver, entityService, routeMap } = props;
+  const { path, foreignKeyResolver, entityService, routeMap, className } =
+    props;
   const listRef = createRef();
 
   const location = useLocation();
@@ -34,8 +38,8 @@ const List = function (props: ListProps) {
   const navigate = useNavigate();
 
   const currentRoute = findRoute(routeMap, match);
-  const parentEntity = findParentEntity(routeMap, match);
 
+  const reloadTimestamp = useStoreState((store) => store.list.reloadTimestamp);
   const resetList = useStoreActions((actions: any) => {
     return actions.list.reset;
   });
@@ -227,22 +231,24 @@ const List = function (props: ListProps) {
         }
 
         setRows(data);
-        foreignKeyResolver({
-          data,
-          allowLinks: true,
-          entityService,
-          cancelToken,
-        }).then((data: any) => {
-          if (!mounted) {
-            return;
-          }
+        foreignKeyResolver().then((foreignKeyResolver) => {
+          foreignKeyResolver({
+            data,
+            allowLinks: true,
+            entityService,
+            cancelToken,
+          }).then((data: any) => {
+            if (!mounted) {
+              return;
+            }
 
-          const fixedData = [];
-          for (const idx in data) {
-            fixedData.push(data[idx]);
-          }
+            const fixedData = [];
+            for (const idx in data) {
+              fixedData.push(data[idx]);
+            }
 
-          setRows(fixedData);
+            setRows(fixedData);
+          });
         });
       },
     });
@@ -257,7 +263,10 @@ const List = function (props: ListProps) {
     filterByStr,
     cancelToken,
     mounted,
+    reloadTimestamp,
   ]);
+
+  const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
 
   if (prevPath !== path) {
     return null;
@@ -268,22 +277,31 @@ const List = function (props: ListProps) {
   }
 
   return (
-    <ErrorBoundary>
-      <ListContent
-        ref={listRef}
-        childEntities={currentRoute?.children || []}
-        path={path}
-        ignoreColumn={filterBy[0]}
-        preloadData={currentQueryParams.length > 0}
-        entityService={entityService}
-        cancelToken={cancelToken}
-        match={match}
-        location={location}
-        parentEntity={parentEntity}
-      />
-      <Pagination listRef={listRef} />
-      {reqError && <ErrorMessage message={reqError} />}
-    </ErrorBoundary>
+    <div className={className}>
+      <ErrorBoundary>
+        <ListContent
+          childEntities={currentRoute?.children || []}
+          path={path}
+          ignoreColumn={filterBy[0]}
+          preloadData={currentQueryParams.length > 0}
+          entityService={entityService}
+          cancelToken={cancelToken}
+          match={match}
+          location={location}
+        />
+        <Box component={'footer'}>
+          {mobile && (
+            <a href='' className='link'>
+              {_('Select all')}
+            </a>
+          )}
+          <Box className='pagination'>
+            <Pagination listRef={listRef} />
+          </Box>
+        </Box>
+        {reqError && <ErrorMessage message={reqError} />}
+      </ErrorBoundary>
+    </div>
   );
 };
 

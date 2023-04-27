@@ -15,11 +15,7 @@ const _Chip = forwardRef<any, any>((props, ref) => {
 });
 _Chip.displayName = '_Chip';
 
-export const StyledChip = styled(_Chip)(() => {
-  return {
-    margin: '0 5px 5px',
-  };
-});
+export const StyledChip = _Chip;
 
 const _ChipIcon = (props: any) => {
   const { children, className, fieldName } = props;

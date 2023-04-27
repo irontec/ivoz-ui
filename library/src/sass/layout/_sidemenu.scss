@@ -1,0 +1,163 @@
+.sidemenu {
+  background-color: var(--color-background-elevated);
+  width: 300px;
+  color: var(--color-text);
+  z-index: 2;
+  transition: var(--transition-all-1);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+  box-shadow: var(--elevation-sidemenu);
+
+  overflow: hidden;
+
+  height: 100%;
+
+  .menu-header {
+    padding: var(--spacing-md);
+    display: flex;
+    justify-content: space-between;
+
+    img {
+      transition: var(--transition-all-1);
+      height: 40px;
+    }
+  }
+
+  > .MuiListItemButton-root,
+  > div > .MuiListItemButton-root {
+    background: none;
+    padding-block: var(--spacing-xs);
+    padding-inline-start: var(--spacing-xl);
+    flex-grow: 0;
+    span {
+      font-size: 1rem;
+    }
+  }
+
+  > .MuiListItemButton-root.Mui-selected,
+  > div:has(.Mui-selected) > .MuiListItemButton-root {
+    color: var(--color-primary);
+    position: relative;
+
+    &::after {
+      content: '';
+      width: 10px;
+      height: 100%;
+      background: currentColor;
+      position: absolute;
+      right: 0;
+      border-radius: var(--radius-md) 0 0 var(--radius-md);
+    }
+
+    &:hover {
+      background: none;
+    }
+
+    .MuiTypography-root {
+      font-weight: bold;
+    }
+  }
+
+  > div > .MuiCollapse-vertical {
+    border-inline-start: 1px solid var(--color-border);
+    margin-inline-start: 44px;
+
+    padding-inline-end: var(--spacing-md);
+    padding-inline-start: var(--spacing-xxl);
+
+    transition: var(--transition-all-1) !important;
+  }
+
+  .MuiCollapse-vertical {
+    .MuiListItemIcon-root {
+      display: none;
+    }
+
+    .MuiListItemText-root {
+      transition: var(--transition-all-1);
+    }
+
+    .MuiListItemButton-root {
+      border-radius: var(--radius-md);
+      background: none;
+      margin-block: var(--spacing-sm);
+    }
+
+    .Mui-selected {
+      color: var(--color-primary);
+      background-color: var(--color-primary-tonal);
+    }
+  }
+
+  .Mui-selected .MuiTypography-root {
+    font-weight: bold;
+  }
+
+  .MuiListItemIcon-root {
+    color: currentColor;
+  }
+
+  .logo {
+    flex-grow: 1;
+    display: flex;
+    align-items: flex-end;
+    padding: var(--spacing-md);
+    color: #bebebe;
+
+    svg {
+      height: 12px;
+    }
+  }
+
+  &.collapsed {
+    width: 90px;
+
+    .menu-header {
+      img {
+        height: 0px;
+      }
+
+      button {
+        margin-right: 9px;
+      }
+    }
+
+    .MuiCollapse-vertical {
+      .MuiButtonBase-root {
+        justify-content: center;
+      }
+      .MuiListItemIcon-root {
+        display: block;
+        opacity: 0.7;
+
+        min-width: auto;
+        margin-block: 4px;
+
+        line-height: 1;
+        svg {
+          font-size: 18px;
+        }
+      }
+
+      .MuiListItemText-root {
+        opacity: 0;
+        display: none;
+      }
+    }
+
+    > div > .MuiCollapse-vertical {
+      border-inline-start: 0px solid transparent;
+      margin-inline-start: 0;
+
+      padding-inline-end: var(--spacing-md);
+      padding-inline-start: var(--spacing-md);
+    }
+
+    .MuiListItemText-root {
+      width: 0;
+      overflow: hidden;
+    }
+  }
+}

@@ -23,13 +23,14 @@ export interface ActionItemProps {
   row: Record<string, any>;
   entityService: EntityService;
   match: PathMatch;
+  variant?: 'icon' | 'text';
 }
 
 export interface MultiSelectActionItemProps {
   rows: Array<Record<string, any>>;
   selectedValues: Array<string>;
   entityService: EntityService;
-  style: Record<string, string | number>;
+  variant?: 'icon' | 'text';
 }
 
 export type CustomActionProps = ActionItemProps | MultiSelectActionItemProps;
@@ -67,6 +68,12 @@ export type RouteMapBlock<T extends RouteMapItem = RouteMapItem> = {
   children: Array<T>;
 };
 
+export const isRouteMapBlock = (
+  property: RouteMapBlock | RouteMapItem
+): property is RouteMapBlock => {
+  return (property as RouteMapBlock).label !== undefined;
+};
+
 export const isEntityItem = (
   property: RouteMapItem
 ): property is EntityItem => {
@@ -91,7 +98,7 @@ export const isSingleRowActionItem = (
 };
 
 export type RouteMap<T extends RouteMapItem = RouteMapItem> = Array<
-  RouteMapBlock<T>
+  T | RouteMapBlock<T>
 >;
 const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(
   item: T,
@@ -103,7 +110,7 @@ const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(
   }
 
   if (!isEntityItem(item)) {
-    throw 'unkown item type';
+    throw 'unknown item type';
   }
 
   if (item.children && item.children.length) {
@@ -129,7 +136,8 @@ const RouteMapItemParser = <T extends RouteMapItem = RouteMapItem>(
     };
   }
 
-  const path = item.entity?.localPath || item.entity?.path;
+  const path =
+    (item as EntityItem).entity?.localPath || (item as EntityItem).entity?.path;
 
   return {
     ...item,
@@ -141,14 +149,23 @@ const routeMapParser = <T extends RouteMapItem = RouteMapItem>(
   map: RouteMap<T>
 ): RouteMap<T> => {
   const resp = map.map((block) => {
-    const children = block.children?.map((item: T) => {
-      return RouteMapItemParser<T>(item);
-    });
+    let children: Array<T> = [];
+    if (isRouteMapBlock(block)) {
+      children = block.children?.map((item: T) => {
+        return RouteMapItemParser<T>(item);
+      });
 
-    return {
-      ...block,
-      children,
-    };
+      return {
+        ...block,
+        children,
+      };
+    }
+
+    if (isEntityItem(block)) {
+      return RouteMapItemParser<T>(block);
+    }
+
+    return block;
   });
 
   return resp;

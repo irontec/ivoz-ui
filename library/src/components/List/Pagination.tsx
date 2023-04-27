@@ -6,7 +6,7 @@ import * as locales from '@mui/material/locale';
 import { getI18n } from 'react-i18next';
 import { useStoreState, useStoreActions } from '../../store';
 import { ROUTE_ITEMS_PER_PAGE_KEY, ROUTE_PAGE_KEY } from '../../store/route';
-import { CriteriaFilterValue } from './Filter/ContentFilter';
+import { CriteriaFilterValue } from './Filter/ContentFilterDialog';
 
 interface ContentTablePaginationProps {
   listRef: RefObject<any>;
@@ -19,14 +19,11 @@ export default function Pagination(
 
   const loading = useStoreState((state) => state.api.loading);
   const itemsPerPage = useStoreState((state) => state.route.itemsPerPage);
-
   const headers = useStoreState((state) => state.list.headers);
+  const page = useStoreState((state) => state.route.page);
+  const i18n = getI18n();
 
   const recordCount = parseInt(headers['x-total-items'] ?? 0, 10);
-
-  const page = useStoreState((state) => state.route.page);
-
-  const i18n = getI18n();
   const locale = i18n.language.replace('-', '');
 
   const replaceInQueryStringCriteria = useStoreActions((actions) => {

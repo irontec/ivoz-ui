@@ -2,10 +2,17 @@ import routeMapParser, {
   RouteMap,
   RouteMapItem,
 } from '@irontec/ivoz-ui/router/routeMapParser';
+
 import entities from '../entities/index';
 
 const getEntityMap = (): RouteMap => {
   const map: RouteMap = [
+    {
+      entity: entities.Blank,
+    },
+    {
+      entity: entities.Blank2,
+    },
     {
       label: 'Instances',
       children: [

@@ -1,13 +1,13 @@
-import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
-import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
+import { PartialPropertyList } from '@irontec/ivoz-ui';
 import defaultEntityBehavior, {
   MarshallerValues,
 } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import { AdministratorProperties } from './AdministratorProperties';
-import Form from './Form';
+import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import { EntityValues } from '@irontec/ivoz-ui/services/entity/EntityService';
-import { PartialPropertyList } from '@irontec/ivoz-ui';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
+import { AdministratorProperties } from './AdministratorProperties';
 
 const properties: AdministratorProperties = {
   username: {
@@ -33,6 +33,12 @@ const properties: AdministratorProperties = {
   avatar: {
     label: _('Logo'),
     type: 'file',
+    accept: 'image/*',
+  },
+  greeting: {
+    label: _('Greeting'),
+    type: 'file',
+    accept: '.mp3, audio/*',
   },
 };
 
@@ -44,7 +50,11 @@ const administrator: EntityInterface = {
   path: '/administrators',
   properties,
   toStr: (row: EntityValues) => row?.username as string | '',
-  Form,
+  Form: async () => {
+    const module = await import('./Form');
+
+    return module.default;
+  },
   marshaller: (
     values: MarshallerValues,
     properties: PartialPropertyList

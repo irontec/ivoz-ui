@@ -1,15 +1,16 @@
-import CastleIcon from '@mui/icons-material/Castle';
-import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
 import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import selectOptions from './SelectOptions';
-import Form from './Form';
-import { PlatformProperties, PlatformPropertyList } from './PlatformProperties';
+import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
 import { EntityValue } from '@irontec/ivoz-ui/services';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import CastleIcon from '@mui/icons-material/Castle';
+
+import { PlatformProperties, PlatformPropertyList } from './PlatformProperties';
 
 const properties: PlatformProperties = {
   name: {
     label: _('Name'),
+    prefix: <CastleIcon />,
+    suffix: <CastleIcon />,
   },
   type: {
     label: _('Type'),
@@ -70,15 +71,29 @@ const properties: PlatformProperties = {
 const platform: EntityInterface = {
   ...defaultEntityBehavior,
   icon: CastleIcon,
+  link: 'https://halliday-test.irontec.com/doc/en/administration_portal/platform/brands.html',
   iden: 'Platform',
   title: 'Platforms',
   path: '/platforms',
   defaultOrderBy: '',
   toStr: (row: PlatformPropertyList<EntityValue>) => row.name as string,
   properties,
-  columns: ['name', 'type', 'features'],
-  selectOptions,
-  Form,
+  columns: [
+    { name: 'name', size: 33 },
+    { name: 'type', size: 33 },
+    { name: 'features', size: 34 },
+  ],
+  selectOptions: async () => {
+    const module = await import('./SelectOptions');
+
+    return module.default;
+  },
+  Form: async () => {
+    const module = await import('./Form');
+
+    return module.default;
+  },
+  deleteDoubleCheck: true,
 };
 
 export default platform;

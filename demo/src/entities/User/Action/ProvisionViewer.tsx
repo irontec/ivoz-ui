@@ -1,5 +1,15 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import { SolidButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
-  Button,
+  ActionFunctionComponent,
+  ActionItemProps,
+} from '@irontec/ivoz-ui/router/routeMapParser';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import ContactPageIcon from '@mui/icons-material/ContactPage';
+import ErrorIcon from '@mui/icons-material/Error';
+import {
   Dialog,
   DialogActions,
   DialogContent,
@@ -7,19 +17,13 @@ import {
   DialogTitle,
   Tooltip,
 } from '@mui/material';
-import ErrorIcon from '@mui/icons-material/Error';
 import { useState } from 'react';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import {
-  ActionFunctionComponent,
-  ActionItemProps,
-} from '@irontec/ivoz-ui/router/routeMapParser';
-import ContactPageIcon from '@mui/icons-material/ContactPage';
 import { useStoreActions } from 'store';
+
 import User from '../User';
 
 const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
-  const { row } = props;
+  const { row, variant = 'icon' } = props;
   const [open, setOpen] = useState(false);
   const [error, setError] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -34,7 +38,7 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
 
   const handleClickOpen = () => {
     apiGet({
-      path: User.path + `/${row.id}`,
+      path: `${User.path}/${row.id}`,
       params: {},
       successCallback: async (user) => {
         const formData = {
@@ -48,10 +52,10 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           contentType: 'application/x-www-form-urlencoded',
           silenceErrors: true,
         })
-          .then((data: any) => {
+          .then((data: { data: string }) => {
             setProvision(data.data);
           })
-          .catch((error: any) => {
+          .catch((error: { statusText: string; status: number }) => {
             setErrorMsg(`${error.statusText} (${error.status})`);
             setError(true);
           });
@@ -71,9 +75,16 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
 
   return (
     <>
-      <Tooltip title={_('Provision')} placement='bottom' enterTouchDelay={0}>
-        <ContactPageIcon onClick={handleClickOpen} />
-      </Tooltip>
+      {variant === 'text' && (
+        <MoreMenuItem onClick={handleClickOpen}>{_('Provision')}</MoreMenuItem>
+      )}
+      {variant === 'icon' && (
+        <Tooltip title={_('Provision')} placement='bottom' enterTouchDelay={0}>
+          <StyledTableRowCustomCta>
+            <ContactPageIcon onClick={handleClickOpen} />
+          </StyledTableRowCustomCta>
+        </Tooltip>
+      )}
       {open && (
         <Dialog
           open={open}
@@ -82,14 +93,12 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
           aria-labelledby='alert-dialog-title'
           aria-describedby='alert-dialog-description'
         >
+          <CloseRoundedIcon className='close-icon' onClick={handleClose} />
+          <img src='assets/img/qr-modal.svg' className='modal-icon' />
           <DialogTitle id='alert-dialog-title'>Provision User</DialogTitle>
           <DialogContent>
             <DialogContentText id='alert-dialog-description'>
-              {!error && (
-                <div>
-                  <pre>{provision}</pre>
-                </div>
-              )}
+              {!error && <pre>{provision}</pre>}
               {error && (
                 <span>
                   <ErrorIcon />
@@ -102,7 +111,9 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Close</Button>
+            <SolidButton onClick={handleClose} sx={{ width: '100%' }}>
+              Ok
+            </SolidButton>
           </DialogActions>
         </Dialog>
       )}

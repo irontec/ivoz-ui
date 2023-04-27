@@ -1,15 +1,19 @@
-import { useState, useEffect } from 'react';
+import useCancelToken from '@irontec/ivoz-ui/hooks/useCancelToken';
+import { useEffect, useState } from 'react';
+import { useStoreActions } from 'store';
+
 import Client from '../../Client/Client';
 import { ClientPropertyList } from '../../Client/ClientProperties';
 import Platform from '../../Platform/Platform';
 import { PlatformPropertyList } from '../../Platform/PlatformProperties';
-import { useStoreActions } from 'store';
-import useCancelToken from '@irontec/ivoz-ui/hooks/useCancelToken';
+
+type ClientPlatformType = { id: number };
 
 const useParents = (clientId: number) => {
-  const [parent, setParent] = useState<ClientPropertyList<any> | null>(null);
+  const [parent, setParent] =
+    useState<ClientPropertyList<ClientPlatformType> | null>(null);
   const [grandParent, setGrandParent] =
-    useState<PlatformPropertyList<any> | null>(null);
+    useState<PlatformPropertyList<unknown> | null>(null);
 
   const [, cancelToken] = useCancelToken();
   const apiGet = useStoreActions((actions) => {
@@ -18,10 +22,10 @@ const useParents = (clientId: number) => {
 
   useEffect(() => {
     apiGet({
-      path: Client.path + `/${clientId}`,
+      path: `${Client.path}/${clientId}`,
       params: {},
       successCallback: async (client) => {
-        setParent(client);
+        setParent(client as PlatformPropertyList<ClientPlatformType>);
       },
       cancelToken,
     });
@@ -33,10 +37,10 @@ const useParents = (clientId: number) => {
     }
 
     apiGet({
-      path: Platform.path + `/${parent.platform.id}`,
+      path: `${Platform.path}/${parent.platform.id}`,
       params: {},
       successCallback: async (platform) => {
-        setGrandParent(platform);
+        setGrandParent(platform as PlatformPropertyList<unknown>);
       },
       cancelToken,
     });

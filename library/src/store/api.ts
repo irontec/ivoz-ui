@@ -48,7 +48,7 @@ interface requestParms {
 interface apiGetRequestParams extends requestParms {
   params: KeyValList;
   successCallback: (
-    data: Record<string, any> | Array<Record<string, any>>,
+    data: Record<string, any> | Array<Record<string, any>> | Blob,
     headers: Record<string, any>
   ) => Promise<any>;
 }
@@ -65,9 +65,7 @@ interface apiPutRequestParams extends requestParms {
   values: FormData | EntityValues;
 }
 
-interface apiDeleteRequestParams extends requestParms {
-  successCallback: () => Promise<any>;
-}
+type apiDeleteRequestParams = requestParms;
 
 interface ApiState {
   errorMsg: string | null;

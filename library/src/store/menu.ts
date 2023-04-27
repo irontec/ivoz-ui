@@ -1,27 +1,51 @@
 import { Action, action } from 'easy-peasy';
 
 export interface MenuState {
-  open: Array<number | string>;
+  hidden: boolean; // mobile only
+  variant: 'collapsed' | 'expanded';
+  selected: number | string | undefined;
 }
 
 interface MenuActions {
+  hide: Action<MenuState>;
+  toggleVisibility: Action<MenuState>;
+  toggleVariant: Action<MenuState>;
   expand: Action<MenuState, number | string>;
-  colapse: Action<MenuState, number | string>;
+  collapse: Action<MenuState>;
 }
 
 export type MenuStore = MenuState & MenuActions;
 
-const list: MenuStore = {
-  open: [0],
+const menu: MenuStore = {
+  hidden: true,
+  variant: 'expanded',
+  selected: undefined,
 
   // actions
-  colapse: action<MenuState, number | string>((state, menuKey) => {
-    state.open = state.open.filter((item) => item != menuKey);
+  hide: action<MenuState>((state) => {
+    state.hidden = true;
+  }),
+
+  toggleVisibility: action<MenuState>((state) => {
+    state.hidden = !state.hidden;
+  }),
+
+  toggleVariant: action<MenuState>((state) => {
+    if (state.variant === 'expanded') {
+      state.variant = 'collapsed';
+
+      return;
+    }
+    state.variant = 'expanded';
+  }),
+
+  collapse: action<MenuState>((state) => {
+    state.selected = undefined;
   }),
 
   expand: action<MenuState, number | string>((state, menuKey) => {
-    state.open.push(menuKey);
+    state.selected = menuKey;
   }),
 };
 
-export default list;
+export default menu;

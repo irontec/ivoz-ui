@@ -1,5 +1,5 @@
 import React from 'react';
-import { DropdownObjectChoices } from 'services/form/Field/Dropdown';
+import { DropdownObjectChoices } from '../../services/form/Field/Dropdown/Dropdown';
 import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import { PropertyCustomFunctionComponent } from '../form/Field/CustomComponentWrapper';
 
@@ -73,28 +73,29 @@ export interface ScalarProperty {
   visualToggle?: visualToggleValue;
   label: string | React.ReactElement<any>;
   prefix?: string | React.ReactElement<any>;
-  subfix?: string | React.ReactElement<any>;
+  suffix?: string | React.ReactElement<any>;
   component?: PropertyCustomFunctionComponent<any> | React.ComponentClass<any>;
   memoize?: boolean;
   required: boolean;
   pattern?: RegExp;
   helpText?: string | React.ReactElement<any>;
-  multilang?: boolean;
 }
 
 export interface EmbeddableProperty {
   type?: PropertyType;
+  accept?: 'audio/*' | 'video/*' | 'image/*' | string;
   $ref: string;
   preferredFilter?: SearchFilterType;
   readOnly?: boolean;
   label: string | React.ReactElement<any>;
   prefix?: string | React.ReactElement<any>;
-  subfix?: string | React.ReactElement<any>;
+  suffix?: string | React.ReactElement<any>;
   null?: string | React.ReactElement<any>;
   required: boolean;
   component?: PropertyCustomFunctionComponent<any>;
   memoize?: boolean;
   helpText?: string;
+  multilang?: boolean;
 }
 
 export interface FkProperty {
@@ -104,7 +105,7 @@ export interface FkProperty {
   readOnly?: boolean;
   label: string | React.ReactElement<any>;
   prefix?: string | React.ReactElement<any>;
-  subfix?: string | React.ReactElement<any>;
+  suffix?: string | React.ReactElement<any>;
   null?: string | React.ReactElement<any>;
   required: boolean;
   component?: PropertyCustomFunctionComponent<any>;
@@ -135,7 +136,7 @@ export const isPropertyScalar = (
   return (
     (property as FkProperty).$ref === undefined ||
     (property as FkProperty).$ref?.indexOf('_') > 0 ||
-    (property as ScalarProperty).multilang === true
+    (property as EmbeddableProperty).multilang === true
   );
 };
 

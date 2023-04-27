@@ -3,11 +3,12 @@ import {
   isPropertyScalar,
   PropertyCustomFunctionComponent,
   PropertyCustomFunctionComponentProps,
-  StyledTextField,
+  TextField,
 } from '@irontec/ivoz-ui';
-import { InputAdornment, styled, Tooltip } from '@mui/material';
-import { UserPropertyList } from '../UserProperties';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
+import { InputAdornment, styled, Tooltip } from '@mui/material';
+
+import { UserPropertyList } from '../UserProperties';
 
 type UserValues = UserPropertyList<string | number>;
 type AcrobitsPasswordType = PropertyCustomFunctionComponent<
@@ -87,7 +88,7 @@ const Password: AcrobitsPasswordType | SipPasswordType = (
     return <>{values[columnName]}</>;
   }
 
-  const inputProps: any = {};
+  const inputProps: Record<string, number | string> = {};
   if (isPropertyScalar(property) && property.maxLength) {
     inputProps.maxLength = property.maxLength;
   }
@@ -116,11 +117,11 @@ const Password: AcrobitsPasswordType | SipPasswordType = (
   };
 
   const hasChanged =
-    formik.initialValues[columnName] != formik.values[columnName];
+    formik.initialValues[columnName] !== formik.values[columnName];
 
   return (
     <div>
-      <StyledTextField
+      <TextField
         name={columnName}
         type='text'
         value={values[columnName]}

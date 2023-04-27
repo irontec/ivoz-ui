@@ -1,45 +1,53 @@
-import { useState, useCallback } from 'react';
-import { Button, Table, TableBody, TableRow } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ContentTableHead from './ContentTableHead';
+import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
+import { useCallback, useEffect, useState } from 'react';
 import EntityService from 'services/entity/EntityService';
-import { StyledActionsTableCell, StyledTableCell } from './ContentTable.styles';
+import { useStoreState } from 'store';
+import {
+  MultiSelectFunctionComponent,
+  RouteMapItem,
+} from '../../../../router/routeMapParser';
 import EditRowButton from '../CTA/EditRowButton';
 import ViewRowButton from '../CTA/ViewRowButton';
-import {
-  RouteMapItem,
-  MultiSelectFunctionComponent,
-} from '../../../../router/routeMapParser';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
-import useMultiselectState, {
-  handleMultiselectChangeType,
-} from './hook/useMultiselectState';
+import { StyledActionsTableCell, StyledTable } from './ContentTable.styles';
 import { TableColumnMemo } from './ContentTableColumn';
-import { useStoreState } from 'store';
-import DeleteRowsButton from '../CTA/DeleteRowsButton';
-import DeleteRowButton from '../CTA/DeleteRowButton';
+import ContentTableHead from './ContentTableHead';
+import { handleMultiselectChangeType } from './hook/useMultiselectState';
 
-interface ContentTableProps {
+export interface ContentTableProps {
   childEntities: Array<RouteMapItem>;
   entityService: EntityService;
   ignoreColumn: string | undefined;
   path: string;
+  selectedValues: string[];
+  handleChange: handleMultiselectChangeType;
+  setSelectedValues: React.Dispatch<React.SetStateAction<string[]>>;
+  className?: string;
 }
 
 const ContentTable = (props: ContentTableProps): JSX.Element => {
-  const { childEntities, entityService, path, ignoreColumn } = props;
-  const [selectedValues, handleChange, setSelectedValues] =
-    useMultiselectState();
+  const {
+    childEntities,
+    entityService,
+    path,
+    ignoreColumn,
+    selectedValues,
+    handleChange,
+    setSelectedValues,
+    className,
+  } = props;
   const [currentQueryString, setCurrentQueryString] = useState(
     window.location.search
   );
 
   const rows = useStoreState((state) => state.list.rows);
 
-  if (currentQueryString !== window.location.search) {
-    setCurrentQueryString(window.location.search);
-    setSelectedValues([]);
-  }
+  useEffect(() => {
+    if (currentQueryString !== window.location.search) {
+      setCurrentQueryString(window.location.search);
+      setSelectedValues([]);
+    }
+  }, [currentQueryString, window.location.search]);
 
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
@@ -80,7 +88,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
   );
 
   return (
-    <Table size='medium' sx={{ tableLayout: 'fixed' }}>
+    <StyledTable size='medium' className={className}>
       <ContentTableHead
         entityService={entityService}
         ignoreColumn={ignoreColumn}
@@ -90,11 +98,22 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
       <TableBody>
         {rows.map((row: any, key: any) => {
           const acl = entityService.getAcls();
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           let selectableIdx = 0;
+          const checked = selectedValues.indexOf(row.id.toString()) > -1;
 
           return (
-            <TableRow hover key={key}>
-              {Object.keys(columns).map((columnKey: string, idx: number) => {
+            <TableRow key={key}>
+              {multiselect && (
+                <TableCell>
+                  <Checkbox
+                    name={`${row.id}`}
+                    checked={checked}
+                    onChange={handleChange}
+                  />
+                </TableCell>
+              )}
+              {Object.keys(columns).map((columnKey: string) => {
                 if (columnKey === ignoreColumn) {
                   selectableIdx++;
                   return null;
@@ -109,94 +128,40 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     column={column}
                     row={row}
                     entityService={entityService}
-                    selectable={multiselect && idx === selectableIdx}
-                    selectedValues={selectedValues}
-                    handleChange={handleChange}
                   />
                 );
               })}
-              <StyledActionsTableCell key='actions'>
-                {acl.update && (
-                  <ChildDecorator routeMapItem={updateRouteMapItem} row={row}>
-                    <EditRowButton row={row} path={path} />
-                  </ChildDecorator>
-                )}
-                {acl.detail && !acl.update && (
-                  <ChildDecorator routeMapItem={detailMapItem} row={row}>
-                    <ViewRowButton row={row} path={path} />
-                  </ChildDecorator>
-                )}
+              <StyledActionsTableCell key='actions' className='actions-cell'>
                 <ChildEntityLinks
                   childEntities={childEntities}
                   entityService={entityService}
                   row={row}
+                  detail={
+                    acl.detail &&
+                    !acl.update && (
+                      <ChildDecorator routeMapItem={detailMapItem} row={row}>
+                        <ViewRowButton row={row} path={path} />
+                      </ChildDecorator>
+                    )
+                  }
+                  edit={
+                    acl.update && (
+                      <ChildDecorator
+                        routeMapItem={updateRouteMapItem}
+                        row={row}
+                      >
+                        <EditRowButton row={row} path={path} />
+                      </ChildDecorator>
+                    )
+                  }
+                  deleteMapItem={acl.delete && deleteMapItem}
                 />
-                &nbsp;
-                {acl.delete && (
-                  <ChildDecorator routeMapItem={deleteMapItem} row={row}>
-                    <DeleteRowButton row={row} entityService={entityService} />
-                  </ChildDecorator>
-                )}
               </StyledActionsTableCell>
             </TableRow>
           );
         })}
-        {multiselect && (
-          <TableRow hover key={'multiselect'}>
-            <StyledTableCell
-              key={'multiselect'}
-              variant='footer'
-              colSpan={Object.values(columns).length}
-            >
-              {false && (
-                <Button
-                  variant='contained'
-                  disabled={selectedValues.length < 1}
-                >
-                  <DeleteIcon sx={{ color: 'white' }} />
-                </Button>
-              )}
-              {multiselectActions.map((Action, key) => {
-                return (
-                  <Button
-                    key={key}
-                    variant='contained'
-                    disabled={selectedValues.length < 1}
-                    sx={{
-                      verticalAlign: 'inherit',
-                      marginLeft: '10px',
-                      padding: 0,
-                    }}
-                  >
-                    <Action
-                      style={{ padding: '6px 18px 0' }}
-                      rows={rows}
-                      selectedValues={selectedValues}
-                      entityService={entityService}
-                    />
-                  </Button>
-                );
-              })}
-              <Button
-                variant='contained'
-                disabled={selectedValues.length < 1}
-                sx={{
-                  verticalAlign: 'inherit',
-                  marginLeft: '10px',
-                  padding: 0,
-                  paddingTop: 0.5,
-                }}
-              >
-                <DeleteRowsButton
-                  selectedValues={selectedValues}
-                  entityService={entityService}
-                />
-              </Button>
-            </StyledTableCell>
-          </TableRow>
-        )}
       </TableBody>
-    </Table>
+    </StyledTable>
   );
 };
 

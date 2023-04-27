@@ -10,8 +10,8 @@ import {
   PropertyCustomFunctionComponent,
 } from './CustomComponentWrapper';
 import FileUploader from './FileUploader';
-import { StyledSwitchFormControl } from '../FormFieldFactory.styles';
 import { FormControlLabel, Switch } from '@mui/material';
+import { SwitchFormControl } from './SwitchFormControl';
 
 interface ViewValueProps {
   columnName: string;
@@ -67,7 +67,7 @@ const ViewFieldValue = (props: ViewValueProps): JSX.Element => {
         const checked = Array.isArray(val) ? val.includes('1') : Boolean(val);
 
         return (
-          <StyledSwitchFormControl hasChanged={false}>
+          <SwitchFormControl hasChanged={false}>
             <FormControlLabel
               disabled={true}
               control={
@@ -75,7 +75,7 @@ const ViewFieldValue = (props: ViewValueProps): JSX.Element => {
               }
               label={property.label}
             />
-          </StyledSwitchFormControl>
+          </SwitchFormControl>
         );
       }
 

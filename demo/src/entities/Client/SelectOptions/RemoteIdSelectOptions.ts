@@ -1,7 +1,8 @@
-import { SelectOptionsType } from '@irontec/ivoz-ui/entities/EntityInterface';
-import Client from '../Client';
-import store from 'store';
 import { DropdownChoices } from '@irontec/ivoz-ui';
+import { SelectOptionsType } from '@irontec/ivoz-ui/entities/EntityInterface';
+import store from 'store';
+
+import Client from '../Client';
 
 interface CustomProps {
   platformId: number | string;
@@ -13,13 +14,14 @@ const RemoteIdSelectOptions: SelectOptionsType<CustomProps> = (
 ): Promise<unknown> => {
   const platformId = customProps?.platformId;
 
-  const params: any = {
+  const params: Record<string, unknown> = {
     _platformId: platformId,
   };
 
   const getAction = store.getActions().api.get;
+
   return getAction({
-    path: Client.path + '/available',
+    path: `${Client.path}/available`,
     params,
     successCallback: async (data) => {
       const hintedData = data as Array<{
@@ -29,7 +31,10 @@ const RemoteIdSelectOptions: SelectOptionsType<CustomProps> = (
       }>;
       const choices: DropdownChoices = [];
       for (const item of hintedData) {
-        choices.push({ id: item.id, label: item.name });
+        choices.push({
+          id: item.id,
+          label: item.name,
+        });
       }
 
       callback(choices, hintedData);

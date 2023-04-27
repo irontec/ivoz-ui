@@ -1,8 +1,14 @@
-import { List, Create, Edit, View } from '../components';
+import { List, Create, Edit, Detail } from '../components';
 import ParsedApiSpecInterface from '../services/api/ParsedApiSpecInterface';
 import EntityService from '../services/entity/EntityService';
 import EntityInterface from '../entities/EntityInterface';
-import { isActionItem, RouteMap, RouteMapItem } from './routeMapParser';
+import {
+  isActionItem,
+  isEntityItem,
+  isRouteMapBlock,
+  RouteMap,
+  RouteMapItem,
+} from './routeMapParser';
 
 export interface EntityList {
   [name: string]: Readonly<EntityInterface>;
@@ -34,12 +40,15 @@ const parseRouteMapItems = (
 
     const iden = entity.iden;
 
-    const entityService = new EntityService(
-      apiSpec[iden].actions,
-      apiSpec[iden].properties,
-      entity
-    );
-    const acls = entityService.getAcls();
+    let acls = entity.acl;
+    if (apiSpec[iden]) {
+      const entityService = new EntityService(
+        apiSpec[iden].actions,
+        apiSpec[iden].properties,
+        entity
+      );
+      acls = entityService.getAcls();
+    }
 
     if (acls.read) {
       routes.push({
@@ -71,7 +80,7 @@ const parseRouteMapItems = (
         key: `${iden}-detailed`,
         path: `${route}/:id/detailed`,
         entity: entity,
-        component: View,
+        component: Detail,
       });
     }
 
@@ -90,16 +99,21 @@ const parseRoutes = (
 ): RouteSpec[] => {
   const routes: Array<RouteSpec> = [];
   for (const entity of routeMap) {
-    if (!entity.children) {
-      continue;
-    }
+    if (isRouteMapBlock(entity)) {
+      if (!entity.children) {
+        continue;
+      }
 
-    const childrenRoutes = parseRouteMapItems(
-      apiSpec,
-      entity.children,
-      routeMap
-    );
-    routes.push(...childrenRoutes);
+      const childrenRoutes = parseRouteMapItems(
+        apiSpec,
+        entity.children,
+        routeMap
+      );
+      routes.push(...childrenRoutes);
+    } else if (isEntityItem(entity)) {
+      const childrenRoutes = parseRouteMapItems(apiSpec, [entity], routeMap);
+      routes.push(...childrenRoutes);
+    }
   }
 
   return routes;

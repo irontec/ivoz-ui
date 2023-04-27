@@ -1,48 +1,71 @@
-import { createRoot } from 'react-dom/client';
+import './index.scss';
+
 import {
-  ThemeProvider,
   createTheme,
   StyledEngineProvider,
+  Theme,
+  ThemeProvider,
 } from '@mui/material';
 import * as locales from '@mui/material/locale';
-import reportWebVitals from './reportWebVitals';
 import { StoreProvider } from 'easy-peasy';
+import { createRoot } from 'react-dom/client';
 import store from 'store';
-import i18n from './i18n';
-import './index.css';
+
 import App from './App';
+import i18n from './i18n';
+import reportWebVitals from './reportWebVitals';
 
 const currentLanguage =
   i18n.language.substring(0, 2) === 'es' ? 'esES' : 'enUS';
 
-const theme = createTheme(
-  {
-    palette: {
-      primary: {
-        main: '#0277bd',
-      },
-      secondary: {
-        main: '#e53935',
-      },
+const computedStyle = getComputedStyle(document.documentElement);
+const colorPrimary = computedStyle.getPropertyValue('--color-primary').trim();
+const colorSecondary = computedStyle
+  .getPropertyValue('--color-secondary')
+  .trim();
+const colorContrastText = computedStyle
+  .getPropertyValue('--color-button')
+  .trim();
+
+const theme: Theme = createTheme({
+  ...locales[currentLanguage],
+  palette: {
+    primary: {
+      main: colorPrimary,
+      contrastText: colorContrastText,
+    },
+    secondary: {
+      main: colorSecondary,
+      contrastText: colorContrastText,
     },
   },
-  locales[currentLanguage]
-);
+  typography: {
+    allVariants: {
+      fontFamily: ['PublicSans', 'Roboto', 'Arial', 'sans-serif'].join(','),
+    },
+  },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1536,
+    },
+  },
+});
+
+theme.breakpoints.not;
 
 const container = document.getElementById('root');
-const root = createRoot(container as any);
-
-//@see https://github.com/ctrlplusb/easy-peasy/issues/741
-type Props = StoreProvider['props'] & { children: React.ReactNode };
-const StoreProviderOverride =
-  StoreProvider as unknown as React.ComponentType<Props>;
+const root = createRoot(container as Element);
 
 root.render(
   <StyledEngineProvider injectFirst>
     <ThemeProvider theme={theme}>
-      <StoreProviderOverride store={store}>
+      <StoreProvider store={store}>
         <App />
-      </StoreProviderOverride>
+      </StoreProvider>
     </ThemeProvider>
   </StyledEngineProvider>
 );

@@ -1,17 +1,15 @@
 import { PartialPropertyList } from '@irontec/ivoz-ui';
-import { MarshallerValues } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Marshaller';
 import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
+import { MarshallerValues } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Marshaller';
 import EntityInterface, {
   EntityValidator,
 } from '@irontec/ivoz-ui/entities/EntityInterface';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import PersonIcon from '@mui/icons-material/Person';
-import Password from './Field/Password';
-import { foreignKeyGetter } from './ForeignKeyGetter';
-import foreignKeyResolver from './ForeignKeyResolver';
-import Form from './Form';
-import { UserProperties } from './UserProperties';
+
 import Actions from './Action';
+import Password from './Field/Password';
+import { UserProperties } from './UserProperties';
 
 const properties: UserProperties = {
   iden: {
@@ -87,32 +85,45 @@ const marshaller = (
   values: MarshallerValues,
   properties: PartialPropertyList
 ): MarshallerValues => {
-  values = defaultEntityBehavior.marshaller(values, properties);
-  if (values.enabled === 'no') {
-    delete values.acrobitsPassword;
+  const marshalledValues = defaultEntityBehavior.marshaller(values, properties);
+  if (marshalledValues.enabled === 'no') {
+    delete marshalledValues.acrobitsPassword;
   }
 
   if (properties.acrobitsPassword.required === false) {
-    delete values.acrobitsPassword;
+    delete marshalledValues.acrobitsPassword;
   }
 
-  return values;
+  return marshalledValues;
 };
 
 const user: EntityInterface = {
   ...defaultEntityBehavior,
   icon: PersonIcon,
+  link: 'https://halliday-test.irontec.com/doc/en/administration_portal/client/vpbx/users.html',
   iden: 'User',
   title: 'Users',
   path: '/users',
   defaultOrderBy: '',
-  toStr: (row: any) => row.id,
+  toStr: (row) => row.iden as string,
   properties,
   columns: ['client', 'iden', 'enabled', 'email', 'birthDate'],
   customActions: Actions,
-  foreignKeyResolver,
-  foreignKeyGetter,
-  Form,
+  foreignKeyResolver: async () => {
+    const module = await import('./ForeignKeyResolver');
+
+    return module.default;
+  },
+  foreignKeyGetter: async () => {
+    const module = await import('./ForeignKeyGetter');
+
+    return module.foreignKeyGetter;
+  },
+  Form: async () => {
+    const module = await import('./Form');
+
+    return module.default;
+  },
   validator,
   marshaller,
 };

@@ -1,9 +1,15 @@
-import { TableCell, TableHead, TableRow, TableSortLabel } from '@mui/material';
+import {
+  Checkbox,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+} from '@mui/material';
+import { CriteriaFilterValue } from '../../../../../components/List/Filter/ContentFilterDialog';
 import { isPropertyFk } from '../../../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../../../store';
 import { ROUTE_ORDER_KEY } from '../../../../../store/route';
-import { CriteriaFilterValue } from '../../../Filter/ContentFilter';
 import { handleMultiselectChangeType } from '../hook/useMultiselectState';
 import { StyledTableSortLabelVisuallyHidden } from './ContentTableHead.styles';
 
@@ -40,15 +46,18 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     setSort(property, isDesc ? 'asc' : 'desc');
   };
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let selectableIdx = 0;
-  const styles = {
-    borderBottom: '1px solid rgba(0, 0, 0, 0.5)',
-  };
 
   return (
     <TableHead>
       <TableRow>
-        {Object.keys(columns).map((key: string, idx: number) => {
+        {multiselect && (
+          <TableCell>
+            <Checkbox onChange={selectAll} />
+          </TableCell>
+        )}
+        {Object.keys(columns).map((key: string) => {
           if (key === ignoreColumn) {
             selectableIdx++;
             return null;
@@ -58,17 +67,8 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
             <TableCell
               key={key}
               align='left'
-              padding='normal'
               sortDirection={order?.name === key ? direction : false}
-              sx={styles}
             >
-              {idx === selectableIdx && multiselect && (
-                <input
-                  type='checkbox'
-                  style={{ marginRight: '10px', verticalAlign: 'middle' }}
-                  onChange={selectAll}
-                />
-              )}
               {!isPropertyFk(columns[key]) && (
                 <TableSortLabel
                   active={order?.name === key}
@@ -100,12 +100,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
             </TableCell>
           );
         })}
-        <TableCell
-          key={'empty slot'}
-          align='left'
-          padding='normal'
-          sx={styles}
-        ></TableCell>
+        <TableCell key={'empty slot'} className='actions-cell'></TableCell>
       </TableRow>
     </TableHead>
   );

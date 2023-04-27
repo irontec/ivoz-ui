@@ -1,4 +1,5 @@
 import { CustomActionsType } from '@irontec/ivoz-ui/entities/EntityInterface';
+
 import SendEmail from './SendEmail';
 import Sync from './Sync';
 

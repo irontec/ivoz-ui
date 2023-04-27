@@ -42,5 +42,6 @@ const HistoryTrackerLink = forwardRef<any, any>(
     );
   }
 );
+HistoryTrackerLink.displayName = 'HistoryTrackerLink';
 
 export default HistoryTrackerLink;

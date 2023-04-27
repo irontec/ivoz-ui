@@ -1,4 +1,7 @@
-import { isPropertyScalar } from '../../services/api/ParsedApiSpecInterface';
+import {
+  isPropertyEmbeddable,
+  isPropertyScalar,
+} from '../../services/api/ParsedApiSpecInterface';
 import { CustomFunctionComponentContext } from '../../services/form/Field/CustomComponentWrapper';
 import { ListDecoratorType } from '../EntityInterface';
 import ListDecoratorMultilang from './ListDecoratorMultilang';
@@ -30,7 +33,7 @@ const ListDecorator: ListDecoratorType = (props) => {
     );
   }
 
-  if (isPropertyScalar(property) && property.multilang === true) {
+  if (isPropertyEmbeddable(property) && property.multilang === true) {
     return (
       <ListDecoratorMultilang field={field} row={row} property={property} />
     );

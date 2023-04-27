@@ -13,7 +13,6 @@ import {
 import { isRouteMapBlock, RouteMap } from '../../router/routeMapParser';
 import DashboardBlock from './DashboardBlock';
 
-//import 'Dashboard.scoped.scss';
 import {
   LightButton,
   SolidButton,
@@ -44,7 +43,7 @@ const Dashboard = (props: DashboardProps) => {
   ];
 
   return (
-    <section>
+    <section className={className}>
       <div className='card welcome'>
         <div className='card-container'>
           <div>

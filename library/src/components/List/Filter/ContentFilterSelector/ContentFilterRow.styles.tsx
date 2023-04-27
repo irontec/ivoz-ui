@@ -1,11 +1,9 @@
 import { Theme, styled } from '@mui/material';
 import ContentFilterRow from './ContentFilterRow';
 
-
 export const StyledContentFilterRow = styled(ContentFilterRow)(
-  ({theme}: {theme: Theme}) => {
+  ({ theme }: { theme: Theme }) => {
     return {
-
       display: 'flex',
       alignItems: 'center',
       gap: 'var(--spacing-md)',
@@ -15,13 +13,13 @@ export const StyledContentFilterRow = styled(ContentFilterRow)(
         gap: 'var(--spacing-sm)',
         '& button': {
           width: '100%',
-        }
+        },
       },
 
       '& button': {
         height: '50px',
         aspectRatio: 1,
-      }
+      },
     };
   }
 );

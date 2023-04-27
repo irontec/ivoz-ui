@@ -2,7 +2,7 @@ import { Theme, styled } from '@mui/material';
 import ContentFilterSelector from './ContentFilterSelector';
 
 export const StyledContentFilterSelector = styled(ContentFilterSelector)(
-  ({theme}: {theme: Theme}) => {
+  ({ theme }: { theme: Theme }) => {
     return {
       display: 'flex',
       flexDirection: 'column',
@@ -29,14 +29,13 @@ export const StyledContentFilterSelector = styled(ContentFilterSelector)(
           gap: 'var(--spacing-md)',
         },
         '& .buttons': {
-          
           display: 'flex',
           gap: 'var(--spacing-md)',
           '& button': {
             height: '40px',
             paddingInline: 'var(--spacing-lg)',
-          }
-        }
+          },
+        },
       },
     };
   }

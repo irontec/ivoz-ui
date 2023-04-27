@@ -24,24 +24,22 @@ export const MultiselectMoreChildEntityLinks = (
     <MoreChildEntityLinksWrapper disabled={disabled}>
       {childActions.map((Action, key: number) => {
         return (
-          <MenuItem key={key} disabled={disabled}>
-            <Action
-              rows={rows}
-              selectedValues={selectedValues}
-              entityService={entityService}
-              variant='text'
-            />
-          </MenuItem>
-        );
-      })}
-      {deleteMapItem && (
-        <MenuItem disabled={disabled}>
-          <DeleteRowsButton
+          <Action
+            //disabled={disabled}
+            key={key}
+            rows={rows}
             selectedValues={selectedValues}
             entityService={entityService}
             variant='text'
           />
-        </MenuItem>
+        );
+      })}
+      {deleteMapItem && (
+        <DeleteRowsButton
+          selectedValues={selectedValues}
+          entityService={entityService}
+          variant='text'
+        />
       )}
     </MoreChildEntityLinksWrapper>
   );

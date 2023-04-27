@@ -2,8 +2,8 @@ import './index.scss';
 
 import {
   createTheme,
-  Theme,
   StyledEngineProvider,
+  Theme,
   ThemeProvider,
 } from '@mui/material';
 import * as locales from '@mui/material/locale';
@@ -52,10 +52,10 @@ const theme: Theme = createTheme({
       lg: 1200,
       xl: 1536,
     },
-  }
+  },
 });
 
-theme.breakpoints.not
+theme.breakpoints.not;
 
 const container = document.getElementById('root');
 const root = createRoot(container as Element);

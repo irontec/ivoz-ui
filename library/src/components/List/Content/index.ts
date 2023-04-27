@@ -1,5 +1,3 @@
 import { StyledListContent } from './ListContent.styles';
 
-export {
-    StyledListContent as ListContent,
-}
+export { StyledListContent as ListContent };

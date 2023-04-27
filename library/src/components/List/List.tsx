@@ -28,7 +28,8 @@ type ListProps = {
 };
 
 const List = function (props: ListProps) {
-  const { path, foreignKeyResolver, entityService, routeMap, className } = props;
+  const { path, foreignKeyResolver, entityService, routeMap, className } =
+    props;
   const listRef = createRef();
 
   const location = useLocation();

@@ -13,9 +13,8 @@ const linkSharedStyles = {
   cursor: 'pointer',
 };
 
-
 export const StyledContentTable = styled(ContentTable)(
-  ({theme}: {theme: Theme}) => {
+  ({ theme }: { theme: Theme }) => {
     return {
       width: '100%',
 
@@ -43,7 +42,7 @@ export const StyledContentTable = styled(ContentTable)(
         gap: 'var(--spacing-sm)',
         //flexWrap: 'wrap',
         justifyContent: 'flex-end',
-      }
+      },
     };
   }
 );

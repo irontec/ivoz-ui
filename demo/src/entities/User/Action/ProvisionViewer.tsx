@@ -1,12 +1,15 @@
+import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
+import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
+import { SolidButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
   ActionFunctionComponent,
   ActionItemProps,
 } from '@irontec/ivoz-ui/router/routeMapParser';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ContactPageIcon from '@mui/icons-material/ContactPage';
 import ErrorIcon from '@mui/icons-material/Error';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -18,8 +21,6 @@ import { useState } from 'react';
 import { useStoreActions } from 'store';
 
 import User from '../User';
-import { SolidButton } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
-import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 
 const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   const { row, variant = 'icon' } = props;
@@ -75,11 +76,13 @@ const ProvisionViewer: ActionFunctionComponent = (props: ActionItemProps) => {
   return (
     <>
       {variant === 'text' && (
-        <span onClick={handleClickOpen}>{_('Provision')}</span>
+        <MoreMenuItem onClick={handleClickOpen}>{_('Provision')}</MoreMenuItem>
       )}
       {variant === 'icon' && (
         <Tooltip title={_('Provision')} placement='bottom' enterTouchDelay={0}>
-          <ContactPageIcon onClick={handleClickOpen} />
+          <StyledTableRowCustomCta>
+            <ContactPageIcon onClick={handleClickOpen} />
+          </StyledTableRowCustomCta>
         </Tooltip>
       )}
       {open && (

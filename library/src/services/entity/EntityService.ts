@@ -159,9 +159,7 @@ export default class EntityService {
       }
     }
 
-    return Math.floor(
-      100 / columns.length
-    );
+    return Math.floor(100 / columns.length);
   }
 
   public getCollectionParamList(): PropertyList {

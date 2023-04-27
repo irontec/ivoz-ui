@@ -84,11 +84,7 @@ const Dropdown = (props: SelectProps): JSX.Element => {
   const ready = choices === prevChoices;
 
   return (
-    <FormControl
-      fullWidth={true}
-      error={error}
-      className={`${className}`}
-    >
+    <FormControl fullWidth={true} error={error} className={`${className}`}>
       {label && (
         <label htmlFor={name} id={labelId} className={labelClassName}>
           {label}

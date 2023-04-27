@@ -220,16 +220,6 @@ const Dashboard = (props: DashboardProps) => {
           </TableContainer>
         </div>
       </div>
-
-      {/* <Grid container spacing={3} className={className}>
-        {routeMap.map((routeMapBlock, key) => {
-          if (!isRouteMapBlock(routeMapBlock)) {
-            return null;
-          }
-
-          return <DashboardBlock key={key} routeMapBlock={routeMapBlock} />;
-        })}
-      </Grid> */}
     </section>
   );
 };

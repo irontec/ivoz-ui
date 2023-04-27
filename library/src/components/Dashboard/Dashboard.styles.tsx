@@ -1,7 +1,7 @@
-import { styled } from '@mui/material';
+import { styled, Theme } from '@mui/material';
 import Dashboard from './Dashboard';
 
-const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
+const StyledDashboard = styled(Dashboard)(({ theme }: { theme: Theme }) => {
   return {
     display: 'grid',
     gridTemplateColumns: '1fr 1fr 1fr',
@@ -12,41 +12,41 @@ const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
       gridTemplateColumns: '1fr',
     },
 
-    "& .card": {
-      "padding": "var(--spacing-xl)"
+    '& .card': {
+      padding: 'var(--spacing-xl)',
     },
 
-    "& .welcome": {
-      backgroundColor: "var(--color-primary)",
-      color: "white",
-      display: "flex",
-      alignItems: "center",
-      container: "welcome / inline-size",
+    '& .welcome': {
+      backgroundColor: 'var(--color-primary)',
+      color: 'white',
+      display: 'flex',
+      alignItems: 'center',
+      container: 'welcome / inline-size',
       [theme.breakpoints.up('md')]: {
-        gridColumn: "auto / span 2",
+        gridColumn: 'auto / span 2',
       },
       [theme.breakpoints.between('md', 'lg')]: {
-        gridColumn: "auto / span 3",
+        gridColumn: 'auto / span 3',
       },
       '& .card-container': {
-        display: "flex",
-        gap: "var(--spacing-xl)",
+        display: 'flex',
+        gap: 'var(--spacing-xl)',
       },
       '& h3': {
-        fontSize: "21px",
-        margin: "0",
+        fontSize: '21px',
+        margin: '0',
       },
       '& p': {
-        fontSize: "14px",
+        fontSize: '14px',
       },
       '& img': {
-        width: "35%",
-        maxWidth: "260px",
+        width: '35%',
+        maxWidth: '260px',
       },
       '& button': {
-        background: "var(--color-background-elevated)",
-        color: "var(--color-primary)",
-        boxShadow: "0px 0px 7px #1111111a",
+        background: 'var(--color-background-elevated)',
+        color: 'var(--color-primary)',
+        boxShadow: '0px 0px 7px #1111111a',
       },
     },
 
@@ -54,46 +54,46 @@ const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
       '& .welcome': {
         '& .card-container': {
           flexDirection: 'column-reverse',
-    
+
           '& img': {
             width: '100%',
             marginInline: 'auto',
-          }
-        }
-      }
+          },
+        },
+      },
     },
 
     '& .activity': {
       [theme.breakpoints.between('md', 'lg')]: {
-        gridColumn: 'auto / span 3'
+        gridColumn: 'auto / span 3',
       },
-    
+
       '& .title': {
         fontSize: '18px',
         marginBottom: 'var(--spacing-md)',
         fontWeight: '500',
       },
-    
+
       '& .content': {
         display: 'grid',
-        gridTemplateColumns: 'max-content 1fr'
+        gridTemplateColumns: 'max-content 1fr',
       },
-    
+
       '& .row': {
         display: 'contents',
-        fontSize: '14px'
+        fontSize: '14px',
       },
-    
+
       '& .time, & .value': {
         paddingBlock: 'var(--spacing-sm)',
         paddingInline: 'var(--spacing-md)',
-        color: 'var(--color-text)'
+        color: 'var(--color-text)',
       },
-    
+
       '& .time': {
         borderInlineEnd: '1px solid var(--color-border)',
-        textAlign: 'end'
-      }
+        textAlign: 'end',
+      },
     },
 
     '& .amount': {
@@ -102,27 +102,27 @@ const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
       gridTemplateAreas: "'img number progress' 'img name link'",
       columnGap: 'var(--spacing-md)',
       rowGap: 'var(--spacing-sm)',
-  
+
       [theme.breakpoints.between('md', 'lg')]: {
         gridColumn: 'auto / span 3',
       },
-  
+
       '& .img-container': {
         gridArea: 'img',
         display: 'flex',
         alignItems: 'center',
       },
-  
+
       '& .number': {
         gridArea: 'number',
         fontSize: '32px',
       },
-  
+
       '& .name': {
         gridArea: 'name',
         color: 'var(--color-text)',
       },
-  
+
       '& .progress': {
         gridArea: 'progress',
         display: 'flex',
@@ -130,7 +130,7 @@ const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
         gap: 'var(--spacing-sm)',
         justifySelf: 'flex-end',
       },
-  
+
       '& .link': {
         gridArea: 'link',
         fontSize: '14px',
@@ -139,7 +139,6 @@ const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
       },
     },
 
-
     '& .licenses': {
       padding: '0',
       display: 'flex',
@@ -147,7 +146,7 @@ const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
       '& .title': {
         padding: 'var(--spacing-lg)',
         paddingBlockEnd: '0',
-        fontSize: '18px'
+        fontSize: '18px',
       },
       '& .radial': {
         display: 'grid',
@@ -208,24 +207,23 @@ const StyledDashboard = styled(Dashboard)(({theme}: {theme: Theme}) => {
     '& .last': {
       padding: 0,
       [theme.breakpoints.between('md', 'lg')]: {
-        gridColumn: "auto / span 3"
+        gridColumn: 'auto / span 3',
       },
       [theme.breakpoints.up('lg')]: {
-        gridColumn: "auto / span 2"
+        gridColumn: 'auto / span 2',
       },
       '& .header': {
-        padding: "var(--spacing-lg)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        fontSize: "18px",
-        borderBottom: "1px solid var(--color-border)"
+        padding: 'var(--spacing-lg)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        fontSize: '18px',
+        borderBottom: '1px solid var(--color-border)',
       },
-      "& .table": {
-        "padding": "var(--spacing-md)"
-      }
-    }
-
+      '& .table': {
+        padding: 'var(--spacing-md)',
+      },
+    },
   };
 });
 

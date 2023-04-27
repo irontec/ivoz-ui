@@ -49,7 +49,7 @@ const StyledButton = React.forwardRef(
 StyledButton.displayName = 'StyledButton';
 type ForwardRefButtonType = typeof StyledButton;
 
-const LightButton:ForwardRefButtonType = React.forwardRef(
+const LightButton: ForwardRefButtonType = React.forwardRef(
   (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
     const { children, size, className, ...rest } = props;
 
@@ -95,7 +95,7 @@ const StyledTonalButton = styled(LightButton)(() => {
   };
 });
 
-const OutlinedButton = { ...LightButton } as unknown as ForwardRefButtonType;;
+const OutlinedButton = { ...LightButton } as unknown as ForwardRefButtonType;
 OutlinedButton.displayName = 'OutlinedButton';
 
 const StyledOutlinedButton = styled(OutlinedButton)(() => {
@@ -113,7 +113,7 @@ const StyledOutlinedButton = styled(OutlinedButton)(() => {
   };
 });
 
-const SolidButton = { ...LightButton } as unknown as ForwardRefButtonType;;
+const SolidButton = { ...LightButton } as unknown as ForwardRefButtonType;
 SolidButton.displayName = 'SolidButton';
 
 const StyledSolidButton = styled(SolidButton)(() => {

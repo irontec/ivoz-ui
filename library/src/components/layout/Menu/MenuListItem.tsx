@@ -29,7 +29,7 @@ export default function MenuListItem(
   const targetPath = baseHref + path;
 
   const selected =
-  currentPath === targetPath || currentPath.indexOf(`${targetPath}/`) === 0;
+    currentPath === targetPath || currentPath.indexOf(`${targetPath}/`) === 0;
 
   return (
     <ListItemButton

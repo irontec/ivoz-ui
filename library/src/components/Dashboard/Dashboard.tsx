@@ -1,6 +1,4 @@
 import {
-  Box,
-  Grid,
   Paper,
   Table,
   TableBody,
@@ -10,8 +8,7 @@ import {
   TableRow,
   styled,
 } from '@mui/material';
-import { isRouteMapBlock, RouteMap } from '../../router/routeMapParser';
-import DashboardBlock from './DashboardBlock';
+import { RouteMap } from '../../router/routeMapParser';
 
 import {
   LightButton,
@@ -24,7 +21,7 @@ export interface DashboardProps {
 }
 
 const Dashboard = (props: DashboardProps) => {
-  const { className, routeMap } = props;
+  const { className } = props;
 
   function createData(
     name: string,

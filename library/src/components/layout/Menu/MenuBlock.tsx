@@ -42,7 +42,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
     const targetPath = baseHref + route;
 
     const match =
-    currentPath === targetPath || currentPath.indexOf(`${targetPath}/`) === 0;
+      currentPath === targetPath || currentPath.indexOf(`${targetPath}/`) === 0;
 
     return match;
   });

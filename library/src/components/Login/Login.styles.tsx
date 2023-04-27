@@ -1,8 +1,8 @@
 import { Avatar, Button } from '@mui/material';
 import Login from './Login';
-import { styled } from '@mui/material';
+import { styled, Theme } from '@mui/material';
 
-export const StyledLogin = styled(Login)(({ theme }) => {
+export const StyledLogin = styled(Login)(({ theme }: { theme: Theme }) => {
   return {
     height: '100vh',
     backgroundColor: 'var(--color-background)',
@@ -72,7 +72,7 @@ export const StyledForm = styled((props: StyledFormProps) => {
       {children}
     </form>
   );
-})(({ theme }) => {
+})(() => {
   return {};
 });
 

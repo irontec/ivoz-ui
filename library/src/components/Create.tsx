@@ -26,9 +26,14 @@ const Create = (props: CreateProps) => {
   const [EntityForm, setEntityForm] = useState<EntityFormType | null>(null);
 
   useEffect(() => {
-    EntityFormLoader().then((Form) => {
-      setEntityForm(() => Form);
-    });
+    EntityFormLoader()
+      .then((Form) => {
+        setEntityForm(() => Form);
+      })
+      .catch((error) => {
+        console.error(error);
+        debugger;
+      });
   }, []);
 
   const location = useLocation();

@@ -33,7 +33,6 @@ export const StyledTextField = styled(TextField)(() => {
         color: 'var(--color-text)',
         paddingBlock: '10px',
         paddingInlineStart: 'var(--spacing-md)',
-        maxHeight: '20px',
       },
 
       '& .preffix': {

@@ -5,6 +5,7 @@ set -e
 SCRIPT_DIR=$(dirname "$(realpath "$0")")
 pushd "${SCRIPT_DIR}"/../
     bin/build
+    cd dist
     yarn publish -f
 popd
 

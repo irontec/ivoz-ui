@@ -9,10 +9,7 @@ pushd "${SCRIPT_DIR}"/../
     yarn pre-publish
     cp -r hygen dist/
     yarn build:scss
-    cd src
-    find . -type f -name \*.css -exec sh -c 'mkdir -p "../dist/$(dirname "{}")" && mv "{}" "../dist/$(dirname "{}")"' \;
-    cd ../
-    find ./dist -type f -name "*.js" -exec sed -i 's/import \(.*\)\.scss/import \1.css/g' {} +
+    cp -r src/sass dist/css
 popd
 
 

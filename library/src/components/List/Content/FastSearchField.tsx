@@ -30,7 +30,9 @@ const FastSearchField = (
   ) as string;
 
   const filters = entityService.getPropertyFilters(firstColumnKey, path);
-  const filter = filters[0];
+  const filter = filters.includes('partial')
+    ? 'partial'
+    : filters[0];
 
   const currentCriteria = queryStringCriteria.find((criteria) => {
     return criteria.name === firstColumnKey && criteria.type === filter;

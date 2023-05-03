@@ -14,6 +14,9 @@ import {
   LightButton,
   SolidButton,
 } from '../../components/shared/Button/Button.styles';
+import IconPlatformsDashboard from './IconPlatforms';
+import IconClientsDashboard from './IconClients';
+import IconUsersDashboard from './IconUsers';
 
 export interface DashboardProps {
   className?: string;
@@ -86,7 +89,7 @@ const Dashboard = (props: DashboardProps) => {
 
       <div className='card amount'>
         <div className='img-container'>
-          <img src='assets/img/dashboard-platforms.svg' />
+          <IconPlatformsDashboard />
         </div>
 
         <div className='number'>5</div>
@@ -105,7 +108,7 @@ const Dashboard = (props: DashboardProps) => {
 
       <div className='card amount'>
         <div className='img-container'>
-          <img src='assets/img/dashboard-clients.svg' />
+          <IconClientsDashboard />
         </div>
 
         <div className='number'>120</div>
@@ -124,7 +127,7 @@ const Dashboard = (props: DashboardProps) => {
 
       <div className='card amount'>
         <div className='img-container'>
-          <img src='assets/img/dashboard-platforms.svg' />
+          <IconUsersDashboard />
         </div>
 
         <div className='number'>1264</div>

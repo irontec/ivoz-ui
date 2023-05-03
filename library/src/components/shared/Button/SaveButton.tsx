@@ -1,6 +1,6 @@
-import Button from '@mui/material/Button';
 import { styled } from '@mui/material';
 import _ from '../../../services/translations/translate';
+import { OutlinedButton, SolidButton } from './Button.styles';
 
 interface SaveButtonProps {
   className?: string;
@@ -11,20 +11,19 @@ const SaveButton = function (props: SaveButtonProps): JSX.Element {
 
   return (
     <div className={className}>
-      <Button variant='contained' type='submit'>
-        {_('Save')}
-      </Button>
+      <OutlinedButton>Cancel</OutlinedButton>
+      <SolidButton type='submit'>{_('Save')}</SolidButton>
     </div>
   );
 };
 
 export default styled(SaveButton)(() => {
   return {
-    padding: '20px 10px 10px',
     display: 'flex',
-    alignItems: 'center',
+    justifyContent: 'flex-end',
+    gap: '20px',
     '& button': {
-      margin: '0 auto',
+      width: '160px',
     },
   };
 });

@@ -17,8 +17,8 @@ export const StyledContentFilterRow = styled(ContentFilterRow)(
       },
 
       '& button': {
-        height: '50px',
-        aspectRatio: 1,
+        height: '40px',
+        aspectRatio: '1',
       },
     };
   }

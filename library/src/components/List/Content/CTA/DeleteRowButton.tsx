@@ -40,6 +40,7 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
       });
 
       if (resp !== undefined) {
+        setShowDelete(false);
         reloadPage();
       }
     } catch (error: unknown) {

@@ -57,8 +57,8 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
       });
 
       if (resp !== undefined) {
-        reloadPage();
         setShowDelete(false);
+        reloadPage();
       }
     } catch (error: unknown) {
       setShowDelete(false);

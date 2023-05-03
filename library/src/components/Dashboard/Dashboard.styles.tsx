@@ -100,8 +100,9 @@ const StyledDashboard = styled(Dashboard)(({ theme }: { theme: Theme }) => {
     },
 
     '& .amount': {
+      padding: 'var(--spacing-lg)',
       display: 'grid',
-      gridTemplateColumns: 'auto 1fr 1fr',
+      gridTemplateColumns: '65px 1fr 1fr',
       gridTemplateAreas: "'img number progress' 'img name link'",
       columnGap: 'var(--spacing-md)',
       rowGap: 'var(--spacing-sm)',
@@ -114,6 +115,9 @@ const StyledDashboard = styled(Dashboard)(({ theme }: { theme: Theme }) => {
         gridArea: 'img',
         display: 'flex',
         alignItems: 'center',
+        '& img': {
+          width: '100%',
+        },
       },
 
       '& .number': {
@@ -132,6 +136,10 @@ const StyledDashboard = styled(Dashboard)(({ theme }: { theme: Theme }) => {
         alignItems: 'flex-start',
         gap: 'var(--spacing-sm)',
         justifySelf: 'flex-end',
+
+        '& span': {
+          whiteSpace: 'nowrap',
+        },
       },
 
       '& .link': {

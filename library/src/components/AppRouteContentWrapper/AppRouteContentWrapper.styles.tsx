@@ -18,9 +18,9 @@ export const StyledAppRouteContentWrapper = styled(AppRouteContentWrapper)(
         flex: 1,
         overflow: 'auto',
         padding: 'var(--spacing-md)',
+        paddingInline: 'clamp(var(--spacing-md), 2vw, var(--spacing-xxl))',
         transition: 'var(--transition-all-1)',
         [theme.breakpoints.up('sm')]: {
-          paddingInline: 'var(--spacing-xxl)',
           paddingBlock: 'var(--spacing-lg)',
         },
       },

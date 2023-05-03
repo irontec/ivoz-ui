@@ -39,6 +39,7 @@ export const StyledContentTable = styled(ContentTable)(() => {
     '& .actions-cell': {
       display: 'flex',
       gap: 'var(--spacing-sm)',
+      alignItems: 'center',
       justifyContent: 'flex-end',
     },
   };

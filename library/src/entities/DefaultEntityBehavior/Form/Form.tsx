@@ -148,7 +148,10 @@ const Form: EntityFormType = (props) => {
 
   return (
     <div>
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        onSubmit={formik.handleSubmit}
+        style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}
+      >
         {groups.map((group, idx: number) => {
           const fields = group.fields as Array<FieldsetGroupsField>;
           const visible = fields.reduce(

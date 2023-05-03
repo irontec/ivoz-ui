@@ -24,6 +24,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
 
 import user from '../User';
+import {
+  OutlinedButton,
+  SolidButton,
+} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps
@@ -160,11 +164,11 @@ const UpdateLicenses: ActionFunctionComponent = (
             )}
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
+            <OutlinedButton onClick={handleClose}>Cancel</OutlinedButton>
             {!error && (
-              <Button onClick={handleUpdate} autoFocus>
+              <SolidButton onClick={handleUpdate} autoFocus>
                 Accept
-              </Button>
+              </SolidButton>
             )}
           </DialogActions>
         </Dialog>

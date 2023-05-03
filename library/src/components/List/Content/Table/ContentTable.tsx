@@ -1,4 +1,4 @@
-import { Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
+import { Box, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import EntityService from 'services/entity/EntityService';
 import { useStoreState } from 'store';
@@ -131,31 +131,33 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                   />
                 );
               })}
-              <StyledActionsTableCell key='actions' className='actions-cell'>
-                <ChildEntityLinks
-                  childEntities={childEntities}
-                  entityService={entityService}
-                  row={row}
-                  detail={
-                    acl.detail &&
-                    !acl.update && (
-                      <ChildDecorator routeMapItem={detailMapItem} row={row}>
-                        <ViewRowButton row={row} path={path} />
-                      </ChildDecorator>
-                    )
-                  }
-                  edit={
-                    acl.update && (
-                      <ChildDecorator
-                        routeMapItem={updateRouteMapItem}
-                        row={row}
-                      >
-                        <EditRowButton row={row} path={path} />
-                      </ChildDecorator>
-                    )
-                  }
-                  deleteMapItem={acl.delete && deleteMapItem}
-                />
+              <StyledActionsTableCell key='actions'>
+                <Box className='actions-cell'>
+                  <ChildEntityLinks
+                    childEntities={childEntities}
+                    entityService={entityService}
+                    row={row}
+                    detail={
+                      acl.detail &&
+                      !acl.update && (
+                        <ChildDecorator routeMapItem={detailMapItem} row={row}>
+                          <ViewRowButton row={row} path={path} />
+                        </ChildDecorator>
+                      )
+                    }
+                    edit={
+                      acl.update && (
+                        <ChildDecorator
+                          routeMapItem={updateRouteMapItem}
+                          row={row}
+                        >
+                          <EditRowButton row={row} path={path} />
+                        </ChildDecorator>
+                      )
+                    }
+                    deleteMapItem={acl.delete && deleteMapItem}
+                  />
+                </Box>
               </StyledActionsTableCell>
             </TableRow>
           );

@@ -70,6 +70,22 @@ export const StyledTableRowEntityCta = styled(TableRowLinkButton)(() => {
   };
 });
 
+export const StyledTableRowChildEntityLink = styled((props: HistoryTrackerLinkProps) => {
+  const { children, className, to, ...rest } = props;
+
+  return (
+    <HistoryTrackerLink {...rest} to={to} className={className}>
+      {children}
+    </HistoryTrackerLink>
+  );
+})(() => {
+  return {
+    ...linkSharedStyles,
+    textDecoration: 'none',
+    color: 'inherit',
+  };
+});
+
 export const StyledTableRowFkLink = styled((props: HistoryTrackerLinkProps) => {
   const { children, className, to } = props;
   return (

@@ -10,7 +10,7 @@ import EntityService, {
   EntityValues,
 } from '../../../../services/entity/EntityService';
 import DeleteRowButton from '../CTA/DeleteRowButton';
-import { StyledTableRowEntityCta } from '../Table/ContentTable.styles';
+import { StyledTableRowChildEntityLink } from '../Table/ContentTable.styles';
 import buildLink from './BuildLink';
 import { MoreChildEntityLinksWrapper } from './MoreChildEntityLinksWrapper';
 
@@ -59,21 +59,18 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           params: match.params,
         });
 
-        console.log('title', title);
-        debugger;
-
         return (
-          <MenuItem key={key}>
+          <MoreMenuItem key={key}>
             <ChildDecorator key={key} routeMapItem={routeMapItem} row={row}>
-              <StyledTableRowEntityCta
+              <StyledTableRowChildEntityLink
                 to={link}
                 parentEntity={entity}
                 parentRow={row}
               >
                 {title}
-              </StyledTableRowEntityCta>
+              </StyledTableRowChildEntityLink>
             </ChildDecorator>
-          </MenuItem>
+          </MoreMenuItem>
         );
       })}
       {deleteMapItem && (

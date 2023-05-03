@@ -42,6 +42,9 @@ const getEntityMap = (): RouteMap => {
               children: [...Object.values(entities.User.customActions)],
             },
             ...Object.values(entities.Client.customActions),
+            {
+              entity: entities.Administrator,
+            },
           ],
         },
       ],

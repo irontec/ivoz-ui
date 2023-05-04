@@ -1,13 +1,11 @@
 import { useStoreState } from 'store';
 import { Fragment } from 'react';
 import {
-  ActionItem,
   EntityItem,
   RouteMap,
   RouteMapItem,
   isActionItem,
   isEntityItem,
-  isRouteMapBlock,
 } from '../../../router/routeMapParser';
 import {
   StyledDivider,
@@ -42,7 +40,6 @@ export default function MenuContent(
       <MenuHeader />
       <MenuListItem path='/' icon={<StyledHomeIcon />} text={'Dashboard'} />
       {routeMap.map((routeMapBlock, key: number) => {
-
         if (isActionItem(routeMapBlock as RouteMapItem)) {
           return null;
         }

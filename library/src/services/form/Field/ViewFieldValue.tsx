@@ -20,9 +20,13 @@ interface ViewValueProps {
   values: any;
 }
 
-const ViewFieldValue = (props: ViewValueProps): JSX.Element => {
+const ViewFieldValue = (props: ViewValueProps): JSX.Element | null => {
   const { columnName, values, entityService } = props;
   let { property } = props;
+
+  if (!property) {
+    return null;
+  }
 
   const noComponent = !(property as ScalarProperty).component;
 
@@ -55,7 +59,8 @@ const ViewFieldValue = (props: ViewValueProps): JSX.Element => {
   } else if (noComponent) {
     const component: PropertyCustomFunctionComponent<any> = (props: any) => {
       const { values, property } = props;
-      let val = values[columnName];
+
+      let val = values[columnName] ?? '';
       if (val === null) {
         val = '';
       } else if (typeof val === 'object') {

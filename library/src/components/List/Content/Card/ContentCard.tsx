@@ -35,7 +35,7 @@ const ContentCard = (props: ContentCardProps): JSX.Element => {
       {rows.map((row, key) => {
         return (
           <StyledContentCardBody
-            key={key}
+            key={`${key}-${row.id}`}
             childEntities={childEntities}
             entityService={entityService}
             ignoreColumn={ignoreColumn}

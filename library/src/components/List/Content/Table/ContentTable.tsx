@@ -103,7 +103,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
           const checked = selectedValues.indexOf(row.id.toString()) > -1;
 
           return (
-            <TableRow key={key}>
+            <TableRow key={`${key}-${row.id}`}>
               {multiselect && (
                 <TableCell>
                   <Checkbox

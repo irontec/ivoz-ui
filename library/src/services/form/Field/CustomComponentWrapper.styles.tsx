@@ -42,6 +42,14 @@ export const StyledFieldsetRoot = styled((props: StyledFieldsetRootProps) => {
     '& fieldset': {
       padding: '10px 10px 5px',
     },
+    '&.multilang fieldset': {
+      border: 'none',
+      margin: '0',
+      padding: '0',
+    },
+    '&.multilang label': {
+      fontSize: '13px',
+    },
   };
 });
 

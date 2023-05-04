@@ -49,6 +49,7 @@ export default ({ mode }) => {
                 'entities': `${basePath}/entities`,
                 'translations': `${basePath}/translations`,
                 'components': `${basePath}/components`,
+                'icons': `${basePath}/icons`,
             },
         },
         define: {

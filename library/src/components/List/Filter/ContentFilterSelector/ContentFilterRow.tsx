@@ -43,7 +43,7 @@ const StyledDropdownMemo = memo(
 
 export default function ContentFilterRow(
   props: ContentFilterRowProps
-): JSX.Element {
+): JSX.Element | null {
   const {
     idx,
     filters,
@@ -58,6 +58,10 @@ export default function ContentFilterRow(
   } = props;
 
   const [name, setName] = useState(row.name);
+  if (!filters[name]) {
+    return null;
+  }
+
   const filterChoices: DropdownChoices = {};
   for (const filter of filters[name]) {
     filterChoices[filter] = FilterIconFactory({

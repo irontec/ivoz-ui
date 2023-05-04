@@ -100,7 +100,7 @@ export default function ContentFilterSelector(
   const resetCriteria: MouseEventHandler<HTMLAnchorElement> = (event) => {
     event.stopPropagation();
     event.preventDefault();
-    setCriteria([]);
+    commitCriteria([]);
   };
 
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
@@ -166,6 +166,7 @@ export default function ContentFilterSelector(
           </OutlinedButton>
           <SolidButton
             variant='contained'
+            disabled={criteria.length < 1}
             onClick={() => {
               commitCriteria(criteria);
             }}

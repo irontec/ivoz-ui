@@ -21,6 +21,7 @@ const Detail: DetailComponentType = (props) => {
     entityService,
     foreignKeyResolver: foreignKeyResolverLoader,
   } = props;
+
   const [parsedData, setParsedData] = useState<any>({});
   const [foreignKeysResolved, setForeignKeysResolved] =
     useState<boolean>(false);

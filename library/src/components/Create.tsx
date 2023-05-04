@@ -32,7 +32,6 @@ const Create = (props: CreateProps) => {
       })
       .catch((error) => {
         console.error(error);
-        debugger;
       });
   }, []);
 

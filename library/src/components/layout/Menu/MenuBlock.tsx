@@ -1,4 +1,3 @@
-import SettingsIcon from '@mui/icons-material/Settings';
 import {
   Collapse,
   List,
@@ -6,6 +5,7 @@ import {
   ListItemIcon,
   ListItemText,
 } from '@mui/material';
+import { GearIcon } from '../../../icons/GearIcon';
 import { useEffect } from 'react';
 import { useStoreActions, useStoreState } from 'store';
 import {
@@ -30,7 +30,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
   const collapseMenu = useStoreActions((actions) => actions.menu.collapse);
   const expandMenu = useStoreActions((actions) => actions.menu.expand);
 
-  const { label, children } = routeMapBlock as RouteMapBlock;
+  const { label, children, icon: CustomIcon } = routeMapBlock as RouteMapBlock;
   const selectedChild = (children || []).find((item: RouteMapItem) => {
     if (!isEntityItem(item)) {
       return false;
@@ -92,7 +92,7 @@ export default function MenuBlock(props: menuBlockProps): JSX.Element {
     <>
       <ListItemButton selected={selected} onClick={handleClick}>
         <ListItemIcon>
-          <SettingsIcon />
+          {CustomIcon ? <CustomIcon /> : <GearIcon />}
         </ListItemIcon>
         <ListItemText primary={label} />
       </ListItemButton>

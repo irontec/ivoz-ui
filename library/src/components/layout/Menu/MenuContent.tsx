@@ -1,10 +1,13 @@
 import { useStoreState } from 'store';
 import { Fragment } from 'react';
 import {
+  ActionItem,
   EntityItem,
   RouteMap,
   RouteMapItem,
+  isActionItem,
   isEntityItem,
+  isRouteMapBlock,
 } from '../../../router/routeMapParser';
 import {
   StyledDivider,
@@ -39,12 +42,18 @@ export default function MenuContent(
       <MenuHeader />
       <MenuListItem path='/' icon={<StyledHomeIcon />} text={'Dashboard'} />
       {routeMap.map((routeMapBlock, key: number) => {
+
+        if (isActionItem(routeMapBlock as RouteMapItem)) {
+          return null;
+        }
+
         if (isEntityItem(routeMapBlock as RouteMapItem)) {
           const entity = (routeMapBlock as EntityItem).entity;
+          const divider = (routeMapBlock as EntityItem).divider;
 
           return (
             <Fragment key={key}>
-              <StyledDivider />
+              {divider && <StyledDivider />}
               <MenuListItem
                 key={key}
                 path={entity.localPath || entity.path}

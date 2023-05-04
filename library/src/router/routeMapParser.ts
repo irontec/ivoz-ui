@@ -17,6 +17,7 @@ export interface EntityItem {
   filterValues?: FilterValuesType;
   fixedValues?: Record<string, ScalarEntityValue>;
   children?: Array<RouteMapItem>;
+  divider?: boolean,
 }
 
 export interface ActionItemProps {
@@ -65,6 +66,7 @@ export type RouteMapItem = EntityItem | ActionItem;
 
 export type RouteMapBlock<T extends RouteMapItem = RouteMapItem> = {
   label: string | JSX.Element | null;
+  icon?: React.FunctionComponent,
   children: Array<T>;
 };
 

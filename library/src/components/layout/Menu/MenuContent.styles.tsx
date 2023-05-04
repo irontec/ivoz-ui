@@ -1,7 +1,8 @@
-import HomeIcon from '@mui/icons-material/Home';
+
 import { Divider, styled } from '@mui/material';
 
 import List from '@mui/material/List';
+import { HomeIcon } from '../../../icons/HomeIcon';
 
 export const StyledDivider = styled(Divider)(() => {
   return {

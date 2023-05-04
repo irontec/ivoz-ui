@@ -18,6 +18,7 @@ import Pagination from './Pagination';
 import useQueryStringParams from './useQueryStringParams';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
 import _ from '../../services/translations/translate';
+import { StyledEmpty } from './Content/Empty.styles';
 
 type ListProps = {
   path: string;
@@ -267,6 +268,7 @@ const List = function (props: ListProps) {
   ]);
 
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
+  const rows = useStoreState((state) => state.list.rows);
 
   if (prevPath !== path) {
     return null;
@@ -274,6 +276,14 @@ const List = function (props: ListProps) {
 
   if (!criteriaIsReady || !mounted) {
     return null;
+  }
+
+  if (!rows || rows.length === 0) {
+    return (
+      <div className={className}>
+        <StyledEmpty entityService={entityService} />
+      </div>
+    );
   }
 
   return (

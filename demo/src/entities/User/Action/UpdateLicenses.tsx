@@ -27,6 +27,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
 
 import user from '../User';
+import { StyledDropdown } from '@irontec/ivoz-ui/services/form/Field/Dropdown/Dropdown.styles';
 
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps
@@ -124,37 +125,41 @@ const UpdateLicenses: ActionFunctionComponent = (
       {open && (
         <Dialog open={open} onClose={handleClose} keepMounted>
           <DialogTitle>Change licence to:</DialogTitle>
-          <DialogContent>
-            <DialogContentText>
-              {!error && (
-                <FormControl
-                  sx={{
-                    margin: 1,
-                    minWidth: 120,
+          <DialogContent sx={{textAlign: 'left!important'}}>
+            {!error && (
+              <>
+                <StyledDropdown
+                  name='licence'
+                  label=''
+                  value={licensesValue}
+                  required={true}
+                  disabled={disabled}
+                  onChange={handleChange}
+                  onBlur={() => { /* noop */}}
+                  choices={{
+                    'no': 'None',
+                    'desktop': 'Desktop',
+                    'mobile': 'Mobile',
+                    'dual': 'Dual',
                   }}
-                >
-                  <Select value={licensesValue} onChange={handleChange}>
-                    <MenuItem value={'no'}>None</MenuItem>
-                    <MenuItem value={'desktop'}>Desktop</MenuItem>
-                    <MenuItem value={'mobile'}>Mobile</MenuItem>
-                    <MenuItem value={'dual'}>Dual</MenuItem>
-                  </Select>
-                  <FormHelperText>
-                    Dual licence is valid for both mobile and desktop
-                  </FormHelperText>
-                </FormControl>
-              )}
-              {error && (
-                <span>
-                  <ErrorIcon
-                    sx={{
-                      verticalAlign: 'bottom',
-                    }}
-                  />
-                  {errorMsg ?? 'There was a problem'}
-                </span>
-              )}
-            </DialogContentText>
+                  error={false}
+                  hasChanged={false}
+                />
+                <FormHelperText>
+                  Dual licence is valid for both mobile and desktop
+                </FormHelperText>
+              </>
+            )}
+            {error && (
+              <span>
+                <ErrorIcon
+                  sx={{
+                    verticalAlign: 'bottom',
+                  }}
+                />
+                {errorMsg ?? 'There was a problem'}
+              </span>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>

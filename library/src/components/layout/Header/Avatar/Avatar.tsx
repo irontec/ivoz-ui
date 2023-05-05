@@ -27,8 +27,6 @@ export default function Avatar(props: AvatarProps): JSX.Element {
   const tokenPayload = parseJwt(token);
   const username = tokenPayload.username;
 
-  console.log('username', username);
-
   const handleLogout = () => {
     resetAuth();
   };

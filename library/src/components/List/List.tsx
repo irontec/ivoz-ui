@@ -269,6 +269,7 @@ const List = function (props: ListProps) {
 
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
   const rows = useStoreState((state) => state.list.rows);
+  const apiLoading = useStoreState((state) => state.api.loading);
 
   if (prevPath !== path) {
     return null;
@@ -278,7 +279,11 @@ const List = function (props: ListProps) {
     return null;
   }
 
-  if (!rows || rows.length === 0) {
+  if ((!rows || rows.length === 0) && apiLoading) {
+    return null;
+  }
+
+  if ((!rows || rows.length === 0)) {
     return (
       <div className={className}>
         <StyledEmpty entityService={entityService} />

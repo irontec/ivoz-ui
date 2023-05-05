@@ -25,9 +25,9 @@ const Feature: EntityInterface = {
   path: '/features',
   toStr: (row: FeaturePropertyList<EntityValues>) => {
     const language = getI18n().language.substring(0, 2);
-    const name = row.name as Record<string, string>;
+    const name = row?.name as Record<string, string>;
 
-    return name[language];
+    return name?.[language] || '';
   },
   properties,
   selectOptions: async () => {

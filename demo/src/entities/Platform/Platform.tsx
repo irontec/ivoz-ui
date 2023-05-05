@@ -4,6 +4,8 @@ import { EntityValue } from '@irontec/ivoz-ui/services';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import CastleIcon from '@mui/icons-material/Castle';
 
+import CustomActions from './Action';
+
 import { PlatformProperties, PlatformPropertyList } from './PlatformProperties';
 
 const properties: PlatformProperties = {
@@ -78,6 +80,14 @@ const platform: EntityInterface = {
   defaultOrderBy: '',
   toStr: (row: PlatformPropertyList<EntityValue>) => row.name as string,
   properties,
+  acl: {
+    create: true,
+    update: true,
+    detail: true,
+    read: true,
+    delete: true,
+  },
+  customActions: CustomActions,
   columns: [
     { name: 'name', size: 33 },
     { name: 'type', size: 33 },
@@ -90,6 +100,11 @@ const platform: EntityInterface = {
   },
   Form: async () => {
     const module = await import('./Form');
+
+    return module.default;
+  },
+  View: async () => {
+    const module = await import('./View');
 
     return module.default;
   },

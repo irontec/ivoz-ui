@@ -35,6 +35,7 @@ const getEntityMap = (): RouteMap => {
                 ...Object.values(entities.Client.customActions),
               ],
             },
+            ...Object.values(entities.Platform.customActions),
           ],
         },
         {

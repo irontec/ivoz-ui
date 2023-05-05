@@ -9,7 +9,19 @@ import {
 } from '../../../services';
 import { EntityFormProps } from './Form';
 
-const useFormHandler = (props: EntityFormProps): useFormikType => {
+type UseFormHandlerProps = Pick<
+  EntityFormProps,
+  | 'create'
+  | 'entityService'
+  | 'fixedValues'
+  | 'filterValues'
+  | 'filterBy'
+  | 'initialValues'
+  | 'onSubmit'
+  | 'validator'
+>;
+
+const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
   const {
     create,
     entityService,

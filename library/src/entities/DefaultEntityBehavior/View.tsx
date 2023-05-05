@@ -1,16 +1,20 @@
-import React from 'react';
 import { Grid } from '@mui/material';
-import { PropertySpec } from '../../services/api/ParsedApiSpecInterface';
-import { ViewProps } from '../EntityInterface';
-import ViewFieldValue from '../../services/form/Field/ViewFieldValue';
+import React from 'react';
+import FormFieldFactory from '../../services/form/FormFieldFactory';
 import {
-  StyledGroupLegend,
   StyledGroupGrid,
+  StyledGroupLegend,
 } from '../DefaultEntityBehavior.styles';
-import filterFieldsetGroups, { FieldsetGroups } from './FilterFieldsetGroups';
+import { ViewProps } from '../EntityInterface';
+import filterFieldsetGroups, {
+  FieldsetGroups,
+  FieldsetGroupsField,
+} from './FilterFieldsetGroups';
+import { useFormHandler } from './Form/useFormHandler';
+import { NullablePropertyFkChoices } from './Form';
 
 const View = (props: ViewProps): JSX.Element | null => {
-  const { entityService, row } = props;
+  const { entityService, row, fkChoices = {} } = props;
 
   const columns = entityService.getColumns();
   const columnNames = Object.keys(columns);
@@ -25,26 +29,42 @@ const View = (props: ViewProps): JSX.Element | null => {
     });
   }
 
+  const formik = useFormHandler({
+    ...props,
+    initialValues: row,
+    validator: () => {
+      return {};
+    },
+    onSubmit: async () => {
+      /* noop */
+    },
+  });
+  const formFieldFactory = new FormFieldFactory(
+    entityService,
+    formik,
+    formik.handleChange,
+    formik.handleBlur
+  );
+
   return (
     <React.Fragment>
       {groups.map((group, idx: number) => {
-        const fields = group.fields as Array<string>;
+        const fields = group.fields as Array<FieldsetGroupsField>;
 
         return (
           <div key={idx}>
             <StyledGroupLegend>{group.legend}</StyledGroupLegend>
             <StyledGroupGrid>
-              {fields.map((columnName: string, idx: number) => {
-                const properties = entityService.getProperties();
-                const property = properties[columnName] as PropertySpec;
+              {fields.map((column, idx: number) => {
+                const fldName =
+                  typeof column === 'string' ? column : column.name;
+                const choices: NullablePropertyFkChoices = fkChoices
+                  ? fkChoices[fldName]
+                  : null;
+
                 return (
                   <Grid item xs={12} md={6} lg={4} key={idx}>
-                    <ViewFieldValue
-                      entityService={entityService}
-                      property={property}
-                      values={row}
-                      columnName={columnName}
-                    />
+                    {formFieldFactory.getFormField(fldName, choices, true)}
                   </Grid>
                 );
               })}

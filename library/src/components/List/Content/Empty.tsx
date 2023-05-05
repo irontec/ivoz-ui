@@ -14,8 +14,6 @@ export const Empty = (props: EmptyProps): JSX.Element => {
   const acls = entityService.getAcls();
   const { create = false } = acls;
 
-  console.log('acls create', create);
-
   return (
     <>
       <h3 className={className}>

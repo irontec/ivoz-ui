@@ -1,5 +1,9 @@
 import { CancelToken } from 'axios';
+import React from 'react';
+import { PathMatch } from 'react-router-dom';
+import { DropdownChoices, EntityValue } from 'services';
 import { EntityList } from '../router/parseRoutes';
+import { ActionItem, RouteMapItem } from '../router/routeMapParser';
 import {
   PartialPropertyList,
   PropertySpec,
@@ -8,11 +12,11 @@ import EntityService, {
   EntityValues,
   VisualToggleStates,
 } from '../services/entity/EntityService';
-import React from 'react';
-import { PathMatch } from 'react-router-dom';
-import { EntityFormProps, fetchFksType } from './DefaultEntityBehavior';
-import { ActionItem, RouteMapItem } from '../router/routeMapParser';
-import { DropdownChoices, EntityValue } from 'services';
+import {
+  EntityFormProps,
+  FkChoices,
+  fetchFksType,
+} from './DefaultEntityBehavior';
 
 export type ListDecoratorPropsType = {
   field: string;
@@ -81,6 +85,9 @@ export interface ViewProps {
   entityService: EntityService;
   row: EntityValues;
   groups?: any;
+  create?: false;
+  edit?: false;
+  fkChoices?: FkChoices;
 }
 export type ViewType = (props: ViewProps) => JSX.Element | null;
 

@@ -18,8 +18,15 @@ interface MultilangPropsInterface
 }
 
 const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
-  const { _columnName, properties, formik, inputProps, onBlur, changeHandler } =
-    props;
+  const {
+    _columnName,
+    disabled,
+    properties,
+    formik,
+    inputProps,
+    onBlur,
+    changeHandler,
+  } = props;
 
   let { InputProps } = props;
 
@@ -29,9 +36,9 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
 
   return (
     <StyledFieldsetRoot
-      label={property.label} //properties[name].label
+      label={property.label}
       hasChanged={false} //TODO
-      disabled={false}
+      disabled={disabled}
       className={'multilang'}
     >
       <StyledFieldset>
@@ -63,7 +70,7 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
                 type='text'
                 multiline={multiline}
                 value={value}
-                disabled={false}
+                disabled={disabled}
                 label={undefined}
                 required={required}
                 onChange={changeHandler}

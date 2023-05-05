@@ -15,16 +15,7 @@ type DetailComponentProps = {
 type DetailComponentType = FunctionComponent<DetailComponentProps>;
 
 const Detail: DetailComponentType = (props) => {
-  const {
-    View: EntityViewLoader,
-    row,
-    entityService,
-    foreignKeyResolver: foreignKeyResolverLoader,
-  } = props;
-
-  const [parsedData, setParsedData] = useState<any>({});
-  const [foreignKeysResolved, setForeignKeysResolved] =
-    useState<boolean>(false);
+  const { View: EntityViewLoader, row } = props;
 
   const [EntityView, setEntityView] = useState<ViewType | null>(null);
 
@@ -34,27 +25,13 @@ const Detail: DetailComponentType = (props) => {
     });
   }, []);
 
-  // flat detailed model
-  foreignKeyResolverLoader().then((foreignKeyResolver) =>
-    foreignKeyResolver({ data: row, allowLinks: true, entityService }).then(
-      (data) => {
-        setParsedData(data);
-        setForeignKeysResolved(true);
-      }
-    )
-  );
-
-  if (!foreignKeysResolved) {
-    return null;
-  }
-
   if (!EntityView) {
     return null;
   }
 
   return (
     <Box className='card'>
-      <EntityView {...props} row={parsedData} />
+      <EntityView {...props} row={row} />
     </Box>
   );
 };

@@ -3,15 +3,32 @@ import { useState } from 'react';
 import { useStoreActions } from 'store';
 import { StyledMenu } from '../Settings/styles/Menu.styles';
 import _ from '../../../../services/translations/translate';
+import { useStoreState } from 'store';
 
 export interface AvatarProps {
   children?: React.ReactNode;
   className?: string;
 }
 
+const parseJwt = (token:string): { username: string} => {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+  }).join(''));
+
+  return JSON.parse(jsonPayload);
+}
+
 export default function Avatar(props: AvatarProps): JSX.Element {
   const { children, className } = props;
   const resetAuth = useStoreActions((actions) => actions.auth.resetAll);
+  const token = useStoreState((state) => state.auth.token as string);
+  const tokenPayload = parseJwt(token);
+  const username = tokenPayload.username;
+
+  console.log('username', username);
+
   const handleLogout = () => {
     resetAuth();
   };
@@ -26,11 +43,13 @@ export default function Avatar(props: AvatarProps): JSX.Element {
     setAnchorElUser(null);
   };
 
+
+
   return (
     <div className={className}>
-      <Tooltip title={_('Account settings')}>
+      <Tooltip title={_('{{username}} account settings', {username})}>
         <Box onClick={handleOpenUserMenu} className='account'>
-          AL
+          {username.substring(0,2).toUpperCase()}
         </Box>
       </Tooltip>
       <StyledMenu

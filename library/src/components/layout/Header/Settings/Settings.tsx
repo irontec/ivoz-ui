@@ -11,7 +11,7 @@ interface SettingsProps {
   children?: React.ReactNode;
 }
 
-export default function Settings(props: SettingsProps): JSX.Element {
+export default function Settings(props: SettingsProps): JSX.Element | null {
   const { children } = props;
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null);
 
@@ -33,6 +33,10 @@ export default function Settings(props: SettingsProps): JSX.Element {
       id: lang.locale,
     };
   });
+
+  if (!choices.length) {
+    return null;
+  }
 
   return (
     <>

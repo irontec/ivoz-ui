@@ -14,5 +14,9 @@ export const StyledAvatar = styled(Avatar)(() => {
     placeItems: 'center',
     width: `${size}`,
     height: `${size}`,
+
+    '& .account': {
+      cursor: 'pointer',
+    }
   };
 });

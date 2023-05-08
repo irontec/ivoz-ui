@@ -56,7 +56,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
       nullValue || (!row[columnName] && !row[`${columnName}Id`]);
     const preparedValue = Boolean(row[`${columnName}Id`]);
 
-    if (nullValue) {
+    if (nullValue || emptyValue) {
       return <>{column.null}</>;
     } else if (
       loadingValue ||

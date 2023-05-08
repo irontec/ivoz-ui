@@ -41,8 +41,6 @@ export default function Avatar(props: AvatarProps): JSX.Element {
     setAnchorElUser(null);
   };
 
-
-
   return (
     <div className={className}>
       <Tooltip title={_('{{username}} account settings', {username})}>

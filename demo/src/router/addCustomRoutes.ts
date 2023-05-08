@@ -1,9 +1,8 @@
 import { Detail, RouteSpec } from '@irontec/ivoz-ui';
+import Platform from 'entities/Platform/Platform';
 
 import BlankComponent from '../components/Blank';
 import BlankComponent2 from '../components/Blank2';
-
-import Platform from 'entities/Platform/Platform';
 
 const addCustomRoutes = (routes: Array<RouteSpec>): Array<RouteSpec> => {
   const blankRoute = routes.find((route) => route.key === 'Blank-list');

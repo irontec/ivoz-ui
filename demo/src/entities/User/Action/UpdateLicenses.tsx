@@ -5,6 +5,7 @@ import {
   isSingleRowAction,
   MultiSelectActionItemProps,
 } from '@irontec/ivoz-ui/router/routeMapParser';
+import { StyledDropdown } from '@irontec/ivoz-ui/services/form/Field/Dropdown/Dropdown.styles';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import ErrorIcon from '@mui/icons-material/Error';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
@@ -13,12 +14,8 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
-  FormControl,
   FormHelperText,
-  MenuItem,
-  Select,
   SelectChangeEvent,
   Tooltip,
 } from '@mui/material';
@@ -27,7 +24,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
 
 import user from '../User';
-import { StyledDropdown } from '@irontec/ivoz-ui/services/form/Field/Dropdown/Dropdown.styles';
 
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps
@@ -125,7 +121,7 @@ const UpdateLicenses: ActionFunctionComponent = (
       {open && (
         <Dialog open={open} onClose={handleClose} keepMounted>
           <DialogTitle>Change licence to:</DialogTitle>
-          <DialogContent sx={{textAlign: 'left!important'}}>
+          <DialogContent sx={{ textAlign: 'left!important' }}>
             {!error && (
               <>
                 <StyledDropdown
@@ -135,12 +131,14 @@ const UpdateLicenses: ActionFunctionComponent = (
                   required={true}
                   disabled={disabled}
                   onChange={handleChange}
-                  onBlur={() => { /* noop */}}
+                  onBlur={() => {
+                    /* noop */
+                  }}
                   choices={{
-                    'no': 'None',
-                    'desktop': 'Desktop',
-                    'mobile': 'Mobile',
-                    'dual': 'Dual',
+                    no: 'None',
+                    desktop: 'Desktop',
+                    mobile: 'Mobile',
+                    dual: 'Dual',
                   }}
                   error={false}
                   hasChanged={false}

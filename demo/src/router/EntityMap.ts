@@ -2,9 +2,9 @@ import routeMapParser, {
   RouteMap,
   RouteMapItem,
 } from '@irontec/ivoz-ui/router/routeMapParser';
+import { HatIcon } from 'icons/HatIcon';
 
 import entities from '../entities/index';
-import { HatIcon } from 'icons/HatIcon';
 
 const getEntityMap = (): RouteMap => {
   const map: RouteMap = [

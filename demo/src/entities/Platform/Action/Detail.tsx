@@ -1,11 +1,10 @@
+import ViewRowButton from '@irontec/ivoz-ui/components/List/Content/CTA/ViewRowButton';
 import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
 import {
   ActionFunctionComponent,
   ActionItemProps,
 } from '@irontec/ivoz-ui/router/routeMapParser';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
-
-import ViewRowButton from '@irontec/ivoz-ui/components/List/Content/CTA/ViewRowButton';
 import { useNavigate } from 'react-router-dom';
 
 const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
@@ -26,9 +25,7 @@ const Sync: ActionFunctionComponent = (props: ActionItemProps) => {
           {_('Detail')}
         </MoreMenuItem>
       )}
-      {variant === 'icon' && (
-        <ViewRowButton row={row} path={path} />
-      )}
+      {variant === 'icon' && <ViewRowButton row={row} path={path} />}
     </>
   );
 };

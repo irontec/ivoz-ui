@@ -5,7 +5,6 @@ import _ from '@irontec/ivoz-ui/services/translations/translate';
 import CastleIcon from '@mui/icons-material/Castle';
 
 import CustomActions from './Action';
-
 import { PlatformProperties, PlatformPropertyList } from './PlatformProperties';
 
 const properties: PlatformProperties = {

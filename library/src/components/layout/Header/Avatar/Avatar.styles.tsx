@@ -17,6 +17,6 @@ export const StyledAvatar = styled(Avatar)(() => {
 
     '& .account': {
       cursor: 'pointer',
-    }
+    },
   };
 });

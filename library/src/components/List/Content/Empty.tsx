@@ -15,9 +15,10 @@ export const Empty = (props: EmptyProps): JSX.Element => {
   const acls = entityService.getAcls();
   const { create = false } = acls;
 
-  const title = typeof entity.title === 'string'
-    ? entity.title
-    : `$t(${entity.title.props.defaults}, {"count": 1})`;
+  const title =
+    typeof entity.title === 'string'
+      ? entity.title
+      : `$t(${entity.title.props.defaults}, {"count": 1})`;
 
   return (
     <>
@@ -27,9 +28,7 @@ export const Empty = (props: EmptyProps): JSX.Element => {
       </h3>
       {create && (
         <Link to={entity.path + '/create'}>
-          <LightButton>
-            {_('New {{entity}}', {entity: title})}
-          </LightButton>
+          <LightButton>{_('New {{entity}}', { entity: title })}</LightButton>
         </Link>
       )}
     </>

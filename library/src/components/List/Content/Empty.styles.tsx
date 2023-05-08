@@ -3,9 +3,9 @@ import Empty from './Empty';
 
 export const StyledEmpty = styled(Empty)(() => {
   return {
-    border: '1px solid red',
+    // border: '1px solid red',
     '& span': {
-      border: '1px solid black',
+      // border: '1px solid black',
     },
   };
 });

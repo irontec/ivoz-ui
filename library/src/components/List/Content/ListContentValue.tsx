@@ -50,7 +50,10 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const isBoolean = typeof value === 'boolean';
 
   let response = value;
-  if (isFk) {
+
+  if (customComponent) {
+    response = <ListDecorator field={columnName} row={row} property={column} />;
+  } else if (isFk) {
     const nullValue = row[columnName] === null;
     const emptyValue =
       nullValue || (!row[columnName] && !row[`${columnName}Id`]);

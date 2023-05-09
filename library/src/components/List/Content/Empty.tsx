@@ -27,7 +27,7 @@ export const Empty = (props: EmptyProps): JSX.Element => {
         <span> {entity.title}</span>
       </h3>
       {create && (
-        <Link to={entity.path + '/create'}>
+        <Link to={location.pathname + '/create'}>
           <LightButton>{_('New {{entity}}', { entity: title })}</LightButton>
         </Link>
       )}

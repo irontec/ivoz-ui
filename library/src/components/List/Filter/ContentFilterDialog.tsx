@@ -58,25 +58,29 @@ export function ContentFilterDialog(
     setCriteria(queryStringCriteria);
   }, [queryStringCriteria, setCriteria]);
 
-  const foreignKeyGetter = entityService.getForeignKeyGetter();
+  const foreignKeyGetterLoader = entityService.getEntity().foreignKeyGetter;
 
   useEffect(() => {
     if ((preloadData || Boolean(anchorEl)) && loading) {
-      foreignKeyGetter({
-        entityService,
-        cancelToken,
-        match,
-        filterContext: true,
-      }).then((foreignEntities: any) => {
-        setForeignEntities(foreignEntities);
-        setLoading(false);
-      });
+      foreignKeyGetterLoader().then(
+        (foreignKeyGetter) => {
+          foreignKeyGetter({
+            entityService,
+            cancelToken,
+            match,
+            filterContext: true,
+          }).then((foreignEntities: any) => {
+            setForeignEntities(foreignEntities);
+            setLoading(false);
+          });
+        }
+      );
     }
   }, [
     preloadData,
     anchorEl,
     loading,
-    foreignKeyGetter,
+    foreignKeyGetterLoader,
     entityService,
     cancelToken,
     match,

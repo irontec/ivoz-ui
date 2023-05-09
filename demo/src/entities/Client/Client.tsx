@@ -6,6 +6,7 @@ import ApartmentIcon from '@mui/icons-material/Apartment';
 
 import Actions from './Action';
 import { ClientProperties, ClientPropertyList } from './ClientProperties';
+import CustomLanguageFld from './Field/CustomLanguageFld';
 import RemoteId from './Field/RemoteId';
 
 const properties: ClientProperties = {
@@ -25,6 +26,7 @@ const properties: ClientProperties = {
   language: {
     label: _('Language'),
     helpText: 'Select one',
+    component: CustomLanguageFld,
   },
   desktopLicences: {
     label: _('Desktop licences'),

@@ -53,7 +53,7 @@ export default function MenuListItem(
       }}
     >
       <ListItemIcon>
-        <Tooltip title={text as string} placement='bottom-start'>
+        <Tooltip title={text as string} placement='left-end'>
           <MenuListItemIcon icon={icon} />
         </Tooltip>
       </ListItemIcon>

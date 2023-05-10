@@ -16,6 +16,7 @@ const properties: AdministratorProperties = {
   },
   active: {
     label: _('Active'),
+    helpText: _('Enable / Disable admin'),
   },
   name: {
     label: _('Name'),

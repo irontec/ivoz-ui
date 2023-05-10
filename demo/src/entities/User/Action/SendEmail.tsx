@@ -193,11 +193,11 @@ const SendEmailWrapper: ActionFunctionComponent = (
       >
         <DialogContentText id='alert-dialog-description'>
           You&apos;re about to send an email with credentials to: <br />
-          <span
+          <div
+            className='text-content'
             style={{
-              display: 'block',
               marginTop: '10px',
-              maxHeight: '80px',
+              maxHeight: '160px',
               overflowY: 'auto',
             }}
           >
@@ -211,7 +211,7 @@ const SendEmailWrapper: ActionFunctionComponent = (
                 </span>
               );
             })}
-          </span>
+          </div>
           {skipped > 0 && (
             <span
               style={{

@@ -42,7 +42,7 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
       className={'multilang'}
     >
       <StyledFieldset>
-        <Box sx={{ padding: '5px' }}>
+        <Box>
           {languages?.map((lng) => {
             const locale = lng.locale.split('-').shift() ?? 'en';
 

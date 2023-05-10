@@ -283,11 +283,7 @@ const List = function (props: ListProps) {
   }
 
   if ((!rows || rows.length === 0) && queryStringCriteria.length === 0) {
-    return (
-      <div className={className}>
-        <StyledEmpty entityService={entityService} />
-      </div>
-    );
+    return <StyledEmpty entityService={entityService} className={className} />;
   }
 
   return (

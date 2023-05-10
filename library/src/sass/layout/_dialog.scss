@@ -25,9 +25,13 @@
   }
 
   pre {
+    text-align: initial;
+  }
+
+  .text-content {
     background: var(--color-background);
     padding: var(--spacing-md);
-    text-align: initial;
+    border-radius: var(--spacing-sm);
   }
 
   .MuiDialogActions-root {

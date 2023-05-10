@@ -34,5 +34,8 @@ export const StyledSwitchFormControl = styled(SwitchFormControl)(() => {
     '& .MuiTouchRipple-root': {
       display: 'none',
     },
+    '& .help-tooltip': {
+      color: '#b2b3b6',
+    },
   };
 });

@@ -1,8 +1,10 @@
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { FormControlLabel, Switch } from '@mui/material';
-import { SwitchFormControl } from '../../../form/Field/SwitchFormControl';
 import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { ScalarProperty } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
+import { SwitchFormControl } from '../../../form/Field/SwitchFormControl';
+import { StyledHelpTextTooltip } from '../../Field/Shared/HelpText.styles';
 import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
 
 type SwitchFactoryPropsType = {
@@ -28,6 +30,23 @@ export const SwitchFactory = (props: SwitchFactoryPropsType): JSX.Element => {
   } = props;
 
   const checked = Array.isArray(value) ? value.includes('1') : Boolean(value);
+  const helpText = property.helpText;
+
+  const label = helpText
+    ? (
+      <>
+        {property.label}
+        <StyledHelpTextTooltip
+          title={helpText}
+          placement='top'
+          arrow
+          className='help-tooltip'
+        >
+          <HelpOutlineIcon />
+        </StyledHelpTextTooltip>
+      </>
+    )
+    : property.label;
 
   return (
     <SwitchFormControl hasChanged={hasChanged}>
@@ -42,7 +61,7 @@ export const SwitchFactory = (props: SwitchFactoryPropsType): JSX.Element => {
             value={true}
           />
         }
-        label={property.label}
+        label={label}
       />
     </SwitchFormControl>
   );

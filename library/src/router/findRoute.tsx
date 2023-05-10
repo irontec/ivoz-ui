@@ -5,6 +5,8 @@ import {
   EntityItem,
   isRouteMapBlock,
   isEntityItem,
+  RouteMapBlock,
+  isRouteMapItem,
 } from './routeMapParser';
 import { PathMatch } from 'react-router-dom';
 import EntityInterface from '../entities/EntityInterface';
@@ -14,7 +16,6 @@ const matchRoute = (
   match: PathMatch,
   includeChildren = false
 ): EntityItem | undefined => {
-
   const baseUrl = process.env.BASE_URL || '/';
 
   const routePaths = [
@@ -36,7 +37,8 @@ const matchRoute = (
 
 const _filterRoutePathItems = (
   route: RouteMapItem,
-  match: PathMatch
+  match: PathMatch,
+  includeChildren = false
 ): EntityItem | undefined => {
   if (isActionItem(route)) {
     return undefined;
@@ -44,7 +46,7 @@ const _filterRoutePathItems = (
 
   if (route.children) {
     for (const child of route.children) {
-      const resp = _filterRoutePathItems(child, match);
+      const resp = _filterRoutePathItems(child, match, includeChildren);
       if (resp) {
         return {
           ...route,
@@ -54,7 +56,7 @@ const _filterRoutePathItems = (
     }
   }
 
-  return matchRoute(route, match);
+  return matchRoute(route, match, includeChildren);
 };
 
 export const filterRouteMapPath = (
@@ -64,13 +66,13 @@ export const filterRouteMapPath = (
   for (const item of routeMap) {
     if (isRouteMapBlock(item)) {
       for (const child of item.children) {
-        const resp = _filterRoutePathItems(child, match);
+        const resp = _filterRoutePathItems(child, match, false);
         if (resp) {
           return resp;
         }
       }
     } else if (isEntityItem(item)) {
-      const resp = _filterRoutePathItems(item, match);
+      const resp = _filterRoutePathItems(item as EntityItem, match, false);
       if (resp) {
         return resp;
       }
@@ -103,15 +105,17 @@ const findRoute = (
   match: PathMatch
 ): EntityItem | undefined => {
   for (const item of routeMap) {
-    if (isRouteMapBlock(item)) {
-      for (const child of item.children) {
+    if (isRouteMapBlock(item) || (isEntityItem(item) && item.children)) {
+      for (const child of (item as RouteMapBlock).children) {
         const resp = _findRoute(child, match);
         if (resp) {
           return resp;
         }
       }
-    } else if (isEntityItem(item)) {
-      const resp = _filterRoutePathItems(item, match);
+    }
+
+    if (isEntityItem(item as unknown as RouteMapItem)) {
+      const resp = _filterRoutePathItems(item as EntityItem, match, true);
       if (resp) {
         return resp;
       }

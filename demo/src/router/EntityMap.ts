@@ -9,37 +9,12 @@ import entities from '../entities/index';
 const getEntityMap = (): RouteMap => {
   const map: RouteMap = [
     {
-      entity: entities.Blank,
+      entity: entities.Platform,
       divider: true,
-    },
-    {
-      entity: entities.Blank2,
-      divider: false,
-    },
-    {
-      label: 'Instances',
-      icon: HatIcon,
       children: [
         {
-          entity: entities.Platform,
-          children: [
-            {
-              entity: entities.Client,
-              filterBy: 'platform',
-              children: [
-                {
-                  entity: entities.User,
-                  filterBy: 'client',
-                  children: [...Object.values(entities.User.customActions)],
-                },
-                ...Object.values(entities.Client.customActions),
-              ],
-            },
-            ...Object.values(entities.Platform.customActions),
-          ],
-        },
-        {
           entity: entities.Client,
+          filterBy: 'platform',
           children: [
             {
               entity: entities.User,
@@ -47,10 +22,22 @@ const getEntityMap = (): RouteMap => {
               children: [...Object.values(entities.User.customActions)],
             },
             ...Object.values(entities.Client.customActions),
-            {
-              entity: entities.Administrator,
-            },
           ],
+        },
+        ...Object.values(entities.Platform.customActions),
+      ],
+    },
+    {
+      entity: entities.Client,
+      children: [
+        {
+          entity: entities.User,
+          filterBy: 'client',
+          children: [...Object.values(entities.User.customActions)],
+        },
+        ...Object.values(entities.Client.customActions),
+        {
+          entity: entities.Administrator,
         },
       ],
     },
@@ -65,6 +52,20 @@ const getEntityMap = (): RouteMap => {
         },
         {
           entity: entities.Language,
+        },
+      ],
+    },
+    {
+      label: 'Blank',
+      icon: HatIcon,
+      children: [
+        {
+          entity: entities.Blank,
+          divider: true,
+        },
+        {
+          entity: entities.Blank2,
+          divider: false,
         },
       ],
     },

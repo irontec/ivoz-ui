@@ -76,6 +76,12 @@ export const isRouteMapBlock = (
   return (property as RouteMapBlock).label !== undefined;
 };
 
+export const isRouteMapItem = (
+  property: RouteMapBlock | RouteMapItem
+): property is RouteMapBlock => {
+  return (property as RouteMapBlock).label === undefined;
+};
+
 export const isEntityItem = (
   property: RouteMapItem
 ): property is EntityItem => {

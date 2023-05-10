@@ -41,7 +41,8 @@ const Edit: any = (props: EditProps) => {
   const fixedValues = parentRoute?.fixedValues;
   const filterValues = parentRoute?.filterValues;
 
-  let parentPath = parentRoute?.route || '';
+  const baseUrl = process.env.BASE_URL || '/';
+  let parentPath = `${baseUrl}${parentRoute?.route?.substring(1)}` || '';
   for (const idx in match.params) {
     parentPath = parentPath.replace(`:${idx}`, match.params[idx] as string);
   }

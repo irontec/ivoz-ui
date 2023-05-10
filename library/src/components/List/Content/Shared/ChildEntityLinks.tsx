@@ -66,8 +66,10 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
 
         const Icon = routeMapItem.entity.icon as React.FunctionComponent;
         const title = routeMapItem.entity.title as JSX.Element;
+        const baseUrl = process.env.BASE_URL || '/';
+
         const link = buildLink({
-          link: routeMapItem.route || '',
+          link: `${baseUrl}${routeMapItem.route?.substring(1)}`,
           id: row.id,
           params: match.params,
         });

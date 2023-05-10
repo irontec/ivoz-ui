@@ -25,7 +25,10 @@ const getEntityItemLink = (
   routeItem: EntityItem,
   match: PathMatch<string>
 ): string => {
-  let to = routeItem.route || '/';
+
+  const baseUrl = process.env.BASE_URL || '/';
+
+  let to = `${baseUrl}${routeItem.route?.substring(1)}` || '/';
   for (const idx in match.params) {
     const val = match.params[idx] as string;
     to = to.replace(`:${idx}`, val);

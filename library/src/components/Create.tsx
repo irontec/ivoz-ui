@@ -50,7 +50,8 @@ const Create = (props: CreateProps) => {
     })
   );
 
-  let parentPath = parentRoute?.route || '';
+  const baseUrl = process.env.BASE_URL || '/';
+  let parentPath = `${baseUrl}${parentRoute?.route?.substring(1)}` || '';
   for (const idx in params) {
     parentPath = parentPath.replace(`:${idx}`, params[idx] as string);
   }

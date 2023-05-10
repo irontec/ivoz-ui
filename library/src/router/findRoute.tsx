@@ -14,11 +14,14 @@ const matchRoute = (
   match: PathMatch,
   includeChildren = false
 ): EntityItem | undefined => {
+
+  const baseUrl = process.env.BASE_URL || '/';
+
   const routePaths = [
-    route.route,
-    route.route + '/create',
-    route.route + '/:id/update',
-    route.route + '/:id/detailed',
+    baseUrl + route.route?.substring(1),
+    baseUrl + route.route?.substring(1) + '/create',
+    baseUrl + route.route?.substring(1) + '/:id/update',
+    baseUrl + route.route?.substring(1) + '/:id/detailed',
   ];
 
   if (routePaths.includes(match.pattern.path)) {

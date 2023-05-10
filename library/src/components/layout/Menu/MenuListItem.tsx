@@ -31,10 +31,12 @@ export default function MenuListItem(
   const selected =
     currentPath === targetPath || currentPath.indexOf(`${targetPath}/`) === 0;
 
+  const href = `${process.env.BASE_URL}${path}`.replace('//', '/');
+
   return (
     <ListItemButton
       component='a'
-      href={path}
+      href={href}
       className={className}
       dense={true}
       selected={selected}
@@ -43,7 +45,7 @@ export default function MenuListItem(
         e?.preventDefault();
 
         hideMenu();
-        navigate(path, {
+        navigate(href, {
           state: {
             referrer: location.pathname,
           },

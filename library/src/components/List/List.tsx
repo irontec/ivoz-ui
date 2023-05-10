@@ -37,7 +37,6 @@ const List = function (props: ListProps) {
   const match = useCurrentPathMatch();
   const params = useParams();
   const navigate = useNavigate();
-
   const currentRoute = findRoute(routeMap, match);
 
   const reloadTimestamp = useStoreState((store) => store.list.reloadTimestamp);

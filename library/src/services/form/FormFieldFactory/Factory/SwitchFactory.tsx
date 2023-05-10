@@ -32,21 +32,21 @@ export const SwitchFactory = (props: SwitchFactoryPropsType): JSX.Element => {
   const checked = Array.isArray(value) ? value.includes('1') : Boolean(value);
   const helpText = property.helpText;
 
-  const label = helpText
-    ? (
-      <>
-        {property.label}
-        <StyledHelpTextTooltip
-          title={helpText}
-          placement='top'
-          arrow
-          className='help-tooltip'
-        >
-          <HelpOutlineIcon />
-        </StyledHelpTextTooltip>
-      </>
-    )
-    : property.label;
+  const label = helpText ? (
+    <>
+      {property.label}
+      <StyledHelpTextTooltip
+        title={helpText}
+        placement='top'
+        arrow
+        className='help-tooltip'
+      >
+        <HelpOutlineIcon />
+      </StyledHelpTextTooltip>
+    </>
+  ) : (
+    property.label
+  );
 
   return (
     <SwitchFormControl hasChanged={hasChanged}>

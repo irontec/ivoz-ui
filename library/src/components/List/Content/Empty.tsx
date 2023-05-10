@@ -24,9 +24,7 @@ export const Empty = (props: EmptyProps): JSX.Element => {
     <section className={className}>
       <img src='assets/img/empty.svg' alt='' />
       <h3>No {title} yet</h3>
-      <p>
-        You haven’t created any {entity.title} yet.
-      </p>
+      <p>You haven’t created any {entity.title} yet.</p>
       {create && (
         <Link to={location.pathname + '/create'}>
           <SolidButton>{_('New {{entity}}', { entity: title })}</SolidButton>

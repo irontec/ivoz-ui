@@ -25,7 +25,6 @@ const getEntityItemLink = (
   routeItem: EntityItem,
   match: PathMatch<string>
 ): string => {
-
   const baseUrl = process.env.BASE_URL || '/';
 
   let to = `${baseUrl}${routeItem.route?.substring(1)}` || '/';

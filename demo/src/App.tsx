@@ -31,7 +31,6 @@ export default function App(): JSX.Element {
   }, [apiSpecStore, authStore, token]);
 
   const apiSpec = useStoreState((state) => state.spec.spec);
-  const baseUrl = process.env.BASE_URL;
 
   if (!apiSpec || Object.keys(apiSpec).length === 0) {
     return (
@@ -47,7 +46,7 @@ export default function App(): JSX.Element {
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <CssBaseline />
       <div>
-        <BrowserRouter basename={baseUrl}>
+        <BrowserRouter>
           <AppRoutesGuard apiSpec={apiSpec} />
         </BrowserRouter>
       </div>

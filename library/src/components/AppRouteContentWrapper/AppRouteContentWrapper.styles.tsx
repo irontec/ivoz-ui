@@ -14,7 +14,7 @@ export const StyledAppRouteContentWrapper = styled(AppRouteContentWrapper)(
       '& main': {
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--spacing-xl)',
+        gap: 'var(--spacing-sm)',
         flex: 1,
         overflow: 'auto',
         padding: 'var(--spacing-md)',
@@ -22,6 +22,9 @@ export const StyledAppRouteContentWrapper = styled(AppRouteContentWrapper)(
         transition: 'var(--transition-all-1)',
         [theme.breakpoints.up('sm')]: {
           paddingBlock: 'var(--spacing-lg)',
+        },
+        '& > section': {
+          flexGrow: 1,
         },
       },
     };

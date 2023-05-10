@@ -16,7 +16,7 @@ export const StyledGroupLegend = styled((props: StyledGroupLegendProps) => {
   return {
     marginBottom: '40px',
     paddingBottom: '10px',
-    borderBottom: '1px solid #aaa',
+    borderBottom: '1px solid var(--color-border)',
   };
 });
 

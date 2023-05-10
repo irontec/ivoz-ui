@@ -94,7 +94,10 @@ export const StyledAutocompleteTextField = styled(StyledTextField)(() => {
 
 export const StyledMultilangTextField = styled(StyledTextField)(() => {
   return {
-    marginTop: '10px',
+    marginTop: 'var(--spacing-xs)',
+    '&:not(:first-of-type)': {
+      marginTop: 'var(--spacing-md)',
+    },
     '& div.MuiFormControl-root': {
       margin: 0,
     },

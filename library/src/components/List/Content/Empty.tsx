@@ -23,10 +23,9 @@ export const Empty = (props: EmptyProps): JSX.Element => {
   return (
     <section className={className}>
       <img src='assets/img/empty.svg' alt='' />
-      <h3>No {entity.title} yet</h3>
+      <h3>No {title} yet</h3>
       <p>
-        You haven’t created any email template yet. Create and customize
-        templates to send emails with credentials to users
+        You haven’t created any {entity.title} yet.
       </p>
       {create && (
         <Link to={location.pathname + '/create'}>

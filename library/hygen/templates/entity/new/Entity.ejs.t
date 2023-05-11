@@ -7,10 +7,7 @@ import _ from '@irontec/ivoz-ui/services/translations/translate';
 import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
 import { EntityValue } from '@irontec/ivoz-ui';
 import selectOptions from './SelectOptions';
-import Form from './Form';
-import { foreignKeyGetter } from './ForeignKeyGetter';
 import { <%= Name %>Properties, <%= Name %>PropertyList } from './<%= Name %>Properties';
-import foreignKeyResolver from './ForeignKeyResolver';
 
 const properties: <%= Name %>Properties = {
 <%- h.formattedEntity(h.url(), Name)%>
@@ -25,9 +22,21 @@ const <%= Name %>: EntityInterface = {
   toStr: (row: <%= Name %>PropertyList<EntityValue>) => row.id.toStr(),
   properties,
   selectOptions,
-  foreignKeyResolver,
-  foreignKeyGetter,
-  Form,
+  foreignKeyResolver: async () => {
+    const module = await import('./ForeignKeyResolver');
+
+    return module.default;
+  },
+  foreignKeyGetter: async () => {
+    const module = await import('./ForeignKeyGetter');
+
+    return module.default;
+  },
+  Form: async () => {
+    const module = await import('./Form');
+
+    return module.default;
+  },
 };
 
 export default <%= Name %>;

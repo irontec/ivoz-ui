@@ -17,8 +17,8 @@ describe('in <%= Name %>', () => {
       .click();
 
     cy
-      .get('h3')
-      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
+      .get('header')
+      .should('contain', '<%= h.inflection.pluralize(Name) %>');
 
     cy
       .get('table')
@@ -47,9 +47,7 @@ describe('in <%= Name %>', () => {
       new<%= Name %>.request
     );
 
-    cy
-      .get('h3')
-      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
+    cy.get('header').should('contain', '<%= h.inflection.pluralize(Name) %>');
 
     cy
       .usePactWait(['create<%= Name %>'])
@@ -89,9 +87,12 @@ describe('in <%= Name %>', () => {
       edit<%= Name %>.request
     );
 
-    cy.contains('List of <%= h.inflection.pluralize(Name) %>');
+    cy
+      .get('header')
+      .should('contain', '<%= h.inflection.pluralize(Name) %>');
 
-    cy.usePactWait(['edit<%= Name %>'])
+    cy
+      .usePactWait(['edit<%= Name %>'])
       .its('response.statusCode')
       .should('eq', 200);
   });
@@ -113,20 +114,20 @@ describe('in <%= Name %>', () => {
       .click();
 
     cy
-      .get('td > a > svg[data-testid="DeleteIcon"]')
+      .get('td button > svg[data-testid="DeleteIcon"]')
       .first()
       .click();
 
     cy.contains('Remove element');
     cy
-      .get('div[role=dialog] button')
+      .get('div.MuiDialog-container button')
       .filter(':visible')
-      .contains('Delete')
+      .contains('Yes, delete it')
       .click();
 
     cy
-      .get('h3')
-      .should('contain', 'List of <%= h.inflection.pluralize(Name) %>');
+      .get('header')
+      .should('contain', '<%= h.inflection.pluralize(Name) %>');
 
     cy
       .usePactWait(['delete<%= Name %>'])

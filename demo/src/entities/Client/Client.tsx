@@ -113,7 +113,7 @@ const client: EntityInterface = {
   icon: ApartmentIcon,
   link: 'https://halliday-test.irontec.com/doc/en/administration_portal/client/vpbx/index.html',
   iden: 'Client',
-  title: 'Clients',
+  title: _('Client', {count: 2}),
   path: '/clients',
   defaultOrderBy: '',
   toStr: (row: ClientPropertyList<EntityValue>) => row.iden as string,

@@ -1,6 +1,7 @@
 /* eslint-disable no-script-url */
 
-import { createRef, useEffect, useState } from 'react';
+import { useMediaQuery, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ErrorBoundary from '../../components/ErrorBoundary';
 import { foreignKeyResolverType } from '../../entities/EntityInterface';
@@ -12,13 +13,10 @@ import EntityService from '../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../store';
 import ErrorMessage from '../shared/ErrorMessage';
 import { ListContent } from './Content/';
+import { StyledEmpty } from './Content/Empty.styles';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
-import Pagination from './Pagination';
 import useQueryStringParams from './useQueryStringParams';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
-import _ from '../../services/translations/translate';
-import { StyledEmpty } from './Content/Empty.styles';
 
 type ListProps = {
   path: string;
@@ -31,7 +29,6 @@ type ListProps = {
 const List = function (props: ListProps) {
   const { path, foreignKeyResolver, entityService, routeMap, className } =
     props;
-  const listRef = createRef();
 
   const location = useLocation();
   const match = useCurrentPathMatch();
@@ -299,16 +296,6 @@ const List = function (props: ListProps) {
           match={match}
           location={location}
         />
-        <Box component={'footer'}>
-          {mobile && (
-            <a href='' className='link'>
-              {_('Select all')}
-            </a>
-          )}
-          <Box className='pagination'>
-            <Pagination listRef={listRef} />
-          </Box>
-        </Box>
         {reqError && <ErrorMessage message={reqError} />}
       </ErrorBoundary>
     </div>

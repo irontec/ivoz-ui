@@ -17,11 +17,13 @@ interface ContentTableHead {
   entityService: EntityService;
   ignoreColumn: string | undefined;
   multiselect: boolean;
+  indeterminateSelectAll: boolean,
+  checked: boolean;
   selectAll: handleMultiselectChangeType;
 }
 
 const ContentTableHead = function (props: ContentTableHead): JSX.Element {
-  const { entityService, ignoreColumn, multiselect, selectAll } = props;
+  const { entityService, ignoreColumn, multiselect, selectAll, checked, indeterminateSelectAll } = props;
 
   const columns = entityService.getCollectionColumns();
 
@@ -54,7 +56,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
       <TableRow>
         {multiselect && (
           <TableCell>
-            <Checkbox onChange={selectAll} />
+            <Checkbox checked={checked} onChange={selectAll} indeterminate={indeterminateSelectAll} />
           </TableCell>
         )}
         {Object.keys(columns).map((key: string) => {

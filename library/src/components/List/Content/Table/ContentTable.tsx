@@ -87,6 +87,9 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     [rows, setSelectedValues]
   );
 
+  const indeterminateSelectAll = rows.length !== selectedValues.length;
+  const checked = selectedValues.length > 0;
+
   return (
     <StyledTable size='medium' className={className}>
       <ContentTableHead
@@ -94,6 +97,8 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
         ignoreColumn={ignoreColumn}
         multiselect={multiselect}
         selectAll={selectAllHandlers}
+        checked={checked}
+        indeterminateSelectAll={checked && indeterminateSelectAll}
       />
       <TableBody>
         {rows.map((row: any, key: any) => {

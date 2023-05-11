@@ -3,7 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Box } from '@mui/system';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
-import { ForwardedRef, forwardRef } from 'react';
+import { ForwardedRef, createRef, forwardRef } from 'react';
 import { PathMatch } from 'react-router-dom';
 import { RouteMapItem } from '../../../router/routeMapParser';
 import EntityService from '../../../services/entity/EntityService';
@@ -11,6 +11,9 @@ import ContentCard from './Card/ContentCard';
 import ListContentHeader from './ListContentHeader';
 import { StyledContentTable } from './Table/ContentTable.styles';
 import useMultiselectState from './Table/hook/useMultiselectState';
+import Pagination from '../Pagination';
+import _ from '../../../services/translations/translate';
+import { useStoreState } from 'store';
 
 export interface ListContentProps {
   childEntities: Array<RouteMapItem>;
@@ -40,29 +43,22 @@ const ListContent = (
     className,
   } = props;
 
+  const listRef = createRef();
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
 
   const [selectedValues, handleChange, setSelectedValues] =
     useMultiselectState();
+  const rows = useStoreState((state) => state.list.rows);
+
+  const selectAllHandler = () => {
+    const rowIds = rows.map((row) => row.id?.toString() || '');
+    setSelectedValues(rowIds);
+  };
 
   return (
-    <Box className={className}>
-      {mobile && (
-        <ListContentHeader
-          path={path}
-          entityService={entityService}
-          ignoreColumn={ignoreColumn}
-          preloadData={preloadData}
-          cancelToken={cancelToken}
-          match={match}
-          location={location}
-          selectedValues={selectedValues}
-          ref={ref}
-          mobile={true}
-        />
-      )}
-      <Box className='card'>
-        {!mobile && (
+    <>
+      <Box className={className}>
+        {mobile && (
           <ListContentHeader
             path={path}
             entityService={entityService}
@@ -73,36 +69,62 @@ const ListContent = (
             location={location}
             selectedValues={selectedValues}
             ref={ref}
+            mobile={true}
           />
         )}
+        <Box className='card'>
+          {!mobile && (
+            <ListContentHeader
+              path={path}
+              entityService={entityService}
+              ignoreColumn={ignoreColumn}
+              preloadData={preloadData}
+              cancelToken={cancelToken}
+              match={match}
+              location={location}
+              selectedValues={selectedValues}
+              ref={ref}
+            />
+          )}
 
-        {!mobile && (
-          <Box sx={{ overflowX: 'auto' }}>
-            <StyledContentTable
-              entityService={entityService}
-              ignoreColumn={ignoreColumn}
-              path={path}
-              childEntities={childEntities}
-              selectedValues={selectedValues}
-              handleChange={handleChange}
-              setSelectedValues={setSelectedValues}
-            />
-          </Box>
-        )}
-        {mobile && (
-          <Box>
-            <ContentCard
-              selectedValues={selectedValues}
-              handleChange={handleChange}
-              entityService={entityService}
-              ignoreColumn={ignoreColumn}
-              path={path}
-              childEntities={childEntities}
-            />
-          </Box>
-        )}
+          {!mobile && (
+            <Box sx={{ overflowX: 'auto' }}>
+              <StyledContentTable
+                entityService={entityService}
+                ignoreColumn={ignoreColumn}
+                path={path}
+                childEntities={childEntities}
+                selectedValues={selectedValues}
+                handleChange={handleChange}
+                setSelectedValues={setSelectedValues}
+              />
+            </Box>
+          )}
+          {mobile && (
+            <Box>
+              <ContentCard
+                selectedValues={selectedValues}
+                handleChange={handleChange}
+                entityService={entityService}
+                ignoreColumn={ignoreColumn}
+                path={path}
+                childEntities={childEntities}
+              />
+            </Box>
+          )}
+        </Box>
       </Box>
-    </Box>
+      <Box component={'footer'}>
+        {mobile && (
+          <a onClick={selectAllHandler} className='link'>
+            {_('Select all')}
+          </a>
+        )}
+        <Box className='pagination'>
+          <Pagination listRef={listRef} />
+        </Box>
+      </Box>
+    </>
   );
 };
 

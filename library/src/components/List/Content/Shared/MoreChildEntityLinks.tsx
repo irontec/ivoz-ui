@@ -52,9 +52,10 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           return null;
         }
 
+        const baseUrl = process.env.BASE_URL || '/';
         const title = routeMapItem.entity.title as JSX.Element;
         const link = buildLink({
-          link: routeMapItem.route || '',
+          link: `${baseUrl}${routeMapItem.route?.substring(1)}`,
           id: `${row.id}`,
           params: match.params,
         });

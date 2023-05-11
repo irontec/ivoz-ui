@@ -1,6 +1,10 @@
 import { MoreMenuItem } from '@irontec/ivoz-ui/components/List/Content/Shared/MoreChildEntityLinks';
 import { StyledTableRowCustomCta } from '@irontec/ivoz-ui/components/List/Content/Table/ContentTable.styles';
 import {
+  OutlinedButton,
+  SolidButton,
+} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
+import {
   ActionFunctionComponent,
   isSingleRowAction,
   MultiSelectActionItemProps,
@@ -10,7 +14,6 @@ import _ from '@irontec/ivoz-ui/services/translations/translate';
 import ErrorIcon from '@mui/icons-material/Error';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import {
-  Button,
   Dialog,
   DialogActions,
   DialogContent,
@@ -24,10 +27,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useStoreActions } from 'store';
 
 import user from '../User';
-import {
-  OutlinedButton,
-  SolidButton,
-} from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 
 const UpdateLicenses: ActionFunctionComponent = (
   props: MultiSelectActionItemProps

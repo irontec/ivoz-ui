@@ -110,6 +110,8 @@ const Create = (props: CreateProps) => {
             referrer: location.pathname,
           },
         });
+      } else {
+        console.info('unexpected form response', resp);
       }
     } catch {}
   };

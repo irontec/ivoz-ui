@@ -94,6 +94,8 @@ const Edit: any = (props: EditProps) => {
             referrer: location.pathname,
           },
         });
+      } else {
+        console.info('unexpected form response', resp);
       }
     } catch {}
   };

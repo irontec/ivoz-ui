@@ -1,6 +1,7 @@
 import { styled } from '@mui/material';
 import _ from '../../../services/translations/translate';
 import { OutlinedButton, SolidButton } from './Button.styles';
+import { Link } from 'react-router-dom';
 
 interface SaveButtonProps {
   className?: string;
@@ -9,9 +10,13 @@ interface SaveButtonProps {
 const SaveButton = function (props: SaveButtonProps): JSX.Element {
   const { className } = props;
 
+  const parentUrl = location.pathname.replace(/\/[^\/]+\/update|\/create/, '');
+
   return (
     <div className={className}>
-      <OutlinedButton>Cancel</OutlinedButton>
+      <Link to={parentUrl}>
+        <OutlinedButton>Cancel</OutlinedButton>
+      </Link>
       <SolidButton type='submit'>{_('Save')}</SolidButton>
     </div>
   );

@@ -101,7 +101,7 @@ const Create = (props: CreateProps) => {
       });
 
       if (resp !== undefined) {
-        const referrer = location.state.referrer;
+        const referrer = location.state?.referrer || '';
         const targetPath =
           referrer.search(parentPath) === 0 ? referrer : parentPath;
 
@@ -113,7 +113,9 @@ const Create = (props: CreateProps) => {
       } else {
         console.info('unexpected form response', resp);
       }
-    } catch {}
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   if (!EntityForm) {

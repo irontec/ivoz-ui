@@ -149,17 +149,23 @@ export default class EntityService {
 
   public getColumnSize(columnName: string): number {
     const columns = this.entityConfig.columns;
+
+    let customSizeColumns = 0;
+    let sizeSum = 0;
     for (const column of columns) {
       if (typeof column === 'string') {
         continue;
       }
 
+      customSizeColumns++;
       if (column.name === columnName) {
         return column.size;
       }
+
+      sizeSum += column.size;
     }
 
-    return Math.floor(100 / columns.length);
+    return Math.floor((100 - sizeSum) / (columns.length - customSizeColumns));
   }
 
   public getCollectionParamList(): PropertyList {

@@ -6,6 +6,7 @@ import api, { ApiStore } from './api';
 import route, { RouteStore } from './route';
 import routes, { RoutesStore } from './routes';
 import list, { ListStore } from './list';
+import flashMsg, { FlashMsgStore } from './flashMsg';
 import form, { FormStore } from './form';
 import menu, { MenuStore } from './menu';
 import entities, { EntitiesStore } from './entities';
@@ -18,6 +19,7 @@ export interface IvozStore {
   route: RouteStore;
   routes: RoutesStore;
   list: ListStore;
+  flashMsg: FlashMsgStore;
   form: FormStore;
   menu: MenuStore;
   entities: EntitiesStore;
@@ -31,6 +33,7 @@ export const storeModel: IvozStore = {
   route,
   routes,
   list,
+  flashMsg,
   form,
   menu,
   entities,

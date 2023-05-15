@@ -56,7 +56,7 @@ const getEntityMap = (): RouteMap => {
       ],
     },
     {
-      label: 'Blank',
+      label: 'More',
       icon: HatIcon,
       children: [
         {
@@ -64,14 +64,27 @@ const getEntityMap = (): RouteMap => {
           divider: true,
         },
         {
-          entity: entities.Blank2,
+          entity: {
+            ...entities.Platform,
+            localPath: '/platform_edit_only/2',
+            title: 'Edit only platform',
+            acl: {
+              create: false,
+              update: false,
+              detail: false,
+              read: false,
+              delete: false,
+            }
+          },
           divider: false,
         },
       ],
     },
   ];
 
-  return routeMapParser<RouteMapItem>(map);
+  const routeMap = routeMapParser<RouteMapItem>(map);
+
+  return routeMap;
 };
 
 export default getEntityMap;

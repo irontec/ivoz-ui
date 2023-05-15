@@ -1,7 +1,10 @@
-import { Box } from '@mui/material';
+import { Box, IconButton } from '@mui/material';
 import { RouteMap } from '../../router/routeMapParser';
 import { Header, Menu } from '../layout';
 import Loading from '../layout/Loading/Loading';
+import MuiAlert from '@mui/material/Alert';
+import { useStoreActions, useStoreState } from 'store';
+import { StyledCloseIcon } from '../shared/Message.styles';
 
 export interface AppRouteContentProps {
   routeMap: RouteMap;
@@ -15,6 +18,10 @@ export default function AppRouteContentWrapper(
 ): JSX.Element {
   const { loggedIn, routeMap, children, className } = props;
 
+  const clearFlassMsg = useStoreActions(actions => actions.flashMsg.clear);
+  const flassMsg = useStoreState(state => state.flashMsg.msg);
+  const flassMsgType = useStoreState(state => state.flashMsg.type);
+
   return (
     <div className={className}>
       <Loading />
@@ -24,7 +31,26 @@ export default function AppRouteContentWrapper(
           <Box component='header' className='breadcrumb'>
             {loggedIn && <Header routeMap={routeMap} />}
           </Box>
-
+          {flassMsg && (
+            <div>
+              <MuiAlert
+                severity={flassMsgType}
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    onClick={() => {
+                      clearFlassMsg();
+                    }}
+                  >
+                    <StyledCloseIcon />
+                  </IconButton>
+                }
+              >
+                {flassMsg}
+              </MuiAlert>
+            </div>
+          )}
           <Box component='section'>{children}</Box>
         </Box>
       </Box>

@@ -88,9 +88,9 @@ const platform: EntityInterface = {
   },
   customActions: CustomActions,
   columns: [
-    { name: 'name', size: 33 },
-    { name: 'type', size: 33 },
-    { name: 'features', size: 34 },
+    'name',
+    { name: 'type', size: 10 },
+    'features',
   ],
   selectOptions: async () => {
     const module = await import('./SelectOptions');

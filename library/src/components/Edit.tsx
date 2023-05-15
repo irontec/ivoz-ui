@@ -12,6 +12,7 @@ import ErrorBoundary from './ErrorBoundary';
 import { getMarshallerWhiteList } from './form.helper';
 import withRowData from './withRowData';
 import { Box } from '@mui/material';
+import _ from '../services/translations/translate';
 
 type EditProps = EntityInterface & {
   entityService: EntityService;
@@ -32,6 +33,7 @@ const Edit: any = (props: EditProps) => {
     });
   }, []);
 
+  const setFlashMsg = useStoreActions(actions => actions.flashMsg.setFlashMsg);
   const location = useLocation();
   const match = useCurrentPathMatch();
   const navigate = useNavigate();
@@ -42,9 +44,14 @@ const Edit: any = (props: EditProps) => {
   const filterValues = parentRoute?.filterValues;
 
   const baseUrl = process.env.BASE_URL || '/';
-  let parentPath = `${baseUrl}${parentRoute?.route?.substring(1)}` || '';
-  for (const idx in match.params) {
-    parentPath = parentPath.replace(`:${idx}`, match.params[idx] as string);
+  let parentPath = parentRoute
+    ? `${baseUrl}${parentRoute?.route?.substring(1)}`
+    : null;
+
+  if (parentPath) {
+    for (const idx in match.params) {
+      parentPath = parentPath.replace(`:${idx}`, match.params[idx] as string);
+    }
   }
 
   const entityId = match.params.id as string;
@@ -88,6 +95,15 @@ const Edit: any = (props: EditProps) => {
         const referrer = location.state?.referrer || '';
         const targetPath =
           referrer.search(parentPath) === 0 ? referrer : parentPath;
+
+        if (targetPath === null) {
+          setFlashMsg({
+            msg: _('Entity sucessfully updated'),
+            type: 'success',
+          });
+
+          return;
+        }
 
         navigate(targetPath, {
           state: {

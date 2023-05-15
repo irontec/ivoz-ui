@@ -1,6 +1,5 @@
-import { Detail, RouteSpec } from '@irontec/ivoz-ui';
+import { Detail, Edit, RouteSpec } from '@irontec/ivoz-ui';
 import Platform from 'entities/Platform/Platform';
-
 import BlankComponent from '../components/Blank';
 import BlankComponent2 from '../components/Blank2';
 
@@ -22,6 +21,16 @@ const addCustomRoutes = (routes: Array<RouteSpec>): Array<RouteSpec> => {
     entity: Platform,
     key: 'platform-detailed',
     path: `${Platform.path}/:id/detailed`,
+  });
+
+  routes.push({
+    component: Edit,
+    entity: {
+      ...Platform,
+      localPath: '/platform_edit_only',
+    },
+    key: 'EditOnlyPlatform-edit',
+    path: '/platform_edit_only/:id',
   });
 
   return routes;

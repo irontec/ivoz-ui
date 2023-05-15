@@ -11,12 +11,15 @@ const SaveButton = function (props: SaveButtonProps): JSX.Element {
   const { className } = props;
 
   const parentUrl = location.pathname.replace(/\/[^\/]+\/update|\/create/, '');
+  const showCancelButton = parentUrl !== location.pathname;
 
   return (
     <div className={className}>
-      <Link to={parentUrl}>
-        <OutlinedButton>Cancel</OutlinedButton>
-      </Link>
+      {showCancelButton && (
+        <Link to={parentUrl}>
+          <OutlinedButton>Cancel</OutlinedButton>
+        </Link>)
+      }
       <SolidButton type='submit'>{_('Save')}</SolidButton>
     </div>
   );

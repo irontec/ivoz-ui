@@ -452,7 +452,7 @@
         ]
       }
     },
-    "/administrator/{id}/greeting": {
+    "/administrators/{id}/greeting": {
       "get": {
         "produces": [
           "application/octet-stream"

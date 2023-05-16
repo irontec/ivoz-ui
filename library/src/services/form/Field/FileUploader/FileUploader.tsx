@@ -1,5 +1,4 @@
-import { Button } from '@mui/material';
-import BackupIcon from '@mui/icons-material/Backup';
+import { saveAs } from 'file-saver';
 import {
   ChangeEvent,
   DragEvent,
@@ -7,19 +6,13 @@ import {
   useCallback,
   useState,
 } from 'react';
-import { saveAs } from 'file-saver';
-import {
-  StyledFileUploaderContainer,
-  StyledFileNameContainer,
-  StyledUploadButtonContainer,
-  StyledUploadButtonLabel,
-  StyledDownloadingIcon,
-} from './FileUploader.styles';
 import { useStoreActions } from '../../../../store';
 import withCustomComponentWrapper, {
   PropertyCustomFunctionComponentProps,
 } from '../CustomComponentWrapper';
-import { AudioPlayer } from './AudioPlayer';
+import RegularFileUploader from './Variant/RegularFileUploader';
+import { ImageFileUploader } from './Variant/ImageFileUploader';
+import { AudioFileUploader } from './Variant/AudioFileUploader';
 
 export interface FileProps {
   file?: File;
@@ -28,7 +21,7 @@ export interface FileProps {
   mimeType?: string;
 }
 
-interface ChangeEventValues {
+export interface ChangeEventValues {
   name: string;
   value: FileProps;
 }
@@ -42,21 +35,21 @@ type FileUploaderPropsType = FileUploaderProps<{ [k: string]: FileProps }>;
 
 const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
   props
-): JSX.Element => {
+): JSX.Element | null => {
   const {
     _columnName,
     accept,
     values,
     downloadPath,
-    disabled,
     changeHandler,
-    onBlur,
   } = props;
 
   const fileValue = values[_columnName] as FileProps;
+  const { mimeType } = fileValue;
 
   if (!downloadPath) {
     console.error('Empty download path');
+    return null;
   }
 
   const apiDownload = useStoreActions((actions) => {
@@ -166,63 +159,49 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
     [onChange]
   );
 
-  const id = `${_columnName}-file-upload`;
-  const fileName = fileValue?.file ? fileValue.file?.name : fileValue?.baseName;
-
-  const fileSize = fileValue?.file ? fileValue.file?.size : fileValue?.fileSize;
-
-  const fileSizeMb = Math.round(((fileSize || 0) / 1024 / 1024) * 10) / 10;
+  const audio = mimeType?.includes('audio/') || accept?.includes('audio/');
+  const image = mimeType?.includes('image/') || accept?.includes('image/');
+  const regular = !audio && !image;
 
   return (
     <>
-      <StyledFileUploaderContainer
-        hover={hover}
-        onDrop={handleDrop}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-      >
-        <input
-          style={{ display: 'none' }}
-          id={id}
-          type='file'
-          accept={accept}
-          onChange={(event) => {
-            const files = event.target.files || [];
-            const value = {
-              ...fileValue,
-              ...{ file: files[0] },
-            };
-
-            const changeEvent = {
-              target: {
-                name: _columnName,
-                value: value,
-              },
-            } as ChangeEvent<ChangeEventValues>;
-
-            changeHandler(changeEvent);
-            onBlur(changeEvent as any);
-          }}
+      {regular && (
+        <RegularFileUploader
+          {...props}
+          downloadPath={downloadPath}
+          hover={hover}
+          handleDrop={handleDrop}
+          handleDragEnter={handleDragEnter}
+          handleDragLeave={handleDragLeave}
+          handleDragOver={handleDragOver}
+          handleDownload={handleDownload}
         />
-        {!disabled && (
-          <StyledUploadButtonContainer>
-            <StyledUploadButtonLabel htmlFor={id}>
-              <Button variant='contained' component='span'>
-                <BackupIcon />
-              </Button>
-            </StyledUploadButtonLabel>
-          </StyledUploadButtonContainer>
-        )}
-        {fileName && (
-          <StyledFileNameContainer className={disabled ? 'disabled' : ''}>
-            {values.id && <StyledDownloadingIcon onClick={handleDownload} />}
-            {fileName} ({fileSizeMb}MB)
-          </StyledFileNameContainer>
-        )}
-      </StyledFileUploaderContainer>
-      {fileName && (
-        <AudioPlayer downloadPath={downloadPath} metadata={fileValue} />
+      )}
+
+      {image && (
+        <ImageFileUploader
+          {...props}
+          downloadPath={downloadPath}
+          hover={hover}
+          handleDrop={handleDrop}
+          handleDragEnter={handleDragEnter}
+          handleDragLeave={handleDragLeave}
+          handleDragOver={handleDragOver}
+          handleDownload={handleDownload}
+        />
+      )}
+
+      {audio && (
+        <AudioFileUploader
+          {...props}
+          downloadPath={downloadPath}
+          hover={hover}
+          handleDrop={handleDrop}
+          handleDragEnter={handleDragEnter}
+          handleDragLeave={handleDragLeave}
+          handleDragOver={handleDragOver}
+          handleDownload={handleDownload}
+        />
       )}
     </>
   );

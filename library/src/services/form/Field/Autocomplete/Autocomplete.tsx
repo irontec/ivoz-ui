@@ -85,6 +85,8 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
               typeof item === 'object' ? item.id : item
             )
           : (option as DropdownArrayChoice).id;
+      } else if (reason === 'clear') {
+        selectedValue = '';
       } else {
         selectedValue = arrayChoices.find((item) => item.id === '__null__')
           ? '__null__'

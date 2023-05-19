@@ -32,7 +32,7 @@ export const ROUTE_PAGE_KEY = '_page';
 
 const route: RouteStore = {
   queryStringCriteria: [],
-  defaultItemsPerPage: 10,
+  defaultItemsPerPage: 25,
   order: computed<RouteState, RouteOrderState | null>((state) => {
     for (const criteria of state.queryStringCriteria) {
       if (criteria.name === ROUTE_ORDER_KEY) {

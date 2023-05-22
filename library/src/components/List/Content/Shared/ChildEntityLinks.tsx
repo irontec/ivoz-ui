@@ -1,4 +1,3 @@
-import { Tooltip } from '@mui/material';
 import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 import {
   RouteMapItem,
@@ -8,8 +7,7 @@ import {
 } from '../../../../router/routeMapParser';
 import EntityService from '../../../../services/entity/EntityService';
 import DeleteRowButton from '../CTA/DeleteRowButton';
-import { StyledTableRowEntityCta } from '../Table/ContentTable.styles';
-import buildLink from './BuildLink';
+import ChildEntityLink from './ChildEntityLink';
 import { MoreChildEntityLinks } from './MoreChildEntityLinks';
 
 type ChildEntityLinksProps = {
@@ -64,32 +62,12 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
           return null;
         }
 
-        const Icon = routeMapItem.entity.icon as React.FunctionComponent;
-        const title = routeMapItem.entity.title as JSX.Element;
-        const baseUrl = process.env.BASE_URL || '/';
-
-        const link = buildLink({
-          link: `${baseUrl}${routeMapItem.route?.substring(1)}`,
-          id: row.id,
-          params: match.params,
-        });
-
         return (
           <ChildDecorator key={key} routeMapItem={routeMapItem} row={row}>
-            <Tooltip
-              title={title}
-              placement='bottom-start'
-              enterTouchDelay={0}
-              arrow
-            >
-              <StyledTableRowEntityCta
-                to={link}
-                parentEntity={entity}
-                parentRow={row}
-              >
-                <Icon />
-              </StyledTableRowEntityCta>
-            </Tooltip>
+            <ChildEntityLink
+              routeMapItem={routeMapItem}
+              row={row}
+            />
           </ChildDecorator>
         );
       })}

@@ -15,10 +15,10 @@ interface StyledFieldsetRootProps {
   disabled: boolean;
   required?: boolean;
   className?: string;
-  handleDrop: (e: DragEvent) => void,
-  handleDragEnter: (e: DragEvent) => void,
-  handleDragLeave: (e: DragEvent) => void,
-  handleDragOver: (e: DragEvent) => void,
+  handleDrop?: (e: DragEvent) => void,
+  handleDragEnter?: (e: DragEvent) => void,
+  handleDragLeave?: (e: DragEvent) => void,
+  handleDragOver?: (e: DragEvent) => void,
 }
 export const StyledFieldsetRoot = styled((props: StyledFieldsetRootProps) => {
   const { children, label, hasChanged, disabled, required } = props;

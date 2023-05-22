@@ -1,6 +1,5 @@
-import { styled } from '@mui/material';
-import { useRef, useState } from 'react';
 import DownloadingIcon from '@mui/icons-material/Downloading';
+import { styled } from '@mui/material';
 
 interface StyledFileUploaderContainer {
   children: React.ReactNode;
@@ -9,9 +8,7 @@ interface StyledFileUploaderContainer {
 
 export const StyledFileUploaderContainer = styled(
   (props: StyledFileUploaderContainer) => {
-    const { children } = props;
-    let { className } = props;
-
+    const { children, className } = props;
 
     return (
       <div

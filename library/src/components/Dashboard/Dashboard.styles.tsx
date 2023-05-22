@@ -9,7 +9,6 @@ const StyledDashboard = styled(Dashboard)(({ theme }: { theme: Theme }) => {
     gap: 'var(--spacing-lg)',
 
     maxWidth: '1400px',
-    marginInline: 'auto',
 
     [theme.breakpoints.down('md')]: {
       gridTemplateColumns: '1fr',

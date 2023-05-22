@@ -80,9 +80,11 @@ const SendEmail = (props: SendEmailProps) => {
             placement='bottom-start'
             enterTouchDelay={0}
           >
-            <StyledTableRowCustomCta>
-              <EmailIcon />
-            </StyledTableRowCustomCta>
+            <span>
+              <StyledTableRowCustomCta disabled={disabled}>
+                <EmailIcon />
+              </StyledTableRowCustomCta>
+            </span>
           </Tooltip>
         )}
       </a>

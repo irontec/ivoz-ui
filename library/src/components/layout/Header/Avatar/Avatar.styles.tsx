@@ -2,7 +2,7 @@ import { styled } from '@mui/styles';
 import Avatar from './Avatar';
 
 export const StyledAvatar = styled(Avatar)(() => {
-  const size = '46px';
+  const size = '42px';
 
   return {
     backgroundColor: 'var(--color-title)',

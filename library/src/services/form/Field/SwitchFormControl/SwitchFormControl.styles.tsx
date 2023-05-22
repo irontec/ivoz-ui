@@ -22,6 +22,7 @@ export const StyledSwitchFormControl = styled(SwitchFormControl)(() => {
 
     '& .Mui-checked + .MuiSwitch-track': {
       '--bg-color': 'var(--color-primary)',
+      opacity: '1 !important',
     },
 
     '& .MuiSwitch-track': {

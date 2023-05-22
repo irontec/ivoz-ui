@@ -1,9 +1,8 @@
 import { styled } from '@mui/styles';
-import { Theme } from '@mui/material';
 import AppRouteContentWrapper from './AppRouteContentWrapper';
 
 export const StyledAppRouteContentWrapper = styled(AppRouteContentWrapper)(
-  ({ theme }: { theme: Theme }) => {
+  () => {
     return {
       '& .app-wrapper': {
         height: '100vh',
@@ -14,15 +13,12 @@ export const StyledAppRouteContentWrapper = styled(AppRouteContentWrapper)(
       '& main': {
         display: 'flex',
         flexDirection: 'column',
-        gap: 'var(--spacing-sm)',
+        gap: 'calc(var(--spacing-md) + 4px)',
         flex: 1,
         overflow: 'auto',
         padding: 'var(--spacing-md)',
         paddingInline: 'clamp(var(--spacing-md), 2vw, var(--spacing-xxl))',
         transition: 'var(--transition-all-1)',
-        [theme.breakpoints.up('sm')]: {
-          paddingBlock: 'var(--spacing-lg)',
-        },
         '& > section': {
           flexGrow: 1,
         },

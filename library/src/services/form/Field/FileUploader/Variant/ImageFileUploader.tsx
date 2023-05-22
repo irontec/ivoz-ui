@@ -20,10 +20,6 @@ export const ImageFileUploader: FileUploaderType = (props): JSX.Element | null =
     values,
     disabled,
     hover,
-    handleDrop,
-    handleDragEnter,
-    handleDragLeave,
-    handleDragOver,
     handleDownload,
     changeHandler,
     onBlur,
@@ -40,10 +36,6 @@ export const ImageFileUploader: FileUploaderType = (props): JSX.Element | null =
     <>
       <StyledFileUploaderContainer
         hover={hover}
-        onDrop={handleDrop}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
       >
         <input
           style={{ display: 'none' }}

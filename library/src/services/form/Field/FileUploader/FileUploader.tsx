@@ -7,12 +7,13 @@ import {
   useState,
 } from 'react';
 import { useStoreActions } from '../../../../store';
-import withCustomComponentWrapper, {
+import {
   PropertyCustomFunctionComponentProps,
 } from '../CustomComponentWrapper';
-import RegularFileUploader from './Variant/RegularFileUploader';
-import { ImageFileUploader } from './Variant/ImageFileUploader';
+import { StyledFieldsetRoot } from '../CustomComponentWrapper.styles';
 import { AudioFileUploader } from './Variant/AudioFileUploader';
+import { ImageFileUploader } from './Variant/ImageFileUploader';
+import RegularFileUploader from './Variant/RegularFileUploader';
 
 export interface FileProps {
   file?: File;
@@ -37,12 +38,17 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
   props
 ): JSX.Element | null => {
   const {
+    property,
+    hasChanged,
+    disabled,
     _columnName,
     accept,
     values,
     downloadPath,
     changeHandler,
   } = props;
+
+  let { className } = props;
 
   const fileValue = values[_columnName] as FileProps;
   const { mimeType } = fileValue;
@@ -159,21 +165,43 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
     [onChange]
   );
 
+  const [dragLevel, setDragLevel] = useState<number>(0);
+
+  if (dragLevel > 0) {
+    className = className
+      ? `${className} dragging`
+      : 'dragging';
+  }
+
   const audio = mimeType?.includes('audio/') || accept?.includes('audio/');
   const image = mimeType?.includes('image/') || accept?.includes('image/');
   const regular = !audio && !image;
 
   return (
-    <>
+    <StyledFieldsetRoot
+      className={className}
+      label={property.label}
+      hasChanged={hasChanged}
+      disabled={disabled}
+      handleDrop={(event:any) => {
+        setDragLevel(0);
+        handleDrop(event)
+      }}
+      handleDragEnter={(event:any) => {
+        setDragLevel((state: number) => state + 1);
+        handleDragEnter(event);
+      }}
+      handleDragLeave={(event:any) => {
+        setDragLevel((state: number) => state - 1);
+        handleDragLeave(event);
+      }}
+      handleDragOver={handleDragOver}
+    >
       {regular && (
         <RegularFileUploader
           {...props}
           downloadPath={downloadPath}
           hover={hover}
-          handleDrop={handleDrop}
-          handleDragEnter={handleDragEnter}
-          handleDragLeave={handleDragLeave}
-          handleDragOver={handleDragOver}
           handleDownload={handleDownload}
         />
       )}
@@ -183,10 +211,6 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
           {...props}
           downloadPath={downloadPath}
           hover={hover}
-          handleDrop={handleDrop}
-          handleDragEnter={handleDragEnter}
-          handleDragLeave={handleDragLeave}
-          handleDragOver={handleDragOver}
           handleDownload={handleDownload}
         />
       )}
@@ -196,18 +220,11 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
           {...props}
           downloadPath={downloadPath}
           hover={hover}
-          handleDrop={handleDrop}
-          handleDragEnter={handleDragEnter}
-          handleDragLeave={handleDragLeave}
-          handleDragOver={handleDragOver}
           handleDownload={handleDownload}
         />
       )}
-    </>
+    </StyledFieldsetRoot>
   );
 };
 
-export default withCustomComponentWrapper<
-  FileUploaderPropsType,
-  FileUploaderProps<FileUploaderPropsType>
->(FileUploader);
+export default FileUploader;

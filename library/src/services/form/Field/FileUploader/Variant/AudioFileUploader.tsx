@@ -29,10 +29,6 @@ export const AudioFileUploader: FileUploaderType = (props): JSX.Element | null =
     disabled,
     downloadPath,
     hover,
-    handleDrop,
-    handleDragEnter,
-    handleDragLeave,
-    handleDragOver,
     handleDownload,
     changeHandler,
     onBlur,
@@ -74,10 +70,6 @@ export const AudioFileUploader: FileUploaderType = (props): JSX.Element | null =
     <>
       <StyledFileUploaderContainer
         hover={hover}
-        onDrop={handleDrop}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
       >
         <input
           style={{ display: 'none' }}

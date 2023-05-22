@@ -1,31 +1,22 @@
 import { styled } from '@mui/material';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import DownloadingIcon from '@mui/icons-material/Downloading';
 
 interface StyledFileUploaderContainer {
   children: React.ReactNode;
   className?: string;
-  onDrop: React.DragEventHandler;
-  onDragEnter: React.DragEventHandler;
-  onDragLeave: React.DragEventHandler;
-  onDragOver: React.DragEventHandler;
 }
 
 export const StyledFileUploaderContainer = styled(
   (props: StyledFileUploaderContainer) => {
-    const { children, className } = props;
-    const { onDrop, onDragEnter, onDragLeave, onDragOver } = props;
+    const { children } = props;
+    let { className } = props;
 
-    const dragZoneRef = useRef(null);
 
     return (
       <div
         className={className}
-        ref={dragZoneRef}
-        onDrop={onDrop}
-        onDragEnter={onDragEnter}
-        onDragLeave={onDragLeave}
-        onDragOver={onDragOver}
+        //ref={dragZoneRef}
       >
         {children}
       </div>

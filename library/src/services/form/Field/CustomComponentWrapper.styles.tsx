@@ -1,5 +1,6 @@
 import CloseIcon from '@mui/icons-material/Close';
 import { FormControl, styled } from '@mui/material';
+import { DragEvent } from 'react';
 
 export const StyledCloseIcon = styled(CloseIcon)(() => {
   return {
@@ -14,9 +15,14 @@ interface StyledFieldsetRootProps {
   disabled: boolean;
   required?: boolean;
   className?: string;
+  handleDrop: (e: DragEvent) => void,
+  handleDragEnter: (e: DragEvent) => void,
+  handleDragLeave: (e: DragEvent) => void,
+  handleDragOver: (e: DragEvent) => void,
 }
 export const StyledFieldsetRoot = styled((props: StyledFieldsetRootProps) => {
   const { children, label, hasChanged, disabled, required } = props;
+  const { handleDrop, handleDragEnter, handleDragLeave, handleDragOver } = props;
 
   let className = props.className;
   if (hasChanged) {
@@ -34,7 +40,15 @@ export const StyledFieldsetRoot = styled((props: StyledFieldsetRootProps) => {
           {required && '*'}
         </label>
       )}
-      <div className='fieldsetContainer'>{children}</div>
+      <div
+        className='fieldsetContainer'
+        onDrop={handleDrop}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+      >
+        {children}
+      </div>
     </FormControl>
   );
 })(() => {

@@ -21,10 +21,6 @@ interface FileUploaderProps<T> extends PropertyCustomFunctionComponentProps<T> {
   downloadPath: string;
   accept?: string;
   hover: boolean,
-  handleDrop: (e: DragEvent) => void,
-  handleDragEnter: (e: DragEvent) => void,
-  handleDragLeave: (e: DragEvent) => void,
-  handleDragOver: (e: DragEvent) => void,
   handleDownload: (e: MouseEvent) => Promise<void>,
 }
 
@@ -40,10 +36,6 @@ const RegularFileUploader: FileUploaderType = (
     values,
     disabled,
     hover,
-    handleDrop,
-    handleDragEnter,
-    handleDragLeave,
-    handleDragOver,
     handleDownload,
     changeHandler,
     onBlur,
@@ -60,10 +52,6 @@ const RegularFileUploader: FileUploaderType = (
     <>
       <StyledFileUploaderContainer
         hover={hover}
-        onDrop={handleDrop}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
       >
         <input
           style={{ display: 'none' }}

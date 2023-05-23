@@ -23,6 +23,7 @@ const colorPrimary = computedStyle.getPropertyValue('--color-primary').trim();
 const colorSecondary = computedStyle
   .getPropertyValue('--color-secondary')
   .trim();
+
 const colorContrastText = computedStyle
   .getPropertyValue('--color-button')
   .trim();

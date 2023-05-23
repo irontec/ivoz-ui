@@ -1,6 +1,8 @@
-.MuiPaper-rounded {
+.MuiPaper-root {
   border-radius: var(--radius-md);
+}
 
+.MuiPaper-root.MuiMenu-paper {
   .MuiMenuItem-root,
   .MuiButtonBase-root {
     transition: all 100ms ease-in;

@@ -1,0 +1,41 @@
+.MuiAlert-root {
+  border: 1px solid var(--border);
+  color: var(--text);
+  background-color: var(--background);
+  align-items: center;
+
+  --text: #65676e;
+  --border: #c1c2c5;
+  --background: #f0f0f0;
+
+  .MuiAlert-icon {
+    color: currentColor;
+    padding: 0;
+  }
+
+  .MuiAlert-action {
+    padding: 0;
+
+    button {
+      padding: 0;
+    }
+  }
+
+  &.MuiAlert-standardSuccess {
+    --text: #42a37a;
+    --border: #bcf0da;
+    --background: #eefbf6;
+  }
+
+  &.MuiAlert-standardWarning {
+    --text: var(--color-warning);
+    --border: #fce6b7;
+    --background: #fef9ed;
+  }
+
+  &.MuiAlert-standardError {
+    --text: var(--color-danger);
+    --border: #f5b5bf;
+    --background: #fcecef;
+  }
+}

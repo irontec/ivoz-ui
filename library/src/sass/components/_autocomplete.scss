@@ -4,3 +4,22 @@
     background-color: var(--color-primary-tonal) !important;
   }
 }
+
+.multiselect {
+  .input-field {
+    flex-wrap: wrap;
+
+    input {
+      flex-grow: 1;
+      flex-shrink: 1;
+      width: auto;
+      flex-basis: auto;
+      transition: var(--transition-all-1);
+
+      &:not(:focus) {
+        height: 0;
+        padding: 0;
+      }
+    }
+  }
+}

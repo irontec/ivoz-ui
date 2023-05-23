@@ -12,10 +12,11 @@ interface DeleteRowButtonProps {
   row: any;
   entityService: EntityService;
   variant?: 'icon' | 'text';
+  disabled?: boolean;
 }
 
 const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
-  const { row, entityService, variant = 'icon' } = props;
+  const { row, entityService, disabled = false, variant = 'icon' } = props;
   const [showDelete, setShowDelete] = useState<boolean>(false);
   const handleHideDelete = (): void => {
     setShowDelete(false);
@@ -60,9 +61,11 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
           enterTouchDelay={0}
           arrow
         >
-          <LightButton onClick={() => setShowDelete(true)}>
-            <StyledDeleteIcon />
-          </LightButton>
+          <span>
+            <LightButton disabled={disabled} onClick={() => !disabled && setShowDelete(true)}>
+                <StyledDeleteIcon />
+            </LightButton>
+          </span>
         </Tooltip>
       )}
       {variant === 'text' && (

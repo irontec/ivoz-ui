@@ -1,6 +1,6 @@
-import EntityInterface from '../../entities/EntityInterface';
-import { forwardRef, useEffect } from 'react';
+import { forwardRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import EntityInterface from '../../entities/EntityInterface';
 import { EntityValues } from '../../services';
 import { useStoreActions } from '../../store';
 
@@ -29,14 +29,14 @@ const HistoryTrackerLink = forwardRef<any, any>(
       state.referrerIden = parentEntity.toStr(parentRow);
     }
 
-    useEffect(() => {
+    const onClickHandler = () => {
       if (parentEntity && parentRow) {
         setParentRow(parentRow);
       }
-    }, [parentRow]);
+    };
 
     return (
-      <Link ref={ref} className={className} to={to} state={state} {...rest}>
+      <Link ref={ref} className={className} to={to} state={state} {...rest} onClick={onClickHandler}>
         {children}
       </Link>
     );

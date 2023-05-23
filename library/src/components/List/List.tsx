@@ -263,7 +263,6 @@ const List = function (props: ListProps) {
     reloadTimestamp,
   ]);
 
-  const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
   const rows = useStoreState((state) => state.list.rows);
   const apiLoading = useStoreState((state) => state.api.loading);
 

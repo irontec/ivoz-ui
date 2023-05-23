@@ -3,17 +3,17 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { Box } from '@mui/system';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
-import { ForwardedRef, createRef, forwardRef } from 'react';
+import { ForwardedRef, createRef, forwardRef, useEffect } from 'react';
 import { PathMatch } from 'react-router-dom';
+import { useStoreActions, useStoreState } from 'store';
 import { RouteMapItem } from '../../../router/routeMapParser';
-import EntityService from '../../../services/entity/EntityService';
+import EntityService, { EntityValues } from '../../../services/entity/EntityService';
+import _ from '../../../services/translations/translate';
+import Pagination from '../Pagination';
 import ContentCard from './Card/ContentCard';
 import ListContentHeader from './ListContentHeader';
 import { StyledContentTable } from './Table/ContentTable.styles';
 import useMultiselectState from './Table/hook/useMultiselectState';
-import Pagination from '../Pagination';
-import _ from '../../../services/translations/translate';
-import { useStoreState } from 'store';
 
 export interface ListContentProps {
   childEntities: Array<RouteMapItem>;
@@ -54,6 +54,45 @@ const ListContent = (
     const rowIds = rows.map((row) => row.id?.toString() || '');
     setSelectedValues(rowIds);
   };
+
+  const parentRow = useStoreState(state => state.list.parentRow);
+  const setParentRow = useStoreActions(state => state.list.setParentRow);
+  const apiGet = useStoreActions((actions) => {
+    return actions.api.get;
+  });
+
+  useEffect(
+    () => {
+      if (!parentRow) {
+
+        if (Object.values(match.params).length === 0) {
+          return;
+        }
+
+        const baseUrl = process.env.BASE_URL || '';
+        const currentPath = match.pathname.substring(
+          baseUrl.length
+            ? baseUrl.length - 1
+            : 0
+        );
+
+        const parentPath = currentPath.match(/^(.*)\/[^\/]+$/)?.[1];
+        if (!parentPath) {
+          return;
+        }
+
+        apiGet({
+          path: parentPath,
+          params: {},
+          successCallback: async (data) => {
+            setParentRow(data as EntityValues);
+          },
+          cancelToken,
+        });
+      }
+    },
+    [parentRow, match]
+  );
 
   return (
     <>

@@ -46,7 +46,14 @@ export const StyledContentTable = styled(ContentTable)(() => {
 });
 
 const TableRowLinkButton = forwardRef<any, any>((props, ref) => {
-  const { children, className, to, ...rest } = props;
+  const { children, className, to, disabled, ...rest } = props;
+
+  if (disabled) {
+    return (
+      <LightButton disabled={disabled}>{children}</LightButton>
+    );
+  }
+
   return (
     <HistoryTrackerLink {...rest} to={to} className={className} ref={ref}>
       <LightButton>{children}</LightButton>

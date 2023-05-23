@@ -30,6 +30,7 @@ export type ListDecoratorType = React.FunctionComponent<ListDecoratorPropsType>;
 export interface ChildDecoratorProps {
   routeMapItem: RouteMapItem;
   row: Record<string, any>;
+  entityService: EntityService,
 }
 
 export type ChildDecoratorType = React.FunctionComponent<

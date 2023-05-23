@@ -8,10 +8,11 @@ import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 type EditRowButtonProps = {
   row: Record<string, any>;
   path: string;
+  disabled?: boolean;
 };
 
-const EditRowButton = (props: EditRowButtonProps): JSX.Element => {
-  const { row } = props;
+const EditRowButton = (props: EditRowButtonProps): JSX.Element | null => {
+  const { row, disabled = false } = props;
 
   const match = useCurrentPathMatch();
   const link = buildLink({
@@ -21,9 +22,11 @@ const EditRowButton = (props: EditRowButtonProps): JSX.Element => {
 
   return (
     <Tooltip title={_('Edit')} placement='bottom' arrow>
-      <StyledTableRowCta to={`${link}/${row.id}/update`}>
-        <EditIcon />
-      </StyledTableRowCta>
+      <span>
+        <StyledTableRowCta disabled={disabled} to={`${link}/${row.id}/update`}>
+          <EditIcon />
+        </StyledTableRowCta>
+      </span>
     </Tooltip>
   );
 };

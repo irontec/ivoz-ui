@@ -56,6 +56,10 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     className += ' changed';
   }
 
+  if (multiple) {
+    className += ' multiselect';
+  }
+
   const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>([]);
 
   useEffect(() => {

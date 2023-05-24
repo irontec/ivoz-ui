@@ -1,19 +1,18 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import {
-  ChangeEvent
-} from 'react';
+import { ChangeEvent } from 'react';
 import _ from '../../../../translations/translate';
 import { ChangeEventValues, FileProps } from '../FileUploader';
 import {
-  StyledFileNameContainer,
   StyledFileUploaderContainer,
-  StyledUploadButtonContainer,
-  StyledUploadButtonLabel
+  StyledImageContainer,
+  StyledTextContainer,
+  StyledUploadButtonLabel,
 } from '../FileUploader.styles';
 import { FileUploaderType } from './RegularFileUploader';
 
-export const ImageFileUploader: FileUploaderType = (props): JSX.Element | null => {
-
+export const ImageFileUploader: FileUploaderType = (
+  props
+): JSX.Element | null => {
   const {
     _columnName,
     accept,
@@ -34,9 +33,7 @@ export const ImageFileUploader: FileUploaderType = (props): JSX.Element | null =
 
   return (
     <>
-      <StyledFileUploaderContainer
-        hover={hover}
-      >
+      <StyledFileUploaderContainer hover={hover}>
         <input
           style={{ display: 'none' }}
           id={id}
@@ -60,20 +57,31 @@ export const ImageFileUploader: FileUploaderType = (props): JSX.Element | null =
             onBlur(changeEvent as any);
           }}
         />
-        {!disabled && (
-          <StyledUploadButtonContainer>
+
+        {fileName && (
+          <StyledImageContainer className={disabled ? 'disabled' : ''}>
+            {values.id && <AccountCircleIcon onClick={handleDownload} />}
+          </StyledImageContainer>
+        )}
+
+        <StyledTextContainer>
+          <span>JPG, JPEG, PNG format</span>
+          <span>Maximum 500KB</span>
+          {!disabled && (
             <StyledUploadButtonLabel htmlFor={id}>
               {_('Upload image')}
             </StyledUploadButtonLabel>
-          </StyledUploadButtonContainer>
-        )}
-        {fileName && (
-          <StyledFileNameContainer className={disabled ? 'disabled' : ''}>
-            {values.id && <AccountCircleIcon sx={{height: 60, width: 60}} onClick={handleDownload} />}
-            <div>{fileName} ({fileSizeMb}MB)</div>
-          </StyledFileNameContainer>
-        )}
+          )}
+
+          {fileName && (
+            <span>
+              {fileName} ({fileSizeMb}MB)
+            </span>
+          )}
+        </StyledTextContainer>
       </StyledFileUploaderContainer>
+
+      <div className='uploader-backdrop'>Image</div>
     </>
   );
 };

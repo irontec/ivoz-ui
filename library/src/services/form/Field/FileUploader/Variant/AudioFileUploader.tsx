@@ -1,17 +1,16 @@
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
+import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded';
 import { ChangeEvent, useEffect, useState } from 'react';
 import ReactAudioPlayerSrc from 'react-audio-player';
 import { useStoreActions } from 'store';
 import { ChangeEventValues, FileProps } from '../FileUploader';
 import {
-  StyledDownloadingIcon,
   StyledFileNameContainer,
   StyledFileUploaderContainer,
-  StyledUploadButtonContainer,
-  StyledUploadButtonLabel
+  StyledUploadButtonLabel,
 } from '../FileUploader.styles';
 import { FileUploaderType } from './RegularFileUploader';
-import { Button } from '@mui/material';
-import { Backup } from '@mui/icons-material';
+import { Box } from '@mui/material';
 
 type PlayerType = typeof ReactAudioPlayerSrc;
 // see https://github.com/justinmc/react-audio-player/issues/164
@@ -20,8 +19,9 @@ const ReactAudioPlayer: PlayerType =
     ? (ReactAudioPlayerSrc as any).default
     : ReactAudioPlayerSrc;
 
-export const AudioFileUploader: FileUploaderType = (props): JSX.Element | null => {
-
+export const AudioFileUploader: FileUploaderType = (
+  props
+): JSX.Element | null => {
   const {
     _columnName,
     accept,
@@ -67,10 +67,8 @@ export const AudioFileUploader: FileUploaderType = (props): JSX.Element | null =
   const fileSizeMb = Math.round(((fileSize || 0) / 1024 / 1024) * 10) / 10;
 
   return (
-    <>
-      <StyledFileUploaderContainer
-        hover={hover}
-      >
+    <StyledFileUploaderContainer hover={hover}>
+      <div>
         <input
           style={{ display: 'none' }}
           id={id}
@@ -94,23 +92,28 @@ export const AudioFileUploader: FileUploaderType = (props): JSX.Element | null =
             onBlur(changeEvent as any);
           }}
         />
-        {!disabled && (
-          <StyledUploadButtonContainer>
-            <StyledUploadButtonLabel htmlFor={id}>
-              <Button variant='contained' component='span'>
-                <Backup />
-              </Button>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            marginBottom: 'var(--spacing-sm)',
+          }}
+        >
+          {fileName && (
+            <StyledFileNameContainer className={disabled ? 'disabled' : ''}>
+              {values.id && <DownloadRoundedIcon onClick={handleDownload} />}
+              {fileName} ({fileSizeMb}MB)
+            </StyledFileNameContainer>
+          )}
+          {!disabled && (
+            <StyledUploadButtonLabel htmlFor={id} className='upload-icon'>
+              <UploadFileRoundedIcon />
             </StyledUploadButtonLabel>
-          </StyledUploadButtonContainer>
-        )}
-        {fileName && (
-          <StyledFileNameContainer className={disabled ? 'disabled' : ''}>
-            {values.id && <StyledDownloadingIcon onClick={handleDownload} />}
-            {fileName} ({fileSizeMb}MB)
-          </StyledFileNameContainer>
-        )}
-      </StyledFileUploaderContainer>
-      <ReactAudioPlayer src={audioSrc} controls={true} />
-    </>
+          )}
+        </Box>
+        <ReactAudioPlayer src={audioSrc} controls={true} />
+      </div>
+      <div className='uploader-backdrop'>Audio</div>
+    </StyledFileUploaderContainer>
   );
 };

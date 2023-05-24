@@ -1,35 +1,26 @@
 import BackupIcon from '@mui/icons-material/Backup';
+import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import { Button } from '@mui/material';
+import { ChangeEvent, MouseEvent } from 'react';
+import { PropertyCustomFunctionComponentProps } from '../../CustomComponentWrapper';
+import { ChangeEventValues, FileProps } from '../FileUploader';
 import {
-  ChangeEvent,
-  DragEvent,
-  MouseEvent,
-} from 'react';
-import {
-  PropertyCustomFunctionComponentProps,
-} from '../../CustomComponentWrapper';
-import {
-  StyledDownloadingIcon,
   StyledFileNameContainer,
   StyledFileUploaderContainer,
-  StyledUploadButtonContainer,
   StyledUploadButtonLabel,
 } from '../FileUploader.styles';
-import { ChangeEventValues, FileProps } from '../FileUploader';
 
 interface FileUploaderProps<T> extends PropertyCustomFunctionComponentProps<T> {
   downloadPath: string;
   accept?: string;
-  hover: boolean,
-  handleDownload: (e: MouseEvent) => Promise<void>,
+  hover: boolean;
+  handleDownload: (e: MouseEvent) => Promise<void>;
 }
 
 type FileUploaderPropsType = FileUploaderProps<{ [k: string]: FileProps }>;
 export type FileUploaderType = React.FunctionComponent<FileUploaderPropsType>;
 
-const RegularFileUploader: FileUploaderType = (
-  props
-): JSX.Element => {
+const RegularFileUploader: FileUploaderType = (props): JSX.Element => {
   const {
     _columnName,
     accept,
@@ -50,9 +41,7 @@ const RegularFileUploader: FileUploaderType = (
 
   return (
     <>
-      <StyledFileUploaderContainer
-        hover={hover}
-      >
+      <StyledFileUploaderContainer hover={hover}>
         <input
           style={{ display: 'none' }}
           id={id}
@@ -77,17 +66,15 @@ const RegularFileUploader: FileUploaderType = (
           }}
         />
         {!disabled && (
-          <StyledUploadButtonContainer>
-            <StyledUploadButtonLabel htmlFor={id}>
-              <Button variant='contained' component='span'>
-                <BackupIcon />
-              </Button>
-            </StyledUploadButtonLabel>
-          </StyledUploadButtonContainer>
+          <StyledUploadButtonLabel htmlFor={id}>
+            <Button variant='contained' component='span'>
+              <BackupIcon />
+            </Button>
+          </StyledUploadButtonLabel>
         )}
         {fileName && (
           <StyledFileNameContainer className={disabled ? 'disabled' : ''}>
-            {values.id && <StyledDownloadingIcon onClick={handleDownload} />}
+            {values.id && <DownloadRoundedIcon onClick={handleDownload} />}
             {fileName} ({fileSizeMb}MB)
           </StyledFileNameContainer>
         )}

@@ -19,7 +19,7 @@ interface AuthState {
 
 interface AuthActions {
   setSessionStoragePrefix: Action<AuthState, string>;
-  setLoginProps: Action<AuthState, LoginProps>;
+  setLoginProps: Action<AuthState, Partial<LoginProps>>;
   setToken: Action<AuthState, string | null>;
   setRefreshToken: Action<AuthState, string | null>;
   init: Thunk<AuthState>;
@@ -53,7 +53,7 @@ const auth: AuthStore = {
     state.sessionStoragePrefix = prefix;
   }),
 
-  setLoginProps: action<AuthState, LoginProps>((state, loginProps) => {
+  setLoginProps: action<AuthState, Partial<LoginProps>>((state, loginProps) => {
     state.login = {
       ...state.login,
       ...loginProps,

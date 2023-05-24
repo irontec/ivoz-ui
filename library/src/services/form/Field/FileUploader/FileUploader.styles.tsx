@@ -12,7 +12,6 @@ export const StyledFileUploaderContainer = styled(
     return (
       <div
         className={className}
-        //ref={dragZoneRef}
       >
         {children}
       </div>

@@ -96,7 +96,7 @@ const Edit: any = (props: EditProps) => {
         const targetPath =
           referrer.search(parentPath) === 0 ? referrer : parentPath;
 
-        if (targetPath === null) {
+        if (targetPath === null || targetPath === location.pathname) {
           setFlashMsg({
             msg: _('Entity sucessfully updated'),
             type: 'success',

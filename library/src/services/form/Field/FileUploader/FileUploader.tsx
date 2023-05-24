@@ -7,9 +7,7 @@ import {
   useState,
 } from 'react';
 import { useStoreActions } from '../../../../store';
-import {
-  PropertyCustomFunctionComponentProps,
-} from '../CustomComponentWrapper';
+import { PropertyCustomFunctionComponentProps } from '../CustomComponentWrapper';
 import { StyledFieldsetRoot } from '../CustomComponentWrapper.styles';
 import { AudioFileUploader } from './Variant/AudioFileUploader';
 import { ImageFileUploader } from './Variant/ImageFileUploader';
@@ -168,9 +166,7 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
   const [dragLevel, setDragLevel] = useState<number>(0);
 
   if (dragLevel > 0) {
-    className = className
-      ? `${className} dragging`
-      : 'dragging';
+    className = className ? `${className} dragging` : 'dragging';
   }
 
   const audio = mimeType?.includes('audio/') || accept?.includes('audio/');
@@ -183,15 +179,15 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
       label={property.label}
       hasChanged={hasChanged}
       disabled={disabled}
-      handleDrop={(event:any) => {
+      handleDrop={(event: any) => {
         setDragLevel(0);
-        handleDrop(event)
+        handleDrop(event);
       }}
-      handleDragEnter={(event:any) => {
+      handleDragEnter={(event: any) => {
         setDragLevel((state: number) => state + 1);
         handleDragEnter(event);
       }}
-      handleDragLeave={(event:any) => {
+      handleDragLeave={(event: any) => {
         setDragLevel((state: number) => state - 1);
         handleDragLeave(event);
       }}

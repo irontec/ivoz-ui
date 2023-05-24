@@ -24,9 +24,6 @@ export const StyledFileUploaderContainer = styled(
     alignItems: 'center',
     gap: 'var(--spacing-md)',
     padding: 'var(--spacing-sm)',
-    // '& audio': {
-    //   width: '100%',
-    // },
   };
 });
 

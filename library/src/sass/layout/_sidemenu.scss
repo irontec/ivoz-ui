@@ -10,7 +10,7 @@
   gap: var(--spacing-md);
   box-shadow: var(--elevation-sidemenu);
 
-  overflow: hidden;
+  overflow: auto;
 
   height: 100%;
 
@@ -25,49 +25,63 @@
     }
   }
 
-  > .MuiListItemButton-root,
-  > div > .MuiListItemButton-root {
-    background: none;
-    padding-block: var(--spacing-xs);
-    padding-inline-start: var(--spacing-xl);
-    flex-grow: 0;
-    span {
-      font-size: 1rem;
-    }
-  }
+  .link-container {
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
 
-  > .MuiListItemButton-root.Mui-selected,
-  > div:has(.Mui-selected) > .MuiListItemButton-root {
-    color: var(--color-primary);
-    position: relative;
-
-    &::after {
-      content: '';
-      width: 10px;
-      height: 100%;
-      background: currentColor;
-      position: absolute;
-      right: 0;
-      border-radius: var(--radius-md) 0 0 var(--radius-md);
-    }
-
-    &:hover {
+    > .MuiListItemButton-root,
+    > div > .MuiListItemButton-root {
       background: none;
+      padding-block: var(--spacing-xs);
+      padding-inline-start: var(--spacing-xl);
+      flex-grow: 0;
+      span {
+        font-size: 1rem;
+      }
     }
 
-    .MuiTypography-root {
-      font-weight: bold;
+    > .MuiListItemButton-root.Mui-selected,
+    > div:has(.Mui-selected) > .MuiListItemButton-root {
+      color: var(--color-primary);
+      position: relative;
+
+      &::after {
+        content: '';
+        width: 10px;
+        height: 100%;
+        background: currentColor;
+        position: absolute;
+        right: 0;
+        border-radius: var(--radius-md) 0 0 var(--radius-md);
+      }
+
+      &:hover {
+        background: none;
+      }
+
+      .MuiTypography-root {
+        font-weight: bold;
+      }
     }
-  }
+    > div > .MuiCollapse-vertical {
+      border-inline-start: 1px solid var(--color-border);
+      margin-inline-start: 44px;
 
-  > div > .MuiCollapse-vertical {
-    border-inline-start: 1px solid var(--color-border);
-    margin-inline-start: 44px;
+      padding-inline-end: var(--spacing-md);
+      padding-inline-start: var(--spacing-xxl);
 
-    padding-inline-end: var(--spacing-md);
-    padding-inline-start: var(--spacing-xxl);
+      transition: var(--transition-all-1) !important;
+    }
 
-    transition: var(--transition-all-1) !important;
+    > div > .MuiCollapse-vertical {
+      border-inline-start: 0px solid transparent;
+      margin-inline-start: 0;
+
+      padding-inline-end: var(--spacing-md);
+      padding-inline-start: var(--spacing-md);
+    }
   }
 
   .MuiCollapse-vertical {
@@ -145,14 +159,6 @@
         opacity: 0;
         display: none;
       }
-    }
-
-    > div > .MuiCollapse-vertical {
-      border-inline-start: 0px solid transparent;
-      margin-inline-start: 0;
-
-      padding-inline-end: var(--spacing-md);
-      padding-inline-start: var(--spacing-md);
     }
 
     .MuiListItemText-root {

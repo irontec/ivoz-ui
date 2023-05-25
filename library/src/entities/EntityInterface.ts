@@ -1,7 +1,7 @@
 import { CancelToken } from 'axios';
 import React from 'react';
 import { PathMatch } from 'react-router-dom';
-import { DropdownChoices, EntityValue } from 'services';
+import { DropdownChoices } from 'services';
 import { EntityList } from '../router/parseRoutes';
 import { ActionItem, RouteMapItem } from '../router/routeMapParser';
 import {
@@ -30,7 +30,7 @@ export type ListDecoratorType = React.FunctionComponent<ListDecoratorPropsType>;
 export interface ChildDecoratorProps {
   routeMapItem: RouteMapItem;
   row: Record<string, any>;
-  entityService: EntityService,
+  entityService: EntityService;
 }
 
 export type ChildDecoratorType = React.FunctionComponent<
@@ -62,7 +62,7 @@ export type ForeignKeyGetterType = (
 ) => Promise<any>;
 export declare type FetchFksCallback = (
   choices: DropdownChoices,
-  fullResponse?: Array<Record<string, EntityValue>>
+  headers?: Record<string, string>
 ) => void;
 export type SelectOptionsArgs = {
   callback: FetchFksCallback;

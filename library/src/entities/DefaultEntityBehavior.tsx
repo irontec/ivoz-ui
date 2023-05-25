@@ -33,6 +33,7 @@ import marshaller, {
 import unmarshaller from './DefaultEntityBehavior/Unmarshaller';
 import validator from './DefaultEntityBehavior/Validator';
 import View from './DefaultEntityBehavior/View';
+import { DropdownArrayChoice, DropdownChoices } from 'services';
 
 export const initialValues = {};
 
@@ -75,7 +76,7 @@ export const ChildDecoratorMemo = React.memo(
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 
-const fetchFks = (
+const fetchFks = async (
   endpoint: string,
   properties:
     | Array<EntityValues>
@@ -84,18 +85,45 @@ const fetchFks = (
   cancelToken?: CancelToken
 ): Promise<unknown> => {
   const getAction = StoreContainer.store.getActions().api.get;
-  return getAction({
-    path: endpoint,
-    params: {
-      _pagination: false,
-      _itemsPerPage: 100,
-      _properties: properties,
-    },
-    successCallback: async (data: any) => {
-      setter(data);
-    },
-    cancelToken,
-  });
+
+  let keepGoing = true;
+  let _page: number = parseInt(
+    endpoint.match(/_page=([0-9]+)/)?.[1] || '1',
+    10
+  );
+  const response: DropdownChoices = [];
+  while (keepGoing) {
+    await getAction({
+      path: endpoint,
+      params: {
+        _pagination: false,
+        _itemsPerPage: 100,
+        _properties: properties,
+        _page,
+      },
+      successCallback: async (data, headers: Record<string, string>) => {
+        response.push(...(data as Array<DropdownArrayChoice>));
+
+        const totalItems = parseInt(
+          headers?.['x-total-items'] || `${response.length}`,
+          10
+        );
+
+        if (
+          response.length >= totalItems ||
+          !(data as Array<DropdownArrayChoice>).length
+        ) {
+          keepGoing = false;
+        }
+        _page++;
+      },
+      cancelToken,
+    });
+  }
+
+  setter(response);
+
+  return response;
 };
 export type fetchFksType = typeof fetchFks;
 

@@ -1,15 +1,14 @@
-import {
-  isActionItem,
-  RouteMap,
-  RouteMapItem,
-  EntityItem,
-  isRouteMapBlock,
-  isEntityItem,
-  RouteMapBlock,
-  isRouteMapItem,
-} from './routeMapParser';
 import { PathMatch } from 'react-router-dom';
 import EntityInterface from '../entities/EntityInterface';
+import {
+  EntityItem,
+  RouteMap,
+  RouteMapBlock,
+  RouteMapItem,
+  isActionItem,
+  isEntityItem,
+  isRouteMapBlock,
+} from './routeMapParser';
 
 const matchRoute = (
   route: EntityItem,

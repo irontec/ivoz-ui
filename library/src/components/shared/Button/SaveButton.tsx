@@ -18,8 +18,8 @@ const SaveButton = function (props: SaveButtonProps): JSX.Element {
       {showCancelButton && (
         <Link to={parentUrl}>
           <OutlinedButton>Cancel</OutlinedButton>
-        </Link>)
-      }
+        </Link>
+      )}
       <SolidButton type='submit'>{_('Save')}</SolidButton>
     </div>
   );

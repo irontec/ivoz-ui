@@ -60,36 +60,22 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
     return actions.api.download;
   });
 
-  const [hover, setHover] = useState<boolean>(false);
-  const [hoverCount, setHoverCount] = useState<number>(0);
   const [downloading, setDownloading] = useState<boolean>(false);
 
-  const handleDragEnter = useCallback(
-    (e: DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      setHover(hoverCount >= 0);
-      setHoverCount(hoverCount + 1);
-    },
-    [hoverCount]
-  );
+  const handleDragEnter = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
 
   const handleDragOver = useCallback((e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
   }, []);
 
-  const handleDragLeave = useCallback(
-    (e: DragEvent) => {
-      e.preventDefault();
-      e.stopPropagation();
-
-      setHover(hoverCount > 1);
-      setHoverCount(hoverCount - 1);
-    },
-    [hoverCount]
-  );
+  const handleDragLeave = useCallback((e: DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  }, []);
 
   const handleDownload = useCallback(
     async (e: MouseEvent) => {
@@ -108,9 +94,10 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
           params: {},
           successCallback: async (data: any, headers: any) => {
             const fileName = headers['content-disposition']
-              .split('filename=')
-              .pop();
-            saveAs(data, fileName);
+              ?.split('filename=')
+              ?.pop();
+
+            saveAs(data, fileName || 'download');
           },
         });
       } finally {
@@ -149,8 +136,6 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
     (e: DragEvent) => {
       e.preventDefault();
       e.stopPropagation();
-
-      setHover(false);
 
       const event = {
         target: {
@@ -197,7 +182,6 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
         <RegularFileUploader
           {...props}
           downloadPath={downloadPath}
-          hover={hover}
           handleDownload={handleDownload}
         />
       )}
@@ -206,7 +190,6 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
         <ImageFileUploader
           {...props}
           downloadPath={downloadPath}
-          hover={hover}
           handleDownload={handleDownload}
         />
       )}
@@ -215,7 +198,6 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
         <AudioFileUploader
           {...props}
           downloadPath={downloadPath}
-          hover={hover}
           handleDownload={handleDownload}
         />
       )}

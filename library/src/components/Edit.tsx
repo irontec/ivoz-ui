@@ -33,7 +33,9 @@ const Edit: any = (props: EditProps) => {
     });
   }, []);
 
-  const setFlashMsg = useStoreActions(actions => actions.flashMsg.setFlashMsg);
+  const setFlashMsg = useStoreActions(
+    (actions) => actions.flashMsg.setFlashMsg
+  );
   const location = useLocation();
   const match = useCurrentPathMatch();
   const navigate = useNavigate();

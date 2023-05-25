@@ -9,15 +9,9 @@ export const StyledFileUploaderContainer = styled(
   (props: StyledFileUploaderContainer) => {
     const { children, className } = props;
 
-    return (
-      <div
-        className={className}
-      >
-        {children}
-      </div>
-    );
+    return <div className={className}>{children}</div>;
   }
-)(({ hover }: { hover: boolean }) => {
+)(() => {
   return {
     display: 'flex',
     alignItems: 'center',

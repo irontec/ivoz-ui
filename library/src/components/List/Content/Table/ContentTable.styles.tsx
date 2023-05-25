@@ -49,9 +49,7 @@ const TableRowLinkButton = forwardRef<any, any>((props, ref) => {
   const { children, className, to, disabled, ...rest } = props;
 
   if (disabled) {
-    return (
-      <LightButton disabled={disabled}>{children}</LightButton>
-    );
+    return <LightButton disabled={disabled}>{children}</LightButton>;
   }
 
   return (

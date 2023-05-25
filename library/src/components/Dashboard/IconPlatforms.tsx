@@ -1,6 +1,4 @@
-export default function IconPlatformsDashboard(
-  props: Record<string, unknown>
-): JSX.Element {
+export default function IconPlatformsDashboard(): JSX.Element {
   return (
     <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 75 75'>
       <rect width='75' height='75' fill='var(--color-primary-tonal)' rx='8' />

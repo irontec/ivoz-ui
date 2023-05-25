@@ -7,7 +7,7 @@ import buildLink from './BuildLink';
 type ChildEntityLinkProps = {
   row: Record<string, any>;
   routeMapItem: EntityItem;
-  disabled?: boolean,
+  disabled?: boolean;
 };
 
 const ChildEntityLink = (props: ChildEntityLinkProps): JSX.Element => {
@@ -27,12 +27,7 @@ const ChildEntityLink = (props: ChildEntityLinkProps): JSX.Element => {
   });
 
   return (
-    <Tooltip
-      title={title}
-      placement='bottom-start'
-      enterTouchDelay={0}
-      arrow
-    >
+    <Tooltip title={title} placement='bottom-start' enterTouchDelay={0} arrow>
       <span>
         <StyledTableRowEntityCta
           to={link}

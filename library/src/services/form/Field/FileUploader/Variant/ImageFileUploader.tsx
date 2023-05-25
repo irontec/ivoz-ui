@@ -18,7 +18,6 @@ export const ImageFileUploader: FileUploaderType = (
     accept,
     values,
     disabled,
-    hover,
     handleDownload,
     changeHandler,
     onBlur,
@@ -33,7 +32,7 @@ export const ImageFileUploader: FileUploaderType = (
 
   return (
     <>
-      <StyledFileUploaderContainer hover={hover}>
+      <StyledFileUploaderContainer>
         <input
           style={{ display: 'none' }}
           id={id}

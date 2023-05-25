@@ -1,8 +1,8 @@
 import { Action, action } from 'easy-peasy';
 
 interface FlashMsgState {
-  msg: undefined | string | React.ReactNode,
-  type: undefined | 'success' | 'warning' | 'error' | 'info',
+  msg: undefined | string | React.ReactNode;
+  type: undefined | 'success' | 'warning' | 'error' | 'info';
 }
 
 interface FlashMsgActions {
@@ -15,7 +15,7 @@ export type FlashMsgStore = FlashMsgState & FlashMsgActions;
 const flashMsg: FlashMsgStore = {
   msg: undefined,
   type: undefined,
-  setFlashMsg: action<FlashMsgState, FlashMsgState>((state, {msg, type}) => {
+  setFlashMsg: action<FlashMsgState, FlashMsgState>((state, { msg, type }) => {
     state.msg = msg;
     state.type = type;
   }),

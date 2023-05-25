@@ -114,14 +114,22 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
             detail={
               acl.detail &&
               !acl.update && (
-                <ChildDecorator routeMapItem={detailMapItem} row={row} entityService={entityService}>
+                <ChildDecorator
+                  routeMapItem={detailMapItem}
+                  row={row}
+                  entityService={entityService}
+                >
                   <ViewRowButton row={row} path={path} />
                 </ChildDecorator>
               )
             }
             edit={
               acl.update && (
-                <ChildDecorator routeMapItem={updateRouteMapItem} row={row} entityService={entityService}>
+                <ChildDecorator
+                  routeMapItem={updateRouteMapItem}
+                  row={row}
+                  entityService={entityService}
+                >
                   <EditRowButton row={row} path={path} />
                 </ChildDecorator>
               )

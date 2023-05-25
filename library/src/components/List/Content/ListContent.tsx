@@ -7,7 +7,9 @@ import { ForwardedRef, createRef, forwardRef, useEffect } from 'react';
 import { PathMatch } from 'react-router-dom';
 import { useStoreActions, useStoreState } from 'store';
 import { RouteMapItem } from '../../../router/routeMapParser';
-import EntityService, { EntityValues } from '../../../services/entity/EntityService';
+import EntityService, {
+  EntityValues,
+} from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
 import Pagination from '../Pagination';
 import ContentCard from './Card/ContentCard';
@@ -55,44 +57,38 @@ const ListContent = (
     setSelectedValues(rowIds);
   };
 
-  const parentRow = useStoreState(state => state.list.parentRow);
-  const setParentRow = useStoreActions(state => state.list.setParentRow);
+  const parentRow = useStoreState((state) => state.list.parentRow);
+  const setParentRow = useStoreActions((state) => state.list.setParentRow);
   const apiGet = useStoreActions((actions) => {
     return actions.api.get;
   });
 
-  useEffect(
-    () => {
-      if (!parentRow) {
-
-        if (Object.values(match.params).length === 0) {
-          return;
-        }
-
-        const baseUrl = process.env.BASE_URL || '';
-        const currentPath = match.pathname.substring(
-          baseUrl.length
-            ? baseUrl.length - 1
-            : 0
-        );
-
-        const parentPath = currentPath.match(/^(.*)\/[^\/]+$/)?.[1];
-        if (!parentPath) {
-          return;
-        }
-
-        apiGet({
-          path: parentPath,
-          params: {},
-          successCallback: async (data) => {
-            setParentRow(data as EntityValues);
-          },
-          cancelToken,
-        });
+  useEffect(() => {
+    if (!parentRow) {
+      if (Object.values(match.params).length === 0) {
+        return;
       }
-    },
-    [parentRow, match]
-  );
+
+      const baseUrl = process.env.BASE_URL || '';
+      const currentPath = match.pathname.substring(
+        baseUrl.length ? baseUrl.length - 1 : 0
+      );
+
+      const parentPath = currentPath.match(/^(.*)\/[^\/]+$/)?.[1];
+      if (!parentPath) {
+        return;
+      }
+
+      apiGet({
+        path: parentPath,
+        params: {},
+        successCallback: async (data) => {
+          setParentRow(data as EntityValues);
+        },
+        cancelToken,
+      });
+    }
+  }, [parentRow, match]);
 
   return (
     <>

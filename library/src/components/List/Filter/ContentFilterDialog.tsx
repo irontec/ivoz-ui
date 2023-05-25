@@ -80,7 +80,6 @@ export function ContentFilterDialog(
         setLoading(false);
       });
     });
-
   }, [
     preloadData,
     anchorEl,

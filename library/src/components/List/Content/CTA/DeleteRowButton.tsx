@@ -62,8 +62,11 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
           arrow
         >
           <span>
-            <LightButton disabled={disabled} onClick={() => !disabled && setShowDelete(true)}>
-                <StyledDeleteIcon />
+            <LightButton
+              disabled={disabled}
+              onClick={() => !disabled && setShowDelete(true)}
+            >
+              <StyledDeleteIcon />
             </LightButton>
           </span>
         </Tooltip>

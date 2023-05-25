@@ -63,16 +63,22 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
         }
 
         return (
-          <ChildDecorator key={key} routeMapItem={routeMapItem} row={row} entityService={entityService}>
-            <ChildEntityLink
-              routeMapItem={routeMapItem}
-              row={row}
-            />
+          <ChildDecorator
+            key={key}
+            routeMapItem={routeMapItem}
+            row={row}
+            entityService={entityService}
+          >
+            <ChildEntityLink routeMapItem={routeMapItem} row={row} />
           </ChildDecorator>
         );
       })}
       {childEntitiesCopy.length === 0 && deleteMapItem && (
-        <ChildDecorator routeMapItem={deleteMapItem} row={row} entityService={entityService}>
+        <ChildDecorator
+          routeMapItem={deleteMapItem}
+          row={row}
+          entityService={entityService}
+        >
           <DeleteRowButton row={row} entityService={entityService} />
         </ChildDecorator>
       )}

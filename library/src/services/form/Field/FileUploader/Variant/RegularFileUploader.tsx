@@ -13,7 +13,6 @@ import {
 interface FileUploaderProps<T> extends PropertyCustomFunctionComponentProps<T> {
   downloadPath: string;
   accept?: string;
-  hover: boolean;
   handleDownload: (e: MouseEvent) => Promise<void>;
 }
 
@@ -26,7 +25,6 @@ const RegularFileUploader: FileUploaderType = (props): JSX.Element => {
     accept,
     values,
     disabled,
-    hover,
     handleDownload,
     changeHandler,
     onBlur,
@@ -41,7 +39,7 @@ const RegularFileUploader: FileUploaderType = (props): JSX.Element => {
 
   return (
     <>
-      <StyledFileUploaderContainer hover={hover}>
+      <StyledFileUploaderContainer>
         <input
           style={{ display: 'none' }}
           id={id}

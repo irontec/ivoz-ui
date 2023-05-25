@@ -62,7 +62,12 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
 
         return (
           <MoreMenuItem key={key}>
-            <ChildDecorator key={key} routeMapItem={routeMapItem} row={row} entityService={entityService}>
+            <ChildDecorator
+              key={key}
+              routeMapItem={routeMapItem}
+              row={row}
+              entityService={entityService}
+            >
               <StyledTableRowChildEntityLink
                 to={link}
                 parentEntity={entity}
@@ -75,7 +80,11 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
         );
       })}
       {deleteMapItem && (
-        <ChildDecorator routeMapItem={deleteMapItem} row={row} entityService={entityService}>
+        <ChildDecorator
+          routeMapItem={deleteMapItem}
+          row={row}
+          entityService={entityService}
+        >
           <DeleteRowButton
             variant='text'
             row={row}

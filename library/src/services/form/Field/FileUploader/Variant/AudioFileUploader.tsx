@@ -28,7 +28,6 @@ export const AudioFileUploader: FileUploaderType = (
     values,
     disabled,
     downloadPath,
-    hover,
     handleDownload,
     changeHandler,
     onBlur,
@@ -67,7 +66,7 @@ export const AudioFileUploader: FileUploaderType = (
   const fileSizeMb = Math.round(((fileSize || 0) / 1024 / 1024) * 10) / 10;
 
   return (
-    <StyledFileUploaderContainer hover={hover}>
+    <StyledFileUploaderContainer>
       <div>
         <input
           style={{ display: 'none' }}

@@ -61,19 +61,26 @@ export function ContentFilterDialog(
   const foreignKeyGetterLoader = entityService.getEntity().foreignKeyGetter;
 
   useEffect(() => {
-    if ((preloadData || Boolean(anchorEl)) && loading) {
-      foreignKeyGetterLoader().then((foreignKeyGetter) => {
-        foreignKeyGetter({
-          entityService,
-          cancelToken,
-          match,
-          filterContext: true,
-        }).then((foreignEntities: any) => {
-          setForeignEntities(foreignEntities);
-          setLoading(false);
-        });
-      });
+    if (!loading) {
+      return;
     }
+
+    if (!preloadData && !Boolean(anchorEl)) {
+      return;
+    }
+
+    foreignKeyGetterLoader().then((foreignKeyGetter) => {
+      foreignKeyGetter({
+        entityService,
+        cancelToken,
+        match,
+        filterContext: true,
+      }).then((foreignEntities: any) => {
+        setForeignEntities(foreignEntities);
+        setLoading(false);
+      });
+    });
+
   }, [
     preloadData,
     anchorEl,

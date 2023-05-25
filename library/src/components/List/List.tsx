@@ -36,6 +36,7 @@ const List = function (props: ListProps) {
   const navigate = useNavigate();
   const currentRoute = findRoute(routeMap, match);
 
+  const [loading, setLoading] = useState(true);
   const reloadTimestamp = useStoreState((store) => store.list.reloadTimestamp);
   const resetList = useStoreActions((actions: any) => {
     return actions.list.reset;
@@ -228,6 +229,8 @@ const List = function (props: ListProps) {
         }
 
         setRows(data);
+        setLoading(false);
+
         foreignKeyResolver().then((foreignKeyResolver) => {
           foreignKeyResolver({
             data,
@@ -264,7 +267,6 @@ const List = function (props: ListProps) {
   ]);
 
   const rows = useStoreState((state) => state.list.rows);
-  const apiLoading = useStoreState((state) => state.api.loading);
 
   if (prevPath !== path) {
     return null;
@@ -274,7 +276,7 @@ const List = function (props: ListProps) {
     return null;
   }
 
-  if ((!rows || rows.length === 0) && apiLoading) {
+  if ((!rows || rows.length === 0) && loading) {
     return null;
   }
 

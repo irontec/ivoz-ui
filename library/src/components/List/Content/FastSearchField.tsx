@@ -24,7 +24,8 @@ const FastSearchField = (
     return actions.route.setQueryStringCriteria;
   });
 
-  const columns = entityService.getCollectionColumns();
+  const storeState = useStoreState((state) => state);
+  const columns = entityService.getCollectionColumns(storeState);
   const firstColumnKey = Object.keys(columns).find(
     (columnKey) => columnKey !== ignoreColumn
   ) as string;

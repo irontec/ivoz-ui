@@ -17,6 +17,7 @@ import {
   FkChoices,
   fetchFksType,
 } from './DefaultEntityBehavior';
+import { IvozStoreState } from 'store';
 
 export type ListDecoratorPropsType = {
   field: string;
@@ -49,6 +50,7 @@ export interface foreignKeyResolverProps {
 export type foreignKeyResolverType = (
   props: foreignKeyResolverProps
 ) => Promise<any>;
+
 export type ForeignKeyGetterTypeArgs = {
   cancelToken?: CancelToken;
   entityService: EntityService;
@@ -112,6 +114,12 @@ export type DetailedColumnSpec = {
   size: number;
 };
 
+export type EntityColumnsArrayType = Array<string | DetailedColumnSpec>;
+export type EntityColumnsFuncType = <T extends IvozStoreState = IvozStoreState>(
+  store: T
+) => Array<string | DetailedColumnSpec>;
+export type EntityColumnsType = EntityColumnsArrayType | EntityColumnsFuncType;
+
 export default interface EntityInterface {
   initialValues: any;
   validator: EntityValidator;
@@ -135,7 +143,7 @@ export default interface EntityInterface {
   title: string | JSX.Element;
   path: string;
   localPath?: string;
-  columns: Array<string | DetailedColumnSpec>;
+  columns: EntityColumnsType;
   properties: PartialPropertyList;
   toStr: (row: EntityValues) => string;
   defaultOrderBy: string;

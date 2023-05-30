@@ -1,4 +1,9 @@
-import { createStore, createTypedHooks } from 'easy-peasy';
+import {
+  FilterActionTypes,
+  StateMapper,
+  createStore,
+  createTypedHooks,
+} from 'easy-peasy';
 import StoreContainer from './StoreContainer';
 import auth, { AuthStore } from './auth';
 import spec, { SpecStore } from './apiSpec';
@@ -25,6 +30,8 @@ export interface IvozStore {
   entities: EntitiesStore;
   i18n: LanguagesStore;
 }
+
+export type IvozStoreState = StateMapper<FilterActionTypes<IvozStore>>;
 
 export const storeModel: IvozStore = {
   auth,

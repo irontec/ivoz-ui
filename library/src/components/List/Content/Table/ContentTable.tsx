@@ -40,6 +40,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     window.location.search
   );
 
+  const storeState = useStoreState((state) => state);
   const rows = useStoreState((state) => state.list.rows);
 
   useEffect(() => {
@@ -71,7 +72,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     .filter((action) => action.multiselect)
     .map((item) => item.action as MultiSelectFunctionComponent);
 
-  const columns = entityService.getCollectionColumns();
+  const columns = entityService.getCollectionColumns(storeState);
 
   const multiselect =
     entityService.getAcls().delete === true || multiselectActions.length > 0;

@@ -12,11 +12,13 @@ import filterFieldsetGroups, {
 } from './FilterFieldsetGroups';
 import { useFormHandler } from './Form/useFormHandler';
 import { NullablePropertyFkChoices } from './Form';
+import { useStoreState } from 'store';
 
 const View = (props: ViewProps): JSX.Element | null => {
   const { entityService, row, fkChoices = {} } = props;
 
-  const columns = entityService.getColumns();
+  const storeState = useStoreState((state) => state);
+  const columns = entityService.getColumns(storeState);
   const columnNames = Object.keys(columns);
 
   let groups: Array<FieldsetGroups> = [];

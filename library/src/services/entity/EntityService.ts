@@ -1,3 +1,4 @@
+import { IvozStoreState } from 'store';
 import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import EntityInterface, {
   EntityAclType,
@@ -23,7 +24,7 @@ export type EntityValues = {
   [key: string]: EntityValue | EntityValues;
 };
 
-export default class EntityService {
+export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   constructor(
     private actions: ActionsSpec,
     private properties: PropertyList,
@@ -91,16 +92,20 @@ export default class EntityService {
     return response;
   }
 
-  public getColumns(): PropertyList {
+  public getColumns(store: T): PropertyList {
     const response: PropertyList = {};
     const properties = this.entityConfig.properties;
 
-    const columnNames = this.entityConfig.columns.map((column) => {
+    const columns = Array.isArray(this.entityConfig.columns)
+      ? this.entityConfig.columns
+      : this.entityConfig.columns(store);
+
+    let columnNames = columns.map((column) => {
       return typeof column === 'string' ? column : column.name;
     });
-    const columns = columnNames.length ? columnNames : Object.keys(properties);
+    columnNames = columnNames.length ? columnNames : Object.keys(properties);
 
-    for (const idx of columns) {
+    for (const idx of columnNames) {
       if (!this.properties[idx] && !properties[idx]) {
         continue;
       }
@@ -118,8 +123,8 @@ export default class EntityService {
     return response;
   }
 
-  public getCollectionColumns(): PropertyList {
-    const allColumns = this.getColumns();
+  public getCollectionColumns(store: T): PropertyList {
+    const allColumns = this.getColumns(store);
     const collectionAction = this.getFromModelList(
       this.actions?.get?.collection || {},
       this.entityConfig.path
@@ -129,7 +134,11 @@ export default class EntityService {
     );
     const response: PropertyList = {};
 
-    const columnNames = this.entityConfig.columns.map((column) => {
+    const columns = Array.isArray(this.entityConfig.columns)
+      ? this.entityConfig.columns
+      : this.entityConfig.columns(store);
+
+    const columnNames = columns.map((column) => {
       return typeof column === 'string' ? column : column.name;
     });
     const restrictedColumns = columnNames.length
@@ -147,8 +156,10 @@ export default class EntityService {
     return response;
   }
 
-  public getColumnSize(columnName: string): number {
-    const columns = this.entityConfig.columns;
+  public getColumnSize(columnName: string, store: T): number {
+    const columns = Array.isArray(this.entityConfig.columns)
+      ? this.entityConfig.columns
+      : this.entityConfig.columns(store);
 
     let customSizeColumns = 0;
     let sizeSum = 0;
@@ -168,7 +179,7 @@ export default class EntityService {
     return Math.floor((100 - sizeSum) / (columns.length - customSizeColumns));
   }
 
-  public getCollectionParamList(): PropertyList {
+  public getCollectionParamList(store: T): PropertyList {
     const collectionAction = this.getFromModelList(
       this.actions?.get?.collection || {},
       this.entityConfig.path
@@ -181,7 +192,7 @@ export default class EntityService {
       }
     );
 
-    const columns = this.getColumns();
+    const columns = this.getColumns(store);
 
     const filteredColumns: PropertyList = {};
     for (const columnName in columns) {

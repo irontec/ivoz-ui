@@ -25,7 +25,8 @@ const ContentCard = (props: ContentCardProps): JSX.Element => {
 
   const rows = useStoreState((state) => state.list.rows);
 
-  const columns = entityService.getCollectionColumns();
+  const storeState = useStoreState((state) => state);
+  const columns = entityService.getCollectionColumns(storeState);
   const visibleColumns = Object.fromEntries(
     Object.entries(columns).filter(([key]) => key !== ignoreColumn)
   );

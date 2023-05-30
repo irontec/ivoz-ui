@@ -6,6 +6,7 @@ import {
 } from '../../../../services/api/ParsedApiSpecInterface';
 import ListContentValue from '../ListContentValue';
 import { StyledTableCell } from './ContentTable.styles';
+import { useStoreState } from 'store';
 
 interface TableColumnProps {
   columnName: string;
@@ -17,7 +18,8 @@ interface TableColumnProps {
 export const TableColumn = (props: TableColumnProps) => {
   const { columnName, column, row, entityService } = props;
 
-  const size = entityService.getColumnSize(columnName);
+  const storeState = useStoreState((state) => state);
+  const size = entityService.getColumnSize(columnName, storeState);
 
   return (
     <StyledTableCell key={row.id} style={{ width: `${size}%` }}>

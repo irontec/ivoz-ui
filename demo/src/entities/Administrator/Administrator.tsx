@@ -1,4 +1,4 @@
-import { PartialPropertyList } from '@irontec/ivoz-ui';
+import { IvozStoreState, PartialPropertyList } from '@irontec/ivoz-ui';
 import defaultEntityBehavior, {
   MarshallerValues,
 } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
@@ -50,6 +50,16 @@ const administrator: EntityInterface = {
   title: 'Administrators',
   path: '/administrators',
   properties,
+  columns: (state: IvozStoreState) => {
+    const response = [
+      'username',
+      'email',
+      !state.auth.loggedIn && 'avatar',
+      'greeting',
+    ];
+
+    return response.filter(column => column) as Array<string>;
+  },
   toStr: (row: EntityValues) => row?.username as string | '',
   Form: async () => {
     const module = await import('./Form');

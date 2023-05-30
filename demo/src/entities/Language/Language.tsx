@@ -5,6 +5,7 @@ import _ from '@irontec/ivoz-ui/services/translations/translate';
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
 import { getI18n } from 'react-i18next';
 
+import Actions from './Action';
 import { LanguageProperties, LanguagePropertyList } from './LanguageProperties';
 
 const properties: LanguageProperties = {
@@ -44,6 +45,7 @@ const Language: EntityInterface = {
       size: 50,
     },
   ],
+  customActions: Actions,
   selectOptions: async () => {
     const module = await import('./SelectOptions');
 

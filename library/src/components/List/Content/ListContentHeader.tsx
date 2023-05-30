@@ -1,6 +1,6 @@
 import AddIcon from '@mui/icons-material/Add';
 import TuneRoundedIcon from '@mui/icons-material/TuneRounded';
-import { Badge, Box, Button, Tooltip } from '@mui/material';
+import { Badge, Box, Tooltip } from '@mui/material';
 import { CancelToken } from 'axios';
 import { Location } from 'history';
 import React, { ForwardedRef, forwardRef, useState } from 'react';
@@ -110,17 +110,12 @@ const ListContentHeader = (
           multiselectActionNum < 2 &&
           multiselectActions.map((Action, key) => {
             return (
-              <Button
+              <Action
                 key={key}
-                variant='contained'
-                disabled={selectedValues.length < 1}
-              >
-                <Action
-                  rows={rows}
-                  selectedValues={selectedValues}
-                  entityService={entityService}
-                />
-              </Button>
+                rows={rows}
+                selectedValues={selectedValues}
+                entityService={entityService}
+              />
             );
           })}
         {multiselect && multiselectActionNum > 1 && (

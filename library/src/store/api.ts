@@ -47,6 +47,7 @@ interface requestParms {
 
 interface apiGetRequestParams extends requestParms {
   params: KeyValList;
+  headers?: Record<string, string>;
   successCallback: (
     data: Record<string, any> | Array<Record<string, any>> | Blob,
     headers: Record<string, any>
@@ -186,6 +187,7 @@ const api: ApiStore = {
       payload: apiGetRequestParams,
       { getStoreActions, getStoreState }
     ) => {
+
       const {
         path,
         params,
@@ -193,7 +195,9 @@ const api: ApiStore = {
         cancelToken,
         silenceErrors,
         handleErrors,
+        headers = {}
       } = payload;
+
       actions.sumRequest();
       actions.setErrorMsg(null);
       actions.setErrorCode(null);
@@ -203,7 +207,8 @@ const api: ApiStore = {
           path,
           params,
           successCallback,
-          cancelToken
+          cancelToken,
+          headers
         );
       };
 

@@ -151,4 +151,5 @@ export default interface EntityInterface {
   icon: React.FunctionComponent;
   link?: string;
   deleteDoubleCheck?: boolean;
+  disableMultiDelete?: boolean;
 }

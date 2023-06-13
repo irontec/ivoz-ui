@@ -87,6 +87,7 @@ const platform: EntityInterface = {
     delete: true,
   },
   customActions: CustomActions,
+  disableMultiDelete: true,
   columns: [
     'name',
     { name: 'type', size: 10 },

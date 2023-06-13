@@ -49,6 +49,8 @@ const ListContentHeader = (
   } = props;
 
   const entity = entityService.getEntity();
+  const disableMultiDelete = entity.disableMultiDelete || false;
+
   const acl = entityService.getAcls();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -57,6 +59,7 @@ const ListContentHeader = (
   const multiselectActions = Object.values(entity.customActions)
     .filter((action) => action.multiselect)
     .map((item) => item.action as MultiSelectFunctionComponent);
+
   const multiselect =
     entityService.getAcls().delete === true || multiselectActions.length > 0;
 
@@ -125,14 +128,15 @@ const ListContentHeader = (
             rows={rows}
             entityService={entityService}
             deleteMapItem={
-              acl.delete && {
+              acl.delete &&
+              !disableMultiDelete && {
                 entity,
                 route: `${entity.path}/:id`,
               }
             }
           />
         )}
-        {acl.delete && multiselectActionNum < 2 && (
+        {acl.delete && multiselectActionNum < 2 && !disableMultiDelete && (
           <DeleteRowsButton
             selectedValues={selectedValues}
             entityService={entityService}

@@ -276,10 +276,6 @@ const List = function (props: ListProps) {
     return null;
   }
 
-  if (!rows || rows.length === 0) {
-    return null;
-  }
-
   if ((!rows || rows.length === 0) && queryStringCriteria.length === 0) {
     return <StyledEmpty entityService={entityService} className={className} />;
   }

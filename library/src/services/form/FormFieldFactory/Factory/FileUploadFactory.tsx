@@ -3,14 +3,12 @@ import { EmbeddableProperty } from '../../../api';
 import EntityService from '../../../entity/EntityService';
 import FileUploader from '../../../form/Field/FileUploader';
 import { useFormikType } from '../../../form/types';
-import { NullableFormFieldFactoryChoices } from '../FormFieldFactory';
 
 type FileUploadFactoryPropsType = {
   fld: string;
   property: EmbeddableProperty;
   disabled: boolean;
   hasChanged: boolean;
-  choices: NullableFormFieldFactoryChoices;
   entityService: EntityService;
   formik: useFormikType;
   changeHandler: (event: FormOnChangeEvent) => void;

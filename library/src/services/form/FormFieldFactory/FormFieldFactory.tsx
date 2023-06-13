@@ -174,7 +174,6 @@ export default class FormFieldFactory {
           entityService={this.entityService}
           formik={this.formik}
           hasChanged={hasChanged}
-          choices={choices}
           changeHandler={this.changeHandler}
           handleBlur={this.handleBlur}
         />

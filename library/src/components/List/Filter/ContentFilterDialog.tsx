@@ -96,7 +96,15 @@ export function ContentFilterDialog(
 
   const commitCriteria = (data: CriteriaFilterValues) => {
     handleClose();
-    setQueryStringCriteria(data);
+
+    const sanitizeData = data.map((row) => {
+      return {
+        ...row,
+        value: encodeURIComponent(row.value),
+      };
+    });
+
+    setQueryStringCriteria(sanitizeData);
   };
 
   const removeFilter = (index: number) => {

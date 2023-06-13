@@ -58,7 +58,7 @@ const FastSearchField = (
         }
 
         if (value !== '') {
-          currentCriteria.value = value;
+          currentCriteria.value = encodeURIComponent(value);
         } else {
           for (const idx in queryStringCriteria) {
             if (queryStringCriteria[idx] === currentCriteria) {

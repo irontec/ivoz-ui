@@ -27,6 +27,9 @@ export const StyledContentTable = styled(ContentTable)(() => {
       '& tr': {
         borderTop: '1px solid var(--color-border)',
       },
+      '& tr:hover': {
+        backgroundColor: 'var(--color-primary-tonal)',
+      },
       '& td': {
         fontSize: '16px',
       },

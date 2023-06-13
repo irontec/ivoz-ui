@@ -15,7 +15,7 @@ class ApiClient {
     endpoint: string,
     params: KeyValList,
     callback: AsyncFunction,
-    cancelToken?: CancelToken,
+    cancelToken?: CancelToken
   ): Promise<unknown> {
     try {
       const response = await axios.get(ApiClient.API_URL + endpoint, {
@@ -53,7 +53,7 @@ class ApiClient {
     params: any = undefined,
     callback: AsyncFunction,
     cancelToken?: CancelToken,
-    headers?: Record<string, string>,
+    headers?: Record<string, string>
   ): Promise<unknown> {
     try {
       const response = await axios.get(ApiClient.API_URL + endpoint, {

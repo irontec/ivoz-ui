@@ -187,7 +187,6 @@ const api: ApiStore = {
       payload: apiGetRequestParams,
       { getStoreActions, getStoreState }
     ) => {
-
       const {
         path,
         params,
@@ -195,7 +194,7 @@ const api: ApiStore = {
         cancelToken,
         silenceErrors,
         handleErrors,
-        headers = {}
+        headers = {},
       } = payload;
 
       actions.sumRequest();

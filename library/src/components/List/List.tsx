@@ -35,7 +35,7 @@ const List = function (props: ListProps) {
   const navigate = useNavigate();
   const currentRoute = findRoute(routeMap, match);
 
-  const [loading, setLoading] = useState(true);
+  const [dataRequested, setHasBeenDataRequested] = useState(false);
   const reloadTimestamp = useStoreState((store) => store.list.reloadTimestamp);
   const resetList = useStoreActions((actions: any) => {
     return actions.list.reset;
@@ -228,7 +228,6 @@ const List = function (props: ListProps) {
         }
 
         setRows(data);
-        setLoading(false);
 
         foreignKeyResolver().then((foreignKeyResolver) => {
           foreignKeyResolver({
@@ -249,6 +248,8 @@ const List = function (props: ListProps) {
             setRows(fixedData);
           });
         });
+
+        setHasBeenDataRequested(true);
       },
     });
   }, [
@@ -271,11 +272,11 @@ const List = function (props: ListProps) {
     return null;
   }
 
-  if (!criteriaIsReady || !mounted) {
+  if (!criteriaIsReady || !mounted || !dataRequested) {
     return null;
   }
 
-  if ((!rows || rows.length === 0) && loading) {
+  if (!rows || rows.length === 0) {
     return null;
   }
 

@@ -164,6 +164,7 @@ const List = function (props: ListProps) {
       return;
     }
 
+    setHasBeenDataRequested(false);
     // Fetch data request
     if (!criteriaIsReady) {
       return;

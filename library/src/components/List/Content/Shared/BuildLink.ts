@@ -13,7 +13,7 @@ const buildLink = (props: buildLinkProps): string => {
   }
 
   const urlParamNum = Object.values(params).length;
-  if (id) {
+  if (id !== undefined && id !== null) {
     link = link.replace(`:parent_id_${urlParamNum + 1}`, id);
   }
 

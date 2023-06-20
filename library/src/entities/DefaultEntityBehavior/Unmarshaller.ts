@@ -22,7 +22,10 @@ const unmarshaller = (
       // formik doesn't like null values
       const property = properties[idx];
       normalizedData[idx] = property?.null ? '__null__' : '';
-    } else if (typeof row[idx] === 'object' && row[idx].id) {
+    } else if (
+      typeof row[idx] === 'object' &&
+      (row[idx].id || row[idx].id === 0)
+    ) {
       // flatten foreign keys
       const hasCustomComponent = properties[idx]?.component !== undefined;
 

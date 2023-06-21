@@ -3,6 +3,7 @@ import EntityService from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
 import { SolidButton } from '../../shared/Button/Button.styles';
 import { useTranslation } from 'react-i18next';
+import { Fade } from '@mui/material';
 
 export interface EmptyProps {
   entityService: EntityService;
@@ -28,22 +29,30 @@ export const Empty = (props: EmptyProps): JSX.Element => {
   }
 
   return (
-    <section className={className}>
-      <img src='assets/img/empty.svg' alt='' />
-      <h3>{_('No {{entity}} yet', { entity: pluralTitle })}</h3>
-      <p>
-        {_('You haven’t created any {{entity}} yet.', {
-          entity: singularTitle,
-        })}
-      </p>
-      {create && (
-        <Link to={location.pathname + '/create'}>
-          <SolidButton>
-            {_('New {{entity}}', { entity: singularTitle })}
-          </SolidButton>
-        </Link>
-      )}
-    </section>
+    <Fade
+      in={true}
+      style={{
+        transitionDelay: '750ms',
+      }}
+      unmountOnExit
+    >
+      <section className={className}>
+        <img src='assets/img/empty.svg' alt='' />
+        <h3>{_('No {{entity}} yet', { entity: pluralTitle })}</h3>
+        <p>
+          {_('You haven’t created any {{entity}} yet.', {
+            entity: singularTitle,
+          })}
+        </p>
+        {create && (
+          <Link to={location.pathname + '/create'}>
+            <SolidButton>
+              {_('New {{entity}}', { entity: singularTitle })}
+            </SolidButton>
+          </Link>
+        )}
+      </section>
+    </Fade>
   );
 };
 

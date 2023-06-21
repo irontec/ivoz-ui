@@ -5,5 +5,14 @@ export default function translate(
   values: any = {},
   components: any = {}
 ): React.ReactElement {
-  return <Trans defaults={key} values={values} components={components} />;
+  const { count } = values;
+
+  return (
+    <Trans
+      defaults={key}
+      count={count}
+      values={values}
+      components={components}
+    />
+  );
 }

@@ -4,6 +4,7 @@ import EntityService from '../../../services/entity/EntityService';
 import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 
 import { useStoreActions, useStoreState } from 'store';
+import useFirstColumnCriteria from './hook/useFirstColumnCriteria';
 
 interface FastSearchFieldProps {
   path: string;
@@ -24,19 +25,13 @@ const FastSearchField = (
     return actions.route.setQueryStringCriteria;
   });
 
-  const storeState = useStoreState((state) => state);
-  const columns = entityService.getCollectionColumns(storeState);
-  const firstColumnKey = Object.keys(columns).find(
-    (columnKey) => columnKey !== ignoreColumn
-  ) as string;
-
-  const filters = entityService.getPropertyFilters(firstColumnKey, path);
-  const filter = filters.includes('partial') ? 'partial' : filters[0];
-
-  const currentCriteria = queryStringCriteria.find((criteria) => {
-    return criteria.name === firstColumnKey && criteria.type === filter;
+  const firstColumnCriteria = useFirstColumnCriteria({
+    entityService,
+    path,
+    ignoreColumn,
   });
-  const [value, setValue] = useState(currentCriteria?.value || '');
+
+  const [value, setValue] = useState(firstColumnCriteria?.value || '');
 
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = ({
     target,
@@ -47,25 +42,37 @@ const FastSearchField = (
 
   useEffect(() => {
     //reset value
-    setValue(currentCriteria?.value || '');
-  }, [currentCriteria]);
+    setValue(firstColumnCriteria?.value || '');
+  }, [firstColumnCriteria]);
 
   useEffect(() => {
     const timeOutId = setTimeout(() => {
-      if (currentCriteria) {
-        if (currentCriteria.value == value) {
+      if (firstColumnCriteria) {
+        if (firstColumnCriteria.value == value) {
           return;
         }
 
         if (value !== '') {
-          currentCriteria.value = encodeURIComponent(value);
-        } else {
-          for (const idx in queryStringCriteria) {
-            if (queryStringCriteria[idx] === currentCriteria) {
-              queryStringCriteria.splice(parseInt(idx, 10), 1);
-              break;
-            }
+          firstColumnCriteria.value = encodeURIComponent(value);
+        }
+
+        let match = false;
+        for (const idx in queryStringCriteria) {
+          if (queryStringCriteria[idx].name !== firstColumnCriteria.name) {
+            continue;
           }
+
+          if (queryStringCriteria[idx].type !== firstColumnCriteria.type) {
+            continue;
+          }
+
+          queryStringCriteria[idx] = firstColumnCriteria;
+          match = true;
+          break;
+        }
+
+        if (!match) {
+          queryStringCriteria.push(firstColumnCriteria);
         }
 
         setQueryStringCriteria(queryStringCriteria);
@@ -78,14 +85,14 @@ const FastSearchField = (
       }
 
       queryStringCriteria.push({
-        name: firstColumnKey,
-        type: filter,
+        name: firstColumnCriteria?.name || '',
+        type: firstColumnCriteria?.type || '',
         value,
       });
       setQueryStringCriteria(queryStringCriteria);
     }, 1000);
     return () => clearTimeout(timeOutId);
-  }, [value, currentCriteria]);
+  }, [value, firstColumnCriteria]);
 
   return (
     <StyledSearchTextField

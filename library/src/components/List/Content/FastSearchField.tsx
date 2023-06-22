@@ -79,17 +79,6 @@ const FastSearchField = (
 
         return;
       }
-
-      if (!value) {
-        return;
-      }
-
-      queryStringCriteria.push({
-        name: firstColumnCriteria?.name || '',
-        type: firstColumnCriteria?.type || '',
-        value,
-      });
-      setQueryStringCriteria(queryStringCriteria);
     }, 1000);
     return () => clearTimeout(timeOutId);
   }, [value, firstColumnCriteria]);

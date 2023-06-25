@@ -13,6 +13,8 @@ import {
   StyledFieldsetRoot,
   StyledFieldset,
 } from './CustomComponentWrapper.styles';
+import { StyledHelpTextTooltip } from './Shared/HelpText.styles';
+import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 
 export enum CustomFunctionComponentContext {
   write = 'write',
@@ -60,10 +62,27 @@ export const CustomComponentWrapper: React.FunctionComponent<
   CustomComponentWrapperProps
 > = (props: CustomComponentWrapperProps): JSX.Element => {
   const { property, hasChanged, disabled } = props;
+  const helpText = property.helpText;
+
+  const label = helpText ? (
+    <>
+      {property.label}
+      <StyledHelpTextTooltip
+        title={helpText}
+        placement='top'
+        arrow
+        className='help-tooltip'
+      >
+        <HelpOutlineIcon />
+      </StyledHelpTextTooltip>
+    </>
+  ) : (
+    property.label
+  );
 
   return (
     <StyledFieldsetRoot
-      label={property.label}
+      label={label}
       hasChanged={hasChanged}
       disabled={disabled}
     >

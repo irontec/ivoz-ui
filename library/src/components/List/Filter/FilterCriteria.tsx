@@ -22,7 +22,12 @@ interface FilterCriteriaProps {
 export function FilterCriteria(props: FilterCriteriaProps): JSX.Element | null {
   const { entityService, fkChoices, removeFilter, criteriaOverride } = props;
 
-  const storeState = useStoreState((state) => state);
+  const storeState = useStoreState(
+    (state) => state,
+    () => {
+      return true;
+    }
+  );
   const columns = entityService.getCollectionParamList(storeState);
 
   const criteria: CriteriaFilterValues =

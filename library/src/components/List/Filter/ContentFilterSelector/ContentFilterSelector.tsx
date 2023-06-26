@@ -41,7 +41,12 @@ export default function ContentFilterSelector(
     (state) => state.route.queryStringCriteria
   );
 
-  const storeState = useStoreState((state) => state);
+  const storeState = useStoreState(
+    (state) => state,
+    () => {
+      return true;
+    }
+  );
   const columns = entityService.getCollectionParamList(storeState);
   const columnNames: Array<string> = Object.keys(columns).filter(
     (column) => column !== ignoreColumn

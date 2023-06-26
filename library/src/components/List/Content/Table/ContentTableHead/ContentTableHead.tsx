@@ -32,7 +32,12 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     indeterminateSelectAll,
   } = props;
 
-  const storeState = useStoreState((state) => state);
+  const storeState = useStoreState(
+    (state) => state,
+    () => {
+      return true;
+    }
+  );
   const columns = entityService.getCollectionColumns(storeState);
 
   const order = useStoreState((state) => state.route.order);

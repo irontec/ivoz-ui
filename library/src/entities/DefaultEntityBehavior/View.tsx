@@ -17,7 +17,12 @@ import { useStoreState } from 'store';
 const View = (props: ViewProps): JSX.Element | null => {
   const { entityService, row, fkChoices = {} } = props;
 
-  const storeState = useStoreState((state) => state);
+  const storeState = useStoreState(
+    (state) => state,
+    () => {
+      return true;
+    }
+  );
   const columns = entityService.getColumns(storeState);
   const columnNames = Object.keys(columns);
 

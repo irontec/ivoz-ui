@@ -40,7 +40,12 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     window.location.search
   );
 
-  const storeState = useStoreState((state) => state);
+  const storeState = useStoreState(
+    (state) => state,
+    () => {
+      return true;
+    }
+  );
   const rows = useStoreState((state) => state.list.rows);
 
   useEffect(() => {

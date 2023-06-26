@@ -18,7 +18,12 @@ interface TableColumnProps {
 export const TableColumn = (props: TableColumnProps) => {
   const { columnName, column, row, entityService } = props;
 
-  const storeState = useStoreState((state) => state);
+  const storeState = useStoreState(
+    (state) => state,
+    () => {
+      return true;
+    }
+  );
   const size = entityService.getColumnSize(columnName, storeState);
 
   return (

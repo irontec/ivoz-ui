@@ -43,7 +43,7 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
   const acl = entityService.getAcls();
 
   const multiselectActions = Object.values(entity.customActions)
-    .filter((action) => action.multiselect)
+    .filter((action) => action.multiselect || action.global)
     .map((item) => item.action as MultiSelectFunctionComponent);
 
   const multiselect =

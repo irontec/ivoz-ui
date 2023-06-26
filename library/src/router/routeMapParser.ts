@@ -34,7 +34,16 @@ export interface MultiSelectActionItemProps {
   variant?: 'icon' | 'text';
 }
 
-export type CustomActionProps = ActionItemProps | MultiSelectActionItemProps;
+export interface GlobalActionItemProps {
+  rows: Array<Record<string, any>>;
+  entityService: EntityService;
+  variant?: 'icon' | 'text';
+}
+
+export type CustomActionProps =
+  | ActionItemProps
+  | MultiSelectActionItemProps
+  | GlobalActionItemProps;
 
 export const isSingleRowAction = (
   props: CustomActionProps
@@ -45,21 +54,37 @@ export const isSingleRowAction = (
 export const isMultiSelectAction = (
   props: CustomActionProps
 ): props is MultiSelectActionItemProps => {
-  return (props as MultiSelectActionItemProps).rows !== undefined;
+  return (
+    (props as MultiSelectActionItemProps).rows !== undefined &&
+    Array.isArray((props as MultiSelectActionItemProps).selectedValues)
+  );
+};
+
+export const isGlobalAction = (
+  props: CustomActionProps
+): props is GlobalActionItemProps => {
+  return (
+    (props as GlobalActionItemProps).rows !== undefined &&
+    !Array.isArray((props as MultiSelectActionItemProps).selectedValues)
+  );
 };
 
 export type SingleRowFunctionComponent =
   React.FunctionComponent<ActionItemProps>;
 export type MultiSelectFunctionComponent =
   React.FunctionComponent<MultiSelectActionItemProps>;
+export type GlobalFunctionComponent =
+  React.FunctionComponent<GlobalActionItemProps>;
 export type ActionFunctionComponent =
   | SingleRowFunctionComponent
-  | MultiSelectFunctionComponent;
+  | MultiSelectFunctionComponent
+  | GlobalFunctionComponent;
 
 export interface ActionItem {
   action: ActionFunctionComponent;
   rowAction?: boolean;
   multiselect?: boolean;
+  global?: true;
 }
 
 export type RouteMapItem = EntityItem | ActionItem;

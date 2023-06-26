@@ -10,7 +10,10 @@ import {
   SolidButton,
   TonalButton,
 } from '../../../components/shared/Button/Button.styles';
-import { MultiSelectFunctionComponent } from '../../../router';
+import {
+  GlobalFunctionComponent,
+  MultiSelectFunctionComponent,
+} from '../../../router';
 import EntityService from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
 import { ContentFilterDialog } from '../Filter/ContentFilterDialog';
@@ -56,16 +59,17 @@ const ListContentHeader = (
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const rows = useStoreState((state) => state.list.rows);
 
-  const multiselectActions = Object.values(entity.customActions)
-    .filter((action) => action.multiselect)
-    .map((item) => item.action as MultiSelectFunctionComponent);
+  const globalAndMultiselectActions = Object.values(
+    entity.customActions
+  ).filter((action) => action.multiselect || action.global);
 
-  const multiselect =
-    entityService.getAcls().delete === true || multiselectActions.length > 0;
+  const multiselectOrGlobal =
+    entityService.getAcls().delete === true ||
+    globalAndMultiselectActions.length > 0;
 
-  let multiselectActionNum = multiselectActions.length;
+  let actionNum = globalAndMultiselectActions.length;
   if (acl.delete) {
-    multiselectActionNum++;
+    actionNum++;
   }
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -109,21 +113,28 @@ const ListContentHeader = (
         </Box>
       </Box>
       <Box className='buttons end'>
-        {multiselect &&
-          multiselectActionNum < 2 &&
-          multiselectActions.map((Action, key) => {
-            return (
-              <Action
-                key={key}
-                rows={rows}
-                selectedValues={selectedValues}
-                entityService={entityService}
-              />
-            );
-          })}
-        {multiselect && multiselectActionNum > 1 && (
+        {multiselectOrGlobal &&
+          actionNum < 2 &&
+          globalAndMultiselectActions
+            .map(
+              (item) =>
+                item.action as
+                  | MultiSelectFunctionComponent
+                  | GlobalFunctionComponent
+            )
+            .map((Action, key) => {
+              return (
+                <Action
+                  key={key}
+                  rows={rows}
+                  selectedValues={selectedValues}
+                  entityService={entityService}
+                />
+              );
+            })}
+        {multiselectOrGlobal && actionNum > 1 && (
           <MultiselectMoreChildEntityLinks
-            childActions={multiselectActions}
+            childActions={globalAndMultiselectActions}
             selectedValues={selectedValues}
             rows={rows}
             entityService={entityService}
@@ -136,7 +147,7 @@ const ListContentHeader = (
             }
           />
         )}
-        {acl.delete && multiselectActionNum < 2 && !disableMultiDelete && (
+        {acl.delete && actionNum < 2 && !disableMultiDelete && (
           <DeleteRowsButton
             selectedValues={selectedValues}
             entityService={entityService}

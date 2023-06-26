@@ -10,6 +10,7 @@ export interface HistoryTrackerLinkProps {
   className?: string;
   parentEntity?: EntityInterface;
   parentRow?: EntityValues;
+  target?: string;
 }
 
 const HistoryTrackerLink = forwardRef<any, any>(

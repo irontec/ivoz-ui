@@ -88,11 +88,7 @@ const platform: EntityInterface = {
   },
   customActions: CustomActions,
   disableMultiDelete: true,
-  columns: [
-    'name',
-    { name: 'type', size: 10 },
-    'features',
-  ],
+  columns: ['name', { name: 'type', size: 10 }, 'features'],
   selectOptions: async () => {
     const module = await import('./SelectOptions');
 

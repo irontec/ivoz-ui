@@ -6,8 +6,8 @@ import {
 } from '@irontec/ivoz-ui/components/shared/Button/Button.styles';
 import {
   ActionFunctionComponent,
-  MultiSelectActionItemProps,
   isSingleRowAction,
+  MultiSelectActionItemProps,
 } from '@irontec/ivoz-ui/router/routeMapParser';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 import ErrorIcon from '@mui/icons-material/Error';
@@ -18,7 +18,7 @@ import {
   DialogContent,
   DialogTitle,
   FormHelperText,
-  Tooltip
+  Tooltip,
 } from '@mui/material';
 import { useState } from 'react';
 
@@ -77,9 +77,7 @@ const DoSomething: ActionFunctionComponent = (
           <DialogContent sx={{ textAlign: 'left!important' }}>
             {!error && (
               <>
-                <FormHelperText>
-                  Multiselect action example
-                </FormHelperText>
+                <FormHelperText>Multiselect action example</FormHelperText>
               </>
             )}
             {error && (

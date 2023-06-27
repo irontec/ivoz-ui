@@ -33,12 +33,7 @@ export default function AppRoutes(props: AppRoutesProps) {
     ),
   });
 
-  const routeSpecs = addCustomRoutes(
-    parseRoutes(
-      apiSpec,
-      entityMap,
-    )
-  );
+  const routeSpecs = addCustomRoutes(parseRoutes(apiSpec, entityMap));
 
   routeSpecs.map((route: RouteSpec) => {
     routes.push({

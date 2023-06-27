@@ -67,14 +67,44 @@ const getEntityMap = (): RouteMap => {
           entity: {
             ...entities.Platform,
             localPath: '/platform_edit_only/2',
-            title: 'Edit only platform',
+            title: 'Edit only platform 2',
             acl: {
               create: false,
               update: false,
               detail: false,
               read: false,
               delete: false,
-            }
+            },
+          },
+          divider: false,
+        },
+        {
+          entity: {
+            ...entities.Client,
+            localPath: '/client_edit_only/2',
+            title: 'Edit only client 2',
+            acl: {
+              create: false,
+              update: false,
+              detail: false,
+              read: false,
+              delete: false,
+            },
+          },
+          divider: false,
+        },
+        {
+          entity: {
+            ...entities.Client,
+            localPath: '/client_create_only',
+            title: 'Create only client',
+            acl: {
+              create: false,
+              update: false,
+              detail: false,
+              read: false,
+              delete: false,
+            },
           },
           divider: false,
         },

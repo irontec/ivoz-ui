@@ -58,7 +58,7 @@ const administrator: EntityInterface = {
       'greeting',
     ];
 
-    return response.filter(column => column) as Array<string>;
+    return response.filter((column) => column) as Array<string>;
   },
   toStr: (row: EntityValues) => row?.username as string | '',
   Form: async () => {

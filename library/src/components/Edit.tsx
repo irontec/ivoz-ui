@@ -27,17 +27,29 @@ const Edit: any = (props: EditProps) => {
   const { Form: EntityFormLoader } = props;
   const [EntityForm, setEntityForm] = useState<EntityFormType | null>(null);
 
+  const match = useCurrentPathMatch();
+  const [prevPathname, setPrevPathname] = useState<string | null>(null);
+
   useEffect(() => {
+    if (match.pathname !== prevPathname) {
+      setPrevPathname(match.pathname);
+
+      if (EntityForm) {
+        setEntityForm(null);
+
+        return;
+      }
+    }
+
     EntityFormLoader().then((Form) => {
       setEntityForm(() => Form);
     });
-  }, []);
+  }, [match.pathname]);
 
   const setFlashMsg = useStoreActions(
     (actions) => actions.flashMsg.setFlashMsg
   );
   const location = useLocation();
-  const match = useCurrentPathMatch();
   const navigate = useNavigate();
 
   const parentRoute = findRoute(routeMap, match);
@@ -121,6 +133,10 @@ const Edit: any = (props: EditProps) => {
   };
 
   if (!EntityForm) {
+    return null;
+  }
+
+  if (prevPathname !== match.pathname) {
     return null;
   }
 

@@ -131,10 +131,6 @@ export default async function genericForeignKeyResolver(
       successCallback: async (response) =>
         await entityObject2ListLink(props, data, response),
     });
-  } else {
-    for (const idx in data) {
-      data[idx][fkFld] = '';
-    }
   }
 
   return data;

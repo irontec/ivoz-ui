@@ -147,6 +147,8 @@ const api: ApiStore = {
       try {
         return await request();
       } catch (error: any) {
+        console.error(error);
+
         if (handleErrors === false) {
           throw error;
         }

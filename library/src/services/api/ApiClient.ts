@@ -11,12 +11,15 @@ class ApiClient {
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
   }
 
+  /**
+   * Returns undefined on cancel token or 403
+   */
   static async get(
     endpoint: string,
     params: KeyValList,
     callback: AsyncFunction,
     cancelToken?: CancelToken
-  ): Promise<unknown> {
+  ): Promise<AxiosResponse<any> | undefined> {
     try {
       const response = await axios.get(ApiClient.API_URL + endpoint, {
         params,
@@ -31,7 +34,7 @@ class ApiClient {
       return response;
     } catch (error: any) {
       if (axios.isCancel(error)) {
-        return;
+        return undefined;
       }
 
       if (!error) {
@@ -41,7 +44,7 @@ class ApiClient {
       const axiosError = error as AxiosError;
       if (axiosError?.response?.status === 403) {
         await callback([], axiosError.response.headers);
-        return;
+        return undefined;
       }
 
       throw axiosError.response;

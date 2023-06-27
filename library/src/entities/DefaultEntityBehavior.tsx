@@ -91,34 +91,53 @@ const fetchFks = async (
     endpoint.match(/_page=([0-9]+)/)?.[1] || '1',
     10
   );
+
   const response: DropdownChoices = [];
+  let loopCount = 0;
   while (keepGoing) {
-    await getAction({
-      path: endpoint,
-      params: {
-        _pagination: false,
-        _itemsPerPage: 100,
-        _properties: properties,
-        _page,
-      },
-      successCallback: async (data, headers: Record<string, string>) => {
-        response.push(...(data as Array<DropdownArrayChoice>));
+    try {
+      if (loopCount > 100) {
+        console.error('Too much requests');
+        break;
+      }
 
-        const totalItems = parseInt(
-          headers?.['x-total-items'] || `${response.length}`,
-          10
-        );
+      loopCount++;
+      const result = await getAction({
+        path: endpoint,
+        silenceErrors: false,
+        params: {
+          _pagination: false,
+          _itemsPerPage: 100,
+          _properties: properties,
+          _page,
+        },
+        successCallback: async (data, headers: Record<string, string>) => {
+          response.push(...(data as Array<DropdownArrayChoice>));
 
-        if (
-          response.length >= totalItems ||
-          !(data as Array<DropdownArrayChoice>).length
-        ) {
-          keepGoing = false;
-        }
-        _page++;
-      },
-      cancelToken,
-    });
+          const totalItems = parseInt(
+            headers?.['x-total-items'] || `${response.length}`,
+            10
+          );
+
+          if (
+            response.length >= totalItems ||
+            !(data as Array<DropdownArrayChoice>).length
+          ) {
+            keepGoing = false;
+          }
+          _page++;
+        },
+        cancelToken,
+      });
+
+      if (!result) {
+        // Cancel token or 403
+        break;
+      }
+    } catch (error) {
+      console.error(error);
+      break;
+    }
   }
 
   setter(response);

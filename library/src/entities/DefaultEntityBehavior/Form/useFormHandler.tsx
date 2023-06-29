@@ -39,7 +39,6 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
   const formik: useFormikType = useFormik({
     initialValues,
     validate: (values: EntityValues) => {
-
       const visibleFields = instanceRef.current?.visibleFields || [];
 
       if (filterValues) {

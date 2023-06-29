@@ -32,13 +32,13 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
 
   const languages = useStoreState((state) => state.i18n.languages);
   const mlValue: Record<string, string> = formik?.values[_columnName] || {};
-  const property = properties[_columnName] as ScalarProperty;
+  const rootProperty = properties[_columnName] as ScalarProperty;
 
   return (
     <StyledFieldsetRoot
-      label={property.label}
+      label={rootProperty.label}
       hasChanged={false} //TODO
-      required={property.required}
+      required={rootProperty.required}
       disabled={disabled}
       className={'multilang'}
     >
@@ -51,7 +51,8 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
             const name = `${_columnName}.${locale}`;
             const property = properties[name] as ScalarProperty;
             const multiline = property.format === 'textarea';
-            const required = property?.required || false;
+            const required =
+              rootProperty.required || property?.required || false;
             const touched =
               formik?.touched[_columnName] &&
               (formik?.touched[_columnName] as Record<string, boolean>)[locale];

@@ -77,9 +77,15 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
 
       for (const name in allProperties) {
         if (name.includes('.')) {
-          const rootProperty = name.split('.').shift();
-          if (rootProperty && !visibleFields.includes(rootProperty)) {
+          const rootPropertyName = name.split('.').shift() || '';
+          if (!visibleFields.includes(rootPropertyName)) {
             continue;
+          }
+
+          const rootProperty = allProperties[rootPropertyName];
+
+          if (rootProperty?.required) {
+            allProperties[name].required = true;
           }
         } else {
           if (!visibleFields.includes(name)) {

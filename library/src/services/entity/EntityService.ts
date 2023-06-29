@@ -56,12 +56,12 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
 
   // All API spec properties + properties declared in entity
   public getAllProperties(): PropertyList {
-    const response = this.properties;
-    const properties = this.entityConfig.properties;
+    const response = { ...this.properties };
+    const entityProperties = this.entityConfig.properties;
 
-    for (const idx in properties) {
-      const propertyOverwrite = properties[idx] || {};
-      const label = properties[idx].label || '';
+    for (const idx in entityProperties) {
+      const propertyOverwrite = entityProperties[idx] || {};
+      const label = entityProperties[idx].label || '';
 
       response[idx] = {
         ...this.properties[idx],

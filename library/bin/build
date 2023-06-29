@@ -8,6 +8,7 @@ pushd "${SCRIPT_DIR}"/../
     bin/tsc
     yarn pre-publish
     cp -r hygen dist/
+    cp -r src/translations/ dist/
     yarn build:scss
     cp -r src/sass dist/css
 popd

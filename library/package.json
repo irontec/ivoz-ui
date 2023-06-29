@@ -23,7 +23,8 @@
     "watch": "bin/tsc --watch",
     "lint": "eslint --fix src --ext .js,.ts,.tsx",
     "lint:check": "prettier --check src/**/*.tsx src/**/*.ts src/**/*.js",
-    "pre-publish": "sed 's/dist\\///' package.json > dist/package.json"
+    "pre-publish": "sed 's/dist\\///' package.json > dist/package.json",
+    "i18n": "i18next src/**/*.{jsx,tsx,ts} -c i18next-parser.config.mjs"
   },
   "eslintConfig": {
     "extends": [

@@ -38,6 +38,7 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
     <StyledFieldsetRoot
       label={property.label}
       hasChanged={false} //TODO
+      required={property.required}
       disabled={disabled}
       className={'multilang'}
     >

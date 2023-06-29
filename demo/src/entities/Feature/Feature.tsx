@@ -14,6 +14,7 @@ const properties: FeatureProperties = {
   name: {
     label: _('Name'),
     multilang: true,
+    required: true,
   },
 };
 

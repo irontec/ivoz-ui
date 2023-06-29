@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import {
+  EmbeddableProperty,
   EntityValues,
   PropertyList,
   ScalarEntityValue,
@@ -38,6 +39,7 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
   const formik: useFormikType = useFormik({
     initialValues,
     validate: (values: EntityValues) => {
+
       const visibleFields = instanceRef.current?.visibleFields || [];
 
       if (filterValues) {
@@ -73,9 +75,17 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
 
       const allProperties = entityService.getAllProperties();
       const properties: PropertyList = {};
+
       for (const name in allProperties) {
-        if (!visibleFields.includes(name)) {
-          continue;
+        if (name.includes('.')) {
+          const rootProperty = name.split('.').shift();
+          if (rootProperty && !visibleFields.includes(rootProperty)) {
+            continue;
+          }
+        } else {
+          if (!visibleFields.includes(name)) {
+            continue;
+          }
         }
 
         properties[name] = allProperties[name];

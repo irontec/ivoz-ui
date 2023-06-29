@@ -10,6 +10,7 @@ import { StyledForm } from './Login.styles';
 
 import { SolidButton } from '../../components/shared/Button/Button.styles';
 import { TextField } from '../../services/form/Field';
+import _ from '../../services/translations/translate';
 
 type marshallerValueType = {
   username: string;
@@ -73,11 +74,11 @@ export default function Login(props: LoginProps): JSX.Element | null {
           onSubmit={formik.handleSubmit as React.FormEventHandler}
           className='card'
         >
-          <Title>Welcome back!</Title>
+          <Title>{_('Welcome back!')}</Title>
           <TextField
             name='username'
             type='text'
-            label='Username'
+            label={_('Username')}
             placeholder='Your username'
             value={formik.values.username}
             onChange={formik.handleChange}
@@ -94,7 +95,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
           <TextField
             name='password'
             type='password'
-            label='Password'
+            label={_('Password')}
             placeholder='Typer your password'
             errorMsg=''
             value={formik.values.password}
@@ -110,7 +111,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
           />
 
           <SolidButton type='submit' variant='contained'>
-            Sign In
+            {_('Sign In')}
           </SolidButton>
           {apiErrorMsg && <ErrorMessage message={errorMsg || ''} />}
         </StyledForm>

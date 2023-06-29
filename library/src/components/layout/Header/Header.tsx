@@ -12,6 +12,7 @@ import { useStoreActions } from '../../../store';
 import Avatar from './Avatar';
 import Breadcrumbs from './Breadcrumbs';
 import Settings from './Settings/Settings';
+import _ from '../../../services/translations/translate';
 
 export interface headerProps {
   routeMap: RouteMap;
@@ -44,7 +45,7 @@ export default function Header(props: headerProps): JSX.Element {
 
             <Avatar>
               <MenuItem key='logout' onClick={handleLogout}>
-                <Typography textAlign='center'>Logout</Typography>
+                <Typography textAlign='center'>{_('Logout')}</Typography>
               </MenuItem>
             </Avatar>
           </>

@@ -17,7 +17,7 @@ const SaveButton = function (props: SaveButtonProps): JSX.Element {
     <div className={className}>
       {showCancelButton && (
         <Link to={parentUrl}>
-          <OutlinedButton>Cancel</OutlinedButton>
+          <OutlinedButton>{_('Cancel')}</OutlinedButton>
         </Link>
       )}
       <SolidButton type='submit'>{_('Save')}</SolidButton>

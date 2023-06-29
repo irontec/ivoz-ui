@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { StyledDropdown } from '../../../../services/form/Field/Dropdown/Dropdown.styles';
 import { useStoreState } from '../../../../store';
 import { LightButton } from '../../../shared/Button/Button.styles';
+import _ from '../../../../services/translations/translate';
 
 interface SettingsProps {
   children?: React.ReactNode;
@@ -64,7 +65,7 @@ export default function Settings(props: SettingsProps): JSX.Element | null {
           <Paper sx={{ padding: '10px', minWidth: '300px' }}>
             <StyledDropdown
               name='language'
-              label='Language'
+              label={_('Language')}
               value={i18n.language}
               required={false}
               disabled={false}

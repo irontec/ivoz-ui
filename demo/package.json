@@ -9,6 +9,7 @@
     "start": "bin/start",
     "lint:check": "prettier --check src/**/*.tsx src/**/*.ts src/**/*.js",
     "lint": "eslint --fix src --ext .js,.ts,.tsx",
+    "i18n": "i18next src/**/*.{jsx,tsx,ts} -c i18next-parser.config.mjs",
     "build": "bin/build",
     "cy:run": "cypress run --browser electron",
     "cy:open": "cypress open"

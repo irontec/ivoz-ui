@@ -41,7 +41,7 @@ export default function Settings(props: SettingsProps): JSX.Element | null {
 
   return (
     <>
-      <Tooltip title='settings'>
+      <Tooltip title={_('settings')}>
         <div onClick={handleOpenUserMenu}>
           <LightButton>
             <SettingsOutlinedIcon />

@@ -40,8 +40,10 @@
   "View": "View",
   "Welcome back!": "Welcome back!",
   "Yes, delete it": "Yes, delete it",
+  "You are about to remove": "Stai per rimuovere",
   "You haven’t created any {{entity}} yet.": "You haven’t created any {{entity}} yet.",
   "invalid pattern": "invalid pattern",
   "required value": "required value",
+  "settings": "Impostazioni",
   "{{username}} account settings": "{{username}} account settings"
 }

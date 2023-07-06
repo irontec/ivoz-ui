@@ -30,7 +30,7 @@ export interface IvozStore {
   menu: MenuStore;
   entities: EntitiesStore;
   i18n: LanguagesStore;
-  theme: ThemeStore,
+  theme: ThemeStore;
 }
 
 export type IvozStoreState = StateMapper<FilterActionTypes<IvozStore>>;
@@ -47,7 +47,7 @@ export const storeModel: IvozStore = {
   menu,
   entities,
   i18n,
-  theme
+  theme,
 };
 
 StoreContainer.store = createStore<IvozStore>(storeModel);

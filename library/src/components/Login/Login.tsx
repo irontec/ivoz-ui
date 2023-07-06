@@ -31,6 +31,8 @@ export default function Login(props: LoginProps): JSX.Element | null {
   const useRefreshToken = useStoreActions(
     (actions) => actions.auth.useRefreshToken
   );
+
+  const logo = useStoreState((state) => state.theme.logo);
   const onSubmit = useStoreActions((actions) => actions.auth.submit);
   const refreshToken = useStoreState((state) => state.auth.refreshToken);
   const apiErrorMsg = useStoreState((state) => state.api.errorMsg);
@@ -66,7 +68,7 @@ export default function Login(props: LoginProps): JSX.Element | null {
   return (
     <Container className={className} component='main'>
       <Box className='logo-container'>
-        <img src='./logo.svg' className='logo' />
+        <img src={logo || './logo.svg'} className='logo' />
       </Box>
 
       <Box className='form-container'>

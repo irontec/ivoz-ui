@@ -6,9 +6,9 @@ export type Language = {
 };
 
 export interface ThemeState {
-  name: string,
-  theme: string,
-  logo: string,
+  name: string;
+  theme: string;
+  logo: string;
 }
 
 interface ThemeActions {

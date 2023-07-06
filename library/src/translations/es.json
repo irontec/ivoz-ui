@@ -40,8 +40,10 @@
   "View": "Ver",
   "Welcome back!": "Bienvenido de nuevo!",
   "Yes, delete it": "Si, eliminar",
+  "You are about to remove": "Estás a punto de eliminar",
   "You haven’t created any {{entity}} yet.": "Aún no has creado ningún {{entity}}",
   "invalid pattern": "Patrón invalido",
   "required value": "valor requerido",
+  "settings": "Configuración",
   "{{username}} account settings": "Configuración de cuenta de {{username}}"
 }

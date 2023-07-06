@@ -79,7 +79,7 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
       <ConfirmDialog
         text={
           <span>
-            You are about to remove <strong>{iden}</strong>
+            {_('You are about to remove')} <strong>{iden}</strong>
           </span>
         }
         open={showDelete}

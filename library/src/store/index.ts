@@ -14,6 +14,7 @@ import list, { ListStore } from './list';
 import flashMsg, { FlashMsgStore } from './flashMsg';
 import form, { FormStore } from './form';
 import menu, { MenuStore } from './menu';
+import theme, { ThemeStore } from './theme';
 import entities, { EntitiesStore } from './entities';
 import i18n, { LanguagesStore } from './i18n';
 
@@ -29,6 +30,7 @@ export interface IvozStore {
   menu: MenuStore;
   entities: EntitiesStore;
   i18n: LanguagesStore;
+  theme: ThemeStore,
 }
 
 export type IvozStoreState = StateMapper<FilterActionTypes<IvozStore>>;
@@ -45,6 +47,7 @@ export const storeModel: IvozStore = {
   menu,
   entities,
   i18n,
+  theme
 };
 
 StoreContainer.store = createStore<IvozStore>(storeModel);

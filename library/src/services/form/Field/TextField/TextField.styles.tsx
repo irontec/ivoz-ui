@@ -35,6 +35,13 @@ export const StyledTextField = styled(TextField)(() => {
         paddingInlineStart: 'var(--spacing-md)',
       },
 
+      '& textarea': {
+        minHeight: '75px',
+        maxHeight: '400px',
+        overflow: 'auto !important',
+        paddingBottom: '5px',
+      },
+
       '& .preffix': {
         backgroundColor: `var(${colorMultilangBg})`,
         borderRight: '1px solid var(--color-border)',

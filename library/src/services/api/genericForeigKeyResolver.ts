@@ -131,6 +131,8 @@ export default async function genericForeignKeyResolver(
       successCallback: async (response) =>
         await entityObject2ListLink(props, data, response),
     });
+  } else {
+    await entityObject2ListLink(props, data, []);
   }
 
   return data;

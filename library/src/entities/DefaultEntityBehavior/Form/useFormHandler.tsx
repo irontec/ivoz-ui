@@ -2,7 +2,6 @@ import { useFormik } from 'formik';
 import { useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  EmbeddableProperty,
   EntityValues,
   PropertyList,
   ScalarEntityValue,

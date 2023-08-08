@@ -1,16 +1,18 @@
 import { PathMatch } from 'react-router-dom';
-import { EntityItem, RouteMap, filterRouteMapPath, isActionItem } from '../router';
+import {
+  EntityItem,
+  RouteMap,
+  filterRouteMapPath,
+  isActionItem,
+} from '../router';
 
 type useRouteChainProps = {
-  routeMap: RouteMap,
-  match: PathMatch
+  routeMap: RouteMap;
+  match: PathMatch;
 };
 
-const useRouteChain = (
-  props: useRouteChainProps
-): Array<EntityItem> => {
-
-  const {routeMap, match} = props;
+const useRouteChain = (props: useRouteChainProps): Array<EntityItem> => {
+  const { routeMap, match } = props;
   const filteredRouteMapPath = filterRouteMapPath(routeMap, match);
 
   const routeItems: Array<EntityItem> = filteredRouteMapPath?.entity

@@ -6,7 +6,8 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import { foreignKeyResolverType } from '../../entities/EntityInterface';
 import useCancelToken from '../../hooks/useCancelToken';
 import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
-import findRoute, { filterRouteMapPath } from '../../router/findRoute';
+import useRouteChain from '../../hooks/useRouteChain';
+import findRoute from '../../router/findRoute';
 import { RouteMap } from '../../router/routeMapParser';
 import EntityService from '../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../store';
@@ -16,7 +17,6 @@ import { StyledEmpty } from './Content/Empty.styles';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import useQueryStringParams from './useQueryStringParams';
-import useRouteChain from '../../hooks/useRouteChain';
 
 type ListProps = {
   path: string;
@@ -37,7 +37,7 @@ const List = function (props: ListProps) {
   const currentRoute = findRoute(routeMap, match);
   const routeChain = useRouteChain({
     routeMap,
-    match
+    match,
   });
 
   const [dataRequested, setHasBeenDataRequested] = useState(false);

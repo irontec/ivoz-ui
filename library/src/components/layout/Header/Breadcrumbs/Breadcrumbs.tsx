@@ -4,10 +4,7 @@ import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
 import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 import useRouteChain from '../../../../hooks/useRouteChain';
-import {
-  EntityItem,
-  RouteMap
-} from '../../../../router/routeMapParser';
+import { EntityItem, RouteMap } from '../../../../router/routeMapParser';
 import _ from '../../../../services/translations/translate';
 import {
   StyledCollapsedBreadcrumbsLink,
@@ -43,7 +40,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
 
   const routeItems = useRouteChain({
     routeMap,
-    match
+    match,
   });
 
   const lastPathSegment = match.pathname.split('/').pop() as string;
@@ -69,9 +66,12 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
 
     let baseUrl = process.env.BASE_URL || '';
     if (baseUrl.slice(-1) === '/') {
-        baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+      baseUrl = baseUrl.substring(0, baseUrl.length - 1);
     }
-    if ((baseUrl + routeItem.route) === match.pattern.path && routeItems.length > 0) {
+    if (
+      baseUrl + routeItem.route === match.pattern.path &&
+      routeItems.length > 0
+    ) {
       routeItem = routeItems.pop() as EntityItem;
     }
 

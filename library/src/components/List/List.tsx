@@ -6,7 +6,7 @@ import ErrorBoundary from '../../components/ErrorBoundary';
 import { foreignKeyResolverType } from '../../entities/EntityInterface';
 import useCancelToken from '../../hooks/useCancelToken';
 import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
-import findRoute from '../../router/findRoute';
+import findRoute, { filterRouteMapPath } from '../../router/findRoute';
 import { RouteMap } from '../../router/routeMapParser';
 import EntityService from '../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../store';
@@ -16,6 +16,7 @@ import { StyledEmpty } from './Content/Empty.styles';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import useQueryStringParams from './useQueryStringParams';
+import useRouteChain from '../../hooks/useRouteChain';
 
 type ListProps = {
   path: string;
@@ -34,6 +35,10 @@ const List = function (props: ListProps) {
   const params = useParams();
   const navigate = useNavigate();
   const currentRoute = findRoute(routeMap, match);
+  const routeChain = useRouteChain({
+    routeMap,
+    match
+  });
 
   const [dataRequested, setHasBeenDataRequested] = useState(false);
   const reloadTimestamp = useStoreState((store) => store.list.reloadTimestamp);
@@ -292,6 +297,7 @@ const List = function (props: ListProps) {
           entityService={entityService}
           cancelToken={cancelToken}
           match={match}
+          routeChain={routeChain}
           location={location}
         />
         {reqError && <ErrorMessage message={reqError} />}

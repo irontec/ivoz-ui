@@ -6,7 +6,7 @@ import { Location } from 'history';
 import { ForwardedRef, createRef, forwardRef, useEffect } from 'react';
 import { PathMatch } from 'react-router-dom';
 import { useStoreActions, useStoreState } from 'store';
-import { RouteMapItem } from '../../../router/routeMapParser';
+import { EntityItem, RouteMapItem } from '../../../router/routeMapParser';
 import EntityService, {
   EntityValues,
 } from '../../../services/entity/EntityService';
@@ -25,6 +25,7 @@ export interface ListContentProps {
   preloadData: boolean;
   cancelToken: CancelToken;
   match: PathMatch;
+  routeChain: Array<EntityItem>;
   location: Location<Record<string, string> | undefined>;
   className?: string;
 }
@@ -41,6 +42,7 @@ const ListContent = (
     preloadData,
     cancelToken,
     match,
+    routeChain,
     location,
     className,
   } = props;
@@ -69,18 +71,16 @@ const ListContent = (
         return;
       }
 
-      const baseUrl = process.env.BASE_URL || '';
-      const currentPath = match.pathname.substring(
-        baseUrl.length ? baseUrl.length - 1 : 0
-      );
-
-      const parentPath = currentPath.match(/^(.*)\/[^\/]+$/)?.[1];
-      if (!parentPath) {
+      const parentRoute = routeChain[routeChain.length - 2];
+      if (!parentRoute) {
         return;
       }
 
+      const matchValues = Object.values(match.params);
+      const path = parentRoute.entity.path + '/' + matchValues.pop();
+
       apiGet({
-        path: parentPath,
+        path,
         params: {},
         successCallback: async (data) => {
           setParentRow(data as EntityValues);

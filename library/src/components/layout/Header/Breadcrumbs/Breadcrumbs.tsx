@@ -3,11 +3,10 @@ import MuiBreadcrumbs from '@mui/material/Breadcrumbs';
 import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
 import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
-import { filterRouteMapPath } from '../../../../router/findRoute';
+import useRouteChain from '../../../../hooks/useRouteChain';
 import {
   EntityItem,
-  isActionItem,
-  RouteMap,
+  RouteMap
 } from '../../../../router/routeMapParser';
 import _ from '../../../../services/translations/translate';
 import {
@@ -40,29 +39,12 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
   const { routeMap, desktop = true } = props;
 
   const match = useCurrentPathMatch();
-  const filteredRouteMapPath = filterRouteMapPath(routeMap, match);
-
   const formRow = useStoreState((state) => state.form.row);
 
-  const routeItems: Array<EntityItem> = filteredRouteMapPath?.entity
-    ? [
-        {
-          entity: filteredRouteMapPath.entity,
-          route: filteredRouteMapPath.route,
-        },
-      ]
-    : [];
-
-  let child = filteredRouteMapPath?.children?.[0];
-
-  while (child) {
-    if (isActionItem(child)) {
-      break;
-    }
-
-    routeItems.push({ entity: child.entity, route: child.route });
-    child = child.children?.[0];
-  }
+  const routeItems = useRouteChain({
+    routeMap,
+    match
+  });
 
   const lastPathSegment = match.pathname.split('/').pop() as string;
   const showEntityToStr = ['detailed', 'update'].includes(lastPathSegment);
@@ -85,7 +67,11 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
     let routeItem = routeItems.pop() as EntityItem;
     const title = routeItem.entity.title;
 
-    if (routeItem.route === match.pattern.path && routeItems.length > 0) {
+    let baseUrl = process.env.BASE_URL || '';
+    if (baseUrl.slice(-1) === '/') {
+        baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+    }
+    if ((baseUrl + routeItem.route) === match.pattern.path && routeItems.length > 0) {
       routeItem = routeItems.pop() as EntityItem;
     }
 

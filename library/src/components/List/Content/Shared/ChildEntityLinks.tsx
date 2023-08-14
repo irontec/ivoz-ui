@@ -81,7 +81,11 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
           entityService={entityService}
           disabled={deleteMapItem.disabled}
         >
-          <DeleteRowButton row={row} entityService={entityService} />
+          <DeleteRowButton
+            disabled={deleteMapItem.disabled}
+            row={row}
+            entityService={entityService}
+          />
         </ChildDecorator>
       )}
       {childEntitiesCopy.length > 0 && (

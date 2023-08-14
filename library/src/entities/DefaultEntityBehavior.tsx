@@ -8,6 +8,7 @@ import {
   EntityAclType,
   FetchFksCallback,
   OrderDirection,
+  calculateAclType,
 } from './EntityInterface';
 
 import { EntityItem, isEntityItem } from '../router';
@@ -48,6 +49,8 @@ export const acl: EntityAclType = {
   update: true,
   delete: true,
 };
+
+export const calculateAclByParentRow: calculateAclType = (acl) => acl;
 
 export const ChildDecorator: ChildDecoratorType = (props) => {
   const Children = props.children;
@@ -162,6 +165,7 @@ const DefaultEntityBehavior = {
   columns,
   properties,
   acl,
+  calculateAclByParentRow,
   ListDecorator,
   ChildDecorator: ChildDecoratorMemo,
   customActions: {},

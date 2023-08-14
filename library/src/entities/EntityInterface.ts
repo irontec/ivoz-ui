@@ -84,6 +84,11 @@ export type EntityAclType = {
   delete: boolean;
 };
 
+export type calculateAclType = (
+  acl: EntityAclType,
+  parentRow: EntityValues
+) => EntityAclType;
+
 export interface ViewProps {
   entityService: EntityService;
   row: EntityValues;
@@ -139,6 +144,7 @@ export default interface EntityInterface {
   ChildDecorator: ChildDecoratorType;
   customActions: CustomActionsType;
   acl: EntityAclType;
+  calculateAclByParentRow: calculateAclType;
   iden: string;
   title: string | JSX.Element;
   path: string;

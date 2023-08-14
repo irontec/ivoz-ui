@@ -11,6 +11,7 @@ import ViewRowButton from '../CTA/ViewRowButton';
 import ChildEntityLinks from '../Shared/ChildEntityLinks';
 import { handleMultiselectChangeType } from '../Table/hook/useMultiselectState';
 import ContentCardRow from './ContentCardRow';
+import { useStoreState } from '../../../../store';
 
 export interface ContentCardProps {
   childEntities: Array<RouteMapItem>;
@@ -40,14 +41,15 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
 
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
-  const acl = entityService.getAcls();
+
+  const parentRow = useStoreState((state) => state.list.parentRow);
+  const acl = entityService.getAcls(parentRow);
 
   const multiselectActions = Object.values(entity.customActions)
     .filter((action) => action.multiselect || action.global)
     .map((item) => item.action as MultiSelectFunctionComponent);
 
-  const multiselect =
-    entityService.getAcls().delete === true || multiselectActions.length > 0;
+  const multiselect = acl.delete === true || multiselectActions.length > 0;
 
   const updateRouteMapItem: RouteMapItem = {
     entity,

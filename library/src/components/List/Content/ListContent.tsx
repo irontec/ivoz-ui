@@ -16,6 +16,7 @@ import ContentCard from './Card/ContentCard';
 import ListContentHeader from './ListContentHeader';
 import { StyledContentTable } from './Table/ContentTable.styles';
 import useMultiselectState from './Table/hook/useMultiselectState';
+import { StyledEmpty } from './Empty.styles';
 
 export interface ListContentProps {
   childEntities: Array<RouteMapItem>;
@@ -28,6 +29,7 @@ export interface ListContentProps {
   routeChain: Array<EntityItem>;
   location: Location<Record<string, string> | undefined>;
   className?: string;
+  empty: boolean;
 }
 
 const ListContent = (
@@ -45,6 +47,7 @@ const ListContent = (
     routeChain,
     location,
     className,
+    empty,
   } = props;
 
   const listRef = createRef();
@@ -90,6 +93,10 @@ const ListContent = (
     }
   }, [parentRow, match]);
 
+  if (empty) {
+    return <StyledEmpty entityService={entityService} className={className} />;
+  }
+
   return (
     <>
       <Box className={className}>
@@ -103,8 +110,9 @@ const ListContent = (
             match={match}
             location={location}
             selectedValues={selectedValues}
-            ref={ref}
             mobile={true}
+            parentRow={parentRow}
+            ref={ref}
           />
         )}
         <Box className='card'>
@@ -118,6 +126,7 @@ const ListContent = (
               match={match}
               location={location}
               selectedValues={selectedValues}
+              parentRow={parentRow}
               ref={ref}
             />
           )}

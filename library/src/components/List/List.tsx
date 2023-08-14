@@ -13,7 +13,6 @@ import EntityService from '../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../store';
 import ErrorMessage from '../shared/ErrorMessage';
 import { ListContent } from './Content/';
-import { StyledEmpty } from './Content/Empty.styles';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import useQueryStringParams from './useQueryStringParams';
@@ -282,14 +281,14 @@ const List = function (props: ListProps) {
     return null;
   }
 
-  if ((!rows || rows.length === 0) && queryStringCriteria.length === 0) {
-    return <StyledEmpty entityService={entityService} className={className} />;
-  }
+  const empty =
+    (!rows || rows.length === 0) && queryStringCriteria.length === 0;
 
   return (
     <div className={className}>
       <ErrorBoundary>
         <ListContent
+          empty={empty}
           childEntities={currentRoute?.children || []}
           path={path}
           ignoreColumn={filterBy[0]}

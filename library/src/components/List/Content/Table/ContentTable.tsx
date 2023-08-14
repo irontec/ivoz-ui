@@ -1,7 +1,7 @@
 import { Box, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
 import EntityService from 'services/entity/EntityService';
-import { useStoreState } from 'store';
+import { useStoreState } from '../../../../store';
 import {
   MultiSelectFunctionComponent,
   RouteMapItem,
@@ -79,8 +79,10 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const columns = entityService.getCollectionColumns(storeState);
 
-  const multiselect =
-    entityService.getAcls().delete === true || multiselectActions.length > 0;
+  const parentRow = useStoreState((state) => state.list.parentRow);
+  const acl = entityService.getAcls(parentRow);
+
+  const multiselect = acl.delete === true || multiselectActions.length > 0;
 
   const selectAllHandlers: handleMultiselectChangeType = useCallback(
     (event) => {
@@ -108,7 +110,6 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
       />
       <TableBody>
         {rows.map((row: any, key: any) => {
-          const acl = entityService.getAcls();
           // eslint-disable-next-line @typescript-eslint/no-unused-vars
           let selectableIdx = 0;
           const checked = selectedValues.indexOf(row.id.toString()) > -1;

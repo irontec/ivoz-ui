@@ -4,6 +4,7 @@ import _ from '../../../services/translations/translate';
 import { SolidButton } from '../../shared/Button/Button.styles';
 import { useTranslation } from 'react-i18next';
 import { Fade } from '@mui/material';
+import { useStoreState } from '../../../store';
 
 export interface EmptyProps {
   entityService: EntityService;
@@ -15,7 +16,9 @@ export const Empty = (props: EmptyProps): JSX.Element => {
   const { t } = useTranslation();
 
   const entity = entityService.getEntity();
-  const acls = entityService.getAcls();
+
+  const parentRow = useStoreState((state) => state.list.parentRow);
+  const acls = entityService.getAcls(parentRow);
   const { create = false } = acls;
 
   let singularTitle, pluralTitle;

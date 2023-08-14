@@ -68,11 +68,6 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
     route: `${entity.path}/:id/detailed`,
   };
 
-  const deleteMapItem: RouteMapItem = {
-    entity,
-    route: `${entity.path}/:id`,
-  };
-
   const multiselectActions = Object.values(entity.customActions)
     .filter((action) => action.multiselect)
     .map((item) => item.action as MultiSelectFunctionComponent);
@@ -81,8 +76,13 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const parentRow = useStoreState((state) => state.list.parentRow);
   const acl = entityService.getAcls(parentRow);
-
   const multiselect = acl.delete === true || multiselectActions.length > 0;
+
+  const deleteMapItem: RouteMapItem = {
+    entity,
+    route: `${entity.path}/:id`,
+    disabled: !acl.delete,
+  };
 
   const selectAllHandlers: handleMultiselectChangeType = useCallback(
     (event) => {
@@ -97,6 +97,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const indeterminateSelectAll = rows.length !== selectedValues.length;
   const checked = selectedValues.length > 0;
+  const showDetail = acl.detail && !acl.update;
 
   return (
     <StyledTable size='medium' className={className}>
@@ -150,8 +151,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     entityService={entityService}
                     row={row}
                     detail={
-                      acl.detail &&
-                      !acl.update && (
+                      showDetail && (
                         <ChildDecorator
                           routeMapItem={detailMapItem}
                           row={row}
@@ -162,17 +162,22 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                       )
                     }
                     edit={
-                      acl.update && (
+                      (acl.update || !showDetail) && (
                         <ChildDecorator
                           routeMapItem={updateRouteMapItem}
                           row={row}
                           entityService={entityService}
+                          disabled={!acl.update}
                         >
-                          <EditRowButton row={row} path={path} />
+                          <EditRowButton
+                            disabled={!acl.update}
+                            row={row}
+                            path={path}
+                          />
                         </ChildDecorator>
                       )
                     }
-                    deleteMapItem={acl.delete && deleteMapItem}
+                    deleteMapItem={deleteMapItem}
                   />
                 </Box>
               </StyledActionsTableCell>

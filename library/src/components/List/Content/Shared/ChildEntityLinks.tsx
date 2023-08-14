@@ -68,6 +68,7 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
             routeMapItem={routeMapItem}
             row={row}
             entityService={entityService}
+            disabled={routeMapItem.disabled}
           >
             <ChildEntityLink routeMapItem={routeMapItem} row={row} />
           </ChildDecorator>
@@ -78,6 +79,7 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
           routeMapItem={deleteMapItem}
           row={row}
           entityService={entityService}
+          disabled={deleteMapItem.disabled}
         >
           <DeleteRowButton row={row} entityService={entityService} />
         </ChildDecorator>

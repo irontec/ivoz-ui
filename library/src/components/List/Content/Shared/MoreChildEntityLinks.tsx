@@ -67,6 +67,7 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
               routeMapItem={routeMapItem}
               row={row}
               entityService={entityService}
+              disabled={routeMapItem.disabled}
             >
               <StyledTableRowChildEntityLink
                 to={link}
@@ -84,11 +85,13 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           routeMapItem={deleteMapItem}
           row={row}
           entityService={entityService}
+          disabled={deleteMapItem.disabled}
         >
           <DeleteRowButton
             variant='text'
             row={row}
             entityService={entityService}
+            disabled={deleteMapItem?.disabled}
           />
         </ChildDecorator>
       )}

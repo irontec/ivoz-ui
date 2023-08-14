@@ -73,7 +73,9 @@ export const ChildDecoratorMemo = React.memo(
         (next.routeMapItem as EntityItem).route;
     const sameId = prev.row.id === next.row.id;
 
-    return sameRoute && sameId;
+    const sameState = prev.disabled === next.disabled;
+
+    return sameRoute && sameId && sameState;
   }
 );
 

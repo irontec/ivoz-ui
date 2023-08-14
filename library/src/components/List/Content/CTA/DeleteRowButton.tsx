@@ -72,7 +72,10 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
         </Tooltip>
       )}
       {variant === 'text' && (
-        <MoreMenuItem onClick={() => setShowDelete(true)}>
+        <MoreMenuItem
+          className={disabled ? 'disabled' : ''}
+          onClick={() => !disabled && setShowDelete(true)}
+        >
           {_('Delete')}
         </MoreMenuItem>
       )}

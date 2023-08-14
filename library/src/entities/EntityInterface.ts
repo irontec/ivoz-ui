@@ -32,6 +32,7 @@ export interface ChildDecoratorProps {
   routeMapItem: RouteMapItem;
   row: Record<string, any>;
   entityService: EntityService;
+  disabled?: boolean | undefined;
 }
 
 export type ChildDecoratorType = React.FunctionComponent<

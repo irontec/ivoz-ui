@@ -64,6 +64,7 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
   const deleteMapItem: RouteMapItem = {
     entity,
     route: `${entity.path}/:id`,
+    disabled: !acl.delete,
   };
 
   const localVisibleColumns = { ...visibleColumns };
@@ -71,6 +72,8 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
   const firstColumnName = visibleColumnNames.shift() as string;
   const firstColumn = localVisibleColumns[firstColumnName];
   delete localVisibleColumns[firstColumnName];
+
+  const showDetail = acl.detail && !acl.update;
 
   return (
     <Box className={className}>
@@ -114,8 +117,7 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
             entityService={entityService}
             row={row}
             detail={
-              acl.detail &&
-              !acl.update && (
+              showDetail && (
                 <ChildDecorator
                   routeMapItem={detailMapItem}
                   row={row}
@@ -126,17 +128,18 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
               )
             }
             edit={
-              acl.update && (
+              (acl.update || !showDetail) && (
                 <ChildDecorator
                   routeMapItem={updateRouteMapItem}
                   row={row}
                   entityService={entityService}
+                  disabled={!acl.update}
                 >
-                  <EditRowButton row={row} path={path} />
+                  <EditRowButton disabled={!acl.update} row={row} path={path} />
                 </ChildDecorator>
               )
             }
-            deleteMapItem={acl.delete && deleteMapItem}
+            deleteMapItem={deleteMapItem}
           />
         </Box>
       </Collapse>

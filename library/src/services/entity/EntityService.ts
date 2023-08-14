@@ -26,19 +26,21 @@ export type EntityValues = {
 
 export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   constructor(
+    // API spec
     private actions: ActionsSpec,
     private properties: PropertyList,
-    private entityConfig: EntityInterface
+    // App spec
+    private entityDefinition: EntityInterface
   ) {}
 
   public getEntity(): EntityInterface {
-    return this.entityConfig;
+    return this.entityDefinition;
   }
 
   // Properties declared explicitly in the entity
   public getProperties(): PropertyList {
     const response: PropertyList = {};
-    const properties = this.entityConfig.properties;
+    const properties = this.entityDefinition.properties;
 
     for (const idx in properties) {
       const propertyOverwrite = properties[idx] || {};
@@ -57,7 +59,7 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   // All API spec properties + properties declared in entity
   public getAllProperties(): PropertyList {
     const response = { ...this.properties };
-    const entityProperties = this.entityConfig.properties;
+    const entityProperties = this.entityDefinition.properties;
 
     for (const idx in entityProperties) {
       const propertyOverwrite = entityProperties[idx] || {};
@@ -74,7 +76,7 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   }
 
   public replaceProperties(properties: PropertyList): void {
-    this.entityConfig.properties = properties;
+    this.entityDefinition.properties = properties;
   }
 
   public getFkProperties(): fkPropertyList {
@@ -94,11 +96,11 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
 
   public getColumns(store: T): PropertyList {
     const response: PropertyList = {};
-    const properties = this.entityConfig.properties;
+    const properties = this.entityDefinition.properties;
 
-    const columns = Array.isArray(this.entityConfig.columns)
-      ? this.entityConfig.columns
-      : this.entityConfig.columns(store);
+    const columns = Array.isArray(this.entityDefinition.columns)
+      ? this.entityDefinition.columns
+      : this.entityDefinition.columns(store);
 
     let columnNames = columns.map((column) => {
       return typeof column === 'string' ? column : column.name;
@@ -127,16 +129,16 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
     const allColumns = this.getColumns(store);
     const collectionAction = this.getFromModelList(
       this.actions?.get?.collection || {},
-      this.entityConfig.path
+      this.entityDefinition.path
     );
     const collectionActionFields = Object.keys(
       collectionAction?.properties || {}
     );
     const response: PropertyList = {};
 
-    const columns = Array.isArray(this.entityConfig.columns)
-      ? this.entityConfig.columns
-      : this.entityConfig.columns(store);
+    const columns = Array.isArray(this.entityDefinition.columns)
+      ? this.entityDefinition.columns
+      : this.entityDefinition.columns(store);
 
     const columnNames = columns.map((column) => {
       return typeof column === 'string' ? column : column.name;
@@ -157,9 +159,9 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   }
 
   public getColumnSize(columnName: string, store: T): number {
-    const columns = Array.isArray(this.entityConfig.columns)
-      ? this.entityConfig.columns
-      : this.entityConfig.columns(store);
+    const columns = Array.isArray(this.entityDefinition.columns)
+      ? this.entityDefinition.columns
+      : this.entityDefinition.columns(store);
 
     let customSizeColumns = 0;
     let sizeSum = 0;
@@ -182,7 +184,7 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   public getCollectionParamList(store: T): PropertyList {
     const collectionAction = this.getFromModelList(
       this.actions?.get?.collection || {},
-      this.entityConfig.path
+      this.entityDefinition.path
     );
     const collectionActionParameters = collectionAction?.parameters || {};
 
@@ -207,7 +209,7 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
 
   public getVisualToggleRules(): visualToggleList {
     const rules: visualToggleList = {};
-    const properties = this.entityConfig.properties;
+    const properties = this.entityDefinition.properties;
     for (const idx in properties) {
       const visualToggle = (properties[idx] as ScalarProperty).visualToggle;
       if (!visualToggle) {
@@ -221,7 +223,7 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   }
 
   public getVisualToggles(values: Record<string, any>): VisualToggleStates {
-    const properties = this.entityConfig.properties;
+    const properties = this.entityDefinition.properties;
     const visualToggles = Object.keys(properties).reduce(
       (accumulator: any, fldName: string) => {
         accumulator[fldName] = true;
@@ -453,32 +455,32 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   }
 
   public getTitle(): string | JSX.Element {
-    return this.entityConfig.title;
+    return this.entityDefinition.title;
   }
 
   public getOrderBy(): string {
-    return this.entityConfig?.defaultOrderBy || '';
+    return this.entityDefinition?.defaultOrderBy || '';
   }
 
   public getOrderDirection(): OrderDirection {
-    return this.entityConfig?.defaultOrderDirection || OrderDirection.asc;
+    return this.entityDefinition?.defaultOrderDirection || OrderDirection.asc;
   }
 
-  public getAcls(): EntityAclType {
+  public getAcls(parentRow?: EntityValues): EntityAclType {
     const create: boolean =
-      this.entityConfig.acl.create && this.actions.post ? true : false;
+      this.entityDefinition.acl.create && this.actions.post ? true : false;
 
     const read: boolean =
-      this.entityConfig.acl.read && this.actions.get ? true : false;
+      this.entityDefinition.acl.read && this.actions.get ? true : false;
 
     const detail: boolean =
-      this.entityConfig.acl.detail && this.actions.get?.item ? true : false;
+      this.entityDefinition.acl.detail && this.actions.get?.item ? true : false;
 
     const update: boolean =
-      this.entityConfig.acl.update && this.actions.put ? true : false;
+      this.entityDefinition.acl.update && this.actions.put ? true : false;
 
     const remove: boolean =
-      this.entityConfig.acl.delete && this.actions.delete ? true : false;
+      this.entityDefinition.acl.delete && this.actions.delete ? true : false;
 
     const acl = {
       create,
@@ -488,15 +490,19 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
       delete: remove,
     };
 
+    if (parentRow) {
+      return this.entityDefinition.calculateAclByParentRow(acl, parentRow);
+    }
+
     return acl;
   }
 
   public getForeignKeyGetter(): ForeignKeyGetterType {
-    return this.entityConfig.foreignKeyGetter;
+    return this.entityDefinition.foreignKeyGetter;
   }
 
   public getListDecorator() {
-    return this.entityConfig.ListDecorator;
+    return this.entityDefinition.ListDecorator;
   }
 
   public getPropertyFilters(
@@ -509,7 +515,7 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
   }
 
   private getIden(lcFirst = false) {
-    const response = this.entityConfig.iden;
+    const response = this.entityDefinition.iden;
 
     if (lcFirst) {
       return response.charAt(0).toLowerCase() + response.slice(1);

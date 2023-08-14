@@ -14,7 +14,9 @@ import {
   GlobalFunctionComponent,
   MultiSelectFunctionComponent,
 } from '../../../router';
-import EntityService from '../../../services/entity/EntityService';
+import EntityService, {
+  EntityValues,
+} from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
 import { ContentFilterDialog } from '../Filter/ContentFilterDialog';
 import DeleteRowsButton from './CTA/DeleteRowsButton';
@@ -32,6 +34,7 @@ interface ListContentProps {
   match: PathMatch;
   location: Location<Record<string, string> | undefined>;
   selectedValues: string[];
+  parentRow: EntityValues | undefined;
   mobile?: boolean;
 }
 
@@ -48,13 +51,13 @@ const ListContentHeader = (
     match,
     location,
     selectedValues,
+    parentRow,
     mobile,
   } = props;
 
   const entity = entityService.getEntity();
   const disableMultiDelete = entity.disableMultiDelete || false;
-
-  const acl = entityService.getAcls();
+  const acl = entityService.getAcls(parentRow);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const rows = useStoreState((state) => state.list.rows);
@@ -64,8 +67,7 @@ const ListContentHeader = (
   ).filter((action) => action.multiselect || action.global);
 
   const multiselectOrGlobal =
-    entityService.getAcls().delete === true ||
-    globalAndMultiselectActions.length > 0;
+    acl.delete === true || globalAndMultiselectActions.length > 0;
 
   let actionNum = globalAndMultiselectActions.length;
   if (acl.delete) {

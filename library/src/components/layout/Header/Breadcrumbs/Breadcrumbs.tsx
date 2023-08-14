@@ -72,11 +72,11 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
       baseUrl + routeItem.route === match.pattern.path &&
       routeItems.length > 0
     ) {
-      routeItem = routeItems.pop() as EntityItem;
+      routeItem = routeItems[routeItems.length - 1] as EntityItem;
     }
 
     const to =
-      routeItems.length > 0 ? getEntityItemLink(routeItem, match) : '/';
+      routeItems.length > 0 ? getEntityItemLink(routeItem, match) : baseUrl;
 
     return (
       <StyledCollapsedBreadcrumbsLink className='back-mobile' to={to}>

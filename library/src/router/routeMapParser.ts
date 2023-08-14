@@ -18,6 +18,7 @@ export interface EntityItem {
   fixedValues?: Record<string, ScalarEntityValue>;
   children?: Array<RouteMapItem>;
   divider?: boolean;
+  disabled?: boolean;
 }
 
 export interface ActionItemProps {
@@ -85,6 +86,7 @@ export interface ActionItem {
   rowAction?: boolean;
   multiselect?: boolean;
   global?: true;
+  disabled?: boolean;
 }
 
 export type RouteMapItem = EntityItem | ActionItem;

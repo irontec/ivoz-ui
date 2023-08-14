@@ -130,6 +130,8 @@ const client: EntityInterface = {
     if (parentRow.id === 2) {
       acl.update = false;
       acl.create = false;
+      acl.detail = false;
+      acl.delete = false;
     }
 
     return acl;

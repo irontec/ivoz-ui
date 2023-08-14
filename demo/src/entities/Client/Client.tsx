@@ -126,6 +126,14 @@ const client: EntityInterface = {
     { name: 'language', size: 20 },
   ],
   customActions: Actions,
+  calculateAclByParentRow: (acl, parentRow) => {
+    if (parentRow.id === 2) {
+      acl.update = false;
+      acl.create = false;
+    }
+
+    return acl;
+  },
   selectOptions: async () => {
     const module = await import('./SelectOptions');
 

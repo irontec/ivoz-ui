@@ -9,6 +9,7 @@ import {
   ActionModelList,
   ActionModelSpec,
   ActionsSpec,
+  EmbeddableProperty,
   FkProperty,
   PropertyList,
   ScalarProperty,
@@ -16,6 +17,7 @@ import {
   isPropertyFk,
   visualToggleList,
 } from '../../services/api/ParsedApiSpecInterface';
+import { getI18n } from 'react-i18next';
 
 export type VisualToggleStates = { [key: string]: boolean };
 export type ScalarEntityValue = string | number | boolean | null;
@@ -199,6 +201,11 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
     const filteredColumns: PropertyList = {};
     for (const columnName in columns) {
       if (!paramNames.includes(columnName)) {
+        if ((columns[columnName] as EmbeddableProperty).multilang) {
+          const locale = getI18n().language.substring(0, 2);
+          filteredColumns[`${columnName}.${locale}`] = columns[columnName];
+        }
+
         continue;
       }
       filteredColumns[columnName] = columns[columnName];

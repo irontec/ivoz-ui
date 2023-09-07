@@ -31,6 +31,7 @@ const Feature: EntityInterface = {
     return name?.[language] || '';
   },
   properties,
+  columns: ['name', 'iden'],
   selectOptions: async () => {
     const module = await import('./SelectOptions');
 

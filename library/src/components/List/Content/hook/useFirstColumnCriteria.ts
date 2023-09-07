@@ -2,6 +2,8 @@ import { CriteriaFilterValue } from 'components/List/Filter/ContentFilterDialog'
 import EntityService from 'services/entity/EntityService';
 import { useStoreState } from '../../../../store';
 import { useEffect, useState } from 'react';
+import { EmbeddableProperty } from 'services';
+import { getI18n } from 'react-i18next';
 
 type useFirstCriteriaProps = {
   entityService: EntityService;
@@ -34,11 +36,23 @@ const useFirstColumnCriteria = (
       (columnKey) => columnKey !== ignoreColumn
     ) as string;
 
-    const filters = entityService.getPropertyFilters(firstColumnKey, path);
+    const entity = entityService.getEntity();
+    const firstColumnSpec = entity.properties[firstColumnKey];
+    const isMultilang =
+      (firstColumnSpec as EmbeddableProperty)?.multilang || false;
+
+    const i18n = getI18n();
+    const language = i18n.language.split('-').shift();
+
+    const criteriaName = isMultilang
+      ? `${firstColumnKey}.${language}`
+      : firstColumnKey;
+
+    const filters = entityService.getPropertyFilters(criteriaName, path);
     const filter = filters.includes('partial') ? 'partial' : filters[0];
 
     const firstCriteria = queryStringCriteria.find((criteria) => {
-      return criteria.name === firstColumnKey && criteria.type === filter;
+      return criteria.name === criteriaName && criteria.type === filter;
     });
 
     if (firstCriteria) {
@@ -50,7 +64,7 @@ const useFirstColumnCriteria = (
       setFirstColumnCriteria(firstCriteria);
     } else {
       const newCriteria = {
-        name: firstColumnKey,
+        name: criteriaName,
         type: filter,
         value: '',
       };

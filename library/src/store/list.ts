@@ -1,11 +1,17 @@
 import { Action, action, Thunk, thunk } from 'easy-peasy';
 import { EntityValues } from '../services/entity/EntityService';
+import { NullablePropertyFkChoices } from '../entities';
+
+type FkChoicesType = {
+  [key: string]: NullablePropertyFkChoices;
+};
 
 export interface ListState {
   reloadTimestamp: number;
   parentRow: EntityValues | undefined;
   rows: Array<EntityValues>;
   headers: Record<string, string>;
+  fkChoices: FkChoicesType;
 }
 
 interface ListActions {
@@ -13,6 +19,7 @@ interface ListActions {
   setParentRow: Action<ListState, undefined | EntityValues>;
   setRows: Action<ListState, Array<EntityValues>>;
   setHeaders: Action<ListState, Record<string, string>>;
+  setFkChoices: Action<ListState, FkChoicesType>;
   reset: Thunk<ListState, undefined, unknown>;
 }
 
@@ -23,6 +30,7 @@ const list: ListStore = {
   parentRow: undefined,
   rows: [],
   headers: {},
+  fkChoices: {},
 
   // actions
   reload: action<ListState>((state) => {
@@ -41,10 +49,15 @@ const list: ListStore = {
     state.headers = { ...headers };
   }),
 
+  setFkChoices: action<ListState, FkChoicesType>((state, fkChoices) => {
+    state.fkChoices = fkChoices;
+  }),
+
   // thunks
   reset: thunk<ListActions, undefined, unknown>(async (actions) => {
     actions.setRows([]);
     actions.setHeaders({});
+    actions.setFkChoices({});
   }),
 };
 

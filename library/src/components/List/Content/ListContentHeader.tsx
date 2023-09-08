@@ -22,8 +22,7 @@ import { ContentFilterDialog } from '../Filter/ContentFilterDialog';
 import DeleteRowsButton from './CTA/DeleteRowsButton';
 import { StyledActionButtonContainer, StyledLink } from './ListContent.styles';
 import { MultiselectMoreChildEntityLinks } from './Shared/MultiselectMoreChildEntityLinks';
-
-import FastSearchField from './FastSearchField';
+import { StyledFastSearchField } from './FastSearchField.styles';
 
 interface ListContentProps {
   path: string;
@@ -85,7 +84,7 @@ const ListContentHeader = (
   return (
     <StyledActionButtonContainer ref={ref} className={'list-content-header'}>
       <Box className='buttons start'>
-        <FastSearchField
+        <StyledFastSearchField
           path={path}
           entityService={entityService}
           ignoreColumn={ignoreColumn}

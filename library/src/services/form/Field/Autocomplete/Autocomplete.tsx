@@ -1,4 +1,4 @@
-import { Box } from '@mui/material';
+import { Box, InputProps } from '@mui/material';
 import MuiAutocomplete from '@mui/material/Autocomplete';
 import React, {
   JSXElementConstructor,
@@ -19,6 +19,7 @@ export interface AutocompleteProps {
   className?: string;
   name: string;
   label: string | ReactElement<any, string | JSXElementConstructor<any>>;
+  placeholder?: string;
   value: any;
   multiple: boolean;
   required: boolean;
@@ -30,6 +31,8 @@ export interface AutocompleteProps {
   errorMsg?: React.ReactNode;
   helperText?: string | React.ReactNode;
   hasChanged: boolean;
+  InputProps?: Partial<InputProps>;
+  disableClearable?: boolean;
 }
 
 const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
@@ -173,9 +176,12 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     [name, label, required, disabled, error, errorMsg, helperText]
   );
 
-  const disableClearable = arrayChoices.find((item) => item.id === '__null__')
-    ? false
-    : true;
+  let disableClearable = props.disableClearable;
+  if (disableClearable === undefined) {
+    disableClearable = arrayChoices.find((item) => item.id === '__null__')
+      ? false
+      : true;
+  }
 
   let autocompleteValue;
   if (multiple) {

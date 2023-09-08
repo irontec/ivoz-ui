@@ -41,16 +41,19 @@ export function ContentFilterDialog(
     setAnchorEl,
   } = props;
 
-  const queryStringCriteria: CriteriaFilterValues = useStoreState(
+  const queryStringCriteria = useStoreState(
     (state) => state.route.queryStringCriteria
   );
+  const foreignEntities = useStoreState((state) => state.list.fkChoices);
   const setQueryStringCriteria = useStoreActions((actions) => {
     return actions.route.setQueryStringCriteria;
+  });
+  const setFkChoices = useStoreActions((actions) => {
+    return actions.list.setFkChoices;
   });
 
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
   const [loading, setLoading] = useState<boolean>(true);
-  const [foreignEntities, setForeignEntities] = useState<any>({});
   const [criteria, setCriteria] =
     useState<CriteriaFilterValues>(queryStringCriteria);
 
@@ -76,7 +79,7 @@ export function ContentFilterDialog(
         match,
         filterContext: true,
       }).then((foreignEntities: any) => {
-        setForeignEntities(foreignEntities);
+        setFkChoices(foreignEntities);
         setLoading(false);
       });
     });

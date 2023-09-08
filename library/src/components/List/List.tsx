@@ -16,6 +16,8 @@ import { ListContent } from './Content/';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import useQueryStringParams from './useQueryStringParams';
+import useFirstColumn from './Content/hook/useFirstColumn';
+import { isPropertyFk } from '../../services';
 
 type ListProps = {
   path: string;
@@ -86,6 +88,14 @@ const List = function (props: ListProps) {
     filterBy.push(currentRoute.filterBy);
     filterBy.push(Object.values(params).pop() as string);
   }
+
+  const ignoreColumn = filterBy[0];
+  const [, firstColumnSpec] = useFirstColumn({
+    entityService,
+    ignoreColumn,
+  });
+  const isFirstColumnFk = isPropertyFk(firstColumnSpec);
+  const preload = currentQueryParams.length > 0 || isFirstColumnFk;
 
   const filterValues: Array<string> = [];
   const entityFilterValues = currentRoute?.filterValues || {};
@@ -291,8 +301,8 @@ const List = function (props: ListProps) {
           empty={empty}
           childEntities={currentRoute?.children || []}
           path={path}
-          ignoreColumn={filterBy[0]}
-          preloadData={currentQueryParams.length > 0}
+          ignoreColumn={ignoreColumn}
+          preloadData={preload}
           entityService={entityService}
           cancelToken={cancelToken}
           match={match}

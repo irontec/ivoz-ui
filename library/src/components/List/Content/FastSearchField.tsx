@@ -4,9 +4,13 @@ import EntityService from '../../../services/entity/EntityService';
 import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 
 import { useStoreActions, useStoreState } from 'store';
+import { DropdownArrayChoices, isPropertyFk } from '../../../services';
+import { StyledAutocomplete } from '../../../services/form/Field/Autocomplete/Autocomplete.styles';
+import useFirstColumn from './hook/useFirstColumn';
 import useFirstColumnCriteria from './hook/useFirstColumnCriteria';
 
-interface FastSearchFieldProps {
+export interface FastSearchFieldProps {
+  className?: string;
   path: string;
   entityService: EntityService;
   ignoreColumn: string | undefined;
@@ -16,7 +20,7 @@ const FastSearchField = (
   props: FastSearchFieldProps,
   ref: ForwardedRef<any>
 ): JSX.Element => {
-  const { path, entityService, ignoreColumn } = props;
+  const { className, path, entityService, ignoreColumn } = props;
 
   const queryStringCriteria = useStoreState((state) => [
     ...state.route.queryStringCriteria,
@@ -30,6 +34,16 @@ const FastSearchField = (
     path,
     ignoreColumn,
   });
+
+  const [firstColumnName, firstColumnSpec] = useFirstColumn({
+    entityService,
+    ignoreColumn,
+  });
+
+  const isFk = isPropertyFk(firstColumnSpec);
+  const foreignEntities = useStoreState((state) => state.list.fkChoices);
+  const fkChoices =
+    (foreignEntities[firstColumnName] as DropdownArrayChoices) || [];
 
   const [value, setValue] = useState(firstColumnCriteria?.value || '');
 
@@ -57,6 +71,7 @@ const FastSearchField = (
         }
 
         let match = false;
+        let matchIdx: string | undefined;
         for (const idx in queryStringCriteria) {
           if (queryStringCriteria[idx].name !== firstColumnCriteria.name) {
             continue;
@@ -67,12 +82,15 @@ const FastSearchField = (
           }
 
           queryStringCriteria[idx] = firstColumnCriteria;
+          matchIdx = idx;
           match = true;
           break;
         }
 
         if (!match) {
           queryStringCriteria.push(firstColumnCriteria);
+        } else if (value === '' && matchIdx) {
+          queryStringCriteria.splice(parseInt(matchIdx, 10), 1);
         }
 
         setQueryStringCriteria(queryStringCriteria);
@@ -82,6 +100,31 @@ const FastSearchField = (
     }, 1000);
     return () => clearTimeout(timeOutId);
   }, [value, firstColumnCriteria]);
+
+  if (isFk) {
+    return (
+      <StyledAutocomplete
+        className={className}
+        name='fast_search'
+        label=''
+        placeholder='Search'
+        value={value}
+        multiple={false}
+        required={false}
+        disabled={false}
+        onChange={changeHandler}
+        onBlur={() => {
+          /* noop */
+        }}
+        choices={fkChoices}
+        disableClearable={false}
+        hasChanged={false}
+        InputProps={{
+          startAdornment: <SearchIcon />,
+        }}
+      />
+    );
+  }
 
   return (
     <StyledSearchTextField

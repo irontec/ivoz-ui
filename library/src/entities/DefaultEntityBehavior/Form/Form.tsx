@@ -149,7 +149,13 @@ const Form: EntityFormType = (props) => {
   return (
     <div>
       <form
-        onSubmit={formik.handleSubmit}
+        onSubmit={(e) => {
+          if (formik.isSubmitting) {
+            return false;
+          }
+
+          formik.handleSubmit(e);
+        }}
         style={{ display: 'flex', flexDirection: 'column', gap: '40px' }}
       >
         {groups.map((group, idx: number) => {

@@ -1,3 +1,5 @@
+import { Box } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { EntityFormType } from '../entities/DefaultEntityBehavior';
 import EntityInterface from '../entities/EntityInterface';
@@ -7,11 +9,10 @@ import findRoute from '../router/findRoute';
 import { RouteMap } from '../router/routeMapParser';
 import { ScalarProperty } from '../services/api/ParsedApiSpecInterface';
 import EntityService, { EntityValues } from '../services/entity/EntityService';
-import { getMarshallerWhiteList } from './form.helper';
+import _ from '../services/translations/translate';
 import { useStoreActions } from '../store';
 import ErrorBoundary from './ErrorBoundary';
-import { useEffect, useState } from 'react';
-import { Box } from '@mui/material';
+import { getMarshallerWhiteList } from './form.helper';
 
 type CreateProps = EntityInterface & {
   entityService: EntityService;
@@ -35,6 +36,9 @@ const Create = (props: CreateProps) => {
       });
   }, []);
 
+  const setFlashMsg = useStoreActions(
+    (actions) => actions.flashMsg.setFlashMsg
+  );
   const location = useLocation();
   const match = useCurrentPathMatch();
   const params = useParams();
@@ -104,6 +108,15 @@ const Create = (props: CreateProps) => {
         const referrer = location.state?.referrer || '';
         const targetPath =
           referrer.search(parentPath) === 0 ? referrer : parentPath;
+
+        if (targetPath === null || targetPath === location.pathname) {
+          setFlashMsg({
+            msg: _('Entity sucessfully created'),
+            type: 'success',
+          });
+
+          return;
+        }
 
         navigate(targetPath, {
           state: {

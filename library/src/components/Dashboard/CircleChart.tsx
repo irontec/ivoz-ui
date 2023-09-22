@@ -45,7 +45,7 @@ export const CircleChart = (props: CircleProps) => {
             strokeDasharray={`${segmentLength} ${
               circumference - segmentLength
             }`}
-            strokeDashoffset={`-${index * segmentLength}`}
+            strokeDashoffset={`${index * segmentLength}`}
           />
         );
       })}

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   EntityValues,
@@ -8,6 +8,7 @@ import {
   useFormikType,
 } from '../../../services';
 import { EntityFormProps } from './Form';
+import { useRememberValues, useStoredValues } from './useRememberValues';
 
 type UseFormHandlerProps = Pick<
   EntityFormProps,
@@ -34,6 +35,8 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
 
   const params = useParams();
   const instanceRef = useRef<useFormikType | undefined>();
+  const [firstRun, setFirstRun] = useState(true);
+  const storedValues = useStoredValues();
 
   const formik: useFormikType = useFormik({
     initialValues,
@@ -117,6 +120,16 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
       onSubmitCallback(filteredValues, imperativeMethods);
     },
   });
+
+  if (firstRun && Object.keys(storedValues).length) {
+    setFirstRun(false);
+    formik.setValues({
+      ...formik.values,
+      ...storedValues,
+    });
+  }
+
+  useRememberValues(formik);
 
   instanceRef.current = formik;
   return formik;

@@ -13,6 +13,7 @@ import { getMarshallerWhiteList } from './form.helper';
 import withRowData from './withRowData';
 import { Box } from '@mui/material';
 import _ from '../services/translations/translate';
+import { FormikHelpers } from 'formik';
 
 type EditProps = EntityInterface & {
   entityService: EntityService;
@@ -80,7 +81,10 @@ const Edit: any = (props: EditProps) => {
     ...unmarshaller(row, properties),
   };
 
-  const onSubmit = async (values: EntityValues) => {
+  const onSubmit = async (
+    values: EntityValues,
+    actions: FormikHelpers<EntityValues>
+  ) => {
     const putPath = entityService.getPutPath();
     if (!putPath) {
       throw new Error('Unknown item path');
@@ -129,6 +133,8 @@ const Edit: any = (props: EditProps) => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      actions.setSubmitting(false);
     }
   };
 

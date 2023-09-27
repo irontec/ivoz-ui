@@ -13,6 +13,7 @@ import _ from '../services/translations/translate';
 import { useStoreActions } from '../store';
 import ErrorBoundary from './ErrorBoundary';
 import { getMarshallerWhiteList } from './form.helper';
+import { FormikHelpers } from 'formik';
 
 type CreateProps = EntityInterface & {
   entityService: EntityService;
@@ -83,7 +84,10 @@ const Create = (props: CreateProps) => {
 
   initialValues = unmarshaller(initialValues, properties);
 
-  const onSubmit = async (values: EntityValues) => {
+  const onSubmit = async (
+    values: EntityValues,
+    actions: FormikHelpers<EntityValues>
+  ) => {
     const whitelist = getMarshallerWhiteList({
       filterBy,
       fixedValues,
@@ -128,6 +132,8 @@ const Create = (props: CreateProps) => {
       }
     } catch (error) {
       console.error(error);
+    } finally {
+      actions.setSubmitting(false);
     }
   };
 

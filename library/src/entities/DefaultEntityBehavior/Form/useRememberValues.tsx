@@ -9,9 +9,9 @@ interface StoredValuesInterface {
   values: Values;
 }
 
-const useRememberedValues = function (formik: useFormikType): Values {
-  const SESSION_STORAGE_KEY = 'form-values';
+const SESSION_STORAGE_KEY = 'ivoz-ui-stored-form-values';
 
+const useStoredValues = function (): Values {
   const match = useCurrentPathMatch();
   const [response, setResponse] = useState({});
 
@@ -25,15 +25,21 @@ const useRememberedValues = function (formik: useFormikType): Values {
     .map((nav) => (nav as PerformanceNavigationTiming).type)
     .includes('reload');
 
-  const applyStoresValues =
+  const applyStoredValues =
     reloadedPage &&
     storedValues &&
     storedValues.url === match.pathname &&
     JSON.stringify(storedValues.values) !== JSON.stringify(response);
 
-  if (applyStoresValues) {
+  if (applyStoredValues) {
     setResponse(storedValues.values);
   }
+
+  return response;
+};
+
+const useRememberValues = function (formik: useFormikType): void {
+  const match = useCurrentPathMatch();
 
   useEffect(() => {
     const onUnload = () => {
@@ -61,8 +67,6 @@ const useRememberedValues = function (formik: useFormikType): Values {
       sessionStorage.removeItem(SESSION_STORAGE_KEY);
     };
   }, [formik]);
-
-  return response;
 };
 
-export default useRememberedValues;
+export { useRememberValues, useStoredValues };

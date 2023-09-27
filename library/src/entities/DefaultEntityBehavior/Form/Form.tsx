@@ -30,6 +30,7 @@ import filterFieldsetGroups, {
 import FormFieldMemo from './FormField';
 import { useFormHandler } from './useFormHandler';
 import { validationErrosToJsxErrorList } from './validationErrosToJsxErrorList';
+import { FormikHelpers } from 'formik';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 export type PropertyFkChoices = DropdownChoices;
@@ -55,11 +56,21 @@ export interface FormProps {
   filterValues?: FilterValuesType;
   filterBy?: string | undefined;
   initialValues: EntityValues;
-  onSubmit: (values: EntityValues) => Promise<void>;
+  onSubmit: (
+    values: EntityValues,
+    imperativeMethods: FormikHelpers<EntityValues>
+  ) => Promise<void>;
 }
 
 export type EntityFormProps = FormProps &
-  Pick<EntityInterface, 'validator' | 'foreignKeyGetter' | 'properties' | 'marshaller' | 'unmarshaller'>;
+  Pick<
+    EntityInterface,
+    | 'validator'
+    | 'foreignKeyGetter'
+    | 'properties'
+    | 'marshaller'
+    | 'unmarshaller'
+  >;
 export type EntityFormType = (props: EntityFormProps) => JSX.Element | null;
 const Form: EntityFormType = (props) => {
   const {
@@ -151,6 +162,8 @@ const Form: EntityFormType = (props) => {
       <form
         onSubmit={(e) => {
           if (formik.isSubmitting) {
+            e.preventDefault();
+            e.stopPropagation();
             return false;
           }
 

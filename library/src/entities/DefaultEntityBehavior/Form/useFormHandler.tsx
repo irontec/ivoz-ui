@@ -103,7 +103,7 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
 
       return validationErrors;
     },
-    onSubmit: (values: EntityValues) => {
+    onSubmit: (values, imperativeMethods) => {
       const visibleFields = instanceRef.current?.visibleFields || [];
 
       const filteredValues: EntityValues = {};
@@ -114,7 +114,7 @@ const useFormHandler = (props: UseFormHandlerProps): useFormikType => {
         filteredValues[idx] = values[idx];
       }
 
-      onSubmitCallback(filteredValues);
+      onSubmitCallback(filteredValues, imperativeMethods);
     },
   });
 

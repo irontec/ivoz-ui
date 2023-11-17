@@ -3,10 +3,13 @@ import Login from './Login';
 import { styled, Theme } from '@mui/material';
 
 export const StyledLogin = styled(Login)(({ theme }: { theme: Theme }) => {
+
+  const baseUrl = process.env.BASE_URL || '/';
+
   return {
     height: '100vh',
     backgroundColor: 'var(--color-background)',
-    backgroundImage: 'url(/assets/img/bg-noise.png)',
+    backgroundImage: `url(${baseUrl}/assets/img/bg-noise.png)`,
     display: 'flex',
     flexDirection: 'column',
     padding: 'var(--spacing-lg) var(--spacing-xl)',

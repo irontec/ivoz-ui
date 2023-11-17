@@ -3,11 +3,13 @@ import AppRouteContentWrapper from './AppRouteContentWrapper';
 
 export const StyledAppRouteContentWrapper = styled(AppRouteContentWrapper)(
   () => {
+    const baseUrl = process.env.BASE_URL || '/';
+
     return {
       '& .app-wrapper': {
         height: '100vh',
         backgroundColor: 'var(--color-background)',
-        backgroundImage: "url('/assets/img/bg-noise.png')",
+        backgroundImage: `url('${baseUrl}/assets/img/bg-noise.png')`,
         display: 'flex',
       },
       '& main': {

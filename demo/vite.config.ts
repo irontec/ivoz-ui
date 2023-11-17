@@ -8,7 +8,7 @@ export default ({ mode }) => {
 
     const basePath = path.resolve(__dirname, './src');
     const env = loadEnv(mode, process.cwd());
-    const base = '/';
+    const base = '/demo';
 
     return defineConfig({
         base,

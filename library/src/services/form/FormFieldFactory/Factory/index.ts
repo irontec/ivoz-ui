@@ -10,6 +10,7 @@ import { PasswordFactory } from './PasswordFactory';
 import { SwitchFactory } from './SwitchFactory';
 import { TextareaFactory } from './TextareaFactory';
 import { TimeFactory } from './TimeFactory';
+import { ColorFactory } from './ColorFactory';
 
 export {
   AutocompleteFactory,
@@ -24,4 +25,5 @@ export {
   SwitchFactory,
   TextareaFactory,
   TimeFactory,
+  ColorFactory,
 };

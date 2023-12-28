@@ -1,79 +1,78 @@
-import { Fab, Theme } from '@mui/material';
-import { styled } from '@mui/material';
+import { Fab, Theme, styled } from '@mui/material';
+import { forwardRef } from 'react';
 import HistoryTrackerLink, {
   HistoryTrackerLinkProps,
 } from '../../../components/shared/HistoryTrackerLink';
-import { forwardRef } from 'react';
 import ListContent from './ListContent';
 
-export const StyledListContent = styled(ListContent)(
-  ({ theme }: { theme: Theme }) => {
-    return {
+export const ListContentStyler = ({ theme }: { theme: Theme }) => {
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 'var(--spacing-md)',
+
+    '& .list-content-header': {
       display: 'flex',
-      flexDirection: 'column',
-      gap: 'var(--spacing-md)',
+      gap: 'var(--spacing-sm)',
+      justifyContent: 'space-between',
+    },
 
-      '& .list-content-header': {
-        display: 'flex',
-        gap: 'var(--spacing-sm)',
-        justifyContent: 'space-between',
+    '& .buttons': {
+      display: 'flex',
+      gap: 'var(--spacing-sm)',
+      alignItems: 'center',
+      '&.start': {
+        flexShrink: 1,
+        minWidth: 0,
+      },
+      '&.end': {
+        flexShrink: 0,
+      },
+    },
+
+    '.text-field': {
+      width: 'unset',
+    },
+
+    '& .input-field': {
+      background: 'var(--color-background)',
+      color: 'var(--color-text)',
+      [theme.breakpoints.down('md')]: {
+        background: 'var(--color-background-elevated)',
+      },
+    },
+
+    '.filter-chips': {
+      display: 'flex',
+      gap: 'var(--spacing-sm)',
+      flexShrink: '1',
+      overflow: 'auto',
+      paddingBottom: '2px',
+
+      '&::-webkit-scrollbar': {
+        height: '6px',
       },
 
-      '& .buttons': {
-        display: 'flex',
-        gap: 'var(--spacing-sm)',
-        alignItems: 'center',
-        '&.start': {
-          flexShrink: 1,
-          minWidth: 0,
-        },
-        '&.end': {
-          flexShrink: 0,
-        },
+      '&::-webkit-scrollbar-thumb': {
+        borderRadius: '6px',
+        background: 'var(--color-button)',
       },
 
-      '.text-field': {
-        width: 'unset',
+      '&::-webkit-scrollbar-thumb:hover': {
+        background: 'var(--color-border)',
       },
+    },
 
-      '& .input-field': {
-        background: 'var(--color-background)',
-        color: 'var(--color-text)',
-        [theme.breakpoints.down('md')]: {
-          background: 'var(--color-background-elevated)',
-        },
+    '& .card': {
+      paddingBottom: 0,
+      [theme.breakpoints.down('md')]: {
+        paddingBlock: 0,
       },
+    },
+  };
+};
 
-      '.filter-chips': {
-        display: 'flex',
-        gap: 'var(--spacing-sm)',
-        flexShrink: '1',
-        overflow: 'auto',
-        paddingBottom: '2px',
-
-        '&::-webkit-scrollbar': {
-          height: '6px',
-        },
-
-        '&::-webkit-scrollbar-thumb': {
-          borderRadius: '6px',
-          background: 'var(--color-button)',
-        },
-
-        '&::-webkit-scrollbar-thumb:hover': {
-          background: 'var(--color-border)',
-        },
-      },
-
-      '& .card': {
-        paddingBottom: 0,
-        [theme.breakpoints.down('md')]: {
-          paddingBlock: 0,
-        },
-      },
-    };
-  }
-);
+export const StyledListContent = styled(ListContent)(ListContentStyler as any);
 
 export const StyledActionButtonContainer = styled('div')(() => {
   return {

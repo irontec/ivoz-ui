@@ -3,7 +3,6 @@ import Login from './Login';
 import { styled, Theme } from '@mui/material';
 
 export const StyledLogin = styled(Login)(({ theme }: { theme: Theme }) => {
-
   const baseUrl = process.env.BASE_URL || '/';
 
   return {

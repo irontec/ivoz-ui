@@ -3566,6 +3566,11 @@
           "description": "",
           "type": "string"
         },
+        "color": {
+          "maxLength": 15,
+          "description": "",
+          "type": "string"
+        },
         "customTabUrl": {
           "default": "",
           "maxLength": 512,

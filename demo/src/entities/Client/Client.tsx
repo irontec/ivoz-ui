@@ -17,6 +17,11 @@ const properties: ClientProperties = {
       'Used at login screen in username field after user_name@. Cannot contain whitespaces.'
     ),
   },
+  color: {
+    label: _('Color'),
+    format: 'color',
+    default: '#000000',
+  },
   domain: {
     label: _('Domain'),
     helpText: _(

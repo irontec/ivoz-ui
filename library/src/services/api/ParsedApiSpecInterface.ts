@@ -56,7 +56,13 @@ export interface visualToggle {
 }
 
 type PropertyType = 'array' | 'file' | 'boolean' | 'integer' | 'string';
-type PropertyFormat = 'date-time' | 'date' | 'time' | 'textarea' | 'password';
+type PropertyFormat =
+  | 'date-time'
+  | 'date'
+  | 'time'
+  | 'textarea'
+  | 'password'
+  | 'color';
 
 export interface ScalarProperty {
   type?: PropertyType;

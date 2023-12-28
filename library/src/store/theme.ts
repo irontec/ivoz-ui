@@ -12,9 +12,9 @@ export interface ThemeState {
 }
 
 interface ThemeActions {
-  setName: Action<ThemeState>;
-  setTheme: Action<ThemeState>;
-  setLogo: Action<ThemeState>;
+  setName: Action<ThemeState, string>;
+  setTheme: Action<ThemeState, string>;
+  setLogo: Action<ThemeState, string>;
 }
 
 export type ThemeStore = ThemeState & ThemeActions;

@@ -38,7 +38,7 @@ export default function AppRoutes(props: AppRoutesProps) {
 
   routeSpecs.map((route: RouteSpec) => {
     routes.push({
-      path: baseUrl + "/" + route.path.substring(1),
+      path: `${baseUrl}/${route.path.substring(1)}`,
       element: (
         <AppRouteContentWrapper loggedIn={true} routeMap={entityMap}>
           <RouteContent route={route} routeMap={entityMap} {...props} />

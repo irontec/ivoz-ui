@@ -91,6 +91,17 @@ export const StyledTextField = styled(TextField)(() => {
   };
 });
 
+export const StyledColorField = styled(StyledTextField)(() => {
+  return {
+    '& input[type=color]': {
+      padding: '0 2px',
+      minHeight: '40px',
+      borderRadius: '18px',
+      overflow: 'hidden',
+    },
+  };
+});
+
 export const StyledAutocompleteTextField = styled(StyledTextField)(() => {
   return {
     '& .input-field': {

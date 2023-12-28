@@ -1,4 +1,8 @@
-import { InputAdornment, InputBaseComponentProps, OutlinedInputProps } from '@mui/material';
+import {
+  InputAdornment,
+  InputBaseComponentProps,
+  OutlinedInputProps,
+} from '@mui/material';
 import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { ScalarProperty } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
@@ -18,9 +22,7 @@ type ColorFactoryPropsType = {
   handleBlur: (event: React.FocusEvent) => void;
 };
 
-export const ColorFactory = (
-  props: ColorFactoryPropsType
-): JSX.Element => {
+export const ColorFactory = (props: ColorFactoryPropsType): JSX.Element => {
   const {
     fld,
     property,

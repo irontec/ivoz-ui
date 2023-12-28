@@ -72,9 +72,7 @@ export const ListContentStyler = ({ theme }: { theme: Theme }) => {
   };
 };
 
-export const StyledListContent = styled(ListContent)(
-  ListContentStyler as any
-);
+export const StyledListContent = styled(ListContent)(ListContentStyler as any);
 
 export const StyledActionButtonContainer = styled('div')(() => {
   return {

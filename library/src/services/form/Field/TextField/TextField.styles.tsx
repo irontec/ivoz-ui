@@ -97,7 +97,7 @@ export const StyledColorField = styled(StyledTextField)(() => {
       padding: '0 2px',
       minHeight: '40px',
       borderRadius: '18px',
-      overflow: 'hidden'
+      overflow: 'hidden',
     },
   };
 });

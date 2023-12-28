@@ -33,6 +33,7 @@ import {
   SwitchFactory,
   TextareaFactory,
   TimeFactory,
+  ColorFactory,
 } from './Factory/index';
 
 export type NullableFormFieldFactoryChoices = null | DropdownChoices;
@@ -293,6 +294,24 @@ export default class FormFieldFactory {
       if (property.format === 'password') {
         return (
           <PasswordFactory
+            fld={fld}
+            property={property}
+            disabled={disabled}
+            value={value}
+            hasChanged={hasChanged}
+            error={error}
+            touched={touched}
+            inputProps={inputProps}
+            InputProps={InputProps}
+            changeHandler={this.changeHandler}
+            handleBlur={this.handleBlur}
+          />
+        );
+      }
+
+      if (property.format === 'color') {
+        return (
+          <ColorFactory
             fld={fld}
             property={property}
             disabled={disabled}

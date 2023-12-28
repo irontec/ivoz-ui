@@ -35,6 +35,7 @@ const Form = (props: EntityFormProps): JSX.Element => {
         create && 'platform',
         showRemoteId && 'remoteId',
         'iden',
+        'color',
         {
           name: 'description',
           size: {

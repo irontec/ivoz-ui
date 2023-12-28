@@ -7,6 +7,7 @@ import {
 export type ClientPropertyList<T> = {
   id?: T;
   iden?: T;
+  color?: T;
   domain?: T;
   language?: T;
   desktopLicences?: T;

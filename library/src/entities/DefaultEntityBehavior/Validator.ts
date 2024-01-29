@@ -26,7 +26,8 @@ const validator: EntityValidator = (
       continue;
     }
 
-    if (!validateEmbeddables && idx.indexOf('.') > 0) {
+    const isSubproperty = idx.indexOf('.') > 0;
+    if (!validateEmbeddables && isSubproperty) {
       continue;
     }
 
@@ -53,7 +54,15 @@ const validator: EntityValidator = (
       continue;
     }
 
-    const required = (properties[idx] as ScalarProperty)?.required;
+    let isRootPropertyRequired: undefined | boolean;
+    if (isSubproperty) {
+      const parentIdx = idx.substring(0, idx.lastIndexOf('.'));
+      const rootProperty = properties[parentIdx];
+      isRootPropertyRequired = rootProperty?.required;
+    }
+
+    const required =
+      isRootPropertyRequired ?? (properties[idx] as ScalarProperty)?.required;
     const pattern: RegExp | undefined = (properties[idx] as ScalarProperty)
       ?.pattern;
     if (pattern && !(values[idx] + '').match(pattern)) {

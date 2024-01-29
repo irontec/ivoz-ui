@@ -52,7 +52,8 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
             const property = properties[name] as ScalarProperty;
             const multiline = property.format === 'textarea';
             const required =
-              rootProperty.required || property?.required || false;
+              rootProperty.required ?? property?.required ?? false;
+
             const touched =
               formik?.touched[_columnName] &&
               (formik?.touched[_columnName] as Record<string, boolean>)[locale];

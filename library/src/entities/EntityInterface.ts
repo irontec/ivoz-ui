@@ -32,6 +32,7 @@ export interface ChildDecoratorProps {
   routeMapItem: RouteMapItem;
   row: Record<string, any>;
   entityService: EntityService;
+  variant: 'icon' | 'text';
   disabled?: boolean | undefined;
 }
 

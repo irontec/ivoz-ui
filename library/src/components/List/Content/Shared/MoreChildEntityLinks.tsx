@@ -64,6 +64,7 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           <MoreMenuItem key={key}>
             <ChildDecorator
               key={key}
+              variant='text'
               routeMapItem={routeMapItem}
               row={row}
               entityService={entityService}
@@ -82,6 +83,7 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
       })}
       {deleteMapItem && (
         <ChildDecorator
+          variant='text'
           routeMapItem={deleteMapItem}
           row={row}
           entityService={entityService}

@@ -119,6 +119,7 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
             detail={
               showDetail && (
                 <ChildDecorator
+                  variant='icon'
                   routeMapItem={detailMapItem}
                   row={row}
                   entityService={entityService}
@@ -130,6 +131,7 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
             edit={
               (acl.update || !showDetail) && (
                 <ChildDecorator
+                  variant='icon'
                   routeMapItem={updateRouteMapItem}
                   row={row}
                   entityService={entityService}

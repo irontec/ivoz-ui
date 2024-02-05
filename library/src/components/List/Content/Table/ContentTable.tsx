@@ -153,6 +153,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     detail={
                       showDetail && (
                         <ChildDecorator
+                          variant='icon'
                           routeMapItem={detailMapItem}
                           row={row}
                           entityService={entityService}
@@ -164,6 +165,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     edit={
                       (acl.update || !showDetail) && (
                         <ChildDecorator
+                          variant='icon'
                           routeMapItem={updateRouteMapItem}
                           row={row}
                           entityService={entityService}

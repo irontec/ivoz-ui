@@ -64,6 +64,7 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
 
         return (
           <ChildDecorator
+            variant='icon'
             key={key}
             routeMapItem={routeMapItem}
             row={row}
@@ -76,6 +77,7 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
       })}
       {childEntitiesCopy.length === 0 && deleteMapItem && (
         <ChildDecorator
+          variant='icon'
           routeMapItem={deleteMapItem}
           row={row}
           entityService={entityService}

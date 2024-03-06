@@ -1,4 +1,3 @@
-import useFkChoices from '@irontec/ivoz-ui/entities/data/useFkChoices';
 import {
   EntityFormProps,
   FieldsetGroups,
@@ -7,19 +6,12 @@ import { Form as DefaultEntityForm } from '@irontec/ivoz-ui/entities/DefaultEnti
 import { useFormHandler } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Form/useFormHandler';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 
-import { foreignKeyGetter } from './ForeignKeyGetter';
 import useShowRemoteId from './hooks/useShowRemoteId';
 
 const Form = (props: EntityFormProps): JSX.Element => {
-  const { entityService, row, match, create, filterBy } = props;
+  const { match, create, filterBy } = props;
 
   const formik = useFormHandler(props);
-  const fkChoices = useFkChoices({
-    foreignKeyGetter,
-    entityService,
-    row,
-    match,
-  });
 
   const showRemoteId = useShowRemoteId({
     create,
@@ -60,14 +52,7 @@ const Form = (props: EntityFormProps): JSX.Element => {
     },
   ];
 
-  return (
-    <DefaultEntityForm
-      {...props}
-      formik={formik}
-      fkChoices={fkChoices}
-      groups={groups}
-    />
-  );
+  return <DefaultEntityForm {...props} formik={formik} groups={groups} />;
 };
 
 export default Form;

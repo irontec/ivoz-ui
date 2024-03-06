@@ -161,6 +161,11 @@ const client: EntityInterface = {
 
     return module.default;
   },
+  View: async () => {
+    const module = await import('./View');
+
+    return module.default;
+  },
 };
 
 export default client;

@@ -26,7 +26,7 @@ i18n
     resources: {
       ...translations,
     },
-    detection:   {
+    detection: {
       convertDetectedLanguage: (lng) => {
         const availableLangKeys = Object.keys(translations);
         const currentLangKey = lng.substring(0, 2).toLocaleLowerCase();
@@ -35,7 +35,7 @@ i18n
         }
 
         return lng;
-      }
+      },
     },
   });
 

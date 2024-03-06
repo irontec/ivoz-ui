@@ -81,12 +81,12 @@ const getEntityMap = (): RouteMap => {
         {
           entity: {
             ...entities.Client,
-            localPath: '/client_edit_only/2',
-            title: 'Edit only client 2',
+            localPath: '/client_view_only/2',
+            title: 'Read only client 2',
             acl: {
               create: false,
               update: false,
-              detail: false,
+              detail: true,
               read: false,
               delete: false,
             },

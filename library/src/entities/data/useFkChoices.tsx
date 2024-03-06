@@ -7,19 +7,24 @@ import EntityService, {
   EntityValues,
 } from '../../services/entity/EntityService';
 
-interface useFkChoicesArgs {
+export interface useFkChoicesArgs {
   foreignKeyGetter: ForeignKeyGetterType;
   entityService: EntityService;
   row?: EntityValues;
   match: PathMatch;
   skip?: Array<string>;
+  disabled?: boolean;
 }
 
 const useFkChoices = (props: useFkChoicesArgs): FkChoices => {
-  const { foreignKeyGetter, entityService, row, match, skip } = props;
+  const { foreignKeyGetter, entityService, row, match, skip, disabled } = props;
   const [fkChoices, setFkChoices] = useState<FkChoices>({});
 
   useEffect(() => {
+    if (disabled) {
+      return;
+    }
+
     let mounted = true;
 
     const CancelToken = axios.CancelToken;
@@ -48,7 +53,7 @@ const useFkChoices = (props: useFkChoicesArgs): FkChoices => {
       mounted = false;
       source.cancel();
     };
-  }, [foreignKeyGetter, entityService, row, match]);
+  }, [foreignKeyGetter, entityService, row, match, disabled]);
 
   return fkChoices;
 };

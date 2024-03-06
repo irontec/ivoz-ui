@@ -46,6 +46,16 @@ const addCustomRoutes = (routes: Array<RouteSpec>): Array<RouteSpec> => {
   });
 
   routes.push({
+    component: Detail,
+    entity: {
+      ...Client,
+      localPath: '/client_view_only',
+    },
+    key: 'ReadOnlyClient-view',
+    path: '/client_view_only/:id',
+  });
+
+  routes.push({
     component: Create,
     entity: {
       ...Client,

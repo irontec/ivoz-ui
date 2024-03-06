@@ -91,14 +91,16 @@ export type calculateAclType = (
   parentRow: EntityValues
 ) => EntityAclType;
 
-export interface ViewProps {
+export type ViewProps = {
   entityService: EntityService;
   row: EntityValues;
   groups?: any;
   create?: false;
   edit?: false;
   fkChoices?: FkChoices;
-}
+  match: PathMatch;
+} & Pick<EntityInterface, 'foreignKeyResolver' | 'foreignKeyGetter'>;
+
 export type ViewType = (props: ViewProps) => JSX.Element | null;
 
 export type EntityValidatorResponse = Record<string, string | JSX.Element>;

@@ -1,5 +1,4 @@
 import { PropertyList } from '@irontec/ivoz-ui';
-import useFkChoices from '@irontec/ivoz-ui/entities/data/useFkChoices';
 import {
   EntityFormProps,
   FieldsetGroups,
@@ -8,7 +7,6 @@ import { Form as DefaultEntityForm } from '@irontec/ivoz-ui/entities/DefaultEnti
 import { useFormHandler } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Form/useFormHandler';
 import _ from '@irontec/ivoz-ui/services/translations/translate';
 
-import { foreignKeyGetter } from './ForeignKeyGetter';
 import useParents from './hook/useParents';
 
 const Form = (props: EntityFormProps): JSX.Element | null => {
@@ -18,12 +16,6 @@ const Form = (props: EntityFormProps): JSX.Element | null => {
 
   const formik = useFormHandler(props);
   const values = formik.values;
-  const fkChoices = useFkChoices({
-    foreignKeyGetter,
-    entityService,
-    row,
-    match,
-  });
 
   if (values.remoteId) {
     readOnlyProperties.terminal = true;
@@ -88,7 +80,6 @@ const Form = (props: EntityFormProps): JSX.Element | null => {
     <DefaultEntityForm
       {...props}
       formik={formik}
-      fkChoices={fkChoices}
       groups={groups}
       readOnlyProperties={readOnlyProperties}
     />

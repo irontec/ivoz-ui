@@ -4,12 +4,13 @@ import EntityInterface, { ViewType } from '../entities/EntityInterface';
 import EntityService from '../services/entity/EntityService';
 import withRowData from './withRowData';
 import { Box } from '@mui/material';
+import useCurrentPathMatch from '../hooks/useCurrentPathMatch';
 
 type DetailComponentProps = {
   entityService: EntityService;
   row: any;
   View: () => Promise<ViewType>;
-} & Pick<EntityInterface, 'foreignKeyResolver'> &
+} & Pick<EntityInterface, 'foreignKeyResolver' | 'foreignKeyGetter'> &
   Pick<FormProps, 'groups'>;
 
 type DetailComponentType = FunctionComponent<DetailComponentProps>;
@@ -18,6 +19,7 @@ const Detail: DetailComponentType = (props) => {
   const { View: EntityViewLoader, row } = props;
 
   const [EntityView, setEntityView] = useState<ViewType | null>(null);
+  const match = useCurrentPathMatch();
 
   useEffect(() => {
     EntityViewLoader().then((View) => {
@@ -31,7 +33,7 @@ const Detail: DetailComponentType = (props) => {
 
   return (
     <Box className='card'>
-      <EntityView {...props} row={row} />
+      <EntityView {...props} row={row} match={match} />
     </Box>
   );
 };

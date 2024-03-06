@@ -1,11 +1,11 @@
 import { Grid } from '@mui/material';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FormFieldFactory from '../../services/form/FormFieldFactory';
 import {
   StyledGroupGrid,
   StyledGroupLegend,
 } from '../DefaultEntityBehavior.styles';
-import { ViewProps } from '../EntityInterface';
+import { ForeignKeyGetterType, ViewProps } from '../EntityInterface';
 import filterFieldsetGroups, {
   FieldsetGroups,
   FieldsetGroupsField,
@@ -13,9 +13,14 @@ import filterFieldsetGroups, {
 import { useFormHandler } from './Form/useFormHandler';
 import { NullablePropertyFkChoices } from './Form';
 import { useStoreState } from 'store';
+import useFkChoices from '../data/useFkChoices';
 
 const View = (props: ViewProps): JSX.Element | null => {
-  const { entityService, row, fkChoices = {} } = props;
+  const { entityService, row, fkChoices, match, foreignKeyGetter: foreignKeyGetterLoader } = props;
+
+  const [foreignKeyGetter, setForeignKeyGetter] = useState<
+    ForeignKeyGetterType | undefined
+  >();
 
   const storeState = useStoreState(
     (state) => state,
@@ -53,6 +58,30 @@ const View = (props: ViewProps): JSX.Element | null => {
     formik.handleBlur
   );
 
+  useEffect(() => {
+    if (fkChoices) {
+      return;
+    }
+
+    if (foreignKeyGetter) {
+      return;
+    }
+
+    foreignKeyGetterLoader().then((fkGetter) => {
+      setForeignKeyGetter(() => fkGetter);
+    });
+  }, [fkChoices, foreignKeyGetter]);
+
+  const autoloadedFkChoices = useFkChoices({
+    disabled: fkChoices !== undefined || foreignKeyGetter === undefined,
+    foreignKeyGetter: foreignKeyGetter as ForeignKeyGetterType,
+    entityService,
+    row,
+    match,
+  });
+
+  const fks = fkChoices || autoloadedFkChoices;
+
   return (
     <React.Fragment>
       {groups.map((group, idx: number) => {
@@ -65,9 +94,7 @@ const View = (props: ViewProps): JSX.Element | null => {
               {fields.map((column, idx: number) => {
                 const fldName =
                   typeof column === 'string' ? column : column.name;
-                const choices: NullablePropertyFkChoices = fkChoices
-                  ? fkChoices[fldName]
-                  : null;
+                const choices: NullablePropertyFkChoices = fks[fldName] ?? null;
 
                 return (
                   <Grid item xs={12} md={6} lg={4} key={idx}>

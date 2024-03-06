@@ -1,4 +1,6 @@
 import { Alert, AlertTitle } from '@mui/material';
+import { FormikHelpers } from 'formik';
+import { useEffect, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
 import ErrorBoundary from '../../../components/ErrorBoundary';
@@ -21,7 +23,8 @@ import {
   StyledGroupGrid,
   StyledGroupLegend,
 } from '../../DefaultEntityBehavior.styles';
-import EntityInterface from '../../EntityInterface';
+import EntityInterface, { ForeignKeyGetterType } from '../../EntityInterface';
+import useFkChoices from '../../data/useFkChoices';
 import filterFieldsetGroups, {
   FieldsetGroups,
   FieldsetGroupsField,
@@ -30,7 +33,6 @@ import filterFieldsetGroups, {
 import FormFieldMemo from './FormField';
 import { useFormHandler } from './useFormHandler';
 import { validationErrosToJsxErrorList } from './validationErrosToJsxErrorList';
-import { FormikHelpers } from 'formik';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 export type PropertyFkChoices = DropdownChoices;
@@ -76,11 +78,41 @@ const Form: EntityFormType = (props) => {
   const {
     entityService,
     readOnlyProperties,
-    fkChoices,
     filterBy,
     fixedValues,
     filterValues,
+    foreignKeyGetter: foreignKeyGetterLoader,
+    row,
+    match,
   } = props;
+
+  const { fkChoices } = props;
+
+  const [foreignKeyGetter, setForeignKeyGetter] = useState<
+    ForeignKeyGetterType | undefined
+  >();
+
+  useEffect(() => {
+    if (fkChoices) {
+      return;
+    }
+
+    if (foreignKeyGetter) {
+      return;
+    }
+
+    foreignKeyGetterLoader().then((fkGetter) => {
+      setForeignKeyGetter(() => fkGetter);
+    });
+  }, [fkChoices, foreignKeyGetter]);
+
+  const autoloadedFkChoices = useFkChoices({
+    disabled: fkChoices !== undefined || foreignKeyGetter === undefined,
+    foreignKeyGetter: foreignKeyGetter as ForeignKeyGetterType,
+    entityService,
+    row,
+    match,
+  });
 
   const formik = props.formik || useFormHandler(props);
   const reqError = useStoreState((store) => store.api.errorMsg);
@@ -206,7 +238,7 @@ const Form: EntityFormType = (props) => {
                     <ErrorBoundary key={idx} minimalist={true}>
                       <FormFieldMemo
                         column={column}
-                        fkChoices={fkChoices}
+                        fkChoices={fkChoices || autoloadedFkChoices}
                         visualToggles={visualToggles}
                         readOnlyProperties={readOnlyProperties}
                         formFieldFactory={formFieldFactory}

@@ -1,22 +1,30 @@
 import { Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
+import { useStoreState } from 'store';
 import FormFieldFactory from '../../services/form/FormFieldFactory';
 import {
   StyledGroupGrid,
   StyledGroupLegend,
 } from '../DefaultEntityBehavior.styles';
 import { ForeignKeyGetterType, ViewProps } from '../EntityInterface';
+import useFkChoices from '../data/useFkChoices';
 import filterFieldsetGroups, {
   FieldsetGroups,
   FieldsetGroupsField,
 } from './FilterFieldsetGroups';
-import { useFormHandler } from './Form/useFormHandler';
 import { NullablePropertyFkChoices } from './Form';
-import { useStoreState } from 'store';
-import useFkChoices from '../data/useFkChoices';
+import { useFormHandler } from './Form/useFormHandler';
 
 const View = (props: ViewProps): JSX.Element | null => {
-  const { entityService, row, fkChoices, match, foreignKeyGetter: foreignKeyGetterLoader } = props;
+  const {
+    entityService,
+    row,
+    unmarshaller,
+    properties,
+    fkChoices,
+    match,
+    foreignKeyGetter: foreignKeyGetterLoader,
+  } = props;
 
   const [foreignKeyGetter, setForeignKeyGetter] = useState<
     ForeignKeyGetterType | undefined
@@ -43,7 +51,7 @@ const View = (props: ViewProps): JSX.Element | null => {
 
   const formik = useFormHandler({
     ...props,
-    initialValues: row,
+    initialValues: unmarshaller(row, properties),
     validator: () => {
       return {};
     },

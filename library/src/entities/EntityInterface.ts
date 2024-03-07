@@ -99,7 +99,10 @@ export type ViewProps = {
   edit?: false;
   fkChoices?: FkChoices;
   match: PathMatch;
-} & Pick<EntityInterface, 'foreignKeyResolver' | 'foreignKeyGetter'>;
+} & Pick<
+  EntityInterface,
+  'foreignKeyResolver' | 'foreignKeyGetter' | 'unmarshaller' | 'properties'
+>;
 
 export type ViewType = (props: ViewProps) => JSX.Element | null;
 

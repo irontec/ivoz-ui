@@ -10,7 +10,10 @@ type DetailComponentProps = {
   entityService: EntityService;
   row: any;
   View: () => Promise<ViewType>;
-} & Pick<EntityInterface, 'foreignKeyResolver' | 'foreignKeyGetter'> &
+} & Pick<
+  EntityInterface,
+  'foreignKeyResolver' | 'foreignKeyGetter' | 'unmarshaller' | 'properties'
+> &
   Pick<FormProps, 'groups'>;
 
 type DetailComponentType = FunctionComponent<DetailComponentProps>;

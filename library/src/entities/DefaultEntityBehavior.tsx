@@ -1,7 +1,6 @@
 import { CancelToken } from 'axios';
 import * as React from 'react';
 import { EntityValues } from '../services/entity/EntityService';
-import { StoreContainer } from '../store';
 import {
   ChildDecoratorProps,
   ChildDecoratorType,
@@ -11,6 +10,7 @@ import {
   calculateAclType,
 } from './EntityInterface';
 
+import { fetchAllPages } from '../helpers/fechAllPages';
 import { EntityItem, isEntityItem } from '../router';
 import autoForeignKeyResolver from './DefaultEntityBehavior/AutoForeignKeyResolver';
 import autoSelectOptions from './DefaultEntityBehavior/AutoSelectOptions';
@@ -34,7 +34,6 @@ import marshaller, {
 import unmarshaller from './DefaultEntityBehavior/Unmarshaller';
 import validator from './DefaultEntityBehavior/Validator';
 import View from './DefaultEntityBehavior/View';
-import { DropdownArrayChoice, DropdownChoices } from 'services';
 
 export const initialValues = {};
 
@@ -81,6 +80,7 @@ export const ChildDecoratorMemo = React.memo(
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 
+/** deprecated, use fetchAllPages instead */
 const fetchFks = async (
   endpoint: string,
   properties:
@@ -89,66 +89,16 @@ const fetchFks = async (
   setter: FetchFksCallback,
   cancelToken?: CancelToken
 ): Promise<unknown> => {
-  const getAction = StoreContainer.store.getActions().api.get;
-
-  let keepGoing = true;
-  let _page: number = parseInt(
-    endpoint.match(/_page=([0-9]+)/)?.[1] || '1',
-    10
-  );
-
-  const response: DropdownChoices = [];
-  let loopCount = 0;
-  while (keepGoing) {
-    try {
-      if (loopCount > 100) {
-        console.error('Too much requests');
-        break;
-      }
-
-      loopCount++;
-      const result = await getAction({
-        path: endpoint,
-        silenceErrors: false,
-        params: {
-          _pagination: false,
-          _itemsPerPage: 100,
-          _properties: properties,
-          _page,
-        },
-        successCallback: async (data, headers: Record<string, string>) => {
-          response.push(...(data as Array<DropdownArrayChoice>));
-
-          const totalItems = parseInt(
-            headers?.['x-total-items'] || `${response.length}`,
-            10
-          );
-
-          if (
-            response.length >= totalItems ||
-            !(data as Array<DropdownArrayChoice>).length
-          ) {
-            keepGoing = false;
-          }
-          _page++;
-        },
-        cancelToken,
-      });
-
-      if (!result) {
-        // Cancel token or 403
-        break;
-      }
-    } catch (error) {
-      console.error(error);
-      break;
-    }
-  }
-
-  setter(response);
-
-  return response;
+  return fetchAllPages({
+    endpoint,
+    params: {
+      properties,
+    },
+    setter,
+    cancelToken,
+  });
 };
+
 export type fetchFksType = typeof fetchFks;
 
 const DefaultEntityBehavior = {
@@ -183,30 +133,31 @@ const DefaultEntityBehavior = {
     return module.default;
   },
   fetchFks,
+  fetchAllFks: fetchAllPages,
   defaultOrderBy: 'id',
   defaultOrderDirection: OrderDirection.asc,
 };
 
 export default DefaultEntityBehavior;
 export {
-  validator,
-  marshaller,
-  unmarshaller,
+  Form,
+  ListDecorator,
+  View,
   autoForeignKeyResolver,
   autoSelectOptions,
-  ListDecorator,
-  foreignKeyResolver,
-  foreignKeyGetter,
   filterFieldsetGroups,
-  Form,
-  View,
+  foreignKeyGetter,
+  foreignKeyResolver,
+  marshaller,
+  unmarshaller,
+  validator,
 };
 export type {
-  PropertyFkChoices,
-  EntityFormType,
-  FkChoices,
-  NullablePropertyFkChoices,
   EntityFormProps,
-  MarshallerValues,
+  EntityFormType,
   FieldsetGroups,
+  FkChoices,
+  MarshallerValues,
+  NullablePropertyFkChoices,
+  PropertyFkChoices,
 };

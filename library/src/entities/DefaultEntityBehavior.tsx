@@ -92,7 +92,7 @@ const fetchFks = async (
   return fetchAllPages({
     endpoint,
     params: {
-      properties,
+      _properties: properties,
     },
     setter,
     cancelToken,

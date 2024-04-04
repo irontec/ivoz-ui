@@ -127,7 +127,7 @@ export type DetailedColumnSpec = {
 };
 
 export type EntityColumnsArrayType = Array<string | DetailedColumnSpec>;
-export type EntityColumnsFuncType = <T extends IvozStoreState = IvozStoreState>(
+export type EntityColumnsFuncType<T extends IvozStoreState = IvozStoreState> = (
   store: T
 ) => Array<string | DetailedColumnSpec>;
 export type EntityColumnsType = EntityColumnsArrayType | EntityColumnsFuncType;

@@ -18,7 +18,6 @@ import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import useQueryStringParams from './useQueryStringParams';
 import useFirstColumn from './Content/hook/useFirstColumn';
 import { isPropertyFk } from '../../services';
-import useEncodedQueryStringParams from './useEncodedQueryStringParams';
 
 type ListProps = {
   path: string;
@@ -83,8 +82,6 @@ const List = function (props: ListProps) {
   // Filters
   ////////////////////////////
   const currentQueryParams = useQueryStringParams();
-  const currentEncodedQueryParams = useEncodedQueryStringParams();
-
   const filterBy: Array<string> = [];
 
   if (currentRoute?.filterBy) {
@@ -130,7 +127,6 @@ const List = function (props: ListProps) {
 
     setPrevReqQuerystring(reqQuerystring);
     const criteria = queryStringToCriteria();
-
     setQueryStringCriteria(criteria);
     setCriteriaIsReady(true);
   }, [
@@ -189,44 +185,47 @@ const List = function (props: ListProps) {
     }
 
     let reqPath = path;
-
-    if (currentEncodedQueryParams.length) {
+    if (currentQueryParams.length) {
       reqPath =
         path +
         '?' +
-        encodeURI(
-          [...currentEncodedQueryParams, ...filterValues, filterByStr].join('&')
-        );
+        [...currentQueryParams, ...filterValues, filterByStr]
+          .map((item) => encodeURIComponent(item))
+          .join('&');
     } else if (filterByStr || filterValues.length > 0) {
       reqPath =
-        path + '?' + encodeURI([...filterValues, filterByStr].join('&'));
+        path +
+        '?' +
+        [...filterValues, filterByStr]
+          .map((item) => encodeURIComponent(item))
+          .join('&');
     }
 
-    let page = currentEncodedQueryParams.find(
+    let page = currentQueryParams.find(
       (str: string) => str.indexOf('_page=') === 0
     );
     if (!page) {
-      page = encodeURI(`_page=1`);
+      page = encodeURIComponent(`_page=1`);
       const glue = reqPath.indexOf('?') !== -1 ? '&' : '?';
 
       reqPath += `${glue}${page}`;
     }
 
-    let itemsPerPage = currentEncodedQueryParams.find(
+    let itemsPerPage = currentQueryParams.find(
       (str: string) => str.indexOf('_itemsPerPage=') === 0
     );
     if (!itemsPerPage) {
-      itemsPerPage = encodeURI(`_itemsPerPage=${defaultItemsPerPage}`);
+      itemsPerPage = encodeURIComponent(`_itemsPerPage=${defaultItemsPerPage}`);
       const glue = reqPath.indexOf('?') !== -1 ? '&' : '?';
 
       reqPath += `${glue}${itemsPerPage}`;
     }
 
-    let orderBy = currentEncodedQueryParams.find(
+    let orderBy = currentQueryParams.find(
       (str: string) => str.indexOf('_order[') === 0
     );
     if (!orderBy && entityService.getOrderBy() !== '') {
-      orderBy = encodeURI(
+      orderBy = encodeURIComponent(
         `_order[${entityService.getOrderBy()}]=${entityService.getOrderDirection()}`
       );
 
@@ -277,7 +276,7 @@ const List = function (props: ListProps) {
     entityService,
     criteriaIsReady,
     path,
-    currentEncodedQueryParams,
+    currentQueryParams,
     apiGet,
     reqQuerystring,
     filterByStr,

@@ -184,28 +184,30 @@ const List = function (props: ListProps) {
       return;
     }
 
+    const qsEncoder = (item: string) =>
+      item
+        .split('=')
+        .map((val) => encodeURIComponent(val))
+        .join('=');
+
     let reqPath = path;
     if (currentQueryParams.length) {
       reqPath =
         path +
         '?' +
         [...currentQueryParams, ...filterValues, filterByStr]
-          .map((item) => encodeURIComponent(item))
+          .map(qsEncoder)
           .join('&');
     } else if (filterByStr || filterValues.length > 0) {
       reqPath =
-        path +
-        '?' +
-        [...filterValues, filterByStr]
-          .map((item) => encodeURIComponent(item))
-          .join('&');
+        path + '?' + [...filterValues, filterByStr].map(qsEncoder).join('&');
     }
 
     let page = currentQueryParams.find(
       (str: string) => str.indexOf('_page=') === 0
     );
     if (!page) {
-      page = encodeURIComponent(`_page=1`);
+      page = encodeURI(`_page=1`);
       const glue = reqPath.indexOf('?') !== -1 ? '&' : '?';
 
       reqPath += `${glue}${page}`;
@@ -215,7 +217,7 @@ const List = function (props: ListProps) {
       (str: string) => str.indexOf('_itemsPerPage=') === 0
     );
     if (!itemsPerPage) {
-      itemsPerPage = encodeURIComponent(`_itemsPerPage=${defaultItemsPerPage}`);
+      itemsPerPage = encodeURI(`_itemsPerPage=${defaultItemsPerPage}`);
       const glue = reqPath.indexOf('?') !== -1 ? '&' : '?';
 
       reqPath += `${glue}${itemsPerPage}`;
@@ -225,7 +227,7 @@ const List = function (props: ListProps) {
       (str: string) => str.indexOf('_order[') === 0
     );
     if (!orderBy && entityService.getOrderBy() !== '') {
-      orderBy = encodeURIComponent(
+      orderBy = encodeURI(
         `_order[${entityService.getOrderBy()}]=${entityService.getOrderDirection()}`
       );
 

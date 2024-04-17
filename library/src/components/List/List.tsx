@@ -18,6 +18,7 @@ import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import useQueryStringParams from './useQueryStringParams';
 import useFirstColumn from './Content/hook/useFirstColumn';
 import { isPropertyFk } from '../../services';
+import useEncodedQueryStringParams from './useEncodedQueryStringParams';
 
 type ListProps = {
   path: string;
@@ -82,6 +83,8 @@ const List = function (props: ListProps) {
   // Filters
   ////////////////////////////
   const currentQueryParams = useQueryStringParams();
+  const currentEncodedQueryParams = useEncodedQueryStringParams();
+
   const filterBy: Array<string> = [];
 
   if (currentRoute?.filterBy) {
@@ -127,6 +130,7 @@ const List = function (props: ListProps) {
 
     setPrevReqQuerystring(reqQuerystring);
     const criteria = queryStringToCriteria();
+
     setQueryStringCriteria(criteria);
     setCriteriaIsReady(true);
   }, [
@@ -185,19 +189,20 @@ const List = function (props: ListProps) {
     }
 
     let reqPath = path;
-    if (currentQueryParams.length) {
+
+    if (currentEncodedQueryParams.length) {
       reqPath =
         path +
         '?' +
         encodeURI(
-          [...currentQueryParams, ...filterValues, filterByStr].join('&')
+          [...currentEncodedQueryParams, ...filterValues, filterByStr].join('&')
         );
     } else if (filterByStr || filterValues.length > 0) {
       reqPath =
         path + '?' + encodeURI([...filterValues, filterByStr].join('&'));
     }
 
-    let page = currentQueryParams.find(
+    let page = currentEncodedQueryParams.find(
       (str: string) => str.indexOf('_page=') === 0
     );
     if (!page) {
@@ -207,7 +212,7 @@ const List = function (props: ListProps) {
       reqPath += `${glue}${page}`;
     }
 
-    let itemsPerPage = currentQueryParams.find(
+    let itemsPerPage = currentEncodedQueryParams.find(
       (str: string) => str.indexOf('_itemsPerPage=') === 0
     );
     if (!itemsPerPage) {
@@ -217,7 +222,7 @@ const List = function (props: ListProps) {
       reqPath += `${glue}${itemsPerPage}`;
     }
 
-    let orderBy = currentQueryParams.find(
+    let orderBy = currentEncodedQueryParams.find(
       (str: string) => str.indexOf('_order[') === 0
     );
     if (!orderBy && entityService.getOrderBy() !== '') {
@@ -272,7 +277,7 @@ const List = function (props: ListProps) {
     entityService,
     criteriaIsReady,
     path,
-    currentQueryParams,
+    currentEncodedQueryParams,
     apiGet,
     reqQuerystring,
     filterByStr,

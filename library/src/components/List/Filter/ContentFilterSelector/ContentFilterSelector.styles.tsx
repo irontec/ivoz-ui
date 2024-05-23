@@ -8,7 +8,7 @@ export const StyledContentFilterSelector = styled(ContentFilterSelector)(
       flexDirection: 'column',
       gap: 'var(--spacing-xl)',
       padding: 'var(--spacing-lg)',
-      width: '700px',
+      width: '735px',
       maxWidth: '100%',
       [theme.breakpoints.down('md')]: {
         width: '320px',

@@ -58,6 +58,10 @@ const ListDecorator: ListDecoratorType = (props) => {
     return value?.substring(0, 10) || '';
   }
 
+  if (isPropertyScalar(property) && property.format === 'date-time') {
+    return value ? new Date(value).toLocaleString() : '';
+  }
+
   if (!value && property.null) {
     value = property.null;
   }

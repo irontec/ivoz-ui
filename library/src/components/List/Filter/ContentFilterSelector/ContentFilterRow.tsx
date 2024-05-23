@@ -10,6 +10,7 @@ import { NullablePropertyFkChoices } from '../../../../entities';
 import {
   PropertyList,
   isPropertyFk,
+  isPropertyScalar,
 } from '../../../../services/api/ParsedApiSpecInterface';
 import {
   DropdownChoices,
@@ -80,6 +81,7 @@ export default function ContentFilterRow(
   }, [row]);
 
   const column = columns[name];
+
   let enumValue: DropdownChoices | null = null;
   if (isPropertyFk(column)) {
     enumValue = fkChoices[name] || {};
@@ -90,6 +92,17 @@ export default function ContentFilterRow(
       true: _('True'),
       false: _('False'),
     };
+  }
+
+  const columnFormat = isPropertyScalar(column) && column.format;
+  let textFieldInputType = 'text';
+  const inputProps: Record<string, unknown> = {};
+
+  switch (columnFormat) {
+    case 'date-time':
+      textFieldInputType = 'datetime-local';
+      inputProps.step = 1;
+      break;
   }
 
   const updateCriteria = () => {
@@ -149,14 +162,19 @@ export default function ContentFilterRow(
         <StyledTextField
           name='value'
           value={value}
-          type='text'
+          type={textFieldInputType}
           error={false}
           errorMsg=''
-          inputProps={{}}
+          inputProps={inputProps}
           InputProps={{}}
           hasChanged={false}
           onChange={({ target }) => {
-            setValue(target.value);
+            let { value } = target;
+            if (textFieldInputType === 'datetime-local') {
+              value = value.replace('T', ' ');
+            }
+
+            setValue(value);
           }}
         />
       )}

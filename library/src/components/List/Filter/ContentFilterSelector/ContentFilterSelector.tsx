@@ -75,11 +75,12 @@ export default function ContentFilterSelector(
   const propertyFilters = filters[firstFilter] || [];
 
   let preferredFilter = currentColumn.preferredFilter || 'partial';
+
   if (!currentColumn.preferredFilter) {
     switch (true) {
       case isPropertyScalar(currentColumn) &&
         currentColumn.format === 'date-time':
-        preferredFilter = 'start';
+        preferredFilter = 'exact';
         break;
     }
   }

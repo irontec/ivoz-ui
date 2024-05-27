@@ -126,10 +126,13 @@ const FastSearchField = (
     );
   }
 
+  const type =
+    firstColumnSpec.format === 'date-time' ? 'datetime-local' : 'text';
+
   return (
     <StyledSearchTextField
       name='fast_search'
-      type='text'
+      type={type}
       error={false}
       value={value}
       errorMsg=''

@@ -48,6 +48,47 @@ const FastSearchField = (
 
   const [value, setValue] = useState(firstColumnCriteria?.value || '');
 
+  const isDatetime = !isFk && firstColumnSpec.format === 'date-time';
+
+  const triggerSearchIfChanged = () => {
+    if (!firstColumnCriteria) {
+      return;
+    }
+
+    if (firstColumnCriteria.value == value) {
+      return;
+    }
+
+    if (value !== '') {
+      firstColumnCriteria.value = encodeURIComponent(value);
+    }
+
+    let match = false;
+    let matchIdx: string | undefined;
+    for (const idx in queryStringCriteria) {
+      if (queryStringCriteria[idx].name !== firstColumnCriteria.name) {
+        continue;
+      }
+
+      if (queryStringCriteria[idx].type !== firstColumnCriteria.type) {
+        continue;
+      }
+
+      queryStringCriteria[idx] = firstColumnCriteria;
+      matchIdx = idx;
+      match = true;
+      break;
+    }
+
+    if (!match) {
+      queryStringCriteria.push(firstColumnCriteria);
+    } else if (value === '' && matchIdx) {
+      queryStringCriteria.splice(parseInt(matchIdx, 10), 1);
+    }
+
+    setQueryStringCriteria(queryStringCriteria);
+  };
+
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = ({
     target,
   }) => {
@@ -61,44 +102,14 @@ const FastSearchField = (
   }, [firstColumnCriteria]);
 
   useEffect(() => {
+    if (isDatetime) {
+      return;
+    }
+
     const timeOutId = setTimeout(() => {
-      if (firstColumnCriteria) {
-        if (firstColumnCriteria.value == value) {
-          return;
-        }
-
-        if (value !== '') {
-          firstColumnCriteria.value = encodeURIComponent(value);
-        }
-
-        let match = false;
-        let matchIdx: string | undefined;
-        for (const idx in queryStringCriteria) {
-          if (queryStringCriteria[idx].name !== firstColumnCriteria.name) {
-            continue;
-          }
-
-          if (queryStringCriteria[idx].type !== firstColumnCriteria.type) {
-            continue;
-          }
-
-          queryStringCriteria[idx] = firstColumnCriteria;
-          matchIdx = idx;
-          match = true;
-          break;
-        }
-
-        if (!match) {
-          queryStringCriteria.push(firstColumnCriteria);
-        } else if (value === '' && matchIdx) {
-          queryStringCriteria.splice(parseInt(matchIdx, 10), 1);
-        }
-
-        setQueryStringCriteria(queryStringCriteria);
-
-        return;
-      }
-    }, 1000);
+      triggerSearchIfChanged();
+      return;
+    }, 2000);
     return () => clearTimeout(timeOutId);
   }, [value, firstColumnCriteria]);
 
@@ -130,7 +141,7 @@ const FastSearchField = (
   let type = 'text';
   const inputProps = {} as InputBaseComponentProps;
 
-  if (firstColumnSpec.format === 'date-time') {
+  if (isDatetime) {
     type = 'datetime-local';
     inputProps.step = 1;
   }
@@ -145,6 +156,20 @@ const FastSearchField = (
       inputProps={inputProps}
       InputProps={{
         startAdornment: <SearchIcon />,
+      }}
+      onBlur={() => {
+        if (!isDatetime) {
+          return;
+        }
+
+        triggerSearchIfChanged();
+      }}
+      onKeyDown={(event) => {
+        if (event.code !== 'Enter') {
+          return;
+        }
+
+        triggerSearchIfChanged();
       }}
       placeholder='Search'
       hasChanged={false}

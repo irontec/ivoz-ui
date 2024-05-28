@@ -3,6 +3,7 @@ import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import EntityService from '../../../services/entity/EntityService';
 import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 
+import { InputBaseComponentProps } from '@mui/material';
 import { useStoreActions, useStoreState } from 'store';
 import { DropdownArrayChoices, isPropertyFk } from '../../../services';
 import { StyledAutocomplete } from '../../../services/form/Field/Autocomplete/Autocomplete.styles';
@@ -47,6 +48,47 @@ const FastSearchField = (
 
   const [value, setValue] = useState(firstColumnCriteria?.value || '');
 
+  const isDatetime = !isFk && firstColumnSpec.format === 'date-time';
+
+  const triggerSearchIfChanged = () => {
+    if (!firstColumnCriteria) {
+      return;
+    }
+
+    if (firstColumnCriteria.value == value) {
+      return;
+    }
+
+    if (value !== '') {
+      firstColumnCriteria.value = encodeURIComponent(value);
+    }
+
+    let match = false;
+    let matchIdx: string | undefined;
+    for (const idx in queryStringCriteria) {
+      if (queryStringCriteria[idx].name !== firstColumnCriteria.name) {
+        continue;
+      }
+
+      if (queryStringCriteria[idx].type !== firstColumnCriteria.type) {
+        continue;
+      }
+
+      queryStringCriteria[idx] = firstColumnCriteria;
+      matchIdx = idx;
+      match = true;
+      break;
+    }
+
+    if (!match) {
+      queryStringCriteria.push(firstColumnCriteria);
+    } else if (value === '' && matchIdx) {
+      queryStringCriteria.splice(parseInt(matchIdx, 10), 1);
+    }
+
+    setQueryStringCriteria(queryStringCriteria);
+  };
+
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = ({
     target,
   }) => {
@@ -60,44 +102,14 @@ const FastSearchField = (
   }, [firstColumnCriteria]);
 
   useEffect(() => {
+    if (isDatetime) {
+      return;
+    }
+
     const timeOutId = setTimeout(() => {
-      if (firstColumnCriteria) {
-        if (firstColumnCriteria.value == value) {
-          return;
-        }
-
-        if (value !== '') {
-          firstColumnCriteria.value = encodeURIComponent(value);
-        }
-
-        let match = false;
-        let matchIdx: string | undefined;
-        for (const idx in queryStringCriteria) {
-          if (queryStringCriteria[idx].name !== firstColumnCriteria.name) {
-            continue;
-          }
-
-          if (queryStringCriteria[idx].type !== firstColumnCriteria.type) {
-            continue;
-          }
-
-          queryStringCriteria[idx] = firstColumnCriteria;
-          matchIdx = idx;
-          match = true;
-          break;
-        }
-
-        if (!match) {
-          queryStringCriteria.push(firstColumnCriteria);
-        } else if (value === '' && matchIdx) {
-          queryStringCriteria.splice(parseInt(matchIdx, 10), 1);
-        }
-
-        setQueryStringCriteria(queryStringCriteria);
-
-        return;
-      }
-    }, 1000);
+      triggerSearchIfChanged();
+      return;
+    }, 2000);
     return () => clearTimeout(timeOutId);
   }, [value, firstColumnCriteria]);
 
@@ -126,8 +138,13 @@ const FastSearchField = (
     );
   }
 
-  const type =
-    firstColumnSpec.format === 'date-time' ? 'datetime-local' : 'text';
+  let type = 'text';
+  const inputProps = {} as InputBaseComponentProps;
+
+  if (isDatetime) {
+    type = 'datetime-local';
+    inputProps.step = 1;
+  }
 
   return (
     <StyledSearchTextField
@@ -136,9 +153,23 @@ const FastSearchField = (
       error={false}
       value={value}
       errorMsg=''
-      inputProps={{}}
+      inputProps={inputProps}
       InputProps={{
         startAdornment: <SearchIcon />,
+      }}
+      onBlur={() => {
+        if (!isDatetime) {
+          return;
+        }
+
+        triggerSearchIfChanged();
+      }}
+      onKeyDown={(event) => {
+        if (event.code !== 'Enter') {
+          return;
+        }
+
+        triggerSearchIfChanged();
       }}
       placeholder='Search'
       hasChanged={false}

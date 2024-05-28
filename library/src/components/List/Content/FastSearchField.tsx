@@ -3,6 +3,7 @@ import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
 import EntityService from '../../../services/entity/EntityService';
 import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 
+import { InputBaseComponentProps } from '@mui/material';
 import { useStoreActions, useStoreState } from 'store';
 import { DropdownArrayChoices, isPropertyFk } from '../../../services';
 import { StyledAutocomplete } from '../../../services/form/Field/Autocomplete/Autocomplete.styles';
@@ -126,8 +127,13 @@ const FastSearchField = (
     );
   }
 
-  const type =
-    firstColumnSpec.format === 'date-time' ? 'datetime-local' : 'text';
+  let type = 'text';
+  const inputProps = {} as InputBaseComponentProps;
+
+  if (firstColumnSpec.format === 'date-time') {
+    type = 'datetime-local';
+    inputProps.step = 1;
+  }
 
   return (
     <StyledSearchTextField
@@ -136,7 +142,7 @@ const FastSearchField = (
       error={false}
       value={value}
       errorMsg=''
-      inputProps={{}}
+      inputProps={inputProps}
       InputProps={{
         startAdornment: <SearchIcon />,
       }}

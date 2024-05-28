@@ -102,7 +102,7 @@ const FastSearchField = (
 
   useEffect(() => {
     //reset value
-    setValue(firstColumnCriteria?.value || '');
+    setValue((firstColumnCriteria?.value as string) || '');
   }, [firstColumnCriteria]);
 
   useEffect(() => {

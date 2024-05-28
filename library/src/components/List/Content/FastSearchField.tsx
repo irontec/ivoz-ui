@@ -46,9 +46,12 @@ const FastSearchField = (
   const fkChoices =
     (foreignEntities[firstColumnName] as DropdownArrayChoices) || [];
 
-  const [value, setValue] = useState(firstColumnCriteria?.value || '');
-
   const isDatetime = !isFk && firstColumnSpec.format === 'date-time';
+
+  const initialValue = (firstColumnCriteria?.value as string) || '';
+  const [value, setValue] = useState(
+    isDatetime ? initialValue.replace(' ', 'T') : initialValue
+  );
 
   const triggerSearchIfChanged = () => {
     if (!firstColumnCriteria) {
@@ -60,7 +63,8 @@ const FastSearchField = (
     }
 
     if (value !== '') {
-      firstColumnCriteria.value = encodeURIComponent(value);
+      const val = isDatetime ? (value as string).replace('T', ' ') : value;
+      firstColumnCriteria.value = encodeURIComponent(val);
     }
 
     let match = false;

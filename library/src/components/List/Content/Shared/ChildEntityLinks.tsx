@@ -34,9 +34,10 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
   }
 
   const childEntitiesCopy = [...childEntities];
+  const visibleChildEntitiesSlice = childEntitiesCopy.length <= 2 ? 3 : 2
   const visibleChildEntities = childEntitiesCopy.splice(
     0,
-    2 - firstActionButtonNum
+    visibleChildEntitiesSlice - firstActionButtonNum
   );
 
   return (

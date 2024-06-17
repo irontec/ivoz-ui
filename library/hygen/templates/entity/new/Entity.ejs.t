@@ -2,10 +2,10 @@
 to: src/entities/<%= Name %>/<%= Name %>.tsx
 ---
 import AccountTreeIcon from '@mui/icons-material/AccountTree';
-import EntityInterface from '@irontec/ivoz-ui/entities/EntityInterface';
-import _ from '@irontec/ivoz-ui/services/translations/translate';
-import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import { EntityValue } from '@irontec/ivoz-ui';
+import EntityInterface from '@irontec-voip/ivoz-ui/entities/EntityInterface';
+import _ from '@irontec-voip/ivoz-ui/services/translations/translate';
+import defaultEntityBehavior from '@irontec-voip/ivoz-ui/entities/DefaultEntityBehavior';
+import { EntityValue } from '@irontec-voip/ivoz-ui';
 import selectOptions from './SelectOptions';
 import { <%= Name %>Properties, <%= Name %>PropertyList } from './<%= Name %>Properties';
 

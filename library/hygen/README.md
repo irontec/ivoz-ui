@@ -3,10 +3,10 @@
 Create in the root project a file named .hygen.js, following the next structure:
 
 ```javascript
-const helpers = require("@irontec/ivoz-ui/hygen/lib");
+const helpers = require("@irontec-voip/ivoz-ui/hygen/lib");
 
 module.exports = {
-  templates: `${__dirname}/node_modules/@irontec/ivoz-ui/hygen/templates`,
+  templates: `${__dirname}/node_modules/@irontec-voip/ivoz-ui/hygen/templates`,
   helpers: {
     ...helpers,
     url: () => "https://10.189.2.23/isbc/api/docs.json",

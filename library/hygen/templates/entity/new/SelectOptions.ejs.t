@@ -1,10 +1,10 @@
 ---
 to: src/entities/<%= Name %>/SelectOptions.ts
 ---
-import defaultEntityBehavior from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import { SelectOptionsType } from '@irontec/ivoz-ui/entities/EntityInterface';
+import defaultEntityBehavior from '@irontec-voip/ivoz-ui/entities/DefaultEntityBehavior';
+import { SelectOptionsType } from '@irontec-voip/ivoz-ui/entities/EntityInterface';
 import { <%= Name %>PropertiesList } from './<%= Name %>Properties';
-import { DropdownChoices } from '@irontec/ivoz-ui';
+import { DropdownChoices } from '@irontec-voip/ivoz-ui';
 import store from 'store';
 
 const <%= Name %>SelectOptions: SelectOptionsType = ({ callback, cancelToken }): Promise<unknown> => {

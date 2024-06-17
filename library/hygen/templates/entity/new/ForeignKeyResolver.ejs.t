@@ -1,8 +1,8 @@
 ---
 to: src/entities/<%= Name %>/ForeignKeyResolver.tsx
 ---
-import { autoForeignKeyResolver } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
-import { foreignKeyResolverType } from '@irontec/ivoz-ui/entities/EntityInterface';
+import { autoForeignKeyResolver } from '@irontec-voip/ivoz-ui/entities/DefaultEntityBehavior';
+import { foreignKeyResolverType } from '@irontec-voip/ivoz-ui/entities/EntityInterface';
 import { <%= Name %>PropertiesList } from './<%= Name %>Properties';
 
 /** TODO remove this file unless you need to change default behaviour **/

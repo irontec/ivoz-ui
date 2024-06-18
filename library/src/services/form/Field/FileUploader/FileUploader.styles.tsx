@@ -60,6 +60,11 @@ export const StyledImageContainer = styled('div')({
   },
 });
 
+export const StyledImagePreview = styled('img')({
+  maxWidth: '300px',
+  height: 'auto',
+});
+
 export const StyledTextContainer = styled('div')({
   color: '#B2B3B6',
   fontSize: '14px',

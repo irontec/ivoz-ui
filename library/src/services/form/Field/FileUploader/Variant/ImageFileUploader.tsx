@@ -1,14 +1,16 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import _ from '../../../../translations/translate';
 import { ChangeEventValues, FileProps } from '../FileUploader';
 import {
   StyledFileUploaderContainer,
   StyledImageContainer,
+  StyledImagePreview,
   StyledTextContainer,
   StyledUploadButtonLabel,
 } from '../FileUploader.styles';
 import { FileUploaderType } from './RegularFileUploader';
+import { useStoreActions } from '../../../../../store';
 
 export const ImageFileUploader: FileUploaderType = (
   props
@@ -21,6 +23,7 @@ export const ImageFileUploader: FileUploaderType = (
     handleDownload,
     changeHandler,
     onBlur,
+    downloadPath,
   } = props;
 
   const fileValue = values[_columnName] as FileProps;
@@ -29,6 +32,35 @@ export const ImageFileUploader: FileUploaderType = (
 
   const fileSize = fileValue?.file ? fileValue.file?.size : fileValue?.fileSize;
   const fileSizeMb = Math.round(((fileSize || 0) / 1024 / 1024) * 10) / 10;
+
+  const apiDownload = useStoreActions((actions) => {
+    return actions.api.download;
+  });
+  const [imageSrc, setImageSrc] = useState<string | null>(null);
+
+  useEffect(() => {
+    setImageSrc(null);
+
+    if (fileValue.file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result as string);
+      };
+      reader.readAsDataURL(fileValue.file);
+
+      return;
+    }
+
+    apiDownload({
+      path: downloadPath as string,
+      params: {},
+      successCallback: async (
+        data: Record<string, any> | Array<Record<string, any>> | Blob
+      ) => {
+        setImageSrc(URL.createObjectURL(data as Blob));
+      },
+    });
+  }, [fileValue.file]);
 
   return (
     <>
@@ -59,7 +91,11 @@ export const ImageFileUploader: FileUploaderType = (
 
         {fileName && (
           <StyledImageContainer className={disabled ? 'disabled' : ''}>
-            {values.id && <AccountCircleIcon onClick={handleDownload} />}
+            {imageSrc ? (
+              <StyledImagePreview src={imageSrc} onClick={handleDownload} />
+            ) : (
+              values.id && <AccountCircleIcon onClick={handleDownload} />
+            )}
           </StyledImageContainer>
         )}
 

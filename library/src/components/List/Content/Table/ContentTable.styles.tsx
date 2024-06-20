@@ -94,6 +94,7 @@ export const StyledTableRowChildEntityLink = styled(
     ...linkSharedStyles,
     textDecoration: 'none',
     color: 'inherit',
+    width: '100%',
   };
 });
 

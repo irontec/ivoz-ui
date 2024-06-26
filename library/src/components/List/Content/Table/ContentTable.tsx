@@ -1,6 +1,6 @@
 import { Box, Checkbox, TableBody, TableCell, TableRow } from '@mui/material';
 import { useCallback, useEffect, useState } from 'react';
-import EntityService from 'services/entity/EntityService';
+import EntityService, { EntityValues } from 'services/entity/EntityService';
 import { useStoreState } from '../../../../store';
 import {
   MultiSelectFunctionComponent,
@@ -110,11 +110,11 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
         indeterminateSelectAll={checked && indeterminateSelectAll}
       />
       <TableBody>
-        {rows.map((row: any, key: any) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
-          let selectableIdx = 0;
-          const checked = selectedValues.indexOf(row.id.toString()) > -1;
+        {rows.map((row: EntityValues, key: number) => {
+          const checked =
+            selectedValues.indexOf(row?.id?.toString() as string) > -1;
 
+          const isEditable = row.editable ?? true;
           return (
             <TableRow key={`${key}-${row.id}`}>
               {multiselect && (
@@ -128,7 +128,6 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
               )}
               {Object.keys(columns).map((columnKey: string) => {
                 if (columnKey === ignoreColumn) {
-                  selectableIdx++;
                   return null;
                 }
 
@@ -169,10 +168,10 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                           routeMapItem={updateRouteMapItem}
                           row={row}
                           entityService={entityService}
-                          disabled={!acl.update}
+                          disabled={!acl.update || !isEditable}
                         >
                           <EditRowButton
-                            disabled={!acl.update}
+                            disabled={!acl.update || !isEditable}
                             row={row}
                             path={path}
                           />

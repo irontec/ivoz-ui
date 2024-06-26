@@ -29,6 +29,7 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
   const match = useCurrentPathMatch();
   const entity = entityService.getEntity();
   const ChildDecorator = entity.ChildDecorator;
+  const isEditable = row.editable ?? true;
 
   return (
     <MoreChildEntityLinksWrapper>
@@ -59,7 +60,6 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           id: `${row.id}`,
           params: match.params,
         });
-
         return (
           <MoreMenuItem key={key}>
             <ChildDecorator
@@ -87,13 +87,13 @@ export const MoreChildEntityLinks = (props: MoreChildEntityLinksProps) => {
           routeMapItem={deleteMapItem}
           row={row}
           entityService={entityService}
-          disabled={deleteMapItem.disabled}
+          disabled={deleteMapItem.disabled || !isEditable}
         >
           <DeleteRowButton
             variant='text'
             row={row}
             entityService={entityService}
-            disabled={deleteMapItem?.disabled}
+            disabled={deleteMapItem?.disabled || !isEditable}
           />
         </ChildDecorator>
       )}

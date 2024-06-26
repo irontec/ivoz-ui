@@ -39,7 +39,7 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
     0,
     visibleChildEntitiesSlice - firstActionButtonNum
   );
-
+  const isEditable = row.editable ?? true;
   return (
     <>
       {detail}
@@ -82,10 +82,10 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
           routeMapItem={deleteMapItem}
           row={row}
           entityService={entityService}
-          disabled={deleteMapItem.disabled}
+          disabled={deleteMapItem.disabled || !isEditable}
         >
           <DeleteRowButton
-            disabled={deleteMapItem.disabled}
+            disabled={deleteMapItem.disabled || !isEditable}
             row={row}
             entityService={entityService}
           />

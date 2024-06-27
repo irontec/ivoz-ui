@@ -93,9 +93,12 @@ export const StyledTextField = styled(TextField)(() => {
 
 export const StyledColorField = styled(StyledTextField)(() => {
   return {
-    '& input[type=color]': {
+    '& .MuiOutlinedInput-root ': {
+      width: 100,
+      marginLeft: 8,
+    },
+    '& input': {
       padding: '0 2px',
-      minHeight: '40px',
       borderRadius: '18px',
       overflow: 'hidden',
     },

@@ -1,13 +1,17 @@
-import {
-  InputAdornment,
-  InputBaseComponentProps,
-  OutlinedInputProps,
-} from '@mui/material';
+import { InputBaseComponentProps, OutlinedInputProps } from '@mui/material';
 import { FormOnChangeEvent } from '../../../../entities/DefaultEntityBehavior/Form/Form';
 import { ScalarProperty } from '../../../api';
 import { ScalarEntityValue } from '../../../entity';
 import { StyledColorField } from '../../Field/TextField/TextField.styles';
-
+import { SketchPicker } from 'react-color';
+import { useState } from 'react';
+import { StyledColorPickerButton } from '../../../../components/shared/Button/Button.styles';
+import {
+  StyledColorFactoryContainer,
+  StyledSketchPickerContainer,
+} from '../FormFieldFactory.styles';
+import ColorLensRoundedIcon from '@mui/icons-material/ColorLensRounded';
+import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 type ColorFactoryPropsType = {
   fld: string;
   property: ScalarProperty;
@@ -26,7 +30,6 @@ export const ColorFactory = (props: ColorFactoryPropsType): JSX.Element => {
   const {
     fld,
     property,
-    disabled,
     value,
     hasChanged,
     error,
@@ -37,30 +40,51 @@ export const ColorFactory = (props: ColorFactoryPropsType): JSX.Element => {
     handleBlur,
   } = props;
 
-  if (!InputProps.endAdornment) {
-    InputProps.endAdornment = (
-      <InputAdornment position='end'>
-        <span>{value}</span>
-      </InputAdornment>
-    );
-  }
-
+  const [display, setDisplay] = useState<'hidden' | 'initial'>('hidden');
   return (
-    <StyledColorField
-      name={fld}
-      type={'color'}
-      value={value}
-      disabled={disabled}
-      label={property.label}
-      required={property.required}
-      onChange={changeHandler}
-      onBlur={handleBlur}
-      error={touched && Boolean(error)}
-      errorMsg={touched && error}
-      helperText={property.helpText}
-      InputProps={InputProps}
-      inputProps={inputProps}
-      hasChanged={hasChanged}
-    />
+    <StyledColorFactoryContainer>
+      <StyledColorPickerButton
+        variant='contained'
+        style={{ color: value as string }}
+        onClick={() => {
+          display === 'hidden' ? setDisplay('initial') : setDisplay('hidden');
+        }}
+      >
+        {display === 'hidden' ? <ColorLensRoundedIcon /> : <CloseRoundedIcon />}
+      </StyledColorPickerButton>
+      <StyledColorField
+        name={fld}
+        type='text'
+        multiline={false}
+        value={value}
+        disabled={true}
+        required={property.required}
+        onBlur={handleBlur}
+        error={touched && Boolean(error)}
+        errorMsg={touched && error}
+        helperText={property.helpText}
+        InputProps={InputProps}
+        inputProps={inputProps}
+        hasChanged={hasChanged}
+      />
+
+      <StyledSketchPickerContainer visibility={display}>
+        <SketchPicker
+          color={value as string}
+          onChange={(color, event) => {
+            changeHandler({
+              ...event,
+              target: {
+                ...event.target,
+                name: fld,
+                value: color.hex,
+              },
+            });
+          }}
+          disableAlpha={true}
+          presetColors={property.presets}
+        />
+      </StyledSketchPickerContainer>
+    </StyledColorFactoryContainer>
   );
 };

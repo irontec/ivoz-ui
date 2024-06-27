@@ -46,6 +46,27 @@ const StyledButton = React.forwardRef(
     );
   }
 );
+
+export const StyledColorPickerButton = React.forwardRef(
+  (props: ButtonProps, ref: React.ForwardedRef<HTMLButtonElement>) => {
+    const { children, style, ...rest } = props;
+
+    return (
+      <Button
+        {...rest}
+        ref={ref}
+        style={{
+          width: '100px',
+          height: 40,
+          backgroundColor: style?.color as string,
+        }}
+      >
+        {children}
+      </Button>
+    );
+  }
+);
+StyledColorPickerButton.displayName = 'StyledColorPickerButton';
 StyledButton.displayName = 'StyledButton';
 type ForwardRefButtonType = typeof StyledButton;
 

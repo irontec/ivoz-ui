@@ -79,6 +79,7 @@ export interface ScalarProperty {
   visualToggle?: visualToggleValue;
   label: string | React.ReactElement<any>;
   prefix?: string | React.ReactElement<any>;
+  presets?: Array<string>;
   suffix?: string | React.ReactElement<any>;
   component?: PropertyCustomFunctionComponent<any> | React.ComponentClass<any>;
   memoize?: boolean;

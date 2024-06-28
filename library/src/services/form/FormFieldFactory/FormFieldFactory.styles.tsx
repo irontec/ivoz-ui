@@ -1,4 +1,5 @@
 import { Box, styled, Typography } from '@mui/material';
+import { CSSProperties } from 'react';
 
 interface StyledFilterDialogTypographyProps {
   children: React.ReactNode;
@@ -21,12 +22,25 @@ export const StyledFilterDialogTypography = styled(
 });
 
 export const StyledSketchPickerContainer = styled(Box)(
-  (props: { visibility: 'hidden' | 'initial' }) => {
+  (props: {
+    visibility: 'hidden' | 'initial';
+    mouseposition?: { x: number; y: number };
+  }) => {
+    const { visibility, mouseposition } = props;
+    const marginStyles: CSSProperties = { marginTop: -300 };
+
+    if (mouseposition) {
+      const { y } = mouseposition;
+      if (y < -611) {
+        marginStyles.marginTop = 50;
+      }
+    }
+
     return {
-      visibility: props.visibility,
-      marginLeft: 120,
-      marginTop: -190,
-      position: 'relative',
+      visibility,
+      position: 'absolute',
+      zIndex: 9999,
+      ...marginStyles,
     };
   }
 );

@@ -1,6 +1,6 @@
 import { Alert, AlertTitle } from '@mui/material';
 import { FormikHelpers } from 'formik';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
 import ErrorBoundary from '../../../components/ErrorBoundary';
@@ -181,12 +181,19 @@ const Form: EntityFormType = (props) => {
 
   formik.visibleFields = visibleFields;
   const errorList = validationErrosToJsxErrorList(formik, allProperties);
+  const divRef = useRef<HTMLDivElement>(null);
+
+  const focusOnDiv = () => {
+    const node = divRef.current;
+    node?.focus();
+  };
 
   const formFieldFactory = new FormFieldFactory(
     entityService,
     formik,
     formik.handleChange,
-    formik.handleBlur
+    formik.handleBlur,
+    divRef
   );
 
   return (
@@ -222,8 +229,13 @@ const Form: EntityFormType = (props) => {
             ? { display: 'block' }
             : { display: 'none' };
 
+          focusOnDiv();
           return (
-            <div key={idx} style={visibilityStyles}>
+            <div
+              key={idx}
+              ref={divRef}
+              style={{ ...visibilityStyles, position: 'relative' }}
+            >
               <StyledGroupLegend>{group.legend}</StyledGroupLegend>
               <StyledGroupGrid>
                 {fields.map((column: FieldsetGroupsField, idx: number) => {

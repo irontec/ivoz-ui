@@ -3,7 +3,7 @@ import {
   InputBaseProps,
   OutlinedInputProps,
 } from '@mui/material';
-import React from 'react';
+import React, { RefObject } from 'react';
 import { FormOnChangeEvent } from '../../../entities/DefaultEntityBehavior';
 import {
   EmbeddableProperty,
@@ -43,7 +43,8 @@ export default class FormFieldFactory {
     private entityService: EntityService,
     public formik: useFormikType,
     private changeHandler: (event: FormOnChangeEvent) => void,
-    private handleBlur: (event: React.FocusEvent) => void
+    private handleBlur: (event: React.FocusEvent) => void,
+    private divRef?: RefObject<HTMLDivElement>
   ) {}
 
   public getFormField(
@@ -313,6 +314,7 @@ export default class FormFieldFactory {
         return (
           <ColorFactory
             fld={fld}
+            parentRef={this.divRef}
             property={property}
             disabled={disabled}
             value={value}

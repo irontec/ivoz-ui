@@ -14,6 +14,7 @@ export const StyledFileUploaderContainer = styled(
 )(() => {
   return {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
     gap: 'var(--spacing-md)',
     padding: 'var(--spacing-sm)',

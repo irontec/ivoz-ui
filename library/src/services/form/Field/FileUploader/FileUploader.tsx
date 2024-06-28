@@ -14,10 +14,10 @@ import { ImageFileUploader } from './Variant/ImageFileUploader';
 import RegularFileUploader from './Variant/RegularFileUploader';
 
 export interface FileProps {
-  file?: File;
-  baseName?: string;
-  fileSize?: number;
-  mimeType?: string;
+  file?: File | null;
+  baseName?: string | null;
+  fileSize?: number | null;
+  mimeType?: string | null;
 }
 
 export interface ChangeEventValues {

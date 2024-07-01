@@ -105,6 +105,15 @@ export const StyledColorField = styled(StyledTextField)(() => {
   };
 });
 
+export const StyledImageFileUpladerTextDield = styled(StyledTextField)(() => {
+  return {
+    '& .MuiInputBase-input': {
+      overflow: 'hidden',
+      textOverflow: 'ellipsis',
+    },
+  };
+});
+
 export const StyledAutocompleteTextField = styled(StyledTextField)(() => {
   return {
     '& .input-field': {

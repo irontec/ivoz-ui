@@ -51,6 +51,10 @@ export const ImageFileUploader: FileUploaderType = (
       return;
     }
 
+    if (!fileValue.baseName || !fileValue) {
+      return;
+    }
+
     apiDownload({
       path: downloadPath as string,
       params: {},
@@ -60,7 +64,7 @@ export const ImageFileUploader: FileUploaderType = (
         setImageSrc(URL.createObjectURL(data as Blob));
       },
     });
-  }, [fileValue.file]);
+  }, [fileValue.file, fileValue.baseName]);
 
   return (
     <>

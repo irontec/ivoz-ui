@@ -11,6 +11,9 @@ import {
 } from '../FileUploader.styles';
 import { FileUploaderType } from './RegularFileUploader';
 import { useStoreActions } from '../../../../../store';
+import { StyledImageFileUpladerTextDield } from '../../TextField/TextField.styles';
+import { IconButton, InputAdornment } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export const ImageFileUploader: FileUploaderType = (
   props
@@ -24,6 +27,7 @@ export const ImageFileUploader: FileUploaderType = (
     changeHandler,
     onBlur,
     downloadPath,
+    property,
   } = props;
 
   const fileValue = values[_columnName] as FileProps;
@@ -116,6 +120,42 @@ export const ImageFileUploader: FileUploaderType = (
             <span>
               {fileName} ({fileSizeMb}MB)
             </span>
+          )}
+          {fileName && !property.required && (
+            <StyledImageFileUpladerTextDield
+              type='text'
+              multiline={false}
+              value={fileName}
+              hasChanged={false}
+              disabled={true}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position='end'>
+                    <IconButton
+                      aria-label='delete image'
+                      onClick={() => {
+                        setImageSrc(null);
+                        const changeEvent = {
+                          target: {
+                            name: _columnName,
+                            value: {
+                              baseName: null,
+                              file: null,
+                              fileSize: null,
+                              mimeType: null,
+                            },
+                          },
+                        } as ChangeEvent<ChangeEventValues>;
+
+                        changeHandler(changeEvent);
+                      }}
+                    >
+                      <CancelIcon />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
           )}
         </StyledTextContainer>
       </StyledFileUploaderContainer>

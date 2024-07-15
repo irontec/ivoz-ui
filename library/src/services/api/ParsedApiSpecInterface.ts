@@ -63,7 +63,6 @@ type PropertyFormat =
   | 'textarea'
   | 'password'
   | 'color';
-
 export interface ScalarProperty {
   type?: PropertyType;
   format?: PropertyFormat;
@@ -86,6 +85,7 @@ export interface ScalarProperty {
   required: boolean;
   pattern?: RegExp;
   helpText?: string | React.ReactElement<any>;
+  downloadable?: boolean;
 }
 
 export interface EmbeddableProperty {

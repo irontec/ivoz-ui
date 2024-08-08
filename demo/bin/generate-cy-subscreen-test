@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Example bin/generate-cy-subscreen-test platform client
+node_modules/hygen/dist/bin.js cy subscreen $2 --parent $1 --root demo
+node_modules/hygen/dist/bin.js cy fixtures $2 --root demo

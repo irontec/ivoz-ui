@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Example bin/generate-cy-test administrator
+node_modules/hygen/dist/bin.js cy new $1 --root demo
+node_modules/hygen/dist/bin.js cy fixtures $1 --root demo

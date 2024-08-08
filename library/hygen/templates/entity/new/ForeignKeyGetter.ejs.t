@@ -1,8 +1,8 @@
 ---
 to: src/entities/<%= Name %>/ForeignKeyGetter.tsx
 ---
-import { ForeignKeyGetterType } from '@irontec-voip/ivoz-ui/entities/EntityInterface';
-import { autoSelectOptions } from '@irontec-voip/ivoz-ui/entities/DefaultEntityBehavior';
+import { ForeignKeyGetterType } from '@irontec/ivoz-ui/entities/EntityInterface';
+import { autoSelectOptions } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
 import { <%= Name %>PropertyList } from './<%= Name %>Properties';
 
 /** TODO remove this file unless you need to change default behaviour **/

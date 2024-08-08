@@ -1,9 +1,9 @@
 ---
 to: src/entities/<%= Name %>/Form.tsx
 ---
-import { EntityFormProps, FieldsetGroups } from '@irontec-voip/ivoz-ui/entities/DefaultEntityBehavior';
-import _ from '@irontec-voip/ivoz-ui/services/translations/translate';
-import { Form as DefaultEntityForm } from '@irontec-voip/ivoz-ui/entities/DefaultEntityBehavior/Form';
+import { EntityFormProps, FieldsetGroups } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior';
+import _ from '@irontec/ivoz-ui/services/translations/translate';
+import { Form as DefaultEntityForm } from '@irontec/ivoz-ui/entities/DefaultEntityBehavior/Form';
 
 const Form = (props: EntityFormProps): JSX.Element => {
 

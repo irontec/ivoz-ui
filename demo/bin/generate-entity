@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Example bin/generate-entity Administrator
+node_modules/hygen/dist/bin.js entity new $1

@@ -6,7 +6,6 @@ import EntityInterface from '@irontec-voip/ivoz-ui/entities/EntityInterface';
 import _ from '@irontec-voip/ivoz-ui/services/translations/translate';
 import defaultEntityBehavior from '@irontec-voip/ivoz-ui/entities/DefaultEntityBehavior';
 import { EntityValue } from '@irontec-voip/ivoz-ui';
-import selectOptions from './SelectOptions';
 import { <%= Name %>Properties, <%= Name %>PropertyList } from './<%= Name %>Properties';
 
 const properties: <%= Name %>Properties = {
@@ -19,9 +18,13 @@ const <%= Name %>: EntityInterface = {
   iden: '<%= Name %>',
   title: _('<%= Name %>', { count: 2 }),
   path: '/<%= h.inflection.pluralize(name) %>',
-  toStr: (row: <%= Name %>PropertyList<EntityValue>) => row.id.toStr(),
+  toStr: (row: <%= Name %>PropertyList<EntityValue>) => String(row.id),
   properties,
-  selectOptions,
+  selectOptions: async () => {
+    const module = await import('./SelectOptions');
+
+    return module.default;
+  },
   foreignKeyResolver: async () => {
     const module = await import('./ForeignKeyResolver');
 
@@ -30,7 +33,7 @@ const <%= Name %>: EntityInterface = {
   foreignKeyGetter: async () => {
     const module = await import('./ForeignKeyGetter');
 
-    return module.default;
+    return module.foreignKeyGetter;
   },
   Form: async () => {
     const module = await import('./Form');

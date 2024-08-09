@@ -52,6 +52,12 @@ export const TextField = (props: TextFieldProps) => {
   const labelId = `${name}-label`;
   const maxRows = multiline ? 6 : undefined;
 
+  const fixDateTime = (value: string) => {
+    const haveMissingSeconds = value.length === 16;
+
+    return haveMissingSeconds ? value.concat(':00') : value;
+  };
+
   type passThroughPropsType = Partial<OutlinedInputProps>;
   const passThroughProps: passThroughPropsType = {};
 
@@ -63,6 +69,19 @@ export const TextField = (props: TextFieldProps) => {
   if (onClick) {
     passThroughProps.onClick = onClick;
   }
+
+  passThroughProps.onChange = (event) => {
+    const { target } = event;
+
+    if (type === 'datetime-local') {
+      const fixedDate = fixDateTime(target.value);
+      event.target = { ...target, ...{ value: fixedDate } };
+    }
+
+    if (onChange) {
+      onChange(event);
+    }
+  };
 
   return (
     <FormControl
@@ -99,7 +118,6 @@ export const TextField = (props: TextFieldProps) => {
         defaultValue={defaultValue}
         value={value}
         disabled={disabled}
-        onChange={onChange}
         onBlur={onBlur}
         error={error}
         className='input-field'

@@ -86,6 +86,7 @@ export interface ScalarProperty {
   required: boolean;
   pattern?: RegExp;
   helpText?: string | React.ReactElement<any>;
+  downloadable?: boolean;
 }
 
 export interface EmbeddableProperty {

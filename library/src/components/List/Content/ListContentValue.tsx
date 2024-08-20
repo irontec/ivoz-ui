@@ -13,6 +13,7 @@ import {
   StyledCheckBoxOutlineBlankIcon,
   StyledTableRowFkLink,
 } from './Table/ContentTable.styles';
+import DownloadFile from '../DownloadFile';
 
 interface ListContentValueProps {
   columnName: string;
@@ -23,12 +24,12 @@ interface ListContentValueProps {
 
 const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const { column, columnName, row, entityService } = props;
-
   const routes = useStoreState((state) => state.routes.routes);
 
   const ListDecorator = entityService.getListDecorator();
   const customComponent = (column as ScalarProperty).component;
-
+  const isDownloadable = (column as ScalarProperty).downloadable;
+  const isFileType = (column as ScalarProperty).type === 'file';
   const isFk = isPropertyFk(column);
   const loadingFk =
     isFk &&
@@ -95,6 +96,16 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     response = <StyledCheckBoxOutlineBlankIcon />;
   } else {
     response = <ListDecorator field={columnName} row={row} property={column} />;
+  }
+
+  if (isDownloadable && isFileType) {
+    response = (
+      <DownloadFile
+        row={row}
+        path={entityService.getEntity().path}
+        fileType={columnName}
+      />
+    );
   }
 
   const prefix = column?.prefix || '';

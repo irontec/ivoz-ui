@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/ivoz-ui
+      - ./library/dist:/ivoz-ui/library/dist
+    command: yarn run watch
+    environment:
+      NODE_ENV: development

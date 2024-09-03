@@ -75,7 +75,12 @@ export const TextField = (props: TextFieldProps) => {
 
     if (type === 'datetime-local') {
       const fixedDate = fixDateTime(target.value);
-      event.target = { ...target, ...{ value: fixedDate } };
+      event.target = {
+        ...target,
+        value: fixedDate,
+        id: event.target.id,
+        name: event.target.name,
+      };
     }
 
     if (onChange) {

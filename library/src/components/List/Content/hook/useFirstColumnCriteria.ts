@@ -19,9 +19,9 @@ const useFirstColumnCriteria = (
     undefined | CriteriaFilterValue
   >(undefined);
 
-  const queryStringCriteria = useStoreState((state) => [
-    ...state.route.queryStringCriteria,
-  ]);
+  const queryStringCriteria = useStoreState(
+    (state) => state.route.queryStringCriteria
+  );
 
   const storeState = useStoreState(
     (state) => state,

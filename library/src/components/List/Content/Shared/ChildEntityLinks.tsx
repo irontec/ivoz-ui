@@ -1,5 +1,6 @@
 import useCurrentPathMatch from '../../../../hooks/useCurrentPathMatch';
 import {
+  ActionItem,
   RouteMapItem,
   isActionItem,
   isEntityItem,
@@ -33,11 +34,12 @@ const ChildEntityLinks = (props: ChildEntityLinksProps): JSX.Element => {
     firstActionButtonNum = 1;
   }
 
-  const childEntitiesCopy = [...childEntities];
-  const visibleChildEntitiesSlice = childEntitiesCopy.length <= 2 ? 3 : 2;
+  const childEntitiesCopy = childEntities.filter((child) => {
+    return !(child as ActionItem).global;
+  });
   const visibleChildEntities = childEntitiesCopy.splice(
     0,
-    visibleChildEntitiesSlice - firstActionButtonNum
+    2 - firstActionButtonNum
   );
   const isEditable = row.editable ?? true;
   return (

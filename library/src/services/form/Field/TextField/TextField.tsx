@@ -7,7 +7,7 @@ import {
   OutlinedInputProps,
 } from '@mui/material';
 import { StyledHelpTextTooltip } from '../Shared/HelpText.styles';
-import { KeyboardEventHandler, useEffect, useState } from 'react';
+import { KeyboardEventHandler } from 'react';
 
 export type TextFieldProps = MuiTextFieldProps & {
   hasChanged: boolean;
@@ -49,14 +49,6 @@ export const TextField = (props: TextFieldProps) => {
     className += ' changed';
   }
 
-  const [inputValue, setInputValue] = useState(value);
-  useEffect(() => {
-    if (!value) {
-      return;
-    }
-    setInputValue(value);
-  }, [value]);
-
   const labelId = `${name}-label`;
   const maxRows = multiline ? 6 : undefined;
 
@@ -79,15 +71,21 @@ export const TextField = (props: TextFieldProps) => {
   }
 
   passThroughProps.onChange = (event) => {
+    const { target } = event;
+
     if (type === 'datetime-local') {
-      setInputValue(fixDateTime(event.target.value));
+      const fixedValue = fixDateTime(target.value);
+      event.target = {
+        ...target,
+        value: fixedValue,
+        name: target.name,
+      };
     }
 
     if (onChange) {
       onChange(event);
     }
   };
-
   return (
     <FormControl
       variant='standard'
@@ -121,7 +119,7 @@ export const TextField = (props: TextFieldProps) => {
         maxRows={maxRows}
         placeholder={placeholder}
         defaultValue={defaultValue}
-        value={inputValue}
+        value={value}
         disabled={disabled}
         onBlur={onBlur}
         error={error}

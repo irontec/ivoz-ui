@@ -34,6 +34,7 @@ import marshaller, {
 import unmarshaller from './DefaultEntityBehavior/Unmarshaller';
 import validator from './DefaultEntityBehavior/Validator';
 import View from './DefaultEntityBehavior/View';
+import List from './DefaultEntityBehavior/List';
 
 export const initialValues = {};
 
@@ -118,6 +119,7 @@ const DefaultEntityBehavior = {
   properties,
   acl,
   calculateAclByParentRow,
+  List,
   ListDecorator,
   ChildDecorator: ChildDecoratorMemo,
   customActions: {},

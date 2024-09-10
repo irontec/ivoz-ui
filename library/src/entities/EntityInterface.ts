@@ -18,6 +18,7 @@ import {
   fetchFksType,
 } from './DefaultEntityBehavior';
 import { IvozStoreState } from 'store';
+import { ListContentProps } from '../components/List/Content/ListContent';
 
 export type ListDecoratorPropsType = {
   field: string;
@@ -147,6 +148,7 @@ export default interface EntityInterface {
   selectOptions?: () => Promise<SelectOptionsType>;
   Form: () => Promise<React.FunctionComponent<EntityFormProps>>;
   View: () => Promise<ViewType>;
+  List: React.FunctionComponent<ListContentProps>;
   ListDecorator: ListDecoratorType;
   ChildDecorator: ChildDecoratorType;
   customActions: CustomActionsType;

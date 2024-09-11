@@ -23,9 +23,9 @@ const FastSearchField = (
 ): JSX.Element => {
   const { className, path, entityService, ignoreColumn } = props;
 
-  const queryStringCriteria = useStoreState((state) => [
-    ...state.route.queryStringCriteria,
-  ]);
+  const storeQueryStringCriteria = useStoreState(
+    (state) => state.route.queryStringCriteria
+  );
   const setQueryStringCriteria = useStoreActions((actions) => {
     return actions.route.setQueryStringCriteria;
   });
@@ -69,6 +69,8 @@ const FastSearchField = (
 
     let match = false;
     let matchIdx: string | undefined;
+
+    const queryStringCriteria = [...storeQueryStringCriteria];
     for (const idx in queryStringCriteria) {
       if (queryStringCriteria[idx].name !== firstColumnCriteria.name) {
         continue;
@@ -90,7 +92,11 @@ const FastSearchField = (
       queryStringCriteria.splice(parseInt(matchIdx, 10), 1);
     }
 
-    setQueryStringCriteria(queryStringCriteria);
+    const queryStringCriteriaWithoutPagination = queryStringCriteria.filter(
+      (criteria) => criteria.name !== '_page'
+    );
+
+    setQueryStringCriteria(queryStringCriteriaWithoutPagination);
   };
 
   const changeHandler: React.ChangeEventHandler<HTMLInputElement> = ({

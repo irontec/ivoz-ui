@@ -175,7 +175,10 @@ export default function ContentFilterSelector(
             variant='contained'
             disabled={criteria.length < 1}
             onClick={() => {
-              commitCriteria(criteria);
+              const queryStringCriteriaWithoutPagination = criteria.filter(
+                (criteria) => criteria.name !== '_page'
+              );
+              commitCriteria(queryStringCriteriaWithoutPagination);
             }}
           >
             {_('Apply')}

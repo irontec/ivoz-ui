@@ -74,9 +74,9 @@ export default function ContentFilterSelector(
   const currentColumn = columns[firstFilter];
   const propertyFilters = filters[firstFilter] || [];
 
-  let preferredFilter = currentColumn.preferredFilter || 'partial';
-
-  if (!currentColumn.preferredFilter) {
+  let preferredFilter = currentColumn?.preferredFilter || 'partial';
+  
+  if (currentColumn && !currentColumn.preferredFilter) {
     switch (true) {
       case isPropertyScalar(currentColumn) &&
         currentColumn.format === 'date-time':

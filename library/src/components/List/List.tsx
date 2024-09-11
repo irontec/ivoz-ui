@@ -3,23 +3,22 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import ErrorBoundary from '../../components/ErrorBoundary';
-import { foreignKeyResolverType } from '../../entities/EntityInterface';
+import EntityInterface, { foreignKeyResolverType } from '../../entities/EntityInterface';
 import useCancelToken from '../../hooks/useCancelToken';
 import useCurrentPathMatch from '../../hooks/useCurrentPathMatch';
 import useRouteChain from '../../hooks/useRouteChain';
 import findRoute from '../../router/findRoute';
 import { RouteMap } from '../../router/routeMapParser';
+import { isPropertyFk } from '../../services';
 import EntityService from '../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../store';
 import ErrorMessage from '../shared/ErrorMessage';
-import { ListContent } from './Content/';
+import useFirstColumn from './Content/hook/useFirstColumn';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, queryStringToCriteria } from './List.helpers';
 import useQueryStringParams from './useQueryStringParams';
-import useFirstColumn from './Content/hook/useFirstColumn';
-import { isPropertyFk } from '../../services';
 
-type ListProps = {
+export type ListProps = EntityInterface & {
   path: string;
   routeMap: RouteMap;
   entityService: EntityService;
@@ -28,7 +27,8 @@ type ListProps = {
 };
 
 const List = function (props: ListProps) {
-  const { path, foreignKeyResolver, entityService, routeMap, className } =
+
+  const { path, foreignKeyResolver, entityService, routeMap, className, List: EntityListDecorator } =
     props;
 
   const location = useLocation();
@@ -303,17 +303,17 @@ const List = function (props: ListProps) {
   return (
     <div className={className}>
       <ErrorBoundary>
-        <ListContent
-          empty={empty}
-          childEntities={currentRoute?.children || []}
-          path={path}
-          ignoreColumn={ignoreColumn}
-          preloadData={preload}
-          entityService={entityService}
-          cancelToken={cancelToken}
-          match={match}
-          routeChain={routeChain}
-          location={location}
+        <EntityListDecorator
+            empty={empty}
+            childEntities={currentRoute?.children || []}
+            path={path}
+            ignoreColumn={ignoreColumn}
+            preloadData={preload}
+            entityService={entityService}
+            cancelToken={cancelToken}
+            match={match}
+            routeChain={routeChain}
+            location={location}
         />
         {reqError && <ErrorMessage message={reqError} />}
       </ErrorBoundary>

@@ -22,5 +22,13 @@ export const StyledEmpty = styled(Empty)(() => {
     '& img': {
       maxWidth: '100%',
     },
+
+    '& .empty-actions': {
+      display: 'flex',
+      flexDirection: 'row',
+      '& a': {
+        marginLeft: '8px',
+      },
+    },
   };
 });

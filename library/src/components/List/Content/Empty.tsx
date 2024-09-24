@@ -3,8 +3,10 @@ import EntityService from '../../../services/entity/EntityService';
 import _ from '../../../services/translations/translate';
 import { SolidButton } from '../../shared/Button/Button.styles';
 import { useTranslation } from 'react-i18next';
-import { Fade } from '@mui/material';
+import { Box, Fade } from '@mui/material';
 import { useStoreState } from '../../../store';
+import { GlobalFunctionComponent, MultiSelectFunctionComponent } from 'router';
+import { MultiselectMoreChildEntityLinks } from './Shared/MultiselectMoreChildEntityLinks';
 
 export interface EmptyProps {
   entityService: EntityService;
@@ -16,7 +18,6 @@ export const Empty = (props: EmptyProps): JSX.Element => {
   const { t } = useTranslation();
 
   const entity = entityService.getEntity();
-
   const parentRow = useStoreState((state) => state.list.parentRow);
   const acls = entityService.getAcls(parentRow);
   const { create = false } = acls;
@@ -30,6 +31,9 @@ export const Empty = (props: EmptyProps): JSX.Element => {
     singularTitle = t(translationKey, { count: 1 }).toLowerCase();
     pluralTitle = t(translationKey, { count: 2 }).toLowerCase();
   }
+  const globalActions = Object.values(entity.customActions).filter(
+    (action) => action.global
+  );
 
   return (
     <Fade
@@ -48,11 +52,41 @@ export const Empty = (props: EmptyProps): JSX.Element => {
           })}
         </p>
         {create && (
-          <Link to={location.pathname + '/create'}>
-            <SolidButton>
-              {_('New {{entity}}', { entity: singularTitle })}
-            </SolidButton>
-          </Link>
+          <Box className='empty-actions'>
+            {globalActions &&
+              globalActions.length < 2 &&
+              globalActions
+                .map(
+                  (item) =>
+                    item.action as
+                      | MultiSelectFunctionComponent
+                      | GlobalFunctionComponent
+                )
+                .map((Action, key) => {
+                  return (
+                    <Action
+                      key={key}
+                      rows={[]}
+                      selectedValues={[]}
+                      entityService={entityService}
+                    />
+                  );
+                })}
+            {globalActions && globalActions.length > 1 && (
+              <MultiselectMoreChildEntityLinks
+                childActions={globalActions}
+                selectedValues={[]}
+                rows={[]}
+                entityService={entityService}
+              />
+            )}
+
+            <Link to={location.pathname + '/create'}>
+              <SolidButton>
+                {_('New {{entity}}', { entity: singularTitle })}
+              </SolidButton>
+            </Link>
+          </Box>
         )}
       </section>
     </Fade>

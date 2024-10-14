@@ -75,7 +75,7 @@ export default function ContentFilterSelector(
   const propertyFilters = filters[firstFilter] || [];
 
   let preferredFilter = currentColumn?.preferredFilter || 'partial';
-  
+
   if (currentColumn && !currentColumn.preferredFilter) {
     switch (true) {
       case isPropertyScalar(currentColumn) &&
@@ -94,7 +94,7 @@ export default function ContentFilterSelector(
     newCriteria[idx] = {
       name,
       type,
-      value,
+      value: decodeURIComponent(value),
     };
     setCriteria(newCriteria);
   };

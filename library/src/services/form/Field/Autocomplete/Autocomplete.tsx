@@ -51,7 +51,8 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
     hasChanged,
   } = props;
 
-  const value = props.value || null;
+  const value = props.value ?? null;
+  
   const i18n = getI18n();
 
   let className = props.className;
@@ -183,12 +184,40 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
       : true;
   }
 
+  const autoDefaultValue = (value: unknown): unknown => {
+    if (value !== '__auto__') {
+      return value;
+    }
+
+    if (arrayChoices.length === 0) {
+      return value;
+    }
+
+    const realChoices = arrayChoices.filter((dac) => dac.id != '__null__');
+
+    if (realChoices.length != 1) {
+      return '__null__';
+    }
+
+    return realChoices[0].id;
+  };
+
   let autocompleteValue;
   if (multiple) {
     autocompleteValue = arrayChoices.length ? value : [];
   } else {
+    const autoValue = autoDefaultValue(value);
     autocompleteValue =
-      arrayChoices?.find((item) => `${item.id}` === `${value}`) ?? null;
+      arrayChoices?.find((item) => `${item.id}` === `${autoValue}`) ?? null;
+
+    if (autoValue != value) {
+      onChange({
+        target: {
+          name: name,
+          value: autoValue,
+        },
+      });
+    }
   }
 
   return (

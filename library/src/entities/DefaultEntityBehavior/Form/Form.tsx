@@ -1,6 +1,6 @@
 import { Alert, AlertTitle } from '@mui/material';
 import { FormikHelpers } from 'formik';
-import { useEffect, useRef, useState } from 'react';
+import { FormEvent, useEffect, useRef, useState } from 'react';
 import { PathMatch } from 'react-router-dom';
 import { useStoreState } from 'store';
 import ErrorBoundary from '../../../components/ErrorBoundary';
@@ -9,8 +9,10 @@ import SaveButton from '../../../components/shared/Button/SaveButton';
 import ErrorMessage from '../../../components/shared/ErrorMessage';
 import { FilterValuesType } from '../../../router/routeMapParser';
 import {
+  collectReferences,
   DropdownChoices,
   EmbeddableProperty,
+  findMatchingColumns,
   ScalarEntityValue,
   useFormikType,
 } from '../../../services';
@@ -33,6 +35,7 @@ import filterFieldsetGroups, {
 import FormFieldMemo from './FormField';
 import { useFormHandler } from './useFormHandler';
 import { validationErrosToJsxErrorList } from './validationErrosToJsxErrorList';
+import { ConfirmEditionDialog } from '../../../components/shared/ConfirmEditDialog';
 
 export type FormOnChangeEvent = React.ChangeEvent<{ name: string; value: any }>;
 export type PropertyFkChoices = DropdownChoices;
@@ -74,6 +77,7 @@ export type EntityFormProps = FormProps &
     | 'unmarshaller'
   >;
 export type EntityFormType = (props: EntityFormProps) => JSX.Element | null;
+
 const Form: EntityFormType = (props) => {
   const {
     entityService,
@@ -84,10 +88,17 @@ const Form: EntityFormType = (props) => {
     foreignKeyGetter: foreignKeyGetterLoader,
     row,
     match,
+    edit,
   } = props;
 
   const { fkChoices } = props;
-
+  const [showConfirm, setShowConfirm] = useState<boolean>(false);
+  const editDoubleCheck = !edit
+    ? false
+    : props.entityService.getEntity().editDoubleCheck;
+  const [formEvent, setFormEvent] = useState<
+    FormEvent<HTMLFormElement> | undefined
+  >(undefined);
   const [foreignKeyGetter, setForeignKeyGetter] = useState<
     ForeignKeyGetterType | undefined
   >();
@@ -120,6 +131,18 @@ const Form: EntityFormType = (props) => {
   const allProperties = entityService.getAllProperties();
   const columns = entityService.getProperties();
   const columnNames = Object.keys(columns);
+
+  const inverseRelations = collectReferences(columns);
+  const inverseRelationsMatch = findMatchingColumns(
+    columnNames,
+    inverseRelations
+  );
+  let totalEntitiesUsed = 0;
+  inverseRelationsMatch.forEach((value) => {
+    if (Array.isArray(row?.[value])) {
+      totalEntitiesUsed = (row?.[value] as string[]).length + totalEntitiesUsed;
+    }
+  });
 
   let groups: Array<FieldsetGroups> = [];
   if (props.groups) {
@@ -183,6 +206,9 @@ const Form: EntityFormType = (props) => {
   const errorList = validationErrosToJsxErrorList(formik, allProperties);
   const divRef = useRef<HTMLDivElement>(null);
 
+  const entity = entityService.getEntity();
+  const iden = row ? entity.toStr(row) : '';
+
   const focusOnDiv = () => {
     const node = divRef.current;
     node?.focus();
@@ -196,14 +222,40 @@ const Form: EntityFormType = (props) => {
     divRef
   );
 
+  const confirmEditionText = (): JSX.Element => {
+    if (totalEntitiesUsed) {
+      return (
+        <span>
+          {_(`You are about to update`)} <strong>{iden}</strong>
+          <br />
+          {_(`This change will affect`)} <strong>{totalEntitiesUsed}</strong>{' '}
+          {_(`entities`)}
+        </span>
+      );
+    }
+
+    return (
+      <span>
+        {_(`You are about to update`)} <strong>{iden}</strong>
+      </span>
+    );
+  };
+
   return (
     <div>
       <form
         onSubmit={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+
           if (formik.isSubmitting) {
-            e.preventDefault();
-            e.stopPropagation();
-            return false;
+            return;
+          }
+
+          if (editDoubleCheck) {
+            setFormEvent(e);
+            setShowConfirm(true);
+            return;
           }
 
           formik.handleSubmit(e);
@@ -277,6 +329,13 @@ const Form: EntityFormType = (props) => {
         <SaveButton />
         {reqError && <ErrorMessage message={reqError} />}
       </form>
+      <ConfirmEditionDialog
+        text={confirmEditionText()}
+        open={showConfirm}
+        handleClose={() => setShowConfirm(false)}
+        formEvent={formEvent}
+        handleSave={(e) => formik.handleSubmit(e)}
+      />
     </div>
   );
 };

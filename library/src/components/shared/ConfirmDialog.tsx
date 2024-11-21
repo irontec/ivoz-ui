@@ -53,6 +53,12 @@ export default function ConfirmDialog(props: ConfirmDialogProps): JSX.Element {
     []
   );
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Tab') {
+      event.stopPropagation();
+    }
+  };
+
   const sumbitEnabled = !doubleCheck || inputVal == doubleCheckExpectedStr;
 
   return (
@@ -63,6 +69,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps): JSX.Element {
       onClose={handleClose}
       aria-labelledby='alert-dialog-slide-title'
       aria-describedby='alert-dialog-slide-description'
+      onKeyDown={handleKeyDown}
     >
       <CloseRoundedIcon className='close-icon' onClick={handleClose} />
       <img src='assets/img/delete-dialog.svg' className='modal-icon' />

@@ -36,6 +36,12 @@ export const ConfirmEditionDialog = (props: ConfirmEditDialogProps) => {
   const TOTAL_TIME = 100;
   const [progress, setProgress] = useState(TOTAL_TIME);
 
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Tab') {
+      event.stopPropagation();
+    }
+  };
+
   useEffect(() => {
     let timer: NodeJS.Timeout | null = null;
     if (open) {
@@ -64,6 +70,7 @@ export const ConfirmEditionDialog = (props: ConfirmEditDialogProps) => {
       TransitionComponent={Transition}
       keepMounted
       onClose={handleClose}
+      onKeyDown={handleKeyDown}
       aria-labelledby='alert-dialog-slide-title'
       aria-describedby='alert-dialog-slide-description'
     >

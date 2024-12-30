@@ -51,6 +51,15 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
 
   const entity = entityService.getEntity();
   const iden = entity.toStr(row);
+  const isIdenInt = Number.isInteger(parseInt(iden, 10));
+
+  const printStrongIden = () => {
+    if (!isIdenInt) {
+      return <strong>{iden}</strong>;
+    }
+
+    return <></>;
+  };
 
   return (
     <>
@@ -82,7 +91,7 @@ const DeleteRowButton = (props: DeleteRowButtonProps): JSX.Element => {
       <ConfirmDialog
         text={
           <span>
-            {_('You are about to remove')} <strong>{iden}</strong>
+            {_('You are about to remove')} {printStrongIden()}
           </span>
         }
         open={showDelete}

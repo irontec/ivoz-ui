@@ -1,7 +1,7 @@
 import AddIcon from '@mui/icons-material/Add';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { Box, useMediaQuery, useTheme } from '@mui/material';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import {
   LightButton,
   TonalButton,
@@ -63,13 +63,16 @@ export default function ContentFilterRow(
     return null;
   }
 
-  const filterChoices: DropdownChoices = {};
-  for (const filter of filters[name]) {
-    filterChoices[filter] = FilterIconFactory({
-      name: filter,
-      includeLabel: true,
-    });
-  }
+  const filterChoices = useMemo(() => {
+    const choices: DropdownChoices = {};
+    for (const filter of filters[name]) {
+      choices[filter] = FilterIconFactory({
+        name: filter,
+        includeLabel: true,
+      });
+    }
+    return choices;
+  }, [filters, name]);
 
   const [type, setType] = useState(row.type);
   const [value, setValue] = useState<string>(row.value as string);
@@ -141,7 +144,7 @@ export default function ContentFilterRow(
         errorMsg=''
         hasChanged={false}
       />
-      <StyledDropdownMemo
+      <StyledDropdown
         name='type'
         label=''
         value={type}

@@ -54,9 +54,7 @@ export default function ConfirmDialog(props: ConfirmDialogProps): JSX.Element {
   );
 
   const handleKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key === 'Tab') {
-      event.stopPropagation();
-    }
+    event.stopPropagation();
   };
 
   const sumbitEnabled = !doubleCheck || inputVal == doubleCheckExpectedStr;

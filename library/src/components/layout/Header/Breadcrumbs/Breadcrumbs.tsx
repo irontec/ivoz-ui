@@ -11,6 +11,8 @@ import {
   StyledCollapsedBreadcrumbsNavigateNextIcon,
   StyledCollapsedBreadcrumbsTypography,
 } from './styles/Links.styles';
+import useParentRow from '../../../../hooks/useParentRow';
+import EntityInterface from 'entities/EntityInterface';
 
 type BreadcrumbsProps = {
   routeMap: RouteMap;
@@ -42,6 +44,11 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
     routeMap,
     match,
   });
+
+  type RouteItem = {
+    item: EntityItem;
+    rowLabel?: string;
+  };
 
   const lastPathSegment = match.pathname.split('/').pop() as string;
   const showEntityToStr = ['detailed', 'update'].includes(lastPathSegment);
@@ -85,40 +92,78 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
     );
   }
 
+  const breadcrumbs: JSX.Element[] = [];
+
+  routeItems.forEach((routeItem, key: number) => {
+    const to = getEntityItemLink(routeItem, match);
+    const entity = routeItem.entity;
+    const isLast = key + 1 === routeItems.length;
+    const params = Object.values(match.params);
+    const entityId = params[key];
+
+    const element = (
+      <span key={key} style={{ display: 'flex', gap: '12px' }}>
+        <StyledCollapsedBreadcrumbsLink to={to}>
+          {entity.title}
+        </StyledCollapsedBreadcrumbsLink>
+        {isLast && entity.link && !appendSegment && (
+          <a
+            target='_blank'
+            href={entity.link}
+            rel='noreferrer'
+            style={{ height: '24px' }}
+          >
+            <img src='assets/img/breadcrumb-link.svg' />
+          </a>
+        )}
+      </span>
+    );
+
+    breadcrumbs.push(element);
+
+    if (isLast || !entityId) {
+      return;
+    }
+
+    breadcrumbs.push(
+      <BreadcrumbItem key={key} entity={entity} id={entityId as string} />
+    );
+  });
+
   return (
     <MuiBreadcrumbs
       separator={<StyledCollapsedBreadcrumbsNavigateNextIcon />}
       aria-label='breadcrumb'
     >
-      {routeItems.map((routeItem, key: number) => {
-        const to = getEntityItemLink(routeItem, match);
-        const entity = routeItem.entity;
-        const isLast = key + 1 === routeItems.length;
-
-        return (
-          <span key={key} style={{ display: 'flex', gap: '12px' }}>
-            <StyledCollapsedBreadcrumbsLink to={to}>
-              {entity.title}
-            </StyledCollapsedBreadcrumbsLink>
-            {isLast && entity.link && !appendSegment && (
-              <a
-                target='_blank'
-                href={entity.link}
-                rel='noreferrer'
-                style={{ height: '24px' }}
-              >
-                <img src='assets/img/breadcrumb-link.svg' />
-              </a>
-            )}
-          </span>
-        );
-      })}
+      {breadcrumbs}
       {appendSegment && (
         <StyledCollapsedBreadcrumbsTypography>
           {appendSegment}
         </StyledCollapsedBreadcrumbsTypography>
       )}
     </MuiBreadcrumbs>
+  );
+};
+
+type BreadcrumbItemProps = {
+  entity: EntityInterface;
+  id: string;
+};
+
+const BreadcrumbItem = ({ entity, id }: BreadcrumbItemProps): JSX.Element => {
+  const item = useParentRow({
+    parentEntity: entity,
+    parentId: id,
+  });
+
+  if (!item) {
+    return <></>;
+  }
+
+  return (
+    <StyledCollapsedBreadcrumbsTypography>
+      {entity.toStr(item)}
+    </StyledCollapsedBreadcrumbsTypography>
   );
 };
 

@@ -52,7 +52,7 @@ const Autocomplete = (props: AutocompleteProps): JSX.Element | null => {
   } = props;
 
   const value = props.value ?? null;
-  
+
   const i18n = getI18n();
 
   let className = props.className;

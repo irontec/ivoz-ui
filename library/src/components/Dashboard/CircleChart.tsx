@@ -24,6 +24,7 @@ export const CircleChart = (props: CircleProps) => {
   } = props;
 
   const circumference = Math.PI * 2 * radio;
+  let cumulativeOffset = 0;
 
   return (
     <svg width={width} height={height} style={{ display: 'flex' }}>
@@ -32,6 +33,9 @@ export const CircleChart = (props: CircleProps) => {
           circleData.percentage.replace('%', '') as string
         );
         const segmentLength = (circumference * circlePercentage) / 100;
+        const strokeDasharray = `${segmentLength} ${circumference - segmentLength}`;
+        const strokeDashoffset = cumulativeOffset;
+        cumulativeOffset -= segmentLength;
 
         return (
           <circle
@@ -42,10 +46,8 @@ export const CircleChart = (props: CircleProps) => {
             fill='transparent'
             stroke={circleData.color}
             strokeWidth='25'
-            strokeDasharray={`${segmentLength} ${
-              circumference - segmentLength
-            }`}
-            strokeDashoffset={`${index * segmentLength}`}
+            strokeDasharray={strokeDasharray}
+            strokeDashoffset={strokeDashoffset}
           />
         );
       })}

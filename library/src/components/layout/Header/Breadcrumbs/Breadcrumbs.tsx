@@ -13,6 +13,7 @@ import {
 } from './styles/Links.styles';
 import useParentRow from '../../../../hooks/useParentRow';
 import EntityInterface from 'entities/EntityInterface';
+import { useTranslation } from 'react-i18next';
 
 type BreadcrumbsProps = {
   routeMap: RouteMap;
@@ -36,19 +37,14 @@ const getEntityItemLink = (
 
 const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
   const { routeMap, desktop = true } = props;
-
   const match = useCurrentPathMatch();
   const formRow = useStoreState((state) => state.form.row);
+  const { i18n } = useTranslation();
 
   const routeItems = useRouteChain({
     routeMap,
     match,
   });
-
-  type RouteItem = {
-    item: EntityItem;
-    rowLabel?: string;
-  };
 
   const lastPathSegment = match.pathname.split('/').pop() as string;
   const showEntityToStr = ['detailed', 'update'].includes(lastPathSegment);
@@ -100,7 +96,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
     const isLast = key + 1 === routeItems.length;
     const params = Object.values(match.params);
     const entityId = params[key];
-
+    const currentLang = i18n.resolvedLanguage;
     const element = (
       <span key={key} style={{ display: 'flex', gap: '12px' }}>
         <StyledCollapsedBreadcrumbsLink to={to}>
@@ -109,7 +105,7 @@ const Breadcrumbs = (props: BreadcrumbsProps): JSX.Element | null => {
         {isLast && entity.link && !appendSegment && (
           <a
             target='_blank'
-            href={entity.link}
+            href={entity.link.replace('${language}', currentLang || 'en')}
             rel='noreferrer'
             style={{ height: '24px' }}
           >

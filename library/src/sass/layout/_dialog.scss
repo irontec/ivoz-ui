@@ -42,4 +42,11 @@
       flex-grow: 1;
     }
   }
+
+  .logo {
+    img {height: 50px;}
+    svg {
+      height: 12px;
+    }
+  }
 }

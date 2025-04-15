@@ -4,7 +4,8 @@
     "target": "es6",
     "sourceMap": false,
     "declaration": true,
-    "outDir": "dist",
+    // "outDir": "dist",
+    "outDir": "/home/roma/Desktop/ivozprovider/web/portal/node_modules/@irontec/ivoz-ui",
     "lib": [
       "dom",
       "dom.iterable",

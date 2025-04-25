@@ -4,8 +4,6 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
   MenuItem,
   Typography,
   useMediaQuery,
@@ -38,7 +36,9 @@ export default function Header(props: headerProps): JSX.Element {
     (actions) => actions.menu.toggleVisibility
   );
   const logo = useStoreState((state) => state.theme.logo);
-
+  const version = useStoreState((state) => state.aboutInfo.version);
+  const lastUpdated = useStoreState((state) => state.aboutInfo.lastUpdated);
+  const commit = useStoreState((state) => state.aboutInfo.commit);
   const handleLogout = () => {
     resetAuth();
   };
@@ -62,7 +62,7 @@ export default function Header(props: headerProps): JSX.Element {
             <Settings />
 
             <Avatar>
-              <MenuItem key='logout' onClick={handleModal}>
+              <MenuItem key='about' onClick={handleModal}>
                 <Typography textAlign='center'>{_('About')}</Typography>
               </MenuItem>
               <MenuItem key='logout' onClick={handleLogout}>
@@ -94,10 +94,9 @@ export default function Header(props: headerProps): JSX.Element {
               <p>
                 <img src={logo || './logo.svg'} className='logo' />
               </p>
-              <p>idei</p>
               <p>
-                {_('Version')} 1.6.0 <br />
-                {_('Last update')}: 11/03/2025
+                {_('Version')}: {version} ({commit}) <br />
+                {_('Last update')}: {lastUpdated}
               </p>
               <p>
                 <Box

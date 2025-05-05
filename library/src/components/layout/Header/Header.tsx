@@ -91,26 +91,22 @@ export default function Header(props: headerProps): JSX.Element {
           >
             <CloseRoundedIcon className='close-icon' onClick={handleModal} />
             <DialogContent className='dialog-about'>
-              <p>
-                <img src={logo || './logo.svg'} className='logo' />
-              </p>
+              <img src={logo || './logo.svg'} className='logo' />
               <p>
                 {_('Version')}: {version} ({commit}) <br />
                 {_('Last update')}: {lastUpdated}
               </p>
-              <p>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 1,
-                  }}
-                  className='logo'
-                >
-                  Powered by <Logo />
-                </Box>
-              </p>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 1,
+                }}
+                className='logo'
+              >
+                Powered by <Logo />
+              </Box>
               <p>©2025 Irontec | All rights reserved</p>
             </DialogContent>
             <DialogActions>

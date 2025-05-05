@@ -43,10 +43,10 @@
     }
   }
 
-  .logo {
-    img {height: 50px;}
-    svg {
+  .logo svg {
       height: 12px;
-    }
+  }
+  img.logo{
+    height: 50px;
   }
 }

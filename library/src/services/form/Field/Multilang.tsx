@@ -8,6 +8,7 @@ import {
   StyledFieldsetRoot,
 } from './CustomComponentWrapper.styles';
 import { StyledMultilangTextField } from './TextField/TextField.styles';
+import { useMultilangSync } from '../../../entities/DefaultEntityBehavior/Form/useMultilangSync';
 
 type Languages = { [k: string]: Language };
 interface MultilangPropsInterface
@@ -33,6 +34,11 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
   const languages = useStoreState((state) => state.i18n.languages);
   const mlValue: Record<string, string> = formik?.values[_columnName] || {};
   const rootProperty = properties[_columnName] as ScalarProperty;
+  const { handleChange } = useMultilangSync({
+    formik,
+    languages,
+    changeHandler,
+  });
 
   return (
     <StyledFieldsetRoot
@@ -76,7 +82,7 @@ const Multilang: React.FC<MultilangPropsInterface> = (props): JSX.Element => {
                 disabled={disabled}
                 label={undefined}
                 required={required}
-                onChange={changeHandler}
+                onChange={handleChange}
                 onBlur={onBlur}
                 error={touched && Boolean(error)}
                 errorMsg={touched && error}

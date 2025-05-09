@@ -1,4 +1,6 @@
 {
+  "About": "Acerca de",
+  "ACCEPT": "ACEPTAR",
   "Add": "Añadir",
   "Advanced search": "Búsqueda avanzada",
   "Apply": "Aplicar",
@@ -21,6 +23,7 @@
   "Is lower than": "es menor que",
   "Is lower than equal": "es menor o igual que",
   "Language": "Idioma",
+  "Last update": "Última actualización",
   "Logout": "Salir",
   "New": "Nuevo",
   "New {{entity}}": "Nuevo {{entity}}",
@@ -50,5 +53,6 @@
   "invalid pattern": "Patrón invalido",
   "required value": "valor requerido",
   "settings": "Configuración",
+  "Version": "Versión",
   "{{username}} account settings": "Configuración de cuenta de {{username}}"
 }

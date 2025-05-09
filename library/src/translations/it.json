@@ -1,4 +1,6 @@
 {
+  "About": "Circa",
+  "ACCEPT": "ACCETTARE",
   "Add": "Add",
   "Advanced search": "Advanced search",
   "Apply": "Apply",
@@ -21,6 +23,7 @@
   "Is lower than": "Is lower than",
   "Is lower than equal": "Is lower than equal",
   "Language": "Language",
+  "Last update": "Ultimo aggiornamento",
   "Logout": "Logout",
   "New": "New",
   "New {{entity}}": "New {{entity}}",
@@ -50,5 +53,6 @@
   "invalid pattern": "invalid pattern",
   "required value": "required value",
   "settings": "Impostazioni",
+  "Version": "Versione",
   "{{username}} account settings": "{{username}} account settings"
 }

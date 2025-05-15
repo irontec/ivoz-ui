@@ -1,21 +1,20 @@
 import styled from '@emotion/styled';
-import DownloadIcon from '@mui/icons-material/Download';
 
-export const StyledPdfIcon = styled(DownloadIcon)(() => {
+export const StyledPdfButton = styled.button(() => {
   return {
-    color: '#5b5b5b',
-    verticalAlign: 'bottom',
+    backgroundColor: 'transparent',
+    border: '0',
+    color: 'var(--color-text)',
     fontSize: '1.3em',
     cursor: 'pointer',
-  };
-});
-
-export const StyledFileName = styled.span(() => {
-  return {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    maxWidth: '60px',
-    display: 'inline-flex',
+    display: 'flex',
+    alignItems: 'flex-end',
+    '&:hover': {
+      color: 'var(--color-primary)',
+    },
+    '&:disabled': {
+      color: '#d1d1d3',
+      cursor: 'initial',
+    },
   };
 });

@@ -1,6 +1,8 @@
 import { useStoreActions } from 'store';
-import { StyledPdfIcon, StyledFileName } from './DownloadFile.styles';
 import { saveAs } from 'file-saver';
+import { Tooltip } from '@mui/material';
+import DownloadIcon from '@mui/icons-material/Download';
+import { StyledPdfButton } from './DownloadFile.styles';
 
 export interface DownloadFileProps {
   row: Record<string, any>;
@@ -29,10 +31,13 @@ export default function DownloadFile(props: DownloadFileProps): JSX.Element {
     });
   };
 
+  const noFile = !row[fileType].baseName;
+
   return (
-    <>
-      <StyledPdfIcon onClick={download} />
-      <StyledFileName>{row[fileType].baseName}</StyledFileName>
-    </>
+    <Tooltip title={row[fileType].baseName} placement='bottom' arrow>
+      <StyledPdfButton disabled={noFile} onClick={download}>
+        <DownloadIcon />
+      </StyledPdfButton>
+    </Tooltip>
   );
 }

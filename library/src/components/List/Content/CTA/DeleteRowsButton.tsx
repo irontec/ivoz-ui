@@ -17,7 +17,7 @@ interface DeleteRowsButtonProps {
 const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
   const { entityService, selectedValues, variant = 'icon' } = props;
   const disabled = selectedValues.length === 0;
-
+  const entity = entityService.getEntity();
   const [showDelete, setShowDelete] = useState<boolean>(false);
 
   const handleShowDelete = () => {
@@ -85,7 +85,7 @@ const DeleteRowsButton = (props: DeleteRowsButtonProps): JSX.Element => {
           <span>
             <LightButton
               onClick={handleShowDelete}
-              disabled={selectedValues.length < 1}
+              disabled={entity.deleteDoubleCheck || selectedValues.length < 1}
             >
               <DeleteIcon />
             </LightButton>

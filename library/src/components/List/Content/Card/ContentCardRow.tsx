@@ -47,6 +47,7 @@ const ContentCardRow = (props: ContentCardProps): JSX.Element => {
           selectable={multiselect}
           selectedValues={selectedValues}
           handleChange={handleMultiselectChange}
+          entityService={entityService}
         />
       )}
       <Typography onClick={toggleExpanded} sx={{ display: 'flex' }}>

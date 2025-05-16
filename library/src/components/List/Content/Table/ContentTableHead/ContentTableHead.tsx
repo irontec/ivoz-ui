@@ -39,7 +39,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     }
   );
   const columns = entityService.getCollectionColumns(storeState);
-
+  const entity = entityService.getEntity();
   const order = useStoreState((state) => state.route.order);
   const direction = order?.direction || false;
   const replaceInQueryStringCriteria = useStoreActions((actions) => {
@@ -73,6 +73,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
               checked={checked}
               onChange={selectAll}
               indeterminate={indeterminateSelectAll}
+              disabled={entity.deleteDoubleCheck}
             />
           </TableCell>
         )}

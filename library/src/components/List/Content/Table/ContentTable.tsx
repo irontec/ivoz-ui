@@ -123,6 +123,7 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
                     name={`${row.id}`}
                     checked={checked}
                     onChange={handleChange}
+                    disabled={entity.deleteDoubleCheck}
                   />
                 </TableCell>
               )}

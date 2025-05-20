@@ -55,7 +55,9 @@ const ListContentHeader = (
   } = props;
 
   const entity = entityService.getEntity();
-  const disableMultiDelete = entity.disableMultiDelete || false;
+  const disableMultiDelete =
+    entity.deleteDoubleCheck === true || entity.disableMultiDelete === true;
+
   const acl = entityService.getAcls(parentRow);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);

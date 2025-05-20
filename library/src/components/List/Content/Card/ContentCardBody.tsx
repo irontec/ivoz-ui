@@ -49,7 +49,9 @@ const ContentCardBody = (props: ContentCardProps): JSX.Element => {
     .filter((action) => action.multiselect || action.global)
     .map((item) => item.action as MultiSelectFunctionComponent);
 
-  const multiselect = acl.delete === true || multiselectActions.length > 0;
+  const multiselect =
+    (entity.deleteDoubleCheck !== true && acl.delete === true) ||
+    multiselectActions.length > 0;
 
   const updateRouteMapItem: RouteMapItem = {
     entity,

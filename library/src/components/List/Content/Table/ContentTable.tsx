@@ -76,7 +76,9 @@ const ContentTable = (props: ContentTableProps): JSX.Element => {
 
   const parentRow = useStoreState((state) => state.list.parentRow);
   const acl = entityService.getAcls(parentRow);
-  const multiselect = acl.delete === true || multiselectActions.length > 0;
+  const multiselect =
+    (entity.deleteDoubleCheck !== true && acl.delete === true) ||
+    multiselectActions.length > 0;
 
   const deleteMapItem: RouteMapItem = {
     entity,

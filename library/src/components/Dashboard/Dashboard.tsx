@@ -36,10 +36,10 @@ const Dashboard = (props: DashboardProps) => {
   }
 
   const rows = [
-    createData('Acies Abogados', 'IvozProvider Irontec', 10, 8),
-    createData('Ayuntamiento Bilbao', 'IvozProvider Irontec', 10, 8),
-    createData('BicBerrilan', 'IvozProvider Irontec', 10, 8),
-    createData('CaritasSoria', 'IvozProvider Irontec', 10, 8),
+    createData('Client 1', 'Platform A', 5, 3),
+    createData('Client 2', 'Platform B', 8, 2),
+    createData('Client 3', 'Platform C', 4, 6),
+    createData('Client 4', 'Platform D', 7, 1),
   ];
 
   return (
@@ -48,11 +48,11 @@ const Dashboard = (props: DashboardProps) => {
         <div className='card-container'>
           <div>
             <h3>
-              Welcome to <br /> Advanced Provisioning System
+              Welcome to <br /> Demo System
             </h3>
             <p>
-              APS is an Open Source solution by Irontec. Add platforms, manage
-              clients, assign license to VoIP users and much more.
+              This is a demo. Add platforms, manage clients, assign licenses and
+              more.
             </p>
             <LightButton>Get started</LightButton>
           </div>
@@ -66,23 +66,23 @@ const Dashboard = (props: DashboardProps) => {
         <div className='content'>
           <div className='row'>
             <div className='time'>5m</div>
-            <div className='value'>Login (Antonio)</div>
+            <div className='value'>Login (User1)</div>
           </div>
           <div className='row'>
             <div className='time'>30m</div>
-            <div className='value'>New admin added (Mikel)</div>
+            <div className='value'>New admin added (User2)</div>
           </div>
           <div className='row'>
             <div className='time'>6h</div>
-            <div className='value'>Login (Mikel)</div>
+            <div className='value'>Login (User2)</div>
           </div>
           <div className='row'>
             <div className='time'>1d</div>
-            <div className='value'>10 new licenses assigned (Carlos)</div>
+            <div className='value'>10 licenses assigned (User3)</div>
           </div>
           <div className='row'>
             <div className='time'>1d</div>
-            <div className='value'>New client added (Carlos)</div>
+            <div className='value'>New client added (User3)</div>
           </div>
         </div>
       </div>
@@ -92,7 +92,7 @@ const Dashboard = (props: DashboardProps) => {
           <IconPlatformsDashboard />
         </div>
 
-        <div className='number'>5</div>
+        <div className='number'>4</div>
 
         <div className='name'>Platforms</div>
 
@@ -102,7 +102,7 @@ const Dashboard = (props: DashboardProps) => {
         </div>
 
         <a href='' className='link'>
-          Go to platforms
+          View platforms
         </a>
       </div>
 
@@ -111,17 +111,17 @@ const Dashboard = (props: DashboardProps) => {
           <IconClientsDashboard />
         </div>
 
-        <div className='number'>120</div>
+        <div className='number'>20</div>
 
         <div className='name'>Clients</div>
 
         <div className='progress'>
-          <span>+ 3</span>
+          <span>+ 1</span>
           <img src='assets/img/up.svg' />
         </div>
 
         <a href='' className='link'>
-          Go to clients
+          View clients
         </a>
       </div>
 
@@ -130,17 +130,17 @@ const Dashboard = (props: DashboardProps) => {
           <IconUsersDashboard />
         </div>
 
-        <div className='number'>1264</div>
+        <div className='number'>100</div>
 
         <div className='name'>Users</div>
 
         <div className='progress'>
-          <span>- 15</span>
+          <span>- 2</span>
           <img src='assets/img/down.svg' />
         </div>
 
         <a href='' className='link'>
-          Go to users
+          View users
         </a>
       </div>
 
@@ -151,7 +151,7 @@ const Dashboard = (props: DashboardProps) => {
           <div className='circle'></div>
           <div className='data'>
             <div className='total'>Total</div>
-            <div className='number'>1632</div>
+            <div className='number'>120</div>
           </div>
         </div>
 

@@ -73,6 +73,12 @@ export type SelectOptionsArgs = {
   callback: FetchFksCallback;
   cancelToken?: CancelToken;
 };
+
+export type DynamicSelectOptionsArgs = {
+  searchTerm?: string;
+  id?: string;
+};
+
 export type SelectOptionsType<T = any> = (
   props: SelectOptionsArgs,
   customProps?: T
@@ -146,6 +152,7 @@ export default interface EntityInterface {
   foreignKeyResolver: () => Promise<foreignKeyResolverType>;
   foreignKeyGetter: () => Promise<ForeignKeyGetterType>;
   selectOptions?: () => Promise<SelectOptionsType>;
+  dynamicSelectOptions?: boolean;
   Form: () => Promise<React.FunctionComponent<EntityFormProps>>;
   View: () => Promise<ViewType>;
   List: React.FunctionComponent<ListContentProps>;

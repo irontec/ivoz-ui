@@ -1,3 +1,4 @@
+import { DynamicAutocompleteFactory } from './DynamicAutocompleteFactory';
 import { AutocompleteFactory } from './AutocompleteFactory';
 import { DateFactory } from './DateFactory';
 import { DateTimeFactory } from './DateTimeFactory';
@@ -13,6 +14,7 @@ import { TimeFactory } from './TimeFactory';
 import { ColorFactory } from './ColorFactory';
 
 export {
+  DynamicAutocompleteFactory,
   AutocompleteFactory,
   DateFactory,
   DateTimeFactory,

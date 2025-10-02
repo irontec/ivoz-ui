@@ -21,6 +21,7 @@ import {
 import { DropdownChoices } from '../Field/Dropdown/Dropdown';
 import { useFormikType } from '../types';
 import {
+  DynamicAutocompleteFactory,
   AutocompleteFactory,
   DateFactory,
   DateTimeFactory,
@@ -35,6 +36,8 @@ import {
   TimeFactory,
   ColorFactory,
 } from './Factory/index';
+import { StoreContainer } from '../../../store';
+import { SelectOptionsType } from 'entities/EntityInterface';
 
 export type NullableFormFieldFactoryChoices = null | DropdownChoices;
 
@@ -46,6 +49,23 @@ export default class FormFieldFactory {
     private handleBlur: (event: React.FocusEvent) => void,
     private divRef?: RefObject<HTMLDivElement>
   ) {}
+
+  private getDynamicSelectOptions(
+    property: PropertySpec
+  ): (() => Promise<SelectOptionsType>) | undefined {
+    if (!isPropertyFk(property)) {
+      return undefined;
+    }
+
+    const entities = StoreContainer.store.getState().entities.entities;
+    const entityName = property.$ref.replace('#/definitions/', '');
+
+    if (!entities[entityName]?.dynamicSelectOptions) {
+      return undefined;
+    }
+
+    return entities[entityName].selectOptions;
+  }
 
   public getFormField(
     fld: string,
@@ -113,6 +133,27 @@ export default class FormFieldFactory {
           changeHandler={this.changeHandler}
           onBlur={this.handleBlur}
           formFieldFactory={this}
+        />
+      );
+    }
+
+    const dynamicSelectOptions = this.getDynamicSelectOptions(property);
+
+    if (dynamicSelectOptions) {
+      return (
+        <DynamicAutocompleteFactory
+          fld={fld}
+          property={property}
+          disabled={disabled}
+          multiSelect={multiSelect}
+          value={value}
+          hasChanged={hasChanged}
+          error={error}
+          touched={touched}
+          selectOptions={dynamicSelectOptions}
+          choices={choices}
+          changeHandler={this.changeHandler}
+          handleBlur={this.handleBlur}
         />
       );
     }

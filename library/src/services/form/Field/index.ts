@@ -1,4 +1,5 @@
 export * from './FileUploader';
+export * from './DynamicAutocomplete';
 export * from './Autocomplete';
 export * from './CustomComponentWrapper.styles';
 export * from './CustomComponentWrapper';

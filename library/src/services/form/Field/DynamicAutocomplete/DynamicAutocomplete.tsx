@@ -133,30 +133,20 @@ const DynamicAutocomplete = (
     });
   }, []);
 
-  useEffect(() => {
+  const clearSearch = useCallback(() => {
+    if (debounceTimeoutRef.current) {
+      clearTimeout(debounceTimeoutRef.current);
+    }
+    setLoading(false);
+  }, []);
+
+  const loadOptions = useCallback((searchValue: string) => {
     if (!selectOptions) {
       return;
     }
 
-    if (debounceTimeoutRef.current) {
-      clearTimeout(debounceTimeoutRef.current);
-    }
-
-    const searchTermMatchNullOption =
-      getOptionLabel(nullOptionObject) === searchTerm;
-    if (searchTermMatchNullOption) {
-      return;
-    }
-
-    const isSearchTermIncluded = arrayChoices?.some((option) =>
-      getOptionLabel(option).includes(searchTerm)
-    );
-
-    if (isSearchTermIncluded) {
-      return;
-    }
-
     setLoading(true);
+
     debounceTimeoutRef.current = setTimeout(() => {
       selectOptions().then((selectOptions) => {
         selectOptions(
@@ -167,11 +157,31 @@ const DynamicAutocomplete = (
             },
           },
           {
-            searchTerm: searchTerm,
+            searchTerm: searchValue,
           }
         );
       });
     }, 500);
+  }, [searchTerm, selectOptions]);
+
+  useEffect(() => {
+    clearSearch();
+
+    const searchTermMatchNullOption =
+      getOptionLabel(nullOptionObject) === searchTerm;
+    if (searchTermMatchNullOption) {
+      return;
+    }
+
+    const isSearchTermIncluded = searchTerm !== '' && arrayChoices?.some((option) =>
+      getOptionLabel(option).includes(searchTerm)
+    );
+    
+    if (isSearchTermIncluded) {
+      return;
+    }
+
+    loadOptions(searchTerm);
   }, [searchTerm, selectOptions]);
 
   const handleInputChange = useCallback(

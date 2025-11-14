@@ -2,6 +2,7 @@ import EntityService from '../../services/entity/EntityService';
 import { CancelToken } from 'axios';
 import { EntityList } from 'router/parseRoutes';
 import { StoreContainer } from '../../store';
+import { SelectOptionsType } from 'entities/EntityInterface';
 
 type AutoSelectOptionsArgs = {
   cancelToken?: CancelToken;
@@ -83,6 +84,76 @@ export const autoSelectOptions = (
   }
 
   return promises;
+};
+
+type AutoSelectOptionHandlersArgs = {
+  entityService: EntityService;
+  skip?: string[];
+};
+
+export const autoSelectOptionHandlers = async (
+  props: AutoSelectOptionHandlersArgs
+): Promise<Record<string, SelectOptionsType>> => {
+  const { entityService } = props;
+  const entities = StoreContainer.store.getState().entities.entities;
+
+  const handlers: Record<string, SelectOptionsType> = {};
+
+  if (!entities) {
+    return handlers;
+  }
+
+  const skip = props.skip || [];
+
+  const fkProperties = entityService?.getFkProperties();
+
+  const promises: Array<Promise<void>> = [];
+
+  for (const idx in fkProperties) {
+    if (skip.includes(idx)) {
+      continue;
+    }
+
+    const cleanRef = fkProperties[idx].$ref.replace('#/definitions/', '');
+    const entity = entities[cleanRef];
+
+    if (!entity) {
+      if (cleanRef && cleanRef.indexOf('_') < 0) {
+        console.log('autoSelectOptionsHandlers', `${cleanRef} not found`);
+      }
+      continue;
+    }
+
+    if (!entity.selectOptions) {
+      if (cleanRef && cleanRef.indexOf('_') < 0) {
+        console.log(
+          'autoSelectOptionsHandlers',
+          `${cleanRef} selectOption is not defined`
+        );
+      }
+      continue;
+    }
+
+    if (!entity.dynamicSelectOptions) {
+      continue;
+    }
+
+    const selectOptionsLoader = entity.selectOptions;
+
+    if (!selectOptionsLoader) {
+      continue;
+    }
+
+    promises.push(
+      selectOptionsLoader().then((handler) => {
+        handlers[cleanRef] = handler;
+      })
+    );
+  }
+
+  await Promise.all(promises);
+
+  return handlers;
 };
 
 export default autoSelectOptions;

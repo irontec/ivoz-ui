@@ -9,17 +9,19 @@ import React, {
   useRef,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DropdownArrayChoice, DropdownArrayChoices } from '../Dropdown';
-import { StyledAutocompleteTextField } from '../TextField';
 import {
-  DynamicSelectOptionsArgs,
-  SelectOptionsType,
-} from 'entities/EntityInterface';
+  DropdownArrayChoice,
+  DropdownArrayChoices,
+  DropdownChoices,
+} from '../Dropdown';
+import { StyledAutocompleteTextField } from '../TextField';
+import { SelectOptionsType } from 'entities/EntityInterface';
 import { FormOnChangeEvent } from 'entities/DefaultEntityBehavior/Form/Form';
 import SearchIcon from '@mui/icons-material/Search';
 
 export interface DynamicAutocompleteProps {
-  selectOptions: (() => Promise<SelectOptionsType>) | undefined;
+  choices: DropdownChoices;
+  selectOptions?: SelectOptionsType;
   nullOption?: string | React.ReactElement<any>;
   className?: string;
   name: string;
@@ -54,6 +56,7 @@ const DynamicAutocomplete = (
     helperText,
     hasChanged,
     value,
+    choices,
     selectOptions,
     onChange,
   } = props;
@@ -69,20 +72,67 @@ const DynamicAutocomplete = (
     className += ' multiselect';
   }
 
-  const nullOptionObject = nullOption
-    ? { id: '__null__', label: nullOption }
-    : null;
+  const nullOptionObject: DropdownArrayChoice = {
+    id: '__null__',
+    label: nullOption ?? '',
+  };
+  const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>([]);
 
-  const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>(
-    nullOptionObject ? [nullOptionObject] : []
-  );
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  const [open, setOpen] = useState<boolean>(false);
   const [currentOption, setCurrentOption] =
-    useState<DropdownArrayChoice | null>(nullOptionObject);
+    useState<DropdownArrayChoice>(nullOptionObject);
 
   const debounceTimeoutRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    if (Array.isArray(choices)) {
+      setArrayChoices(choices);
+      return;
+    }
+
+    const arrayValue = [];
+
+    for (const idx in choices) {
+      arrayValue.push({ id: idx, label: choices[idx] });
+    }
+
+    setArrayChoices(arrayValue);
+  }, [choices]);
+
+  useEffect(() => {
+    const nullValue = !value || value === '__null__';
+
+    if (nullValue) {
+      return;
+    }
+
+    if (!choices) {
+      return;
+    }
+
+    const choicesIncludesValue = Array.isArray(choices)
+      ? choices.some((item) => item.id === value)
+      : choices && value in choices;
+
+    if (choicesIncludesValue) {
+      return;
+    }
+
+    selectOptions?.(
+      {
+        callback: (options: unknown) => {
+          const option = (options as DropdownArrayChoices)[0];
+
+          arrayChoices.push(option);
+          setArrayChoices(arrayChoices);
+        },
+      },
+      {
+        id: value,
+      }
+    );
+  }, []);
 
   const setOptions = useCallback(
     (options: any) => {
@@ -102,36 +152,10 @@ const DynamicAutocomplete = (
         options.unshift(nullOptionObject);
       }
 
-      console.log('setOptions', options);
       setArrayChoices(options);
     },
     [nullOptionObject, currentOption]
   );
-
-  useEffect(() => {
-    const hasOptions = arrayChoices.some((option) => option.id !== '__null__');
-    if (hasOptions) {
-      return;
-    }
-
-    const searchParams: DynamicSelectOptionsArgs = {};
-    if (value) {
-      searchParams.id = value;
-    }
-
-    selectOptions?.().then((selectOptions) => {
-      selectOptions(
-        {
-          callback: (options: any) => {
-            if (options.length > 0) {
-              setOptions(options);
-            }
-          },
-        },
-        searchParams
-      );
-    });
-  }, []);
 
   const clearSearch = useCallback(() => {
     if (debounceTimeoutRef.current) {
@@ -140,18 +164,18 @@ const DynamicAutocomplete = (
     setLoading(false);
   }, []);
 
-  const loadOptions = useCallback((searchValue: string) => {
-    if (!selectOptions) {
-      return;
-    }
+  const loadOptions = useCallback(
+    (searchValue: string) => {
+      if (!selectOptions) {
+        console.error('selectOptions is not defined');
+        return;
+      }
 
-    setLoading(true);
-
-    debounceTimeoutRef.current = setTimeout(() => {
-      selectOptions().then((selectOptions) => {
+      setLoading(true);
+      debounceTimeoutRef.current = setTimeout(() => {
         selectOptions(
           {
-            callback: (options: any) => {
+            callback: (options: unknown) => {
               setLoading(false);
               setOptions(options);
             },
@@ -160,9 +184,10 @@ const DynamicAutocomplete = (
             searchTerm: searchValue,
           }
         );
-      });
-    }, 500);
-  }, [searchTerm, selectOptions]);
+      }, 500);
+    },
+    [searchTerm, selectOptions]
+  );
 
   useEffect(() => {
     clearSearch();
@@ -173,10 +198,12 @@ const DynamicAutocomplete = (
       return;
     }
 
-    const isSearchTermIncluded = searchTerm !== '' && arrayChoices?.some((option) =>
-      getOptionLabel(option).includes(searchTerm)
-    );
-    
+    const isSearchTermIncluded =
+      searchTerm !== '' &&
+      arrayChoices?.some((option) =>
+        getOptionLabel(option).includes(searchTerm)
+      );
+
     if (isSearchTermIncluded) {
       return;
     }
@@ -186,8 +213,6 @@ const DynamicAutocomplete = (
 
   const handleInputChange = useCallback(
     (e: any, value: string, reason: string) => {
-      console.log('inputChange', arrayChoices);
-
       if (reason === 'clear') {
         setSearchTerm('');
         return;
@@ -362,7 +387,9 @@ const DynamicAutocomplete = (
     ? false
     : true;
 
-  const safeValue = value.length !== '' ? value : null;
+  const safeValue = arrayChoices.find((item) => item.id === value)
+    ? value
+    : null;
 
   return (
     <MuiAutocomplete
@@ -374,8 +401,6 @@ const DynamicAutocomplete = (
       onChange={onChangeWrapper}
       onBlur={onBlur}
       onInputChange={handleInputChange}
-      onClose={() => setOpen(false)}
-      onOpen={() => setOpen(true)}
       options={arrayChoices ?? []}
       getOptionLabel={getOptionLabel}
       isOptionEqualToValue={isOptionEqualToValue}

@@ -1,9 +1,11 @@
 import { IvozStoreState } from 'store';
 import { SearchFilterType } from '../../components/List/Filter/icons/FilterIconFactory';
 import EntityInterface, {
+  DynamicAutocompleteGetterTypeArgs,
   EntityAclType,
   ForeignKeyGetterType,
   OrderDirection,
+  SelectOptionsType,
 } from '../../entities/EntityInterface';
 import {
   ActionModelList,
@@ -506,6 +508,12 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
 
   public getForeignKeyGetter(): ForeignKeyGetterType {
     return this.entityDefinition.foreignKeyGetter;
+  }
+
+  public getDynamicAutocompleteGetters(
+    props: DynamicAutocompleteGetterTypeArgs
+  ): Promise<Record<string, SelectOptionsType>> {
+    return this.entityDefinition.dynamicAutocompleteGetters(props);
   }
 
   public getListDecorator() {

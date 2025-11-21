@@ -1,0 +1,139 @@
+name: Release Candidate
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-rc:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'yarn'
+
+      - name: Install dependencies
+        working-directory: library
+        run: yarn install --frozen-lockfile
+
+      - name: Read current version
+        id: version
+        working-directory: library
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          # Remove any existing -rc suffix to get base version
+          BASE_VERSION=$(echo "$VERSION" | sed 's/-rc[0-9]*$//')
+          echo "version=$BASE_VERSION" >> $GITHUB_OUTPUT
+          echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
+          echo "Current base version: $BASE_VERSION"
+
+      - name: Restore RC counter from cache
+        id: restore-rc-counter
+        uses: actions/cache/restore@v4
+        with:
+          path: .github/rc-counter.txt
+          key: pr-${{ github.event.pull_request.number }}-rc0
+          restore-keys: |
+            pr-${{ github.event.pull_request.number }}-rc
+
+      - name: Get RC counter
+        id: rc-counter
+        run: |
+          COUNTER_FILE=".github/rc-counter.txt"
+          if [ -f "$COUNTER_FILE" ]; then
+            COUNTER=$(cat "$COUNTER_FILE")
+          else
+            COUNTER=0
+          fi
+          COUNTER=$((COUNTER + 1))
+          echo "counter=$COUNTER" >> $GITHUB_OUTPUT
+          echo "RC Counter: $COUNTER"
+          echo "$COUNTER" > "$COUNTER_FILE"
+
+      - name: Update version in package.json
+        id: new-version
+        working-directory: library
+        run: |
+          BASE_VERSION="${{ steps.version.outputs.base_version }}"
+          RC_COUNTER="${{ steps.rc-counter.outputs.counter }}"
+          PR_NUMBER="${{ github.event.pull_request.number }}"
+          NEW_VERSION="${BASE_VERSION}-${PR_NUMBER}-rc${RC_COUNTER}"
+          echo "New version: $NEW_VERSION"
+          # Save NEW_VERSION to GITHUB_OUTPUT so it can be used in other steps
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          # Update package.json version
+          npm version $NEW_VERSION
+
+      - name: Build project
+        working-directory: library
+        run: bin/build
+
+      - name: Create package
+        working-directory: library
+        run: |
+          cd dist
+          yarn pack
+
+      - name: Save RC counter file to cache
+        uses: actions/cache/save@v4
+        with:
+          path: .github/rc-counter.txt
+          key: pr-${{ github.event.pull_request.number }}-rc${{ steps.rc-counter.outputs.counter }}
+
+      - name: Commit rc artifacts to rc-artifacts branch
+        run: |
+          new_version=${{ steps.new-version.outputs.new_version }}
+          artifactFileName=irontec-ivoz-ui-$new_version.tgz
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin rc-artifacts || true
+          git reset --hard || true
+          git checkout -B rc-artifacts origin/rc-artifacts || git checkout -b rc-artifacts
+
+          # Add artifact file for current pull request
+          mv library/dist/*.tgz $artifactFileName
+          git add $artifactFileName
+
+          # Rotate tgz files to keep only the last 50:
+          tgz_files=(irontec-ivoz-ui-*.tgz)
+          num_tgz_files=${#tgz_files[@]}
+          if [ "$num_tgz_files" -gt 50 ]; then
+            tgz_to_delete=$(ls irontec-ivoz-ui-*.tgz | sort -r | head -n 1)
+            echo "Removing oldest tgz file: $tgz_to_delete"
+            git rm "$tgz_to_delete"
+          fi
+
+          # Commit new artifact files
+          git commit -m "chore: update rc artifacts for $new_version" || echo "No changes to commit"
+          git push origin rc-artifacts
+
+      - name: Comment download URLs in Pull Request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const repo = context.repo;
+            const artifactFileName=`irontec-ivoz-ui-${{ steps.new-version.outputs.new_version }}.tgz`
+            const artficatUrl = `https://github.com/${repo.owner}/${repo.repo}/raw/refs/heads/rc-artifacts/${artifactFileName}`;
+            const commentBody = `**Release Candidate Artifact is ready! 🚀**
+              You can update your package.json version to the following:
+
+              \`\`\`bash
+              yarn add ${artficatUrl}
+              \`\`\`
+            `;
+
+            await github.rest.issues.createComment({
+              owner: repo.owner,
+              repo: repo.repo,
+              issue_number: prNumber,
+              body: commentBody
+            });

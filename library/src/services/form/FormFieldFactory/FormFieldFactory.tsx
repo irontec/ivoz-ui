@@ -67,6 +67,21 @@ export default class FormFieldFactory {
     return entities[entityName].selectOptions;
   }
 
+  private isDynamicAutocomplete(property: PropertySpec): boolean {
+    if (!isPropertyFk(property)) {
+      return false;
+    }
+
+    const entities = StoreContainer.store.getState().entities.entities;
+    const cleanRef = property.$ref.replace('#/definitions/', '');
+
+    if (!entities[cleanRef]?.dynamicSelectOptions) {
+      return false;
+    }
+
+    return true;
+  }
+
   public getFormField(
     fld: string,
     choices: NullableFormFieldFactoryChoices,
@@ -137,9 +152,7 @@ export default class FormFieldFactory {
       );
     }
 
-    const dynamicSelectOptions = this.getDynamicSelectOptions(property);
-
-    if (dynamicSelectOptions) {
+    if (this.isDynamicAutocomplete(property)) {
       return (
         <DynamicAutocompleteFactory
           fld={fld}
@@ -150,10 +163,10 @@ export default class FormFieldFactory {
           hasChanged={hasChanged}
           error={error}
           touched={touched}
-          selectOptions={dynamicSelectOptions}
           choices={choices}
           changeHandler={this.changeHandler}
           handleBlur={this.handleBlur}
+          entityService={this.entityService}
         />
       );
     }

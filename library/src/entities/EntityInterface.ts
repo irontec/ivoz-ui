@@ -74,10 +74,19 @@ export type SelectOptionsArgs = {
   cancelToken?: CancelToken;
 };
 
+export type DynamicAutocompleteGetterTypeArgs = {
+  entityService: EntityService;
+  skip?: Array<string>;
+};
+
 export type DynamicSelectOptionsArgs = {
   searchTerm?: string;
   id?: string;
 };
+
+export type DynamicAutocompleteGetterType = (
+  props: DynamicAutocompleteGetterTypeArgs
+) => Promise<Record<string, SelectOptionsType>>;
 
 export type SelectOptionsType<T = any> = (
   props: SelectOptionsArgs,
@@ -152,6 +161,7 @@ export default interface EntityInterface {
   foreignKeyResolver: () => Promise<foreignKeyResolverType>;
   foreignKeyGetter: () => Promise<ForeignKeyGetterType>;
   selectOptions?: () => Promise<SelectOptionsType>;
+  dynamicAutocompleteGetters: DynamicAutocompleteGetterType;
   dynamicSelectOptions?: boolean;
   Form: () => Promise<React.FunctionComponent<EntityFormProps>>;
   View: () => Promise<ViewType>;

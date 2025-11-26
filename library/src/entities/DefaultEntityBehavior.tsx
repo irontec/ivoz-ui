@@ -4,6 +4,7 @@ import { EntityValues } from '../services/entity/EntityService';
 import {
   ChildDecoratorProps,
   ChildDecoratorType,
+  DynamicAutocompleteGetterTypeArgs,
   EntityAclType,
   FetchFksCallback,
   OrderDirection,
@@ -13,7 +14,9 @@ import {
 import { fetchAllPages } from '../helpers/fechAllPages';
 import { EntityItem, isEntityItem } from '../router';
 import autoForeignKeyResolver from './DefaultEntityBehavior/AutoForeignKeyResolver';
-import autoSelectOptions from './DefaultEntityBehavior/AutoSelectOptions';
+import autoSelectOptions, {
+  autoSelectOptionHandlers,
+} from './DefaultEntityBehavior/AutoSelectOptions';
 import filterFieldsetGroups, {
   FieldsetGroups,
 } from './DefaultEntityBehavior/FilterFieldsetGroups';
@@ -115,6 +118,14 @@ const DefaultEntityBehavior = {
     const module = await import('./DefaultEntityBehavior/ForeignKeyGetter');
     return module.default;
   },
+  dynamicAutocompleteGetters: async (
+    props: DynamicAutocompleteGetterTypeArgs
+  ) => {
+    const module = await import(
+      './DefaultEntityBehavior/DynamicAutocompleteGetter'
+    );
+    return module.default(props);
+  },
   columns,
   properties,
   acl,
@@ -147,6 +158,7 @@ export {
   View,
   autoForeignKeyResolver,
   autoSelectOptions,
+  autoSelectOptionHandlers,
   filterFieldsetGroups,
   foreignKeyGetter,
   foreignKeyResolver,

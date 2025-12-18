@@ -84,8 +84,13 @@ const DynamicAutocomplete = (
     useState<DropdownArrayChoice>(nullOptionObject);
 
   const debounceTimeoutRef = useRef<NodeJS.Timeout>();
+  const loadedValuesRef = useRef<Set<string | number>>(new Set());
 
   useEffect(() => {
+    if (selectOptions && Object.keys(choices).length === 0) {
+      return;
+    }
+
     if (Array.isArray(choices)) {
       setArrayChoices(choices);
       return;
@@ -107,32 +112,33 @@ const DynamicAutocomplete = (
       return;
     }
 
-    if (!choices) {
+    if (!selectOptions) {
       return;
     }
 
-    const choicesIncludesValue = Array.isArray(choices)
-      ? choices.some((item) => item.id === value)
-      : choices && value in choices;
-
-    if (choicesIncludesValue) {
+    if (loadedValuesRef.current.has(value)) {
       return;
     }
 
-    selectOptions?.(
+    loadedValuesRef.current.add(value);
+
+    selectOptions(
       {
         callback: (options: unknown) => {
           const option = (options as DropdownArrayChoices)[0];
-
-          arrayChoices.push(option);
-          setArrayChoices(arrayChoices);
+          if (option) {
+            setArrayChoices((prev) => {
+              const exists = prev.some((item) => item.id == option.id);
+              return exists ? prev : [...prev, option];
+            });
+          }
         },
       },
       {
         id: value,
       }
     );
-  }, []);
+  }, [value, selectOptions]);
 
   const setOptions = useCallback(
     (options: any) => {
@@ -387,7 +393,7 @@ const DynamicAutocomplete = (
     ? false
     : true;
 
-  const safeValue = arrayChoices.find((item) => item.id === value)
+  const safeValue = arrayChoices.find((item) => item.id == value)
     ? value
     : null;
 

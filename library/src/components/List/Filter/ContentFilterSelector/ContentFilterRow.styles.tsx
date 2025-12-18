@@ -8,6 +8,11 @@ export const StyledContentFilterRow = styled(ContentFilterRow)(
       alignItems: 'center',
       gap: 'var(--spacing-md)',
 
+      '& > *:not(button)': {
+        flex: 1,
+        minWidth: 0,
+      },
+
       [theme.breakpoints.down('md')]: {
         flexDirection: 'column',
         gap: 'var(--spacing-sm)',

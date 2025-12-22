@@ -118,6 +118,7 @@ export const StyledAutocompleteTextField = styled(StyledTextField)(() => {
   return {
     '& .input-field': {
       paddingLeft: '9px',
+      maxHeight: '25px',
     },
   };
 });

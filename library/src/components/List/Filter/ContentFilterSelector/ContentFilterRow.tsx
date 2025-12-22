@@ -17,10 +17,13 @@ import {
   SelectProps,
 } from '../../../../services/form/Field/Dropdown';
 import { StyledDropdown } from '../../../../services/form/Field/Dropdown/Dropdown.styles';
+import { StyledDynamicAutocomplete } from '../../../../services/form/Field/DynamicAutocomplete/DynamicAutocomplete.styles';
 import { StyledTextField } from '../../../../services/form/Field/TextField/TextField.styles';
 import _ from '../../../../services/translations/translate';
 import { CriteriaFilterValue } from '../ContentFilterDialog';
 import FilterIconFactory from '../icons/FilterIconFactory';
+import StoreContainer from '../../../../store/StoreContainer';
+import { SelectOptionsType } from '../../../../entities/EntityInterface';
 
 export interface ContentFilterRowProps {
   idx: number;
@@ -85,17 +88,55 @@ export default function ContentFilterRow(
 
   const column = columns[name];
 
-  let enumValue: DropdownChoices | null = null;
-  if (isPropertyFk(column)) {
-    enumValue = fkChoices[name] || {};
-  } else if (column.enum) {
-    enumValue = column.enum;
-  } else if (column.type === 'boolean') {
-    enumValue = {
-      true: _('True'),
-      false: _('False'),
+  const [selectOptions, setSelectOptions] = useState<SelectOptionsType | null>(
+    null
+  );
+
+  const { useDynamicAutocomplete, entityName, enumValue } = useMemo(() => {
+    let enumVal: DropdownChoices | null = null;
+    let useDynamic = false;
+    let entName = '';
+
+    if (isPropertyFk(column)) {
+      const entities = StoreContainer.store.getState().entities.entities;
+      entName = column.$ref?.replace('#/definitions/', '') || '';
+      const entity = entities?.[entName];
+
+      if (entity?.dynamicSelectOptions) {
+        useDynamic = true;
+      } else {
+        enumVal = fkChoices[name] || {};
+      }
+    } else if (column.enum) {
+      enumVal = column.enum;
+    } else if (column.type === 'boolean') {
+      enumVal = {
+        true: _('True'),
+        false: _('False'),
+      };
+    }
+
+    return {
+      useDynamicAutocomplete: useDynamic,
+      entityName: entName,
+      enumValue: enumVal,
     };
-  }
+  }, [column, name, fkChoices]);
+
+  useEffect(() => {
+    if (!useDynamicAutocomplete || !entityName) {
+      return;
+    }
+
+    const entities = StoreContainer.store.getState().entities.entities;
+    const entity = entities?.[entityName];
+
+    if (entity?.selectOptions) {
+      entity.selectOptions().then((handler) => {
+        setSelectOptions(() => handler);
+      });
+    }
+  }, [useDynamicAutocomplete, entityName]);
 
   const columnFormat = isPropertyScalar(column) && column.format;
   let textFieldInputType = 'text';
@@ -161,7 +202,7 @@ export default function ContentFilterRow(
         errorMsg=''
         hasChanged={false}
       />
-      {type !== 'exists' && !enumValue && (
+      {type !== 'exists' && !enumValue && !useDynamicAutocomplete && (
         <StyledTextField
           name='value'
           value={value}
@@ -181,7 +222,28 @@ export default function ContentFilterRow(
           }}
         />
       )}
-      {type !== 'exists' && enumValue && (
+      {type !== 'exists' && useDynamicAutocomplete && selectOptions && (
+        <StyledDynamicAutocomplete
+          name='value'
+          label=''
+          value={value}
+          choices={{}}
+          multiple={false}
+          required={false}
+          disabled={false}
+          onChange={({ target }) => {
+            setValue(target.value);
+          }}
+          onBlur={() => {
+            /* noop */
+          }}
+          selectOptions={selectOptions}
+          error={false}
+          errorMsg=''
+          hasChanged={false}
+        />
+      )}
+      {type !== 'exists' && enumValue && !useDynamicAutocomplete && (
         <StyledDropdown
           name='value'
           label=''

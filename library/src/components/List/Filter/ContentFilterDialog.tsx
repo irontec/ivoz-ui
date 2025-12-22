@@ -54,12 +54,6 @@ export function ContentFilterDialog(
 
   const mobile = useMediaQuery(useTheme().breakpoints.down('md'));
   const [loading, setLoading] = useState<boolean>(true);
-  const [criteria, setCriteria] =
-    useState<CriteriaFilterValues>(queryStringCriteria);
-
-  useEffect(() => {
-    setCriteria(queryStringCriteria);
-  }, [queryStringCriteria, setCriteria]);
 
   const foreignKeyGetterLoader = entityService.getEntity().foreignKeyGetter;
 
@@ -111,7 +105,7 @@ export function ContentFilterDialog(
   };
 
   const removeFilter = (index: number) => {
-    const newCriteria = [...criteria];
+    const newCriteria = [...queryStringCriteria];
     newCriteria.splice(index, 1);
     setQueryStringCriteria(newCriteria);
   };

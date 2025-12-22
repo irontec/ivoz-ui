@@ -84,7 +84,7 @@ export default function ContentFilterRow(
     setName(row.name);
     setType(row.type);
     setValue(row.value as string);
-  }, [row]);
+  }, [row.name, row.type, row.value]);
 
   const column = columns[name];
 

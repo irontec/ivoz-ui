@@ -1,5 +1,5 @@
 import SearchIcon from '@mui/icons-material/Search';
-import { ForwardedRef, forwardRef, useEffect, useState } from 'react';
+import { ForwardedRef, forwardRef, useEffect, useMemo, useState } from 'react';
 import EntityService from '../../../services/entity/EntityService';
 import { StyledSearchTextField } from '../../../services/form/Field/TextField/TextField.styles';
 
@@ -7,8 +7,11 @@ import { InputBaseComponentProps } from '@mui/material';
 import { useStoreActions, useStoreState } from 'store';
 import { DropdownArrayChoices, isPropertyFk } from '../../../services';
 import { StyledAutocomplete } from '../../../services/form/Field/Autocomplete/Autocomplete.styles';
+import { StyledDynamicAutocomplete } from '../../../services/form/Field/DynamicAutocomplete/DynamicAutocomplete.styles';
 import useFirstColumn from './hook/useFirstColumn';
 import useFirstColumnCriteria from './hook/useFirstColumnCriteria';
+import StoreContainer from '../../../store/StoreContainer';
+import { SelectOptionsType } from '../../../entities/EntityInterface';
 
 export interface FastSearchFieldProps {
   className?: string;
@@ -45,6 +48,40 @@ const FastSearchField = (
   const foreignEntities = useStoreState((state) => state.list.fkChoices);
   const fkChoices =
     (foreignEntities[firstColumnName] as DropdownArrayChoices) || [];
+
+  const [selectOptions, setSelectOptions] = useState<
+    SelectOptionsType | undefined
+  >(undefined);
+
+  const { useDynamicAutocomplete, entityName } = useMemo(() => {
+    if (!isFk) {
+      return { useDynamicAutocomplete: false, entityName: '' };
+    }
+
+    const entities = StoreContainer.store.getState().entities.entities;
+    const entName = firstColumnSpec.$ref?.replace('#/definitions/', '') || '';
+    const entity = entities?.[entName];
+
+    return {
+      useDynamicAutocomplete: entity?.dynamicSelectOptions || false,
+      entityName: entName,
+    };
+  }, [isFk, firstColumnSpec]);
+
+  useEffect(() => {
+    if (!useDynamicAutocomplete || !entityName) {
+      return;
+    }
+
+    const entities = StoreContainer.store.getState().entities.entities;
+    const entity = entities?.[entityName];
+
+    if (entity?.selectOptions) {
+      entity.selectOptions().then((handler) => {
+        setSelectOptions(() => handler);
+      });
+    }
+  }, [useDynamicAutocomplete, entityName]);
 
   const isDatetime = !isFk && firstColumnSpec.format === 'date-time';
 
@@ -99,11 +136,8 @@ const FastSearchField = (
     setQueryStringCriteria(queryStringCriteriaWithoutPagination);
   };
 
-  const changeHandler: React.ChangeEventHandler<HTMLInputElement> = ({
-    target,
-  }) => {
-    const { value } = target;
-    setValue(value);
+  const changeHandler = ({ target }: { target: { value: any } }) => {
+    setValue(target.value);
   };
 
   useEffect(() => {
@@ -122,6 +156,29 @@ const FastSearchField = (
     }, 2000);
     return () => clearTimeout(timeOutId);
   }, [value, firstColumnCriteria]);
+
+  if (isFk && useDynamicAutocomplete) {
+    return (
+      <StyledDynamicAutocomplete
+        name='fast_search'
+        label=''
+        className={className}
+        value={value}
+        choices={{}}
+        multiple={false}
+        required={false}
+        disabled={false}
+        onChange={changeHandler}
+        onBlur={() => {
+          /* noop */
+        }}
+        selectOptions={selectOptions}
+        error={false}
+        errorMsg=''
+        hasChanged={false}
+      />
+    );
+  }
 
   if (isFk) {
     return (

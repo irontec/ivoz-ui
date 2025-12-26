@@ -14,6 +14,7 @@ import {
   StyledTableRowFkLink,
 } from './Table/ContentTable.styles';
 import DownloadFile from '../DownloadFile';
+import CollapsibleArrayValue from './CollapsibleArrayValue';
 
 interface ListContentValueProps {
   columnName: string;
@@ -31,6 +32,7 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   const isDownloadable = (column as ScalarProperty).downloadable;
   const isFileType = (column as ScalarProperty).type === 'file';
   const isFk = isPropertyFk(column);
+  const prefix = column?.prefix || '';
   const loadingFk =
     isFk &&
     (column as FkProperty).type !== 'array' &&
@@ -42,6 +44,20 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     valuePath.length > 1
       ? row[valuePath.shift() as string][valuePath.shift() as string]
       : row[columnName];
+
+  const shouldUseCollapsible =
+    typeof value === 'string' &&
+    value.includes(',') &&
+    value.split(',').length > 3;
+
+  if (shouldUseCollapsible) {
+    return (
+      <Box component='span' className='cell'>
+        {prefix}
+        <CollapsibleArrayValue values={value} />
+      </Box>
+    );
+  }
 
   const isMultiSelect = (column as ScalarProperty).type === 'array';
   const loadingMultiselect = isMultiSelect && Array.isArray(value);
@@ -108,7 +124,6 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
     );
   }
 
-  const prefix = column?.prefix || '';
 
   return (
     <Box component='span' className='cell'>

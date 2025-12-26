@@ -61,10 +61,20 @@ export const StyledImageContainer = styled('div')({
   },
 });
 
-export const StyledImagePreview = styled('img')({
-  maxWidth: '300px',
-  height: 'auto',
-});
+interface StyledImagePreviewProps {
+  $isReadMode?: boolean;
+}
+
+export const StyledImagePreview = styled('img')<StyledImagePreviewProps>(
+  ({ $isReadMode }) => ({
+    maxWidth: $isReadMode ? '50px' : '200px',
+    maxHeight: $isReadMode ? '50px' : '200px',
+    width: 'auto',
+    height: 'auto',
+    objectFit: $isReadMode ? 'cover' : 'contain',
+    cursor: $isReadMode ? '' : 'pointer',
+  })
+);
 
 export const StyledTextContainer = styled('div')({
   color: '#B2B3B6',

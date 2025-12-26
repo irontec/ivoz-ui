@@ -25,6 +25,7 @@ export type ListDecoratorPropsType = {
   row: any;
   property: PropertySpec;
   ignoreCustomComponent?: true;
+  entityPath?: string;
 };
 
 export type ListDecoratorType = React.FunctionComponent<ListDecoratorPropsType>;

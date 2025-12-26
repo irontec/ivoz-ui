@@ -25,22 +25,14 @@ export const fetchAllPages = async (
   );
 
   const response: DropdownChoices = [];
-  let loopCount = 0;
   while (keepGoing) {
     try {
-      if (loopCount > 5) {
-        console.error('Too much requests');
-        break;
-      }
-
-      loopCount++;
       const result = await getAction({
         path: endpoint,
         silenceErrors: false,
         params: {
-          ...params,
-          _pagination: false,
           _itemsPerPage: 200,
+          ...params,
           _page,
         },
         successCallback: async (data, headers: Record<string, string>) => {

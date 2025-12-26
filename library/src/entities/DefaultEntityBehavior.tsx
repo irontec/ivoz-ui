@@ -11,7 +11,7 @@ import {
   calculateAclType,
 } from './EntityInterface';
 
-import { fetchAllPages } from '../helpers/fechAllPages';
+import { fetchAllPages } from '../helpers/fetchAllPages';
 import { EntityItem, isEntityItem } from '../router';
 import autoForeignKeyResolver from './DefaultEntityBehavior/AutoForeignKeyResolver';
 import autoSelectOptions, {

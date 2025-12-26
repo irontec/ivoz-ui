@@ -1,2 +1,2 @@
-export * from './fechAllPages';
+export * from './fetchAllPages';
 export * from './fetchFilteredPage';

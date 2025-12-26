@@ -14,12 +14,14 @@ import { useStoreActions } from '../../../../../store';
 import { StyledImageFileUpladerTextDield } from '../../TextField/TextField.styles';
 import { IconButton, InputAdornment } from '@mui/material';
 import CancelIcon from '@mui/icons-material/Cancel';
+import { CustomFunctionComponentContext } from '../../CustomComponentWrapper';
 
 export const ImageFileUploader: FileUploaderType = (
   props
 ): JSX.Element | null => {
   const {
     _columnName,
+    _context,
     accept,
     values,
     disabled,
@@ -36,6 +38,7 @@ export const ImageFileUploader: FileUploaderType = (
 
   const fileSize = fileValue?.file ? fileValue.file?.size : fileValue?.fileSize;
   const fileSizeMb = Math.round(((fileSize || 0) / 1024 / 1024) * 10) / 10;
+  const isReadMode = _context === CustomFunctionComponentContext.read;
 
   const apiDownload = useStoreActions((actions) => {
     return actions.api.download;
@@ -70,6 +73,18 @@ export const ImageFileUploader: FileUploaderType = (
     });
   }, [fileValue.file, fileValue.baseName]);
 
+  if (isReadMode) {
+    if (!fileName || !imageSrc) {
+      return null;
+    }
+
+    return (
+      <StyledImageContainer>
+        <StyledImagePreview src={imageSrc} $isReadMode={isReadMode} />
+      </StyledImageContainer>
+    );
+  }
+
   return (
     <>
       <StyledFileUploaderContainer>
@@ -100,7 +115,11 @@ export const ImageFileUploader: FileUploaderType = (
         {fileName && (
           <StyledImageContainer className={disabled ? 'disabled' : ''}>
             {imageSrc ? (
-              <StyledImagePreview src={imageSrc} onClick={handleDownload} />
+              <StyledImagePreview
+                src={imageSrc}
+                onClick={handleDownload}
+                $isReadMode={isReadMode}
+              />
             ) : (
               values.id && <AccountCircleIcon onClick={handleDownload} />
             )}

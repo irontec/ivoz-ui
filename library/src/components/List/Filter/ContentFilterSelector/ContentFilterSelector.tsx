@@ -61,9 +61,14 @@ export default function ContentFilterSelector(
     );
   }
 
-  const [criteria, setCriteria] = useState<CriteriaFilterValues>(
-    queryStringCriteria.length ? queryStringCriteria : []
-  );
+  const [criteria, setCriteria] = useState<CriteriaFilterValues>(() => {
+    if (!queryStringCriteria.length) return [];
+    return queryStringCriteria.map((row) => ({
+      name: row.name,
+      type: row.type,
+      value: decodeURIComponent(row.value as string),
+    }));
+  });
 
   const fieldNames: DropdownChoices = {};
   for (const fldName in filters) {
@@ -94,7 +99,7 @@ export default function ContentFilterSelector(
     newCriteria[idx] = {
       name,
       type,
-      value: decodeURIComponent(value),
+      value,
     };
     setCriteria(newCriteria);
   };
@@ -120,7 +125,7 @@ export default function ContentFilterSelector(
           criteria.map((row, idx) => {
             return (
               <StyledContentFilterRow
-                key={idx}
+                key={`${row.name}-${row.type}-${idx}`}
                 idx={idx}
                 filters={filters}
                 row={row}

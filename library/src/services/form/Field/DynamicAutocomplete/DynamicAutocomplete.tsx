@@ -63,7 +63,7 @@ const DynamicAutocomplete = (
 
   const { t } = useTranslation();
 
-  let className = props.className;
+  let className = props.className || '';
   if (hasChanged) {
     className += ' changed';
   }
@@ -399,7 +399,7 @@ const DynamicAutocomplete = (
 
   return (
     <MuiAutocomplete
-      className={'dynamic-autocomplete' + className}
+      className={'dynamic-autocomplete ' + className}
       value={safeValue}
       multiple={multiple}
       disabled={disabled}

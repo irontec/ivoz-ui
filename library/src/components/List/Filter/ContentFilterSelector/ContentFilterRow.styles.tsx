@@ -25,6 +25,12 @@ export const StyledContentFilterRow = styled(ContentFilterRow)(
         height: '40px',
         aspectRatio: '1',
       },
+
+      '& .dynamic-autocomplete': {
+        '& .MuiInputBase-root': {
+          maxHeight: '40px',
+        },
+      },
     };
   }
 );

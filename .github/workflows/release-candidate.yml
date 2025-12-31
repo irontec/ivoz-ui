@@ -64,6 +64,10 @@ jobs:
           BASE_VERSION="${{ steps.version.outputs.base_version }}"
           RC_COUNTER="${{ steps.rc-counter.outputs.counter }}"
           PR_NUMBER="${{ github.event.pull_request.number }}"
+          if [ -z "$PR_NUMBER" ]; then
+            COMMIT_HASH=$(git rev-parse --short HEAD)
+            PR_NUMBER="main-${COMMIT_HASH}"
+          fi
           NEW_VERSION="${BASE_VERSION}-${PR_NUMBER}-rc${RC_COUNTER}"
           echo "New version: $NEW_VERSION"
           # Save NEW_VERSION to GITHUB_OUTPUT so it can be used in other steps

@@ -5,9 +5,10 @@ import {
 import { CustomFunctionComponentContext } from '../../services/form/Field/CustomComponentWrapper';
 import { ListDecoratorType } from '../EntityInterface';
 import ListDecoratorMultilang from './ListDecoratorMultilang';
+import { ImageFileUploader } from '../../services/form/Field/FileUploader/Variant/ImageFileUploader';
 
 const ListDecorator: ListDecoratorType = (props) => {
-  const { field, row, property, ignoreCustomComponent } = props;
+  const { field, row, property, ignoreCustomComponent, entityPath } = props;
 
   const valuePath = field.split('.');
   let value =
@@ -40,7 +41,28 @@ const ListDecorator: ListDecoratorType = (props) => {
   }
 
   if (property.type === 'file') {
-    return value.baseName;
+    const isImage = value?.mimeType?.includes('image/');
+
+    if (isImage && entityPath) {
+      return (
+        <ImageFileUploader
+          _columnName={field}
+          _context={CustomFunctionComponentContext.read}
+          values={row}
+          property={property}
+          disabled={false}
+          readOnly={true}
+          downloadPath={`${entityPath}/${row.id}/${field}`}
+          handleDownload={async () => Promise.resolve()}
+          changeHandler={() => null}
+          onBlur={() => null}
+          choices={null}
+          hasChanged={false}
+        />
+      );
+    }
+
+    return value?.baseName;
   }
 
   if (isPropertyScalar(property) && property.enum) {

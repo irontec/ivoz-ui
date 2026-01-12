@@ -9,7 +9,7 @@ SCRIPT_DIR=$(dirname $(realpath $0))
 cd ${SCRIPT_DIR}/../
 $YARN i18n
 
-for LANG in en es it ca
+for LANG in en es it ca eu
 do
     cat src/translations/$LANG.json | jq --sort-keys > src/translations/$LANG.json_sorted
     mv src/translations/$LANG.json_sorted src/translations/$LANG.json

@@ -1,5 +1,6 @@
 import { useStoreActions } from 'store';
 import { saveAs } from 'file-saver';
+import { parseContentDispositionFilename } from '../../helpers';
 import { Tooltip } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
 import { StyledPdfButton } from './DownloadFile.styles';
@@ -22,11 +23,11 @@ export default function DownloadFile(props: DownloadFileProps): JSX.Element {
       path: `${path}/${row.id}/${fileType}`,
       params: {},
       successCallback: async (data: any, headers: any) => {
-        const fileName = headers['content-disposition']
-          ?.split('filename=')
-          ?.pop();
+        const fileName = parseContentDispositionFilename(
+          headers['content-disposition'] || ''
+        );
 
-        saveAs(data, fileName || 'download');
+        saveAs(data, fileName);
       },
     });
   };

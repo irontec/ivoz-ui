@@ -1,4 +1,5 @@
 import { saveAs } from 'file-saver';
+import { parseContentDispositionFilename } from '../../../../helpers';
 import {
   ChangeEvent,
   DragEvent,
@@ -93,11 +94,11 @@ const FileUploader: React.FunctionComponent<FileUploaderPropsType> = (
           path: downloadPath as string,
           params: {},
           successCallback: async (data: any, headers: any) => {
-            const fileName = headers['content-disposition']
-              ?.split('filename=')
-              ?.pop();
+            const fileName = parseContentDispositionFilename(
+              headers['content-disposition'] || ''
+            );
 
-            saveAs(data, fileName || 'download');
+            saveAs(data, fileName);
           },
         });
       } finally {

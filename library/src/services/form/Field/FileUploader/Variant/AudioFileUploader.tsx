@@ -1,7 +1,6 @@
 import DownloadRoundedIcon from '@mui/icons-material/DownloadRounded';
 import UploadFileRoundedIcon from '@mui/icons-material/UploadFileRounded';
 import { ChangeEvent, useEffect, useState } from 'react';
-import ReactAudioPlayerSrc from 'react-audio-player';
 import { useStoreActions } from 'store';
 import { ChangeEventValues, FileProps } from '../FileUploader';
 import {
@@ -11,13 +10,7 @@ import {
 } from '../FileUploader.styles';
 import { FileUploaderType } from './RegularFileUploader';
 import { Box } from '@mui/material';
-
-type PlayerType = typeof ReactAudioPlayerSrc;
-// see https://github.com/justinmc/react-audio-player/issues/164
-const ReactAudioPlayer: PlayerType =
-  process.env.NODE_ENV === 'production'
-    ? (ReactAudioPlayerSrc as any).default
-    : ReactAudioPlayerSrc;
+import AudioPlayer from './AudioPlayer';
 
 export const AudioFileUploader: FileUploaderType = (
   props
@@ -110,7 +103,7 @@ export const AudioFileUploader: FileUploaderType = (
             </StyledUploadButtonLabel>
           )}
         </Box>
-        <ReactAudioPlayer src={audioSrc} controls={true} />
+        <AudioPlayer src={audioSrc} />
       </div>
       <div className='uploader-backdrop'>Audio</div>
     </StyledFileUploaderContainer>

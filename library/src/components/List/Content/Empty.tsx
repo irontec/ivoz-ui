@@ -47,7 +47,7 @@ export const Empty = (props: EmptyProps): JSX.Element => {
         <img src='assets/img/empty.svg' alt='' />
         <h3>{_('No {{entity}} yet', { entity: pluralTitle })}</h3>
         <p>
-          {_('You haven’t created any {{entity}} yet.', {
+          {_("You haven't created any {{entity}} yet.", {
             entity: singularTitle,
           })}
         </p>

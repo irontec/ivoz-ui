@@ -76,8 +76,8 @@ const DynamicAutocomplete = (
     id: '__null__',
     label: nullOption ?? '',
   };
-  const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>([]);
 
+  const [arrayChoices, setArrayChoices] = useState<DropdownArrayChoices>([]);
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
   const [currentOption, setCurrentOption] =
@@ -85,6 +85,12 @@ const DynamicAutocomplete = (
 
   const debounceTimeoutRef = useRef<NodeJS.Timeout>();
   const loadedValuesRef = useRef<Set<string | number>>(new Set());
+  const currentOptionRef = useRef<DropdownArrayChoice>(nullOptionObject);
+
+  const updateCurrentOption = useCallback((option: DropdownArrayChoice) => {
+    currentOptionRef.current = option;
+    setCurrentOption(option);
+  }, []);
 
   useEffect(() => {
     if (selectOptions && Object.keys(choices).length === 0) {
@@ -97,17 +103,14 @@ const DynamicAutocomplete = (
     }
 
     const arrayValue = [];
-
     for (const idx in choices) {
       arrayValue.push({ id: idx, label: choices[idx] });
     }
-
     setArrayChoices(arrayValue);
   }, [choices]);
 
   useEffect(() => {
     const nullValue = !value || value === '__null__';
-
     if (nullValue) {
       return;
     }
@@ -125,8 +128,11 @@ const DynamicAutocomplete = (
     selectOptions(
       {
         callback: (options: unknown) => {
-          const option = (options as DropdownArrayChoices)[0];
+          const allChoices = options as DropdownArrayChoices;
+          const option =
+            allChoices.find((item) => item.id == value) ?? allChoices[0];
           if (option) {
+            updateCurrentOption(option);
             setArrayChoices((prev) => {
               const exists = prev.some((item) => item.id == option.id);
               return exists ? prev : [...prev, option];
@@ -134,24 +140,19 @@ const DynamicAutocomplete = (
           }
         },
       },
-      {
-        id: value,
-      }
+      { id: value }
     );
   }, [value, selectOptions]);
 
   const setOptions = useCallback(
     (options: any) => {
+      const co = currentOptionRef.current;
       const isCurrentOptionIncluded = options.some(
-        (option: any) => option.id == currentOption?.id
+        (option: any) => option.id == co?.id
       );
 
-      if (
-        !isCurrentOptionIncluded &&
-        currentOption &&
-        currentOption.id !== '__null__'
-      ) {
-        options.unshift(currentOption);
+      if (!isCurrentOptionIncluded && co && co.id !== '__null__') {
+        options.unshift(co);
       }
 
       if (nullOptionObject) {
@@ -160,7 +161,7 @@ const DynamicAutocomplete = (
 
       setArrayChoices(options);
     },
-    [nullOptionObject, currentOption]
+    [nullOptionObject]
   );
 
   const clearSearch = useCallback(() => {
@@ -186,20 +187,18 @@ const DynamicAutocomplete = (
               setOptions(options);
             },
           },
-          {
-            searchTerm: searchValue,
-          }
+          { searchTerm: searchValue }
         );
       }, 500);
     },
-    [searchTerm, selectOptions]
+    [selectOptions, setOptions]
   );
 
   useEffect(() => {
     clearSearch();
 
     const searchTermMatchNullOption =
-      getOptionLabel(nullOptionObject) === searchTerm;
+      searchTerm !== '' && getOptionLabel(nullOptionObject) === searchTerm;
     if (searchTermMatchNullOption) {
       return;
     }
@@ -259,7 +258,7 @@ const DynamicAutocomplete = (
           : null;
       }
 
-      setCurrentOption(option as DropdownArrayChoice);
+      updateCurrentOption(option as DropdownArrayChoice);
 
       onChange({
         target: {
@@ -285,7 +284,6 @@ const DynamicAutocomplete = (
 
       if (isTranslation) {
         const translatableText = value.label?.props?.defaults;
-
         return t(translatableText);
       }
 

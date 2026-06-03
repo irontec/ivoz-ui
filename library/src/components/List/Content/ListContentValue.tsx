@@ -95,7 +95,14 @@ const ListContentValue = (props: ListContentValueProps): JSX.Element => {
   } else if (isBoolean && !enumValues) {
     response = <StyledCheckBoxOutlineBlankIcon />;
   } else {
-    response = <ListDecorator field={columnName} row={row} property={column} entityPath={entityService.getEntity().path} />;
+    response = (
+      <ListDecorator
+        field={columnName}
+        row={row}
+        property={column}
+        entityPath={entityService.getEntity().path}
+      />
+    );
   }
 
   if (isDownloadable && isFileType) {

@@ -33,7 +33,9 @@ export const CircleChart = (props: CircleProps) => {
           circleData.percentage.replace('%', '') as string
         );
         const segmentLength = (circumference * circlePercentage) / 100;
-        const strokeDasharray = `${segmentLength} ${circumference - segmentLength}`;
+        const strokeDasharray = `${segmentLength} ${
+          circumference - segmentLength
+        }`;
         const strokeDashoffset = cumulativeOffset;
         cumulativeOffset -= segmentLength;
 

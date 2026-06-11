@@ -407,7 +407,9 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
     formData.append(this.getIden(true), JSON.stringify(payload));
 
     for (const idx in files) {
-      formData.append(idx, files[idx]);
+      const file = files[idx];
+      const sanitizedName = file.name.replace(/[/\\]/g, '-');
+      formData.append(idx, file, sanitizedName);
     }
 
     return formData;

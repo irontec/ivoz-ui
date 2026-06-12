@@ -87,6 +87,7 @@ export default function Modal(props: ModalContentProps): JSX.Element {
       aria-describedby='alert-dialog-slide-description'
       onKeyDown={handleKeyDown}
       keepMounted={keepMounted}
+      maxWidth={false}
     >
       <Box sx={{ position: 'absolute', right: 8, top: 8 }}>
         <IconButton onClick={onClose}>

@@ -1,21 +1,16 @@
 /* eslint-disable no-script-url */
 
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { CriteriaFilterValues } from './Filter/ContentFilterDialog';
 import { criteriaToArray, stringToCriteria } from './List.helpers';
 
 const useQueryStringParams = function (): Array<string> {
-  const [currentQueryParams, setCurrentQueryParams] = useState<Array<string>>(
-    []
-  );
-  const uri = location.search;
-
-  useEffect(() => {
-    const uriCriteria: CriteriaFilterValues = stringToCriteria(uri);
-    setCurrentQueryParams(criteriaToArray(uriCriteria));
-  }, [uri]);
-
-  return currentQueryParams;
+  const { search } = useLocation();
+  return useMemo(() => {
+    const uriCriteria: CriteriaFilterValues = stringToCriteria(search);
+    return criteriaToArray(uriCriteria);
+  }, [search]);
 };
 
 export default useQueryStringParams;

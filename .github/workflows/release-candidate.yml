@@ -109,7 +109,7 @@ jobs:
           tgz_files=(irontec-ivoz-ui-*.tgz)
           num_tgz_files=${#tgz_files[@]}
           if [ "$num_tgz_files" -gt 50 ]; then
-            tgz_to_delete=$(ls irontec-ivoz-ui-*.tgz | sort -r | head -n 1)
+            tgz_to_delete=$(ls irontec-ivoz-ui-*.tgz | sort | head -n 1)
             echo "Removing oldest tgz file: $tgz_to_delete"
             git rm "$tgz_to_delete"
           fi

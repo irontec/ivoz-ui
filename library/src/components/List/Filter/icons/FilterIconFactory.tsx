@@ -8,6 +8,9 @@ import LowerThanEqual from './lowerThanEqual';
 import GreaterThan from './greaterThan';
 import GreaterThanEqual from './greaterThanEqual';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
+import DoneAllIcon from '@mui/icons-material/DoneAll';
+import BlockIcon from '@mui/icons-material/Block';
+import RuleIcon from '@mui/icons-material/Rule';
 import _ from '../../../../services/translations/translate';
 import { styled } from '@mui/material';
 
@@ -20,6 +23,9 @@ export type SearchFilterType =
   | 'start'
   | 'end'
   | 'in'
+  | 'all'
+  | 'none'
+  | 'only'
   | 'exact'
   | 'eq'
   | 'neq'
@@ -34,12 +40,17 @@ interface FilterIconFactoryProps {
   className?: string;
   fontSize?: 'small' | 'inherit' | 'large' | 'medium' | undefined;
   includeLabel?: boolean;
+  /**
+   * Over a to-many association `in` means "holds any of the given values", which
+   * reads nothing like the "Equals" of a plain foreign key
+   */
+  collection?: boolean;
 }
 
 export default function FilterIconFactory(
   props: FilterIconFactoryProps
 ): JSX.Element {
-  const { name, includeLabel, ...rest } = props;
+  const { name, includeLabel, collection, ...rest } = props;
 
   const icon = getFilterIcon(name);
   const StyledIcon = styled(icon as any)(() => {
@@ -56,7 +67,7 @@ export default function FilterIconFactory(
   return (
     <span>
       <StyledIcon {...rest} />
-      {getFilterLabel(name)}
+      {getFilterLabel(name, collection)}
     </span>
   );
 }
@@ -74,6 +85,12 @@ const getFilterIcon = (name: string): React.FunctionComponent => {
     case '':
     case 'in':
       return Equals;
+    case 'all':
+      return DoneAllIcon;
+    case 'none':
+      return BlockIcon;
+    case 'only':
+      return RuleIcon;
     case 'exact':
     case 'eq':
       return Equals;
@@ -99,10 +116,20 @@ const getFilterIcon = (name: string): React.FunctionComponent => {
   }
 };
 
-export const getFilterLabel = (value: string): JSX.Element => {
+export const getFilterLabel = (
+  value: string,
+  collection = false
+): JSX.Element => {
+  if (collection && (value === 'in' || value === '' || value === 'exact')) {
+    return _('Has any of');
+  }
+
   const filterTypes: { [key: string]: JSX.Element } = {
     '': _('Equals'),
     in: _('Equals'),
+    all: _('Has all of'),
+    none: _('Has none of'),
+    only: _('Has exactly'),
     eq: _('Equals'),
     exact: _('Equals'),
     neq: _('Does not Equal'),

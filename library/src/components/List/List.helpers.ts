@@ -14,7 +14,8 @@ export const criteriaToArray = (where: CriteriaFilterValues): Array<string> => {
   for (const criteria of where) {
     const { name, type, value } = criteria;
     if (type === 'exists') {
-      searchArguments.push(`exists[${name}]=true`);
+      // Defaults to true so criteria stored before exists became selectable keep working
+      searchArguments.push(`exists[${name}]=${value === '' ? 'true' : value}`);
     } else if (type === 'in') {
       searchArguments.push(`${name}[]=${value}`);
     } else if (type !== '') {
@@ -76,7 +77,7 @@ export const stringToCriteria = (uri = ''): CriteriaFilterValues => {
       criteria.push({
         name: matches[2],
         type: 'exists',
-        value: '',
+        value,
       });
 
       continue;

@@ -41,6 +41,7 @@ export interface SelectProps {
   error?: boolean;
   errorMsg?: React.ReactNode;
   helperText?: string | React.ReactNode;
+  multiple?: boolean;
 }
 
 const Dropdown = (props: SelectProps): JSX.Element => {
@@ -58,6 +59,7 @@ const Dropdown = (props: SelectProps): JSX.Element => {
     helperText,
     hasChanged,
     className,
+    multiple = false,
   } = props;
 
   const labelId = `${name}-label`;
@@ -103,7 +105,25 @@ const Dropdown = (props: SelectProps): JSX.Element => {
       )}
 
       <Select
-        value={ready ? value : ''}
+        multiple={multiple}
+        value={ready ? value : multiple ? [] : ''}
+        renderValue={
+          multiple
+            ? (selected) =>
+                (selected as Array<string | number>).map((id, idx) => {
+                  const choice = arrayChoices.find(
+                    (item) => `${item.id}` === `${id}`
+                  );
+
+                  return (
+                    <span key={`${id}-${idx}`}>
+                      {idx > 0 && ', '}
+                      {choice ? choice.label : id}
+                    </span>
+                  );
+                })
+            : undefined
+        }
         disabled={disabled}
         onChange={onChange}
         onBlur={onBlur}

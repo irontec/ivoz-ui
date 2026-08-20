@@ -66,16 +66,22 @@ export default function ContentFilterRow(
     return null;
   }
 
+  const isCollectionFilter = useMemo(
+    () => (filters[name] || []).includes('all'),
+    [filters, name]
+  );
+
   const filterChoices = useMemo(() => {
     const choices: DropdownChoices = {};
     for (const filter of filters[name]) {
       choices[filter] = FilterIconFactory({
         name: filter,
         includeLabel: true,
+        collection: isCollectionFilter,
       });
     }
     return choices;
-  }, [filters, name]);
+  }, [filters, name, isCollectionFilter]);
 
   const [type, setType] = useState(row.type);
   const [value, setValue] = useState<string>(row.value as string);
@@ -149,6 +155,26 @@ export default function ContentFilterRow(
       break;
   }
 
+  const isSetOperator = (candidate: string) =>
+    candidate === 'all' ||
+    candidate === 'none' ||
+    candidate === 'only' ||
+    (isCollectionFilter && candidate === 'in');
+  const isMultiple = isSetOperator(type);
+  const multipleValue = useMemo(() => {
+    if (value === '' || value === undefined) {
+      return [];
+    }
+
+    return String(value).split(',');
+  }, [value]);
+
+  const setValueFromEvent = (eventValue: unknown) => {
+    setValue(
+      Array.isArray(eventValue) ? eventValue.join(',') : (eventValue as string)
+    );
+  };
+
   const updateCriteria = () => {
     setRow(idx, name, type, value);
   };
@@ -192,6 +218,10 @@ export default function ContentFilterRow(
         required={false}
         disabled={false}
         onChange={({ target }) => {
+          // Switching in or out of a set based operator invalidates the value
+          if (isSetOperator(target.value) !== isMultiple) {
+            setValue('');
+          }
           setType(target.value);
         }}
         onBlur={() => {
@@ -202,6 +232,25 @@ export default function ContentFilterRow(
         errorMsg=''
         hasChanged={false}
       />
+      {type === 'exists' && (
+        <StyledDropdown
+          name='value'
+          label=''
+          value={value === '' ? 'true' : value}
+          required={false}
+          disabled={false}
+          onChange={({ target }) => {
+            setValue(target.value);
+          }}
+          onBlur={() => {
+            /* noop */
+          }}
+          choices={{ true: _('True'), false: _('False') }}
+          error={false}
+          errorMsg=''
+          hasChanged={false}
+        />
+      )}
       {type !== 'exists' && !enumValue && !useDynamicAutocomplete && (
         <StyledTextField
           name='value'
@@ -226,13 +275,13 @@ export default function ContentFilterRow(
         <StyledDynamicAutocomplete
           name='value'
           label=''
-          value={value}
+          value={isMultiple ? multipleValue : value}
           choices={{}}
-          multiple={false}
+          multiple={isMultiple}
           required={false}
           disabled={false}
           onChange={({ target }) => {
-            setValue(target.value);
+            setValueFromEvent(target.value);
           }}
           onBlur={() => {
             /* noop */
@@ -247,11 +296,12 @@ export default function ContentFilterRow(
         <StyledDropdown
           name='value'
           label=''
-          value={value}
+          multiple={isMultiple}
+          value={isMultiple ? multipleValue : value}
           required={false}
           disabled={false}
           onChange={({ target }) => {
-            setValue(target.value);
+            setValueFromEvent(target.value);
           }}
           onBlur={() => {
             /* noop */

@@ -21,6 +21,8 @@ import {
 } from '../../services/api/ParsedApiSpecInterface';
 import { getI18n } from 'react-i18next';
 
+export const ORDER_PARAMETER_NAME = '_order';
+
 export type VisualToggleStates = { [key: string]: boolean };
 export type ScalarEntityValue = string | number | boolean | null;
 export type EntityValue = ScalarEntityValue | File | Array<string>;
@@ -475,6 +477,30 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
     return this.entityDefinition?.defaultOrderDirection || OrderDirection.asc;
   }
 
+  public getSortableColumns(store: T, path?: string): Record<string, string> {
+    const orderableProperties = this.getOrderableProperties(path);
+    const columns = this.getCollectionColumns(store);
+    const locale = getI18n().language.substring(0, 2);
+
+    const response: Record<string, string> = {};
+    for (const columnName in columns) {
+      if (orderableProperties.includes(columnName)) {
+        response[columnName] = columnName;
+
+        continue;
+      }
+
+      const multilangName = `${columnName}.${locale}`;
+      const multilang = (columns[columnName] as EmbeddableProperty).multilang;
+
+      if (multilang && orderableProperties.includes(multilangName)) {
+        response[columnName] = multilangName;
+      }
+    }
+
+    return response;
+  }
+
   public getAcls(parentRow?: EntityValues): EntityAclType {
     const create: boolean =
       this.entityDefinition.acl.create && this.actions.post ? true : false;
@@ -534,6 +560,34 @@ export default class EntityService<T extends IvozStoreState = IvozStoreState> {
 
     if (lcFirst) {
       return response.charAt(0).toLowerCase() + response.slice(1);
+    }
+
+    return response;
+  }
+
+  private getOrderableProperties(path?: string): Array<string> {
+    const collectionAction = this.actions?.get?.collection || {};
+    const action = this.getFromModelList(
+      collectionAction,
+      path || this.entityDefinition.path
+    );
+
+    if (!action) {
+      return [];
+    }
+
+    const orderRegExp = new RegExp(`^${ORDER_PARAMETER_NAME}\\[([^\\]]+)\\]$`);
+    const parameters: any = action.parameters || {};
+    const response: Array<string> = [];
+
+    for (const idx in parameters) {
+      const match = parameters[idx].name.match(orderRegExp);
+
+      if (!match) {
+        continue;
+      }
+
+      response.push(match[1]);
     }
 
     return response;

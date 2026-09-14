@@ -6,7 +6,6 @@ import {
   TableSortLabel,
 } from '@mui/material';
 import { CriteriaFilterValue } from '../../../../../components/List/Filter/ContentFilterDialog';
-import { isPropertyFk } from '../../../../../services/api/ParsedApiSpecInterface';
 import EntityService from '../../../../../services/entity/EntityService';
 import { useStoreActions, useStoreState } from '../../../../../store';
 import { ROUTE_ORDER_KEY } from '../../../../../store/route';
@@ -39,6 +38,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
     }
   );
   const columns = entityService.getCollectionColumns(storeState);
+  const sortableColumns = entityService.getSortableColumns(storeState);
 
   const order = useStoreState((state) => state.route.order);
   const direction = order?.direction || false;
@@ -82,20 +82,23 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
             return null;
           }
 
+          const sortBy = sortableColumns[key];
+          const sorted = sortBy !== undefined && order?.name === sortBy;
+
           return (
             <TableCell
               key={key}
               align='left'
-              sortDirection={order?.name === key ? direction : false}
+              sortDirection={sorted ? direction : false}
             >
-              {!isPropertyFk(columns[key]) && (
+              {sortBy !== undefined && (
                 <TableSortLabel
-                  active={order?.name === key}
+                  active={sorted}
                   direction={order?.direction}
-                  onClick={createSortHandler(key)}
+                  onClick={createSortHandler(sortBy)}
                 >
                   {columns[key].label}
-                  {order?.name === key ? (
+                  {sorted ? (
                     <StyledTableSortLabelVisuallyHidden>
                       {order?.direction === 'desc'
                         ? 'sorted descending'
@@ -104,18 +107,7 @@ const ContentTableHead = function (props: ContentTableHead): JSX.Element {
                   ) : null}
                 </TableSortLabel>
               )}
-              {isPropertyFk(columns[key]) && (
-                <>
-                  {columns[key].label}
-                  {order?.name === key ? (
-                    <StyledTableSortLabelVisuallyHidden>
-                      {order?.direction === 'desc'
-                        ? 'sorted descending'
-                        : 'sorted ascending'}
-                    </StyledTableSortLabelVisuallyHidden>
-                  ) : null}
-                </>
-              )}
+              {sortBy === undefined && <>{columns[key].label}</>}
             </TableCell>
           );
         })}

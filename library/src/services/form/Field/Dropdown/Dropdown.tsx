@@ -85,6 +85,13 @@ const Dropdown = (props: SelectProps): JSX.Element => {
 
   const ready = choices === prevChoices;
 
+  const findChoice = (id: string | number) =>
+    arrayChoices.find((item) => `${item.id}` === `${id}`);
+
+  const selectedValue = multiple
+    ? value.map((id: string | number) => findChoice(id)?.id ?? id)
+    : value;
+
   return (
     <FormControl fullWidth={true} error={error} className={`${className}`}>
       {label && (
@@ -106,14 +113,12 @@ const Dropdown = (props: SelectProps): JSX.Element => {
 
       <Select
         multiple={multiple}
-        value={ready ? value : multiple ? [] : ''}
+        value={ready ? selectedValue : multiple ? [] : ''}
         renderValue={
           multiple
             ? (selected) =>
                 (selected as Array<string | number>).map((id, idx) => {
-                  const choice = arrayChoices.find(
-                    (item) => `${item.id}` === `${id}`
-                  );
+                  const choice = findChoice(id);
 
                   return (
                     <span key={`${id}-${idx}`}>
